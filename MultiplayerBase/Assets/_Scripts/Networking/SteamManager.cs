@@ -10,7 +10,7 @@ using UnityEngine.SceneManagement;
 
 public class SteamManager : MonoBehaviour
 {
-    
+
 
     [SerializeField] TMP_InputField lobbyIDInputField;
     [SerializeField] private TextMeshProUGUI lobbyId;
@@ -18,7 +18,7 @@ public class SteamManager : MonoBehaviour
     [SerializeField] private GameObject mainMenu;
     [SerializeField] private GameObject inLobbyMenu;
 
-    private static int maxMembersInLobby = 4; 
+    private static int maxMembersInLobby = 4;
 
     private void OnEnable()
     {
@@ -45,12 +45,12 @@ public class SteamManager : MonoBehaviour
 
     private void LobbyCreated(Result result, Lobby lobby)
     {
-        if(result == Result.OK)
+        if (result == Result.OK)
         {
             lobby.SetPublic();
             lobby.SetJoinable(true);
 
-            NetworkManager.Singleton.StartHost(); 
+            NetworkManager.Singleton.StartHost();
         }
     }
 
@@ -59,14 +59,14 @@ public class SteamManager : MonoBehaviour
         LobbySaver.instance.currentLobby = lobby;
         lobbyId.text = lobby.Id.ToString();
         CheckUI();
-        if(NetworkManager.Singleton.IsHost) return;
+        if (NetworkManager.Singleton.IsHost) return;
         NetworkManager.Singleton.gameObject.GetComponent<FacepunchTransport>().targetSteamId = lobby.Owner.Id;
-        NetworkManager.Singleton.StartClient(); 
+        NetworkManager.Singleton.StartClient();
     }
 
     public async void HostLobby()
     {
-        await SteamMatchmaking.CreateLobbyAsync(maxMembersInLobby); 
+        await SteamMatchmaking.CreateLobbyAsync(maxMembersInLobby);
     }
 
     public async void JoinLobbyWithID()
@@ -77,10 +77,10 @@ public class SteamManager : MonoBehaviour
             return;
         }
 
-        Lobby[] lobbies = await SteamMatchmaking.LobbyList.WithSlotsAvailable(1).RequestAsync(); 
-        foreach(var lobby in lobbies)
+        Lobby[] lobbies = await SteamMatchmaking.LobbyList.WithSlotsAvailable(1).RequestAsync();
+        foreach (var lobby in lobbies)
         {
-            if(lobby.Id == id)
+            if (lobby.Id == id)
             {
                 await lobby.Join();
                 return;
@@ -99,9 +99,9 @@ public class SteamManager : MonoBehaviour
 
     public void LeaveLobby()
     {
-        LobbySaver.instance.currentLobby?.Leave(); 
+        LobbySaver.instance.currentLobby?.Leave();
         LobbySaver.instance.currentLobby = null;
-        NetworkManager.Singleton.Shutdown(); 
+        NetworkManager.Singleton.Shutdown();
         CheckUI();
     }
     private void CheckUI()
@@ -120,9 +120,9 @@ public class SteamManager : MonoBehaviour
 
     public void StartGameServer()
     {
-        if(NetworkManager.Singleton.IsHost)
+        if (NetworkManager.Singleton.IsHost)
         {
-            NetworkManager.Singleton.SceneManager.LoadScene("MainGame", LoadSceneMode.Single); 
+            NetworkManager.Singleton.SceneManager.LoadScene("MainGame", LoadSceneMode.Single);
         }
     }
 
@@ -133,3 +133,4 @@ public class SteamManager : MonoBehaviour
         SteamFriends.OnGameLobbyJoinRequested -= GameLobbyJoinRequested;
     }
 }
+
