@@ -58,44 +58,9 @@ public abstract class Ai_Brain : MonoBehaviour
         }
     }
 
-    private void ChasePlayer()
-    {
-        //when close enough
-        //runs towards targeted player
-        //attempts to predict where player will run and use shortcuts??? 
-        //indicates player with loud noise 
-
-        throw new NotImplementedException();
-    }
-
-    private void Hunt()
-    {
-        //when a player is within sense range of the ai the ai begins to hunt them 
-        //The ai stalks them and attempts to lure them in
-
-        throw new NotImplementedException();
-    }
-
-    private void Investigate()
-    {
-        //after monster finds clue it is able to start moving towards the player who left clue
-        //Indicates player that a clue has been found (through howling noise or similar)
-        //finding move clues gives ai more precise and recent location of player 
-
-        throw new NotImplementedException();
-    }
-
-    private void Searching()
-    {
-        //Look around for signs of recent player activity
-        //(footprints , tasks done , doors opened)
-        //If monster cant find players for x amount of time (lowered with higher aggrestion) ai is steered towards players
-
-        throw new NotImplementedException();
-    }
-
-    private void Neutral()
-    {
-        throw new NotImplementedException();
-    }
+    protected abstract void ChasePlayer();
+    protected abstract void Hunt();
+    protected abstract void Investigate();
+    protected abstract void Searching();
+    protected abstract void Neutral();
 }
