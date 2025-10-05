@@ -13,12 +13,6 @@ public class Badger_Brain_Default : Ai_Brain
     {
         throw new System.NotImplementedException();
     }
-
-    protected override void Investigate()
-    {
-        throw new System.NotImplementedException();
-    }
-
     protected override void Neutral()
     {
         throw new System.NotImplementedException();

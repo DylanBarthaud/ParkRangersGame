@@ -1,32 +1,28 @@
+using NUnit.Framework;
 using System;
+using System.Collections.Generic;
 using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.AI;
+using BehaviourTrees; 
 
 [RequireComponent(typeof(NavMeshAgent))]
 public class Ai_testScript : NetworkBehaviour
 {
-    private Transform targetPos;
-
+    [SerializeField] List<Transform> waypoints; 
     private NavMeshAgent agent;
+    Root root;
 
-    private void Start()
+    private void Awake()
     {
         agent = GetComponent<NavMeshAgent>();
 
-        EventManager.instance.onPlayerSpawned += OnPlayerSpawned; 
+        root = new Root("Test"); 
+        root.AddChild(new Leaf("Wander", new WanderStrategy(transform, agent, waypoints)));
     }
 
-    private void OnPlayerSpawned(GameObject player)
+    private void Update()
     {
-        targetPos = player.transform; 
-    }
-
-    void Update()
-    {
-        if (!IsHost) { return; }
-        if (targetPos == null) { return; }
-
-        agent.destination = targetPos.position;
+        root.Process(); 
     }
 }

@@ -45,9 +45,6 @@ public abstract class Ai_Brain : MonoBehaviour
                 break;
             case AiState.Searching:
                 Searching();
-                break;
-            case AiState.Investigating:
-                Investigate(); 
                 break; 
             case AiState.Hunting:
                 Hunt();
@@ -60,7 +57,11 @@ public abstract class Ai_Brain : MonoBehaviour
 
     protected abstract void ChasePlayer();
     protected abstract void Hunt();
-    protected abstract void Investigate();
     protected abstract void Searching();
     protected abstract void Neutral();
+
+    protected void ChangeState(AiState state)
+    {
+        this.state = state;
+    }
 }
