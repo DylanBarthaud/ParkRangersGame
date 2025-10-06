@@ -1,4 +1,5 @@
 using NUnit.Framework;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
@@ -8,10 +9,41 @@ namespace BehaviourTrees
     public interface IStrategy
     {
         Node.Status Process();
-        void Reset();
+        void Reset() { }
     }
 
-    public class WanderStrategy : IStrategy
+    public class Condition : IStrategy
+    {
+        readonly Func<bool> condition;
+
+        public Condition(Func<bool> condition)
+        {
+            this.condition = condition;
+        }
+
+        public Node.Status Process()
+        {
+            return condition() ? Node.Status.Success : Node.Status.Failure; 
+        }
+    }
+
+    public class ActionStrategy : IStrategy 
+    {
+        readonly Action action;
+
+        public ActionStrategy(Action action)
+        {
+            this.action = action;
+        }
+
+        public Node.Status Process()
+        {
+            action();
+            return Node.Status.Success;
+        }
+    }
+
+    public class PatrolStrategy : IStrategy
     {
         readonly Transform entity;
         readonly NavMeshAgent agent;
@@ -19,7 +51,7 @@ namespace BehaviourTrees
         int currentIndex;
         bool isPathCalculated; 
 
-        public WanderStrategy(Transform entity, NavMeshAgent agent, List<Transform> patrolPoints)
+        public PatrolStrategy(Transform entity, NavMeshAgent agent, List<Transform> patrolPoints)
         {
             this.entity = entity;
             this.agent = agent;
