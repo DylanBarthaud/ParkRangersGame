@@ -15,7 +15,7 @@ namespace BehaviourTrees
         List<Node> sortedChildren;
         List<Node> SortedChildren => sortedChildren ??= SortChildren();
 
-        private List<Node> SortChildren() => children.OrderByDescending(child => child.priority).ToList();
+        protected virtual List<Node> SortChildren() => children.OrderByDescending(child => child.priority).ToList();
 
 
         public override Status Process()
@@ -27,12 +27,13 @@ namespace BehaviourTrees
                     case Status.Running:
                         return Status.Running;
                     case Status.Success:
+                        Reset(); 
                         return Status.Success;
                     default:
                         continue; 
                 }
             }
-
+            Reset();
             return Status.Failure;
         }
 
@@ -42,6 +43,8 @@ namespace BehaviourTrees
             sortedChildren = null;
         }
     }
+
+
 
     public class Selector : Node
     {
@@ -62,7 +65,7 @@ namespace BehaviourTrees
                         return Status.Success;
                     case Status.Failure:
                         currentChild++;
-                        return Status.Running;
+                        return Status.Failure;
                 }
             }
 
@@ -84,11 +87,12 @@ namespace BehaviourTrees
                 switch (children[currentChild].Process())
                 {
                     case Status.Running:
+                        currentChild = 0;
                         return Status.Running;
                     case Status.Failure:
-                        Reset();
+                        currentChild = 0; 
                         return Status.Failure;
-                    case Status.Success:
+                    default:
                         currentChild++;
                         return currentChild == children.Count ? Status.Success : Status.Running;
                 }  
@@ -97,7 +101,7 @@ namespace BehaviourTrees
             Reset();
             return Status.Success;
         }
-    }
+    }   
 
     public class Root : Node
     {
@@ -105,15 +109,19 @@ namespace BehaviourTrees
 
         public override Status Process()
         {
+
             while (currentChild < children.Count)
             {
                 var status = children[currentChild].Process();
                 if(status != Status.Success)
                 {
+                    currentChild = 0; 
                     return status;
                 }
                 currentChild++;
             }
+
+            Reset();
             return Status.Success;
         }
     }
@@ -163,7 +171,9 @@ namespace BehaviourTrees
 
         public virtual void Reset()
         {
-            foreach(var child in children)
+            currentChild = 0; 
+
+            foreach (var child in children)
             {
                 child.Reset();
             }

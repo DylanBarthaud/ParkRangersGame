@@ -12,18 +12,18 @@ namespace BehaviourTrees
         void Reset() { }
     }
 
-    public class Condition : IStrategy
-    {
-        readonly Func<bool> condition;
-
-        public Condition(Func<bool> condition)
-        {
-            this.condition = condition;
+    public class Condition : IStrategy {
+        readonly Func<bool> predicate;
+        
+        public Condition(Func<bool> predicate) {
+            this.predicate = predicate;
         }
 
         public Node.Status Process()
         {
-            return condition() ? Node.Status.Success : Node.Status.Failure; 
+            Node.Status status = predicate() ? Node.Status.Success : Node.Status.Failure;
+            Debug.Log(status);
+            return status;
         }
     }
 
@@ -60,8 +60,11 @@ namespace BehaviourTrees
 
         public Node.Status Process()
         {
+            Debug.Log(patrolPoints[0].gameObject); 
+
             if (currentIndex == patrolPoints.Count)
             {
+                Reset();
                 return Node.Status.Success;
             }
 

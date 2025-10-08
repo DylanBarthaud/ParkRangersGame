@@ -49,7 +49,7 @@ namespace BlackboardSystem
     public class Blackboard
     {
         Dictionary<string, BlackboardKey> keys = new();
-        Dictionary<BlackboardKey, object> entries = new(); 
+        Dictionary<BlackboardKey, object> entries = new();
 
         public bool TryGetValue<T>(BlackboardKey key, out T value)
         {

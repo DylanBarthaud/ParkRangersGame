@@ -10,8 +10,13 @@ using BlackboardSystem;
 [RequireComponent(typeof(NavMeshAgent))]
 public class Ai_testScript : NetworkBehaviour
 {
-    [SerializeField] List<Transform> waypoints; 
+    [SerializeField] List<Transform> waypoints;
+    [SerializeField] List<Transform> waypointsTwo;
+
+    [SerializeField] BlackboardData blackboardData;
+
     private NavMeshAgent agent;
+
     Root root;
     readonly Blackboard blackboard = new Blackboard();
     BlackboardKey patrolKey; 
@@ -20,32 +25,39 @@ public class Ai_testScript : NetworkBehaviour
     {
         agent = GetComponent<NavMeshAgent>();
 
+        blackboardData.SetValuesOnBlackboard(blackboard);
         patrolKey = blackboard.GetOrRegisterKey("PatrolKey");
-        blackboard.SetValue(patrolKey, false); 
+        //blackboard.SetValue(patrolKey, false);
 
         root = new Root("Test");
 
-        Leaf canPatrol = new Leaf("canPatrol", new Condition(checkPatrolBool)); 
-        Leaf moveToPatrolPoints = new Leaf("moveToPatrolPoints", new PatrolStrategy(transform, agent, waypoints), 100);
-        Leaf moveToPos = new Leaf("moveToPoint", new ActionStrategy(() => agent.SetDestination(new Vector3(10, 1.1f, 100))), 10);
+        Sequence patrolSeq = new Sequence("patrol");
+        bool patrolable()
+        {
+            if (blackboard.TryGetValue(patrolKey, out bool patrolVal))
+            {
+                if (!patrolVal)
+                {
+                    patrolSeq.Reset();
+                    return false;
+                }
+            }
+            return true;
+        }
+        patrolSeq.AddChild(new Leaf("moveToPatrolPoints", new PatrolStrategy(transform, agent, waypoints), 10));
 
-        Sequence move = new Sequence("patrol"); 
-        move.AddChild(canPatrol);
-        move.AddChild(moveToPatrolPoints);
+        Sequence runToSafetyseq = new Sequence("Run");
+        runToSafetyseq.AddChild(new Leaf("canPatrol", new Condition(() => !patrolable())));
+        runToSafetyseq.AddChild(new Leaf("moveToPatrolPointsTwo", new PatrolStrategy(transform, agent, waypointsTwo), 100));
+
 
         PrioritySelector actions = new PrioritySelector("actions");
-        actions.AddChild(move);
-        actions.AddChild(moveToPos);
+        actions.AddChild(runToSafetyseq);
+        actions.AddChild(patrolSeq);
 
         root.AddChild(actions);
     }
-
-    private bool checkPatrolBool()
-    {
-        blackboard.TryGetValue(patrolKey, out bool patrolVal); 
-        return patrolVal;
-    }
-
+     
     private void Update()
     {
         root.Process(); 
@@ -55,7 +67,7 @@ public class Ai_testScript : NetworkBehaviour
             if(blackboard.TryGetValue(patrolKey, out bool patrolVal))
             {
                 blackboard.SetValue(patrolKey, !patrolVal);
-                Debug.Log(patrolVal);
+                Debug.Log(!patrolVal);
             }
         }
     }
