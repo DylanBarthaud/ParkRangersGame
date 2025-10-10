@@ -25,9 +25,9 @@ public class Ai_testScript : NetworkBehaviour
     {
         agent = GetComponent<NavMeshAgent>();
 
-        blackboardData.SetValuesOnBlackboard(blackboard);
+        //blackboardData.SetValuesOnBlackboard(blackboard);
         patrolKey = blackboard.GetOrRegisterKey("PatrolKey");
-        //blackboard.SetValue(patrolKey, false);
+        blackboard.SetValue(patrolKey, false);
 
         root = new Root("Test");
 
