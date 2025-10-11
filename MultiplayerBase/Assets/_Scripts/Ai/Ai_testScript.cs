@@ -70,7 +70,7 @@ public class Ai_testScript : NetworkBehaviour, IExpert
 
         if(Input.GetKeyDown(KeyCode.F))
         {
-            canParolBool = !canParolBool; 
+            canParolBool = !canParolBool;
         }
     }
 
@@ -78,18 +78,29 @@ public class Ai_testScript : NetworkBehaviour, IExpert
 
     public int GetInsistence(Blackboard blackboard)
     {
-        Debug.Log("HERE"); 
-        return canParolBool ? 100 : 0;
+       int insistence = 0;
+        
+       if(blackboard.TryGetValue(patrolKey, out bool patrolVal))
+       {
+            if (patrolVal != canParolBool)
+            {
+                if (canParolBool) insistence = 100;
+                else insistence = 10; 
+            }
+       }
+       else
+       {
+           insistence = 0; 
+       }
+
+       return insistence;
     }
 
     public void Execute(Blackboard blackboard)
     {
         blackboard.AddAction(() =>
         {
-            if(blackboard.TryGetValue(patrolKey, out bool patrolVal))
-            {
-                blackboard.SetValue(patrolKey, patrolKey);
-            }
+            blackboard.SetValue(patrolKey, canParolBool);
         });
     }
 

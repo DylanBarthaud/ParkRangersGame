@@ -21,10 +21,17 @@ namespace BlackboardSystem
 
         private void Update()
         {
-            foreach(var action in arbiter.BlackboardIteration(blackboard))
+            IterateBlackboard(); 
+        }
+
+        private void IterateBlackboard()
+        {
+            foreach (var action in arbiter.BlackboardIteration(blackboard))
             {
-                action();  
+                action();
             }
+
+            blackboard.ClearActions();
         }
     }
 }

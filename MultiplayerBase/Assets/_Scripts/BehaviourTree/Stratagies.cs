@@ -22,7 +22,6 @@ namespace BehaviourTrees
         public Node.Status Process()
         {
             Node.Status status = predicate() ? Node.Status.Success : Node.Status.Failure;
-            Debug.Log(status);
             return status;
         }
     }
@@ -60,8 +59,6 @@ namespace BehaviourTrees
 
         public Node.Status Process()
         {
-            Debug.Log(patrolPoints[0].gameObject); 
-
             if (currentIndex == patrolPoints.Count)
             {
                 Reset();

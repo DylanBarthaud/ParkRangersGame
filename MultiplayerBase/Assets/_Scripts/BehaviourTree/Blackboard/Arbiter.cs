@@ -33,7 +33,6 @@ namespace BlackboardSystem
             bestExpert?.Execute(blackboard); 
 
             var actions = blackboard.passedActions;
-            blackboard.ClearActions(); 
 
             return actions;
         }

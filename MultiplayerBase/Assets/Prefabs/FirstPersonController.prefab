@@ -16,7 +16,6 @@ GameObject:
   - component: {fileID: -7187426609009175677}
   - component: {fileID: 4459864850019384740}
   - component: {fileID: -4997032870617860241}
-  - component: {fileID: 2483879674087390071}
   - component: {fileID: 8545116220865024033}
   m_Layer: 0
   m_Name: FirstPersonController
@@ -272,19 +271,6 @@ MonoBehaviour:
   SwitchTransformSpaceWhenParented: 0
   Interpolate: 1
   SlerpPosition: 0
---- !u!114 &2483879674087390071
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4459864850019384750}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d1e734e62f4a7444db2e33cbbfbca166, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  source: {fileID: 0}
 --- !u!81 &8545116220865024033
 AudioListener:
   m_ObjectHideFlags: 0

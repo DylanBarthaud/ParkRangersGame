@@ -56,6 +56,7 @@ namespace BlackboardSystem
         public void AddAction(Action action)
         {
             if(action == null) return;
+            Debug.Log("AddedAction");
             passedActions.Add(action);
         }
 
