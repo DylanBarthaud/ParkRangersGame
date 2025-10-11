@@ -51,6 +51,16 @@ namespace BlackboardSystem
         Dictionary<string, BlackboardKey> keys = new();
         Dictionary<BlackboardKey, object> entries = new();
 
+        public List<Action> passedActions { get; } = new();
+
+        public void AddAction(Action action)
+        {
+            if(action == null) return;
+            passedActions.Add(action);
+        }
+
+        public void ClearActions() => passedActions.Clear();
+
         public bool TryGetValue<T>(BlackboardKey key, out T value)
         {
             if(entries.TryGetValue(key, out var entry) && entry is BlackboardEntry<T> castedEntry)

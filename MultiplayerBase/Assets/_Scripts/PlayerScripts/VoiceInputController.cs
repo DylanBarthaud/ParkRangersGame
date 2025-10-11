@@ -2,11 +2,12 @@ using Steamworks;
 using System.IO;
 using UnityEngine;
 
+[RequireComponent(typeof(AudioListener))]
 public class VoiceInputController : MonoBehaviour
 {
     // Code sourced from https://github.com/Facepunch/Facepunch.Steamworks/issues/261#issuecomment-817334583
 
-    [SerializeField] private AudioSource source;
+    private AudioSource source;
 
     private MemoryStream output;
     private MemoryStream stream;
@@ -32,6 +33,7 @@ public class VoiceInputController : MonoBehaviour
         output = new MemoryStream();
         input = new MemoryStream();
 
+        source =GetComponent<AudioSource>();
         source.clip = AudioClip.Create("VoiceData", 256, 1, optimalRate, true, OnAudioRead, null);
         source.loop = true;
         source.Play();

@@ -40,9 +40,25 @@ namespace BlackboardSystem
 
                 switch ((AnyValue.Type)type.enumValueIndex)
                 {
+                    case AnyValue.Type.Int:
+                        var intValue = value.FindPropertyRelative("intType");
+                        EditorGUI.PropertyField(valueRect, intValue, GUIContent.none);
+                        break;
+                    case AnyValue.Type.Float:
+                        var floatValue = value.FindPropertyRelative("floatType");
+                        EditorGUI.PropertyField(valueRect, floatValue, GUIContent.none);
+                        break;
                     case AnyValue.Type.Bool:
-                        var boolValue = value.FindPropertyRelative("boolValue");
+                        var boolValue = value.FindPropertyRelative("boolType");
                         EditorGUI.PropertyField(valueRect, boolValue, GUIContent.none);
+                        break;
+                    case AnyValue.Type.String:
+                        var stringValue = value.FindPropertyRelative("stringType");
+                        EditorGUI.PropertyField(valueRect, stringValue, GUIContent.none);
+                        break;
+                    case AnyValue.Type.Vector3:
+                        var vector3Value = value.FindPropertyRelative("vector3Type");
+                        EditorGUI.PropertyField(valueRect, vector3Value, GUIContent.none);
                         break;
                     default:
                         throw new ArgumentOutOfRangeException();

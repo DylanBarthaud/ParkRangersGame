@@ -8,26 +8,30 @@ using BehaviourTrees;
 using BlackboardSystem;
 
 [RequireComponent(typeof(NavMeshAgent))]
-public class Ai_testScript : NetworkBehaviour
+public class Ai_testScript : NetworkBehaviour, IExpert
 {
     [SerializeField] List<Transform> waypoints;
     [SerializeField] List<Transform> waypointsTwo;
 
-    [SerializeField] BlackboardData blackboardData;
-
     private NavMeshAgent agent;
 
     Root root;
-    readonly Blackboard blackboard = new Blackboard();
-    BlackboardKey patrolKey; 
+
+    [SerializeField] BlackboardController blackboardController;
+    Blackboard blackboard;
+    BlackboardKey patrolKey;
+
+    bool canParolBool; 
 
     private void Awake()
     {
         agent = GetComponent<NavMeshAgent>();
 
-        //blackboardData.SetValuesOnBlackboard(blackboard);
-        patrolKey = blackboard.GetOrRegisterKey("PatrolKey");
-        blackboard.SetValue(patrolKey, false);
+        blackboard = blackboardController.GetBlackboard();
+        blackboardController.RegisterExpert(this);
+        patrolKey = blackboard.GetOrRegisterKey("PatrolKey"); 
+
+        #region BehaviourTree Logic
 
         root = new Root("Test");
 
@@ -56,19 +60,38 @@ public class Ai_testScript : NetworkBehaviour
         actions.AddChild(patrolSeq);
 
         root.AddChild(actions);
+
+        #endregion
     }
-     
+
     private void Update()
     {
         root.Process(); 
 
         if(Input.GetKeyDown(KeyCode.F))
         {
-            if(blackboard.TryGetValue(patrolKey, out bool patrolVal))
-            {
-                blackboard.SetValue(patrolKey, !patrolVal);
-                Debug.Log(!patrolVal);
-            }
+            canParolBool = !canParolBool; 
         }
     }
+
+    #region IExpert implimentation
+
+    public int GetInsistence(Blackboard blackboard)
+    {
+        Debug.Log("HERE"); 
+        return canParolBool ? 100 : 0;
+    }
+
+    public void Execute(Blackboard blackboard)
+    {
+        blackboard.AddAction(() =>
+        {
+            if(blackboard.TryGetValue(patrolKey, out bool patrolVal))
+            {
+                blackboard.SetValue(patrolKey, patrolKey);
+            }
+        });
+    }
+
+    #endregion
 }
