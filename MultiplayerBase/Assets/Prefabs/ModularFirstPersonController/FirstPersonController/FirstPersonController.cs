@@ -18,6 +18,7 @@ using UnityEditor;
     using System.Net;
 #endif
 
+[RequireComponent(typeof(AudioListener))]
 public class FirstPersonController : NetworkBehaviour
 {
     private Rigidbody rb;
@@ -164,7 +165,7 @@ public class FirstPersonController : NetworkBehaviour
             sprintBarBG.gameObject.SetActive(false);
             sprintBar.gameObject.SetActive(false);
 
-            AudioListener listener = playerCamera.GetComponent<AudioListener>();
+            AudioListener listener = GetComponent<AudioListener>();
             listener.enabled = false; 
             return;
         }

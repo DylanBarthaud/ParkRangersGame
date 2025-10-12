@@ -60,6 +60,10 @@ namespace BlackboardSystem
                         var vector3Value = value.FindPropertyRelative("vector3Type");
                         EditorGUI.PropertyField(valueRect, vector3Value, GUIContent.none);
                         break;
+                    case AnyValue.Type.PlayerInfo:
+                        var playerInfoValue = value.FindPropertyRelative("playerInfoType");
+                        EditorGUI.PropertyField(valueRect, playerInfoValue, GUIContent.none);
+                        break;
                     default:
                         throw new ArgumentOutOfRangeException();
                 }

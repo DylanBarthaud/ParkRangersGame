@@ -40,6 +40,7 @@ namespace BlackboardSystem
             { AnyValue.Type.Bool, (blackboard, key, anyValue) => blackboard.SetValue<bool>(key, anyValue) },
             { AnyValue.Type.String, (blackboard, key, anyValue) => blackboard.SetValue<string>(key, anyValue) },
             { AnyValue.Type.Vector3, (blackboard, key, anyValue) => blackboard.SetValue<Vector3>(key, anyValue) },
+            { AnyValue.Type.PlayerInfo, (blackboard, key, anyValue) => blackboard.SetValue<PlayerInfo>(key, anyValue) },
         };
 
         public void OnAfterDeserialize() => value.type = this.type;
@@ -49,7 +50,7 @@ namespace BlackboardSystem
     [Serializable]
     public struct AnyValue
     {
-        public enum Type { Int, Float, Bool, String, Vector3 }
+        public enum Type { Int, Float, Bool, String, Vector3, PlayerInfo }
         public Type type;
 
         public int intType;
@@ -57,12 +58,14 @@ namespace BlackboardSystem
         public bool boolType;
         public string stringType;
         public Vector3 vector3Type;
+        public PlayerInfo playerInfoType;
 
         public static implicit operator int(AnyValue value) => value.ConvertValue<int>();
         public static implicit operator float(AnyValue value) => value.ConvertValue<float>();
         public static implicit operator bool(AnyValue value) => value.ConvertValue<bool>();
         public static implicit operator string(AnyValue value) => value.ConvertValue<string>();
         public static implicit operator Vector3(AnyValue value) => value.ConvertValue<Vector3>();
+        public static implicit operator PlayerInfo(AnyValue value) => value.ConvertValue<PlayerInfo>();
 
         T ConvertValue<T>()
         {
@@ -73,6 +76,7 @@ namespace BlackboardSystem
                 Type.Bool => AsBool<T>(boolType),
                 Type.String => (T)(object)stringType,
                 Type.Vector3 => (T)(object)vector3Type,
+                Type.PlayerInfo => (T)(object)playerInfoType,
                 _ => throw new NotSupportedException($"{typeof(T)} is not supported!")
             }; 
         }

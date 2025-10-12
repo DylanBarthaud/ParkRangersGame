@@ -1,36 +1,39 @@
+using BehaviourTrees;
+using BlackboardSystem;
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 public enum AiState { NULL, Neutral, Searching, Investigating, Hunting, Chasing}
 
-[RequireComponent(typeof(Ai_Controller))]
-public abstract class Ai_Brain : MonoBehaviour
+[RequireComponent(typeof(NavMeshAgent))]
+public abstract class Ai_Brain : MonoBehaviour, IExpert
 {
-    private List<GameObject> playerList;
-    private GameObject focusedPlayer;
+    [SerializeField] protected BlackboardController blackboardController;
+    protected Blackboard blackboard;
 
-    private Ai_Controller controller;
+    protected NavMeshAgent agent;
+
+    protected Root neutral_Root;
+    protected Root searching_Root;
+    protected Root hunt_Root;
+    protected Root chasePlayer_Root;
 
     private AiState state; 
 
     #region stat_vars
-    [SerializeField] private float senseRange;
-    [SerializeField] private float intelligence;
-    [SerializeField] private float aggrestion;
+    [SerializeField] protected float intelligence;
+    [SerializeField] protected float aggrestion;
     #endregion
 
-    private void Start()
+    protected void BaseAwake()
     {
-        controller = GetComponent<Ai_Controller>();
+        agent = GetComponent<NavMeshAgent>();
 
-        EventManager.instance.onPlayerSpawned += AddPlayerToList;
-    }
-
-    private void AddPlayerToList(GameObject player)
-    {
-        playerList.Add(player); 
+        blackboard = blackboardController.GetBlackboard();
+        blackboardController.RegisterExpert(this);
     }
 
     private void Update()
@@ -64,4 +67,16 @@ public abstract class Ai_Brain : MonoBehaviour
     {
         this.state = state;
     }
+
+    #region IExpert Implimentation
+    public int GetInsistence(Blackboard blackboard)
+    {
+        return 0; 
+    }
+
+    public void Execute(Blackboard blackboard)
+    {
+
+    }
+    #endregion
 }

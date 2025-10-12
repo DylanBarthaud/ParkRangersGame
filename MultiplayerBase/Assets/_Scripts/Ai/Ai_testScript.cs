@@ -54,7 +54,6 @@ public class Ai_testScript : NetworkBehaviour, IExpert
         runToSafetyseq.AddChild(new Leaf("canPatrol", new Condition(() => !patrolable())));
         runToSafetyseq.AddChild(new Leaf("moveToPatrolPointsTwo", new PatrolStrategy(transform, agent, waypointsTwo), 100));
 
-
         PrioritySelector actions = new PrioritySelector("actions");
         actions.AddChild(runToSafetyseq);
         actions.AddChild(patrolSeq);
@@ -66,6 +65,7 @@ public class Ai_testScript : NetworkBehaviour, IExpert
 
     private void Update()
     {
+        if (!IsHost) return;
         root.Process(); 
 
         if(Input.GetKeyDown(KeyCode.F))
