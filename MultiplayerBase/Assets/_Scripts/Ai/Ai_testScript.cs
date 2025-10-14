@@ -29,36 +29,48 @@ public class Ai_testScript : NetworkBehaviour, IExpert
 
         blackboard = blackboardController.GetBlackboard();
         blackboardController.RegisterExpert(this);
-        patrolKey = blackboard.GetOrRegisterKey("PatrolKey"); 
+        patrolKey = blackboard.GetOrRegisterKey("PatrolKey");
 
         #region BehaviourTree Logic
 
-        root = new Root("Test");
-
-        Sequence patrolSeq = new Sequence("patrol");
-        bool patrolable()
+        root = new Root("Root");
+        PrioritySelector chasePlayerOrPatrolSelector = new PrioritySelector("chasePlayerOrPatrolSelector");
+        #region ChasePlayer Sequence
+        PrioritySelector choosePlayerToChaseSelector = new PrioritySelector("ChoosePlayerToChaseSelector");
+        bool CanChasePlayerOne()
         {
-            if (blackboard.TryGetValue(patrolKey, out bool patrolVal))
-            {
-                if (!patrolVal)
+            BlackboardKey playerInfoKey = blackboard.GetOrRegisterKey("PlayerOneInfoKey");
+
+            if (blackboard.TryGetValue(playerInfoKey, out PlayerInfo playerInfo))
+            { 
+                if(playerInfo.canSeePlayer)
                 {
-                    patrolSeq.Reset();
-                    return false;
+                    Debug.Log("CAN CHASE");
+                    return true;
                 }
             }
-            return true;
+
+            return false; 
         }
-        patrolSeq.AddChild(new Leaf("moveToPatrolPoints", new PatrolStrategy(transform, agent, waypoints), 10));
+        IfGate canChasePlayerOne = new IfGate("CanChasePlayerOne", new Condition(() => CanChasePlayerOne()), 100);
+        void ChasePlayer()
+        {
+            BlackboardKey playerOneInfoKey = blackboard.GetOrRegisterKey("PlayerOneInfoKey");
 
-        Sequence runToSafetyseq = new Sequence("Run");
-        runToSafetyseq.AddChild(new Leaf("canPatrol", new Condition(() => !patrolable())));
-        runToSafetyseq.AddChild(new Leaf("moveToPatrolPointsTwo", new PatrolStrategy(transform, agent, waypointsTwo), 100));
+            if (blackboard.TryGetValue(playerOneInfoKey, out PlayerInfo playerInfo))
+            {
+                agent.SetDestination(playerInfo.position);
+            }
+        }
+        Leaf chasePlayer = new Leaf("ChasePlayer", new ActionStrategy(() => ChasePlayer()));
 
-        PrioritySelector actions = new PrioritySelector("actions");
-        actions.AddChild(runToSafetyseq);
-        actions.AddChild(patrolSeq);
+        canChasePlayerOne.AddChild(chasePlayer);
+        choosePlayerToChaseSelector.AddChild(canChasePlayerOne);
+        chasePlayerOrPatrolSelector.AddChild(choosePlayerToChaseSelector);
 
-        root.AddChild(actions);
+        #endregion
+
+        root.AddChild(chasePlayerOrPatrolSelector);
 
         #endregion
     }

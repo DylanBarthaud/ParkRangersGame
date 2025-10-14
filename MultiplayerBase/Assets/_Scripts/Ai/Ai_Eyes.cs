@@ -21,6 +21,7 @@ public class Ai_Eyes : NetworkBehaviour, IExpert
     private void Awake()
     {
         blackboardController.RegisterExpert(this);
+        blackboard = blackboardController.GetBlackboard();
 
         fovCurrentTime = fovCheckTimer;
     }
@@ -29,9 +30,8 @@ public class Ai_Eyes : NetworkBehaviour, IExpert
     {
         //if(!IsHost) return;
 
-        if(fovCurrentTime < 0)
-        {
-            Debug.Log("HERE"); 
+        if (fovCurrentTime < 0)
+        { 
             FieldOfViewCheck();
             fovCurrentTime = fovCheckTimer; 
         }
@@ -60,7 +60,6 @@ public class Ai_Eyes : NetworkBehaviour, IExpert
                 {
                     IAiViewable seenObj = seenCollider.gameObject.GetComponent<IAiViewable>();
                     currentSeenObjects.Add(seenObj);
-                    Debug.Log(seenObjects.Count);
                 }
             }
         }
@@ -73,6 +72,7 @@ public class Ai_Eyes : NetworkBehaviour, IExpert
     {
         foreach(IAiViewable seenObj in seenObjects)
         {
+            if(seenObj == null) continue;
             seenObj.OnSeen(blackboard); 
         }
     }

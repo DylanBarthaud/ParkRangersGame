@@ -6,6 +6,26 @@ using System.Linq;
 
 namespace BehaviourTrees
 {
+    public class IfGate : Node
+    {
+        Condition condition;
+
+        public IfGate(string name, Condition condition, int priority = 0) : base(name, priority)
+        {
+            this.condition = condition;
+        }
+
+        public override Status Process()
+        {
+            if (condition.Process() == Status.Success)
+            {
+                base.Process();
+            }
+
+            return Status.Failure;
+        }
+    }
+
     public class PrioritySelector : Node
     {
         public PrioritySelector(string name, int priority = 0) : base(name, priority)

@@ -6,14 +6,14 @@ using UnityEngine;
 public class PlayerInfoHolder : NetworkBehaviour, IAiViewable
 {
     private BlackboardKey playerInfo_Key;
-
     private PlayerInfo playerInfo;
 
-    public void UpdateInfo()
+    public void UpdateInfo(bool playerSeen)
     {
         playerInfo = new PlayerInfo() 
         { 
             position = gameObject.transform.position,
+            canSeePlayer = playerSeen
         };
     }
 
@@ -24,29 +24,25 @@ public class PlayerInfoHolder : NetworkBehaviour, IAiViewable
 
     public void OnSeen(Blackboard blackboard)
     {
-        //Set player info key if it's null
-        if (playerInfo_Key == null)
+        switch (OwnerClientId)
         {
-            switch (OwnerClientId)
-            {
-                case 0:
-                    playerInfo_Key = blackboard.GetOrRegisterKey("PlayerOneInfoKey");
-                    break;
-                case 1:
-                    playerInfo_Key = blackboard.GetOrRegisterKey("PlayerTwoInfoKey");
-                    break;
-                case 2:
-                    playerInfo_Key = blackboard.GetOrRegisterKey("PlayerThreeInfoKey");
-                    break;
-                case 3:
-                    playerInfo_Key = blackboard.GetOrRegisterKey("PlayerFourInfoKey");
-                    break;
-                default:
-                    throw new NotImplementedException();
-            }
+            case 0:
+                playerInfo_Key = blackboard.GetOrRegisterKey("PlayerOneInfoKey");
+                break;
+            case 1:
+                playerInfo_Key = blackboard.GetOrRegisterKey("PlayerTwoInfoKey");
+                break;
+            case 2:
+                playerInfo_Key = blackboard.GetOrRegisterKey("PlayerThreeInfoKey");
+                break;
+            case 3:
+                playerInfo_Key = blackboard.GetOrRegisterKey("PlayerFourInfoKey");
+                break;
+            default:
+                throw new NotImplementedException();
         }
 
-        UpdateInfo();
+        UpdateInfo(true);
 
         blackboard.AddAction(() =>
         {
