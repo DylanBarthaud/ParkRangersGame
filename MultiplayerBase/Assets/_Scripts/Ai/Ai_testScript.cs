@@ -39,7 +39,7 @@ public class Ai_testScript : NetworkBehaviour, IExpert
         PrioritySelector choosePlayerToChaseSelector = new PrioritySelector("ChoosePlayerToChaseSelector");
         bool CanChasePlayerOne()
         {
-            BlackboardKey playerInfoKey = blackboard.GetOrRegisterKey("PlayerOneInfoKey");
+            BlackboardKey playerInfoKey = blackboard.GetOrRegisterKey("Player0InfoKey");
 
             if (blackboard.TryGetValue(playerInfoKey, out PlayerInfo playerInfo))
             { 
@@ -55,7 +55,7 @@ public class Ai_testScript : NetworkBehaviour, IExpert
         IfGate canChasePlayerOne = new IfGate("CanChasePlayerOne", new Condition(() => CanChasePlayerOne()), 100);
         void ChasePlayer()
         {
-            BlackboardKey playerOneInfoKey = blackboard.GetOrRegisterKey("PlayerOneInfoKey");
+            BlackboardKey playerOneInfoKey = blackboard.GetOrRegisterKey("Player0InfoKey");
 
             if (blackboard.TryGetValue(playerOneInfoKey, out PlayerInfo playerInfo))
             {

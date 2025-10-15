@@ -8,6 +8,20 @@ public class PlayerInfoHolder : NetworkBehaviour, IAiViewable
     private BlackboardKey playerInfo_Key;
     private PlayerInfo playerInfo;
 
+    public override void OnNetworkSpawn()
+    {
+        string clientIDString = OwnerClientId.ToString();
+        Debug.Log("Player" + clientIDString + "InfoKey"); 
+        playerInfo_Key = new BlackboardKey("Player" + clientIDString + "InfoKey");
+    }
+
+    public override void OnNetworkDespawn()
+    {
+        base.OnNetworkDespawn();
+
+        playerInfo_Key = new BlackboardKey("NULL"); 
+    }
+
     public void UpdateInfo(bool playerSeen)
     {
         playerInfo = new PlayerInfo() 
@@ -17,31 +31,18 @@ public class PlayerInfoHolder : NetworkBehaviour, IAiViewable
         };
     }
 
-    public int GetImportance()
+    public int GetImportance(Vector3 aiPosition)
     {
-        return 100; 
+        float distanceToAi = Vector3.Distance(transform.position, aiPosition);
+
+        int importance = 100 - (int)distanceToAi;
+        Debug.Log(importance); 
+
+        return importance; 
     }
 
     public void OnSeen(Blackboard blackboard)
     {
-        switch (OwnerClientId)
-        {
-            case 0:
-                playerInfo_Key = blackboard.GetOrRegisterKey("PlayerOneInfoKey");
-                break;
-            case 1:
-                playerInfo_Key = blackboard.GetOrRegisterKey("PlayerTwoInfoKey");
-                break;
-            case 2:
-                playerInfo_Key = blackboard.GetOrRegisterKey("PlayerThreeInfoKey");
-                break;
-            case 3:
-                playerInfo_Key = blackboard.GetOrRegisterKey("PlayerFourInfoKey");
-                break;
-            default:
-                throw new NotImplementedException();
-        }
-
         UpdateInfo(true);
 
         blackboard.AddAction(() =>

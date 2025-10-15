@@ -12,7 +12,7 @@ public class Ai_Eyes : NetworkBehaviour, IExpert
 
     public List<IAiViewable> seenObjects = new List<IAiViewable>();
 
-    [SerializeField] private BlackboardController blackboardController;
+    [SerializeField] BlackboardController blackboardController;
     private Blackboard blackboard;
 
     private float fovCheckTimer = 0.2f;
@@ -44,6 +44,7 @@ public class Ai_Eyes : NetworkBehaviour, IExpert
 
         if (seenObjColliders.Length == 0)
         {
+            seenObjects = new List<IAiViewable>();
             return;
         }
 
@@ -79,11 +80,13 @@ public class Ai_Eyes : NetworkBehaviour, IExpert
 
     public int GetInsistence(Blackboard blackboard)
     {
+        if(seenObjects.Count == 0) return 0;
+
         int highestImportance = 0;
 
         foreach(IAiViewable seenObj in seenObjects)
         {
-            int importance = seenObj.GetImportance(); 
+            int importance = seenObj.GetImportance(transform.position); 
 
             if(highestImportance < importance)
             {
