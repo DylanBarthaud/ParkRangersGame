@@ -42,12 +42,6 @@ public class Ai_Eyes : NetworkBehaviour, IExpert
     {
         Collider[] seenObjColliders = Physics.OverlapSphere(transform.position, radius, canViewMask);
 
-        if (seenObjColliders.Length == 0)
-        {
-            seenObjects = new List<IAiViewable>();
-            return;
-        }
-
         List<IAiViewable> currentSeenObjects = new List<IAiViewable>();
         foreach (Collider seenCollider in seenObjColliders)
         {
@@ -65,6 +59,25 @@ public class Ai_Eyes : NetworkBehaviour, IExpert
             }
         }
 
+        //Check to see if objects are no longer seen 
+        foreach(IAiViewable seenObj in seenObjects)
+        {
+            bool isSeen = false;    
+
+            foreach(IAiViewable currentSeenObj in currentSeenObjects)
+            {
+                if(currentSeenObj ==  seenObj)
+                {
+                    isSeen = true;
+                }
+            }
+
+            if (!isSeen)
+            {
+                seenObj.OnUnSeen(blackboard, this);
+            }
+        }
+
         seenObjects = currentSeenObjects;
     }
 
@@ -74,7 +87,7 @@ public class Ai_Eyes : NetworkBehaviour, IExpert
         foreach(IAiViewable seenObj in seenObjects)
         {
             if(seenObj == null) continue;
-            seenObj.OnSeen(blackboard); 
+            seenObj.OnSeen(blackboard, this); 
         }
     }
 
@@ -86,7 +99,7 @@ public class Ai_Eyes : NetworkBehaviour, IExpert
 
         foreach(IAiViewable seenObj in seenObjects)
         {
-            int importance = seenObj.GetImportance(transform.position); 
+            int importance = seenObj.GetImportance(this); 
 
             if(highestImportance < importance)
             {

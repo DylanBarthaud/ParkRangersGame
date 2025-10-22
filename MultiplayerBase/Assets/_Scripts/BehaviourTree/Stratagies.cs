@@ -87,4 +87,29 @@ namespace BehaviourTrees
             currentIndex = 0;
         }
     }
+
+    public class ChasePlayerStrategy : IStrategy 
+    {
+        readonly Func<PlayerInfo> playerInfoFunc;
+        readonly NavMeshAgent agent; 
+
+        public ChasePlayerStrategy(Func<PlayerInfo> playerInfo, NavMeshAgent agent)
+        {
+            this.playerInfoFunc = playerInfo;
+            this.agent = agent;
+        }
+
+        public Node.Status Process()
+        {
+            PlayerInfo playerInfo = playerInfoFunc();
+
+            if (!playerInfo.canSeePlayer)
+            {
+                return Node.Status.Failure;
+            }
+
+            agent.SetDestination(playerInfo.position);
+            return Node.Status.Success;
+        }
+    }
 }

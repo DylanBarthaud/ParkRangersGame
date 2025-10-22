@@ -1,4 +1,5 @@
 using System;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class EventManager : MonoBehaviour
@@ -10,8 +11,8 @@ public class EventManager : MonoBehaviour
         if (instance == null) instance = this; 
     }
 
-    public event Action<GameObject> onPlayerSpawned; 
-    public void OnPlayerSpawned(GameObject player)
+    public event Action<PlayerInfo> onPlayerSpawned; 
+    public void OnPlayerSpawned(PlayerInfo player)
     {
         if(onPlayerSpawned != null)
         {

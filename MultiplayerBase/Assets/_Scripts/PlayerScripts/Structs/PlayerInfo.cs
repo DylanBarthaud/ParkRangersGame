@@ -5,5 +5,6 @@ using UnityEngine;
 public struct PlayerInfo
 {
     public Vector3 position;
-    public bool canSeePlayer; 
+    public bool canSeePlayer;
+    public int importance; 
 }

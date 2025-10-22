@@ -10,9 +10,6 @@ using BlackboardSystem;
 [RequireComponent(typeof(NavMeshAgent))]
 public class Ai_testScript : NetworkBehaviour, IExpert
 {
-    [SerializeField] List<Transform> waypoints;
-    [SerializeField] List<Transform> waypointsTwo;
-
     private NavMeshAgent agent;
 
     Root root;
@@ -21,10 +18,14 @@ public class Ai_testScript : NetworkBehaviour, IExpert
     Blackboard blackboard;
     BlackboardKey patrolKey;
 
-    bool canParolBool; 
+    bool canParolBool;
+
+    int playerAmount = 0; 
 
     private void Awake()
     {
+        EventManager.instance.onPlayerSpawned += OnPlayerSpawned;
+
         agent = GetComponent<NavMeshAgent>();
 
         blackboard = blackboardController.GetBlackboard();
@@ -34,45 +35,64 @@ public class Ai_testScript : NetworkBehaviour, IExpert
         #region BehaviourTree Logic
 
         root = new Root("Root");
-        PrioritySelector chasePlayerOrPatrolSelector = new PrioritySelector("chasePlayerOrPatrolSelector");
-        #region ChasePlayer Sequence
-        PrioritySelector choosePlayerToChaseSelector = new PrioritySelector("ChoosePlayerToChaseSelector");
-        bool CanChasePlayerOne()
-        {
-            BlackboardKey playerInfoKey = blackboard.GetOrRegisterKey("Player0InfoKey");
 
-            if (blackboard.TryGetValue(playerInfoKey, out PlayerInfo playerInfo))
-            { 
-                if(playerInfo.canSeePlayer)
+        PrioritySelector prioritySelector = new PrioritySelector("PrioritySelector"); 
+
+        #region ChasePlayer Sequence
+        PlayerInfo PlayerInfo() 
+        {
+            List<PlayerInfo> seenPlayers = new List<PlayerInfo>(); 
+            for(int i = 0; i < playerAmount; i++)
+            {
+                string playerIdToString = i.ToString();
+                BlackboardKey key = blackboard.GetOrRegisterKey("Player" + playerIdToString + "InfoKey");
+
+                if(blackboard.TryGetValue(key, out PlayerInfo info))
                 {
-                    Debug.Log("CAN CHASE");
-                    return true;
+                    if(info.canSeePlayer) seenPlayers.Add(info);
                 }
             }
 
-            return false; 
-        }
-        IfGate canChasePlayerOne = new IfGate("CanChasePlayerOne", new Condition(() => CanChasePlayerOne()), 100);
-        void ChasePlayer()
-        {
-            BlackboardKey playerOneInfoKey = blackboard.GetOrRegisterKey("Player0InfoKey");
 
-            if (blackboard.TryGetValue(playerOneInfoKey, out PlayerInfo playerInfo))
+            if (seenPlayers.Count == 0)
+            { 
+                PlayerInfo placeHolderInfo = new PlayerInfo()
+                {
+                    canSeePlayer = false,
+                    importance = 0,
+                    position = Vector3.zero 
+                };
+
+                return placeHolderInfo;
+            } 
+
+            PlayerInfo playerInfo = new PlayerInfo(); 
+            foreach(PlayerInfo player in seenPlayers)
             {
-                agent.SetDestination(playerInfo.position);
+                if(player.importance > playerInfo.importance)
+                {
+                    playerInfo = player;
+                }
             }
+
+            return playerInfo;
         }
-        Leaf chasePlayer = new Leaf("ChasePlayer", new ActionStrategy(() => ChasePlayer()));
-
-        canChasePlayerOne.AddChild(chasePlayer);
-        choosePlayerToChaseSelector.AddChild(canChasePlayerOne);
-        chasePlayerOrPatrolSelector.AddChild(choosePlayerToChaseSelector);
-
+        Leaf chasePlayer = new Leaf("ChasePlayer", new ChasePlayerStrategy(() => PlayerInfo(), agent), 100);
         #endregion
 
-        root.AddChild(chasePlayerOrPatrolSelector);
+        Leaf moveToPos = new Leaf("MoveToPos", new ActionStrategy(() => { agent.SetDestination(Vector3.zero); }), 50);
+
+        prioritySelector.AddChild(chasePlayer);
+        prioritySelector.AddChild(moveToPos);
+
+        root.AddChild(prioritySelector);
 
         #endregion
+    }
+
+    private void OnPlayerSpawned(PlayerInfo playerInfo)
+    {
+        playerAmount++; 
     }
 
     private void Update()

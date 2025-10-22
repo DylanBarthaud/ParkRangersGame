@@ -138,8 +138,6 @@ public class FirstPersonController : NetworkBehaviour
 
     private void Awake()
     {
-        EventManager.instance.OnPlayerSpawned(this.gameObject); 
-
         rb = GetComponent<Rigidbody>();
 
         crosshairObject = GetComponentInChildren<Image>();
