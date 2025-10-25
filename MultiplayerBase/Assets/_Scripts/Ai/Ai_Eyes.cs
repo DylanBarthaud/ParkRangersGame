@@ -1,4 +1,5 @@
 using BlackboardSystem;
+using System;
 using System.Collections.Generic;
 using Unity.Netcode;
 using UnityEngine;
@@ -15,27 +16,18 @@ public class Ai_Eyes : NetworkBehaviour, IExpert
     [SerializeField] BlackboardController blackboardController;
     private Blackboard blackboard;
 
-    private float fovCheckTimer = 0.2f;
-    private float fovCurrentTime; 
-
     private void Awake()
     {
         blackboardController.RegisterExpert(this);
         blackboard = blackboardController.GetBlackboard();
 
-        fovCurrentTime = fovCheckTimer;
+        EventManager.instance.onTick += OnTick;
     }
 
-    private void Update()
+    private void OnTick(int tick)
     {
-        //if(!IsHost) return;
-
-        if (fovCurrentTime < 0)
-        { 
-            FieldOfViewCheck();
-            fovCurrentTime = fovCheckTimer; 
-        }
-        else fovCurrentTime -= Time.deltaTime;
+        if (!IsHost) return;
+        FieldOfViewCheck();
     }
 
     private void FieldOfViewCheck()

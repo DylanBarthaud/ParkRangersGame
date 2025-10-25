@@ -2,6 +2,7 @@ using BlackboardSystem;
 using System;
 using Unity.Netcode;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.UIElements;
 
 public class PlayerInfoHolder : NetworkBehaviour, IAiViewable
@@ -11,29 +12,37 @@ public class PlayerInfoHolder : NetworkBehaviour, IAiViewable
 
     public override void OnNetworkSpawn()
     {
-        UpdateInfo(false, 0);
-
-        EventManager.instance.OnPlayerSpawned(playerInfo); 
-
         string clientIDString = OwnerClientId.ToString();
         playerInfo_Key = new BlackboardKey("Player" + clientIDString + "InfoKey");
+
+        playerInfo = new PlayerInfo();
+        playerInfo.id = OwnerClientId;
+        playerInfo.key = playerInfo_Key;
+        UpdateInfo(false, 0, 0);
+
+        EventManager.instance.OnPlayerSpawned(playerInfo);
+        EventManager.instance.onTick += OnTick;
+    }
+
+    private void OnTick(int tick)
+    {
+        if(playerInfo.fear > 0)
+        {
+            playerInfo.fear--;
+        }
     }
 
     public override void OnNetworkDespawn()
     {
         base.OnNetworkDespawn();
-
-        playerInfo_Key = new BlackboardKey("NULL"); 
     }
 
-    public void UpdateInfo(bool playerSeen, int importance)
+    public void UpdateInfo(bool playerSeen, int importance = -1, int fear = -1)
     {
-        playerInfo = new PlayerInfo() 
-        { 
-            position = gameObject.transform.position,
-            canSeePlayer = playerSeen,
-            importance = importance
-        };
+        playerInfo.position = gameObject.transform.position;
+        playerInfo.canSeePlayer = playerSeen;
+        if (importance != -1) playerInfo.importance = importance;
+        if (fear != -1) playerInfo.fear = fear;
     }
 
     private int GetImportance(Vector3 aiPos)
@@ -51,6 +60,7 @@ public class PlayerInfoHolder : NetworkBehaviour, IAiViewable
         return GetImportance(aiPos); 
     }
 
+    #region IAiViewable implimentation
     public void OnSeen(Blackboard blackboard, Ai_Eyes caller)
     {
         bool playerSeen = true;
@@ -77,6 +87,7 @@ public class PlayerInfoHolder : NetworkBehaviour, IAiViewable
 
         UpdateBlackboard(blackboard, playerSeen, importance); 
     }
+    #endregion
 
     private void UpdateBlackboard(Blackboard blackboard, bool playerSeen, int importance)
     {

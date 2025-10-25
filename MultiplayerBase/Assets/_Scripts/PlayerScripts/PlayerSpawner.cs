@@ -7,11 +7,11 @@ using BlackboardSystem;
 
 public class PlayerSpawner : NetworkBehaviour
 {
+    private const bool DESTROY_WITH_SCENE_BOOL = true;
+
     [SerializeField] private GameObject playerPrefab;
     [SerializeField] private BlackboardController blackboardController;
     private Blackboard blackboard;
-
-    private const bool destroyWithScene = true;
 
     private void Awake()
     {
@@ -30,7 +30,7 @@ public class PlayerSpawner : NetworkBehaviour
         foreach(ulong id in clientsCompleted)
         {
             GameObject player = Instantiate(playerPrefab);
-            player.GetComponent<NetworkObject>().SpawnAsPlayerObject(id, destroyWithScene);
+            player.GetComponent<NetworkObject>().SpawnAsPlayerObject(id, DESTROY_WITH_SCENE_BOOL);
 
             string idAsString = id.ToString();
             string keyName = "Player" + idAsString + "InfoKey";

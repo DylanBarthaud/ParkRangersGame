@@ -53,7 +53,6 @@ public class Ai_testScript : NetworkBehaviour, IExpert
                 }
             }
 
-
             if (seenPlayers.Count == 0)
             { 
                 PlayerInfo placeHolderInfo = new PlayerInfo()
@@ -77,7 +76,7 @@ public class Ai_testScript : NetworkBehaviour, IExpert
 
             return playerInfo;
         }
-        Leaf chasePlayer = new Leaf("ChasePlayer", new ChasePlayerStrategy(() => PlayerInfo(), agent), 100);
+        Leaf chasePlayer = new Leaf("ChasePlayer", new ChasePlayerStrategy(PlayerInfo, agent), 100);
         #endregion
 
         Leaf moveToPos = new Leaf("MoveToPos", new ActionStrategy(() => { agent.SetDestination(Vector3.zero); }), 50);
