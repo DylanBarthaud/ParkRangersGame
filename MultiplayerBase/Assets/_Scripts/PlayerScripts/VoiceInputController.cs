@@ -1,9 +1,12 @@
 using Steamworks;
+using System.Collections.Generic;
 using System.IO;
+using System.Linq;
+using Unity.Netcode;
 using UnityEngine;
 
 [RequireComponent(typeof(AudioListener))]
-public class VoiceInputController : MonoBehaviour
+public class VoiceInputController : NetworkBehaviour
 {
     // Code sourced from https://github.com/Facepunch/Facepunch.Steamworks/issues/261#issuecomment-817334583
 
@@ -33,7 +36,7 @@ public class VoiceInputController : MonoBehaviour
         output = new MemoryStream();
         input = new MemoryStream();
 
-        source =GetComponent<AudioSource>();
+        source = GetComponent<AudioSource>();
         source.clip = AudioClip.Create("VoiceData", 256, 1, optimalRate, true, OnAudioRead, null);
         source.loop = true;
         source.Play();
@@ -57,12 +60,21 @@ public class VoiceInputController : MonoBehaviour
     //[Command()]
     public void CmdVoice(byte[] compressed, int bytesWritten)
     {
-        RpcVoiceData(compressed, bytesWritten);
+        var exclude = new List<ulong> { OwnerClientId };
+        var rpcParams = new ClientRpcParams
+        {
+            Send = new ClientRpcSendParams
+            {
+                TargetClientIds = NetworkManager.Singleton.ConnectedClientsIds.Where(id => !exclude.Contains(id)).ToArray()
+            }
+        };
+
+        VoiceDataClientRpc(compressed, bytesWritten, rpcParams);
     }
 
 
-    //[ClientRpc(excludeOwner = true)]
-    public void RpcVoiceData(byte[] compressed, int bytesWritten)
+    [ClientRpc]
+    public void VoiceDataClientRpc(byte[] compressed, int bytesWritten, ClientRpcParams rpcParams = default)
     {
         input.Write(compressed, 0, bytesWritten);
         input.Position = 0;
