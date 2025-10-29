@@ -48,6 +48,7 @@ public class Ai_Overlord : MonoBehaviour, IExpert
         IfGate pastTwentyMins = new IfGate("PastTwentyMinsGate", new Condition(() => isPastGivenTime(TEN_MINUTES * 2)), 20);
         IfGate pastOneHour = new IfGate("PastOneHourGate", new Condition(() => isPastGivenTime(ONE_HOUR)), 60);
 
+        //TODO
         bool MonsterIsFarFromPlayers()
         {
             return true; 
@@ -68,6 +69,7 @@ public class Ai_Overlord : MonoBehaviour, IExpert
 
             return currentPlayerInfo;
         }
+        //TODO
         Vector3 GetPositionHint(PlayerInfo playerInfo)
         {
             return Vector3.back;
@@ -98,7 +100,7 @@ public class Ai_Overlord : MonoBehaviour, IExpert
 
     public int GetInsistence(Blackboard blackboard)
     {
-        throw new System.NotImplementedException();
+        return 0; 
     }
     #endregion
 }

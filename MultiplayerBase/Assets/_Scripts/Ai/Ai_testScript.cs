@@ -54,7 +54,7 @@ public class Ai_testScript : NetworkBehaviour, IExpert
             }
 
             if (seenPlayers.Count == 0)
-            { 
+            {
                 PlayerInfo placeHolderInfo = new PlayerInfo()
                 {
                     canSeePlayer = false,
@@ -63,7 +63,7 @@ public class Ai_testScript : NetworkBehaviour, IExpert
                 };
 
                 return placeHolderInfo;
-            } 
+            }
 
             PlayerInfo playerInfo = new PlayerInfo(); 
             foreach(PlayerInfo player in seenPlayers)

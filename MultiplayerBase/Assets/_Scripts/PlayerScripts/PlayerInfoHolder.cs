@@ -49,7 +49,7 @@ public class PlayerInfoHolder : NetworkBehaviour, IAiViewable
     {
         float distanceToAi = Vector3.Distance(transform.position, aiPos);
 
-        int importance = 100 - (int)distanceToAi;
+        int importance = 200 - (int)distanceToAi;
 
         return importance;
     }
