@@ -32,11 +32,17 @@ public class Grid
         return new Vector3(x, 0, y) * cellSize;
     }
 
-    public (int x, int y) GetGridPos(Vector3 worldPos)
+    public GridPosition GetGridPos(Vector3 worldPos)
     {
-        int x = Mathf.FloorToInt(worldPos.x / cellSize);
-        int y = Mathf.FloorToInt(worldPos.z / cellSize);
+        GridPosition gridPosition = new GridPosition();
+        gridPosition.x = Mathf.FloorToInt(worldPos.x / cellSize);
+        gridPosition.y = Mathf.FloorToInt(worldPos.z / cellSize);
 
-        return (x, y);  
+        return gridPosition;  
+    }
+
+    public float GetCellSize()
+    {
+        return cellSize;
     }
 }

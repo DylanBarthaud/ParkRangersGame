@@ -35,6 +35,8 @@ public class Ai_Overlord : MonoBehaviour, IExpert
         EventManager.instance.onPlayerSpawned += OnPlayerSpawned;
         EventManager.instance.onTick_5 += OnTick;
 
+        #region Behaviour Tree
+
         root = new Root("Overlord_Root");
         PrioritySelector primaryOverlordSelector = new PrioritySelector("Primary_Overlord_Selector"); 
 
@@ -74,7 +76,9 @@ public class Ai_Overlord : MonoBehaviour, IExpert
         {
             return Vector3.back;
         }
-        Leaf givePlayerPositionHint = new Leaf("GivePlayerPositionHintLeaf", new ActionStrategy(() => { infoPackage.playerPositionHint = GetPositionHint(GetLowestFearedPlayerInfo()); })); 
+        Leaf givePlayerPositionHint = new Leaf("GivePlayerPositionHintLeaf", new ActionStrategy(() => { infoPackage.playerPositionHint = GetPositionHint(GetLowestFearedPlayerInfo()); }));
+
+        #endregion
     }
 
     #region Events
