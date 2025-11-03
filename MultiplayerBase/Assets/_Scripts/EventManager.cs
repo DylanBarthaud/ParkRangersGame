@@ -1,3 +1,4 @@
+using BlackboardSystem;
 using System;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -13,7 +14,7 @@ public class EventManager : MonoBehaviour
 
     public event Action<int> onTick;  
     public event Action<int> onTick_5;
-    public event Action<PlayerInfo> onPlayerSpawned;
+    public event Action<BlackboardKey> onPlayerSpawned;
     public void OnTick(int tick)
     {
         if(onTick != null) onTick(tick);
@@ -22,8 +23,8 @@ public class EventManager : MonoBehaviour
     {
         if (onTick_5 != null) onTick_5(tick);
     }
-    public void OnPlayerSpawned(PlayerInfo player)
+    public void OnPlayerSpawned(BlackboardKey playerKey)
     {
-        if(onPlayerSpawned != null) onPlayerSpawned(player);
+        if(onPlayerSpawned != null) onPlayerSpawned(playerKey);
     }
 }

@@ -10,12 +10,11 @@ public class PlayerSpawner : NetworkBehaviour
     private const bool DESTROY_WITH_SCENE_BOOL = true;
 
     [SerializeField] private GameObject playerPrefab;
-    [SerializeField] private BlackboardController blackboardController;
     private Blackboard blackboard;
 
     private void Awake()
     {
-        blackboard = blackboardController.GetBlackboard();
+        blackboard = BlackboardController.instance.GetBlackboard();
     }
 
     public override void OnNetworkSpawn()
@@ -32,10 +31,14 @@ public class PlayerSpawner : NetworkBehaviour
             GameObject player = Instantiate(playerPrefab);
             player.GetComponent<NetworkObject>().SpawnAsPlayerObject(id, DESTROY_WITH_SCENE_BOOL);
 
+            PlayerInfo info = player.GetComponent<PlayerInfoHolder>().GetPlayerInfo();
+
             string idAsString = id.ToString();
             string keyName = "Player" + idAsString + "InfoKey";
 
-            blackboard.GetOrRegisterKey(keyName); 
+            BlackboardKey key = blackboard.GetOrRegisterKey(keyName);
+
+            blackboard.SetValue(key, info);
         }
     }
 }

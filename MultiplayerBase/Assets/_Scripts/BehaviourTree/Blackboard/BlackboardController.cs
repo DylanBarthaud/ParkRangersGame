@@ -6,12 +6,16 @@ namespace BlackboardSystem
 {
     public class BlackboardController : MonoBehaviour
     {
+        public static BlackboardController instance;
+
         [SerializeField] BlackboardData blackboardData;
         readonly Blackboard blackboard = new Blackboard();
         readonly Arbiter arbiter = new Arbiter();
 
         private void Awake()
         {
+            if(instance == null) instance = this; 
+
             blackboardData.SetValuesOnBlackboard(blackboard);
         }
 

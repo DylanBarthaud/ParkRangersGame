@@ -295,7 +295,7 @@ public class FirstPersonController : NetworkBehaviour
 
         if(enableSprint)
         {
-            if(isSprinting)
+            if(isSprinting && !isCrouched)
             {
                 isZoomed = false;
                 playerCamera.fieldOfView = Mathf.Lerp(playerCamera.fieldOfView, sprintFOV, sprintFOVStepTime * Time.deltaTime);

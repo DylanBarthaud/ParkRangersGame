@@ -15,10 +15,12 @@ public class Ai_Overlord : MonoBehaviour, IExpert
 
     [SerializeField] private string keyName; 
 
-    [SerializeField] private BlackboardController blackBoardController;
     private BlackboardKey key; 
     private List<BlackboardKey> playerBlackboardKeys;
-    private OverlordGivenInfo infoPackage; 
+    private OverlordGivenInfo infoPackage;
+
+    [SerializeField] private float distanceToGiveHint; 
+    private int insistance = 0; 
 
     Root root;
 
@@ -26,8 +28,8 @@ public class Ai_Overlord : MonoBehaviour, IExpert
 
     private void Awake()
     {
-        blackBoardController.RegisterExpert(this); 
-        Blackboard blackboard = blackBoardController.GetBlackboard();
+        BlackboardController.instance.RegisterExpert(this); 
+        Blackboard blackboard = BlackboardController.instance.GetBlackboard();
 
         playerBlackboardKeys = new List<BlackboardKey>();
         key = blackboard.GetOrRegisterKey(keyName); 
@@ -50,16 +52,34 @@ public class Ai_Overlord : MonoBehaviour, IExpert
         IfGate pastTwentyMins = new IfGate("PastTwentyMinsGate", new Condition(() => isPastGivenTime(TEN_MINUTES * 2)), 20);
         IfGate pastOneHour = new IfGate("PastOneHourGate", new Condition(() => isPastGivenTime(ONE_HOUR)), 60);
 
-        //TODO
         bool MonsterIsFarFromPlayers()
         {
-            return true; 
+            GridPosition aiPosition = new GridPosition { x = 0, z = 0 }; 
+            BlackboardKey monsterKey = blackboard.GetOrRegisterKey("AiMonsterKey");
+            if (blackboard.TryGetValue(monsterKey, out AiInfo monsterInfo))
+            {
+                aiPosition = MapHandler.instance.GetGridLocation(monsterInfo.position);
+            }
+
+            float shortestDistance = 1000; 
+            foreach (BlackboardKey playerKey in playerBlackboardKeys)
+            {
+                if (blackboard.TryGetValue(playerKey, out PlayerInfo playerInfo))
+                {
+                    GridPosition playerPosition = MapHandler.instance.GetGridLocation(playerInfo.position);
+                    float distance = MapHandler.instance.GetDistanceBetweenGrids(aiPosition, playerPosition);
+
+                    if(distance < shortestDistance) shortestDistance = distance;
+                }
+            }
+
+            return shortestDistance > distanceToGiveHint ? true : false;
         }
         IfGate monsterFarFromPlayers = new IfGate("MonsterIsFarFromPlayersGate", new Condition(MonsterIsFarFromPlayers));
 
         PlayerInfo GetLowestFearedPlayerInfo()
         {
-            PlayerInfo currentPlayerInfo = new PlayerInfo { fear = 0 };
+            PlayerInfo currentPlayerInfo = new PlayerInfo { fear = -1 };
 
             foreach(BlackboardKey key in playerBlackboardKeys)
             {
@@ -71,13 +91,22 @@ public class Ai_Overlord : MonoBehaviour, IExpert
 
             return currentPlayerInfo;
         }
-        //TODO
         Vector3 GetPositionHint(PlayerInfo playerInfo)
         {
-            return Vector3.back;
+            GridPosition playerGridPosition = MapHandler.instance.GetGridLocation(playerInfo.position); 
+            Debug.Log(playerGridPosition.x + "," + playerGridPosition.z);
+            return MapHandler.instance.GetRandomLocationInGridPosition(playerGridPosition);
         }
-        Leaf givePlayerPositionHint = new Leaf("GivePlayerPositionHintLeaf", new ActionStrategy(() => { infoPackage.playerPositionHint = GetPositionHint(GetLowestFearedPlayerInfo()); }));
+        Leaf givePlayerPositionHint = new Leaf("GivePlayerPositionHintLeaf", new ActionStrategy(() => 
+        {
+            infoPackage.playerPositionHint = GetPositionHint(GetLowestFearedPlayerInfo());
+            insistance = 90; 
+        }));
 
+        root.AddChild(primaryOverlordSelector); 
+
+        primaryOverlordSelector.AddChild(monsterFarFromPlayers);
+        monsterFarFromPlayers.AddChild(givePlayerPositionHint);
         #endregion
     }
 
@@ -85,11 +114,12 @@ public class Ai_Overlord : MonoBehaviour, IExpert
     private void OnTick(int tick)
     {
         this.tick = tick;
+        root.Process(); 
     }
 
-    private void OnPlayerSpawned(PlayerInfo info)
+    private void OnPlayerSpawned(BlackboardKey playerKey)
     {
-        playerBlackboardKeys[(int)info.id] = info.key;
+        playerBlackboardKeys.Add(playerKey);
     }
     #endregion
 
@@ -100,11 +130,13 @@ public class Ai_Overlord : MonoBehaviour, IExpert
         {
             blackboard.SetValue(key, infoPackage);
         });
+
+        insistance = 0; 
     }
 
     public int GetInsistence(Blackboard blackboard)
     {
-        return 0; 
+        return insistance; 
     }
     #endregion
 }

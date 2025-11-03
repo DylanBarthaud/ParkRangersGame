@@ -36,9 +36,17 @@ public class Grid
     {
         GridPosition gridPosition = new GridPosition();
         gridPosition.x = Mathf.FloorToInt(worldPos.x / cellSize);
-        gridPosition.y = Mathf.FloorToInt(worldPos.z / cellSize);
+        gridPosition.z = Mathf.FloorToInt(worldPos.z / cellSize);
 
         return gridPosition;  
+    }
+
+    public float GetSquaredDistanceBetweenGridPositions(GridPosition positionA, GridPosition positionB)
+    {
+        float x = (positionA.x - positionB.x); 
+        float y = (positionA.z - positionB.z);
+
+        return (x * x) + (y * y); 
     }
 
     public float GetCellSize()

@@ -10,5 +10,4 @@ public struct PlayerInfo
     public int importance;
     public int fear; 
     public ulong id; 
-    public BlackboardKey key; 
 }

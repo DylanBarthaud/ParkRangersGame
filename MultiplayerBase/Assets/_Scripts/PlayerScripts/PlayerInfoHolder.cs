@@ -16,12 +16,18 @@ public class PlayerInfoHolder : NetworkBehaviour, IAiViewable
         playerInfo_Key = new BlackboardKey("Player" + clientIDString + "InfoKey");
 
         playerInfo = new PlayerInfo();
+        playerInfo.position = transform.position;
         playerInfo.id = OwnerClientId;
-        playerInfo.key = playerInfo_Key;
-        UpdateInfo(false, 0, 0);
+        UpdateInfo(false, 0, 200);
 
-        EventManager.instance.OnPlayerSpawned(playerInfo);
+        EventManager.instance.OnPlayerSpawned(playerInfo_Key);
         EventManager.instance.onTick += OnTick;
+        EventManager.instance.onTick_5 += OnTick_5;
+    }
+    private void OnTick_5(int tick)
+    {
+        playerInfo.position = transform.position; 
+        BlackboardController.instance.GetBlackboard().SetValue(playerInfo_Key, playerInfo);
     }
 
     private void OnTick(int tick)
@@ -60,6 +66,21 @@ public class PlayerInfoHolder : NetworkBehaviour, IAiViewable
         return GetImportance(aiPos); 
     }
 
+    public PlayerInfo GetPlayerInfo()
+    {
+        return playerInfo;
+    }
+
+    private void UpdateBlackboard(Blackboard blackboard, bool playerSeen, int importance)
+    {
+        UpdateInfo(playerSeen, importance);
+
+        blackboard.AddAction(() =>
+        {
+            blackboard.SetValue(playerInfo_Key, playerInfo);
+        });
+    }
+
     #region IAiViewable implimentation
     public void OnSeen(Blackboard blackboard, Ai_Eyes caller)
     {
@@ -88,14 +109,4 @@ public class PlayerInfoHolder : NetworkBehaviour, IAiViewable
         UpdateBlackboard(blackboard, playerSeen, importance); 
     }
     #endregion
-
-    private void UpdateBlackboard(Blackboard blackboard, bool playerSeen, int importance)
-    {
-        UpdateInfo(playerSeen, importance);
-
-        blackboard.AddAction(() =>
-        {
-            blackboard.SetValue(playerInfo_Key, playerInfo);
-        });
-    }
 }

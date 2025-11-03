@@ -16,7 +16,8 @@ public class Ai_testScript : NetworkBehaviour, IExpert
 
     [SerializeField] BlackboardController blackboardController;
     Blackboard blackboard;
-    BlackboardKey patrolKey;
+    BlackboardKey AiMonsterKey;
+    AiInfo aiInfo;
 
     bool canParolBool;
 
@@ -25,14 +26,21 @@ public class Ai_testScript : NetworkBehaviour, IExpert
     private void Awake()
     {
         EventManager.instance.onPlayerSpawned += OnPlayerSpawned;
+        EventManager.instance.onTick_5 += OnTick_5;
 
         agent = GetComponent<NavMeshAgent>();
 
+        aiInfo = new AiInfo()
+        {
+            position = transform.position,
+        };
+
         blackboard = blackboardController.GetBlackboard();
         blackboardController.RegisterExpert(this);
-        patrolKey = blackboard.GetOrRegisterKey("PatrolKey");
+        AiMonsterKey = blackboard.GetOrRegisterKey("AiMonsterKey");
+        blackboard.SetValue(AiMonsterKey, aiInfo); 
 
-        #region BehaviourTree Logic
+        #region Behaviour Tree
 
         root = new Root("Root");
 
@@ -49,7 +57,7 @@ public class Ai_testScript : NetworkBehaviour, IExpert
 
                 if(blackboard.TryGetValue(key, out PlayerInfo info))
                 {
-                    if(info.canSeePlayer) seenPlayers.Add(info);
+                    if (info.canSeePlayer) seenPlayers.Add(info);
                 }
             }
 
@@ -79,7 +87,17 @@ public class Ai_testScript : NetworkBehaviour, IExpert
         Leaf chasePlayer = new Leaf("ChasePlayer", new ChasePlayerStrategy(PlayerInfo, agent), 100);
         #endregion
 
-        Leaf moveToPos = new Leaf("MoveToPos", new ActionStrategy(() => { agent.SetDestination(Vector3.zero); }), 50);
+        Leaf moveToPos0 = new Leaf("MoveToPos", new ActionStrategy(() => { agent.SetDestination(Vector3.zero); }), 50);
+        void MoveToGridPos()
+        {
+            BlackboardKey overlordKey = blackboard.GetOrRegisterKey("AiOverlordKey");
+
+            if (blackboard.TryGetValue(overlordKey, out OverlordGivenInfo overlordInfo))
+            {
+                agent.SetDestination(overlordInfo.playerPositionHint);
+            }
+        }
+        Leaf moveToPos = new Leaf("MoveToPos", new ActionStrategy(MoveToGridPos), 50);
 
         prioritySelector.AddChild(chasePlayer);
         prioritySelector.AddChild(moveToPos);
@@ -89,20 +107,25 @@ public class Ai_testScript : NetworkBehaviour, IExpert
         #endregion
     }
 
-    private void OnPlayerSpawned(PlayerInfo playerInfo)
+    private void OnTick_5(int obj)
     {
-        playerAmount++; 
+        aiInfo = new AiInfo()
+        {
+            position = transform.position,
+        };
+
+        blackboard.SetValue(AiMonsterKey, aiInfo);
     }
 
     private void Update()
     {
         if (!IsHost) return;
-        root.Process(); 
+        root.Process();
+    }
 
-        if(Input.GetKeyDown(KeyCode.F))
-        {
-            canParolBool = !canParolBool;
-        }
+    private void OnPlayerSpawned(BlackboardKey playerInfo)
+    {
+        playerAmount++; 
     }
 
     #region IExpert implimentation
@@ -110,29 +133,11 @@ public class Ai_testScript : NetworkBehaviour, IExpert
     public int GetInsistence(Blackboard blackboard)
     {
        int insistence = 0;
-        
-       if(blackboard.TryGetValue(patrolKey, out bool patrolVal))
-       {
-            if (patrolVal != canParolBool)
-            {
-                if (canParolBool) insistence = 100;
-                else insistence = 10; 
-            }
-       }
-       else
-       {
-           insistence = 0; 
-       }
-
        return insistence;
     }
 
     public void Execute(Blackboard blackboard)
     {
-        blackboard.AddAction(() =>
-        {
-            blackboard.SetValue(patrolKey, canParolBool);
-        });
     }
 
     #endregion
