@@ -10,7 +10,7 @@ public class VoiceInputController : NetworkBehaviour
 {
     // Code sourced from https://github.com/Facepunch/Facepunch.Steamworks/issues/261#issuecomment-817334583
 
-    private AudioSource source;
+    [SerializeField] private AudioSource source;
 
     private MemoryStream output;
     private MemoryStream stream;
