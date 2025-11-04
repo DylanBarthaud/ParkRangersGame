@@ -114,7 +114,7 @@ public class FirstPersonController : NetworkBehaviour
     public bool holdToCrouch = true;
     public KeyCode crouchKey = KeyCode.LeftControl;
     public float crouchHeight = .75f;
-    public float speedReduction = .5f;
+    public float crouchSpeed;
 
     // Internal Variables
     private bool isCrouched = false;
@@ -138,6 +138,7 @@ public class FirstPersonController : NetworkBehaviour
 
     private void Awake()
     {
+        crouchSpeed = walkSpeed / 2; 
         rb = GetComponent<Rigidbody>();
 
         crosshairObject = GetComponentInChildren<Image>();
@@ -503,7 +504,7 @@ public class FirstPersonController : NetworkBehaviour
         if(isCrouched)
         {
             transform.localScale = new Vector3(originalScale.x, originalScale.y, originalScale.z);
-            walkSpeed /= speedReduction;
+            walkSpeed = crouchSpeed * 2;
 
             isCrouched = false;
         }
@@ -512,7 +513,7 @@ public class FirstPersonController : NetworkBehaviour
         else
         {
             transform.localScale = new Vector3(originalScale.x, crouchHeight, originalScale.z);
-            walkSpeed *= speedReduction;
+            walkSpeed = crouchSpeed;
 
             isCrouched = true;
         }
@@ -525,12 +526,12 @@ public class FirstPersonController : NetworkBehaviour
             // Calculates HeadBob speed during sprint
             if(isSprinting)
             {
-                timer += Time.deltaTime * (bobSpeed + sprintSpeed);
+                timer += Time.deltaTime * (bobSpeed * 2);
             }
             // Calculates HeadBob speed during crouched movement
             else if (isCrouched)
             {
-                timer += Time.deltaTime * (bobSpeed * speedReduction);
+                timer += Time.deltaTime * (bobSpeed / 2);
             }
             // Calculates HeadBob speed during walking
             else
@@ -548,8 +549,6 @@ public class FirstPersonController : NetworkBehaviour
         }
     }
 }
-
-
 
 // Custom Editor
 #if UNITY_EDITOR
@@ -724,7 +723,7 @@ public class FirstPersonController : NetworkBehaviour
         fpc.holdToCrouch = EditorGUILayout.ToggleLeft(new GUIContent("Hold To Crouch", "Requires the player to hold the crouch key instead if pressing to crouch and uncrouch."), fpc.holdToCrouch);
         fpc.crouchKey = (KeyCode)EditorGUILayout.EnumPopup(new GUIContent("Crouch Key", "Determines what key is used to crouch."), fpc.crouchKey);
         fpc.crouchHeight = EditorGUILayout.Slider(new GUIContent("Crouch Height", "Determines the y scale of the player object when crouched."), fpc.crouchHeight, .1f, 1);
-        fpc.speedReduction = EditorGUILayout.Slider(new GUIContent("Speed Reduction", "Determines the percent 'Walk Speed' is reduced by. 1 being no reduction, and .5 being half."), fpc.speedReduction, .1f, 1);
+        fpc.crouchSpeed = EditorGUILayout.Slider(new GUIContent("Speed Reduction", "Determines the percent 'Walk Speed' is reduced by. 1 being no reduction, and .5 being half."), fpc.crouchSpeed, .1f, 1);
         GUI.enabled = true;
 
         #endregion
