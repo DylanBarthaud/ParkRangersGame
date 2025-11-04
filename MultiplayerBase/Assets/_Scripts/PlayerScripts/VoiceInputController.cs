@@ -60,7 +60,7 @@ public class VoiceInputController : NetworkBehaviour
     //[Command()]
     public void CmdVoice(byte[] compressed, int bytesWritten)
     {
-        var exclude = new List<ulong> { OwnerClientId };
+        /*var exclude = new List<ulong> { OwnerClientId };
         var rpcParams = new ClientRpcParams
         {
             Send = new ClientRpcSendParams
@@ -68,14 +68,17 @@ public class VoiceInputController : NetworkBehaviour
                 TargetClientIds = NetworkManager.Singleton.ConnectedClientsIds.Where(id => !exclude.Contains(id)).ToArray()
             }
         };
-
-        VoiceDataClientRpc(compressed, bytesWritten, rpcParams);
+        */
+        VoiceDataClientRpc(compressed, bytesWritten, OwnerClientId);
     }
 
 
+
     [ClientRpc]
-    public void VoiceDataClientRpc(byte[] compressed, int bytesWritten, ClientRpcParams rpcParams = default)
+    public void VoiceDataClientRpc(byte[] compressed, int bytesWritten, ulong ownerId)
     {
+        if (ownerId == OwnerClientId) return;
+
         input.Write(compressed, 0, bytesWritten);
         input.Position = 0;
 
