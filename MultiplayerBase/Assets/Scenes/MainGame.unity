@@ -219,6 +219,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
   blackboardController: {fileID: 983263167}
+  baseSpeed: 6
+  investigateHintSpeed: 6
+  chaseSpeed: 8
 --- !u!114 &17684836
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -319,8 +322,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
-  radius: 10
-  angle: 70
+  radius: 25
+  angle: 90
   canViewMask:
     serializedVersion: 2
     m_Bits: 64
@@ -580,7 +583,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   keyName: AiOverlordKey
-  distanceToGiveHint: 4
+  distanceToGiveHint: 1
 --- !u!1 &435226214
 GameObject:
   m_ObjectHideFlags: 0

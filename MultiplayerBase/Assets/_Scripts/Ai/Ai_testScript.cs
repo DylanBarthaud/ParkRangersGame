@@ -15,6 +15,7 @@ public class Ai_testScript : NetworkBehaviour, IExpert
     Root root;
 
     [SerializeField] BlackboardController blackboardController;
+    [SerializeField] private float baseSpeed, investigateHintSpeed, chaseSpeed; 
     Blackboard blackboard;
     BlackboardKey AiMonsterKey;
     AiInfo aiInfo;
@@ -29,6 +30,7 @@ public class Ai_testScript : NetworkBehaviour, IExpert
         EventManager.instance.onTick_5 += OnTick_5;
 
         agent = GetComponent<NavMeshAgent>();
+        agent.speed = baseSpeed;
 
         aiInfo = new AiInfo()
         {
@@ -84,10 +86,10 @@ public class Ai_testScript : NetworkBehaviour, IExpert
 
             return playerInfo;
         }
-        Leaf chasePlayer = new Leaf("ChasePlayer", new ChasePlayerStrategy(PlayerInfo, agent), 100);
+        Leaf chasePlayer = new Leaf("ChasePlayer", new ChasePlayerStrategy(PlayerInfo, agent, chaseSpeed), 100);
         #endregion
 
-        Leaf moveToPos0 = new Leaf("MoveToPos", new ActionStrategy(() => { agent.SetDestination(Vector3.zero); }), 50);
+        Leaf investigateHint = new Leaf("MoveToPos", new ActionStrategy(() => { agent.SetDestination(Vector3.zero); }), 50);
         void MoveToGridPos()
         {
             BlackboardKey overlordKey = blackboard.GetOrRegisterKey("AiOverlordKey");
@@ -95,6 +97,7 @@ public class Ai_testScript : NetworkBehaviour, IExpert
             if (blackboard.TryGetValue(overlordKey, out OverlordGivenInfo overlordInfo))
             {
                 agent.SetDestination(overlordInfo.playerPositionHint);
+                agent.speed = investigateHintSpeed; 
             }
         }
         Leaf moveToPos = new Leaf("MoveToPos", new ActionStrategy(MoveToGridPos), 50);

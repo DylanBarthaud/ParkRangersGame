@@ -91,12 +91,14 @@ namespace BehaviourTrees
     public class ChasePlayerStrategy : IStrategy 
     {
         readonly Func<PlayerInfo> playerInfoFunc;
-        readonly NavMeshAgent agent; 
+        readonly NavMeshAgent agent;
+        readonly float chaseSpeed; 
 
-        public ChasePlayerStrategy(Func<PlayerInfo> playerInfo, NavMeshAgent agent)
+        public ChasePlayerStrategy(Func<PlayerInfo> playerInfo, NavMeshAgent agent, float chaseSpeed)
         {
             this.playerInfoFunc = playerInfo;
             this.agent = agent;
+            this.chaseSpeed = chaseSpeed;
         }
 
         public Node.Status Process()
@@ -109,6 +111,7 @@ namespace BehaviourTrees
             }
 
             agent.SetDestination(playerInfo.position);
+            agent.speed = chaseSpeed;  
             return Node.Status.Success;
         }
     }
