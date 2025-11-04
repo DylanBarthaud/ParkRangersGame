@@ -28,7 +28,7 @@ public class PlayerSpawner : NetworkBehaviour
 
         foreach(ulong id in clientsCompleted)
         {
-            GameObject player = Instantiate(playerPrefab);
+            GameObject player = Instantiate(playerPrefab, new Vector3(1,1,1), Quaternion.identity);
             player.GetComponent<NetworkObject>().SpawnAsPlayerObject(id, DESTROY_WITH_SCENE_BOOL);
 
             PlayerInfo info = player.GetComponent<PlayerInfoHolder>().GetPlayerInfo();

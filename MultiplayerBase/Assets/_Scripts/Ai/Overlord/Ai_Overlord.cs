@@ -73,7 +73,11 @@ public class Ai_Overlord : MonoBehaviour, IExpert
                 }
             }
 
-            return shortestDistance > distanceToGiveHint ? true : false;
+            float distanceToGiveHintSq = distanceToGiveHint * distanceToGiveHint; 
+            bool isFarAway = shortestDistance > distanceToGiveHintSq ? true : false;
+
+            Debug.Log(shortestDistance + " , " + isFarAway);
+            return isFarAway; 
         }
         IfGate monsterFarFromPlayers = new IfGate("MonsterIsFarFromPlayersGate", new Condition(MonsterIsFarFromPlayers));
 
@@ -94,7 +98,7 @@ public class Ai_Overlord : MonoBehaviour, IExpert
         Vector3 GetPositionHint(PlayerInfo playerInfo)
         {
             GridPosition playerGridPosition = MapHandler.instance.GetGridLocation(playerInfo.position); 
-            Debug.Log(playerGridPosition.x + "," + playerGridPosition.z);
+            //Debug.Log(playerGridPosition.x + "," + playerGridPosition.z);
             return MapHandler.instance.GetRandomLocationInGridPosition(playerGridPosition);
         }
         Leaf givePlayerPositionHint = new Leaf("GivePlayerPositionHintLeaf", new ActionStrategy(() => 

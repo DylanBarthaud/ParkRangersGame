@@ -295,7 +295,7 @@ public class FirstPersonController : NetworkBehaviour
 
         if(enableSprint)
         {
-            if(isSprinting && !isCrouched)
+            if(isSprinting)
             {
                 isZoomed = false;
                 playerCamera.fieldOfView = Mathf.Lerp(playerCamera.fieldOfView, sprintFOV, sprintFOVStepTime * Time.deltaTime);
@@ -354,7 +354,7 @@ public class FirstPersonController : NetworkBehaviour
 
         #region Crouch
 
-        if (enableCrouch)
+        if (enableCrouch && !isSprinting)
         {
             if(Input.GetKeyDown(crouchKey) && !holdToCrouch)
             {
@@ -406,7 +406,7 @@ public class FirstPersonController : NetworkBehaviour
             }
 
             // All movement calculations shile sprint is active
-            if (enableSprint && Input.GetKey(sprintKey) && sprintRemaining > 0f && !isSprintCooldown)
+            if (enableSprint && Input.GetKey(sprintKey) && sprintRemaining > 0f && !isSprintCooldown && !isCrouched)
             {
                 targetVelocity = transform.TransformDirection(targetVelocity) * sprintSpeed;
 
