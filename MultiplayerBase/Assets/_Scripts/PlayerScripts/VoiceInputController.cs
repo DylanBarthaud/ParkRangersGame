@@ -45,7 +45,7 @@ public class VoiceInputController : NetworkBehaviour
     // Update is called once per frame
     void Update()
     {
-        SteamUser.VoiceRecord = Input.GetKey(KeyCode.V);
+        SteamUser.VoiceRecord = Input.GetKey(KeyCode.V); // Push to talk using the V key -- Might see if this can be changed into a changeable keybind
 
         if (SteamUser.HasVoiceData)
         {
