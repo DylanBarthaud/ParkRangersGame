@@ -33,6 +33,7 @@ public class Ai_Eyes : NetworkBehaviour, IExpert
     private void FieldOfViewCheck()
     {
         Collider[] seenObjColliders = Physics.OverlapSphere(transform.position, radius, canViewMask);
+        Debug.Log(seenObjColliders.Length); 
 
         List<IAiViewable> currentSeenObjects = new List<IAiViewable>();
         foreach (Collider seenCollider in seenObjColliders)
@@ -71,6 +72,7 @@ public class Ai_Eyes : NetworkBehaviour, IExpert
             }
         }
 
+        //Debug.Log(currentSeenObjects.Count);
         seenObjects = currentSeenObjects;
     }
 

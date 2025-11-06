@@ -1,11 +1,12 @@
+using BehaviourTrees;
+using BlackboardSystem;
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;
 using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.AI;
-using BehaviourTrees;
-using BlackboardSystem;
+using UnityEngine.InputSystem;
 
 [RequireComponent(typeof(NavMeshAgent))]
 public class Ai_testScript : NetworkBehaviour, IExpert
@@ -24,6 +25,7 @@ public class Ai_testScript : NetworkBehaviour, IExpert
 
     private void Awake()
     {
+        #region Set Up
         EventManager.instance.onTick_5 += OnTick_5;
 
         agent = GetComponent<NavMeshAgent>();
@@ -37,7 +39,9 @@ public class Ai_testScript : NetworkBehaviour, IExpert
         blackboard = blackboardController.GetBlackboard();
         blackboardController.RegisterExpert(this);
         AiMonsterKey = blackboard.GetOrRegisterKey("AiMonsterKey");
-        blackboard.SetValue(AiMonsterKey, aiInfo); 
+        blackboard.SetValue(AiMonsterKey, aiInfo);
+
+        #endregion
 
         #region Behaviour Tree
 
@@ -49,12 +53,9 @@ public class Ai_testScript : NetworkBehaviour, IExpert
         PlayerInfo PlayerInfo() 
         {
             List<PlayerInfo> seenPlayers = new List<PlayerInfo>(); 
-            for(int i = 0; i < GameManager.instance.numberOfPlayers; i++)
+            foreach(BlackboardKey playerKey in GameManager.instance.playerBlackboardKeys)
             {
-                string playerIdToString = i.ToString();
-                BlackboardKey key = blackboard.GetOrRegisterKey("Player" + playerIdToString + "InfoKey");
-
-                if(blackboard.TryGetValue(key, out PlayerInfo info))
+                if (blackboard.TryGetValue(playerKey, out PlayerInfo info))
                 {
                     if (info.canSeePlayer) seenPlayers.Add(info);
                 }
@@ -86,8 +87,8 @@ public class Ai_testScript : NetworkBehaviour, IExpert
         Leaf chasePlayer = new Leaf("ChasePlayer", new ChasePlayerStrategy(PlayerInfo, agent, chaseSpeed), 100);
         #endregion
 
-        Leaf investigateHint = new Leaf("MoveToPos", new ActionStrategy(() => { agent.SetDestination(Vector3.zero); }), 50);
-        void MoveToGridPos()
+        #region Investigate Hint
+        void InvestigateHint()
         {
             BlackboardKey overlordKey = blackboard.GetOrRegisterKey("AiOverlordKey");
 
@@ -97,9 +98,47 @@ public class Ai_testScript : NetworkBehaviour, IExpert
                 agent.speed = investigateHintSpeed; 
             }
         }
-        Leaf moveToPos = new Leaf("MoveToPos", new ActionStrategy(MoveToGridPos), 50);
+        Leaf moveToPos = new Leaf("MoveToPos", new ActionStrategy(InvestigateHint), 50);
+        #endregion
+
+        #region Search Cell
+        bool InSameCellAsPlayer()
+        {
+            bool inSameCellAsPlayer = false;
+
+            MapHandler mapHandler = GameManager.instance.mapHandler;
+
+            GridPosition aiPosition = new GridPosition { x = 0, z = 0 };
+            if (blackboard.TryGetValue(AiMonsterKey, out AiInfo monsterInfo))
+            {
+                aiPosition = mapHandler.GetGridLocation(monsterInfo.position);
+            }
+
+            foreach (BlackboardKey playerKey in GameManager.instance.playerBlackboardKeys)
+            {
+                if (blackboard.TryGetValue(playerKey, out PlayerInfo playerInfo))
+                {
+                    GridPosition playerPosition = mapHandler.GetGridLocation(playerInfo.position);
+                    float distance = mapHandler.GetDistanceBetweenGrids(aiPosition, playerPosition);
+
+                    if (distance <= 0)
+                    {
+                        inSameCellAsPlayer = true;
+                        break;
+                    }
+                }
+            }
+
+            return inSameCellAsPlayer;
+        }
+        IfGate inSameCellAsPlayer = new IfGate("InSameCellAsPlayer", new Condition(InSameCellAsPlayer), 90); 
+        Leaf searchCell = new Leaf("SearchCell", new SearchCellStrategy(() => GameManager.instance.mapHandler.GetGridLocation(transform.position), agent), 50);
+
+        inSameCellAsPlayer.AddChild(searchCell);
+        #endregion
 
         prioritySelector.AddChild(chasePlayer);
+        prioritySelector.AddChild(inSameCellAsPlayer);
         prioritySelector.AddChild(moveToPos);
 
         root.AddChild(prioritySelector);

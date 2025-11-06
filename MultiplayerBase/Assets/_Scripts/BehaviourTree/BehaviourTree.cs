@@ -19,7 +19,7 @@ namespace BehaviourTrees
         {
             if (condition.Process() == Status.Success)
             {
-                base.Process();
+                return base.Process();
             }
 
             return Status.Failure;
@@ -47,13 +47,12 @@ namespace BehaviourTrees
                     case Status.Running:
                         return Status.Running;
                     case Status.Success:
-                        Reset(); 
                         return Status.Success;
                     default:
                         continue; 
                 }
             }
-            Reset();
+
             return Status.Failure;
         }
 
@@ -170,7 +169,7 @@ namespace BehaviourTrees
     {
         public enum Status { Success , Failure , Running }
 
-        private string name;
+        public readonly string name;
         public readonly int priority;  
 
         public readonly List<Node> children = new();

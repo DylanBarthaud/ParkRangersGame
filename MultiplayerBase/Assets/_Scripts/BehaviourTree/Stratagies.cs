@@ -115,4 +115,36 @@ namespace BehaviourTrees
             return Node.Status.Success;
         }
     }
+
+    public class SearchCellStrategy : IStrategy
+    {
+        readonly Func<GridPosition> getCellFunc;
+        readonly NavMeshAgent agent; 
+        Vector3 targetPosition; 
+
+        public SearchCellStrategy(Func<GridPosition> getCellFunc, NavMeshAgent agent)
+        {
+            this.getCellFunc = getCellFunc;
+            this.agent = agent;
+        }
+
+        public Node.Status Process()
+        {
+            if(targetPosition == Vector3.zero
+                || !agent.pathPending && agent.remainingDistance <= agent.stoppingDistance)
+            {
+                GridPosition cell = getCellFunc();
+                //Debug.Log(cell.x + ", " + cell.z);
+                targetPosition = GameManager.instance.mapHandler.GetRandomLocationInGridPosition(cell);
+            }
+
+            agent.SetDestination(targetPosition);
+            return Node.Status.Running;
+        }
+
+        public void Reset()
+        {
+            targetPosition = Vector3.zero;
+        }
+    }
 }
