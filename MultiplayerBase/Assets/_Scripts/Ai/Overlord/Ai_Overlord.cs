@@ -16,7 +16,6 @@ public class Ai_Overlord : MonoBehaviour, IExpert
     [SerializeField] private string keyName; 
 
     private BlackboardKey key; 
-    private List<BlackboardKey> playerBlackboardKeys;
     private OverlordGivenInfo infoPackage;
 
     [SerializeField] private float distanceToGiveHint; 
@@ -31,10 +30,8 @@ public class Ai_Overlord : MonoBehaviour, IExpert
         BlackboardController.instance.RegisterExpert(this); 
         Blackboard blackboard = BlackboardController.instance.GetBlackboard();
 
-        playerBlackboardKeys = new List<BlackboardKey>();
         key = blackboard.GetOrRegisterKey(keyName); 
 
-        EventManager.instance.onPlayerSpawned += OnPlayerSpawned;
         EventManager.instance.onTick_5 += OnTick;
 
         #region Behaviour Tree
@@ -54,20 +51,22 @@ public class Ai_Overlord : MonoBehaviour, IExpert
 
         bool MonsterIsFarFromPlayers()
         {
+            MapHandler mapHandler = GameManager.instance.mapHandler; 
+
             GridPosition aiPosition = new GridPosition { x = 0, z = 0 }; 
             BlackboardKey monsterKey = blackboard.GetOrRegisterKey("AiMonsterKey");
             if (blackboard.TryGetValue(monsterKey, out AiInfo monsterInfo))
             {
-                aiPosition = MapHandler.instance.GetGridLocation(monsterInfo.position);
+                aiPosition = mapHandler.GetGridLocation(monsterInfo.position);
             }
 
             float shortestDistance = 1000; 
-            foreach (BlackboardKey playerKey in playerBlackboardKeys)
+            foreach (BlackboardKey playerKey in GameManager.instance.playerBlackboardKeys)
             {
                 if (blackboard.TryGetValue(playerKey, out PlayerInfo playerInfo))
                 {
-                    GridPosition playerPosition = MapHandler.instance.GetGridLocation(playerInfo.position);
-                    float distance = MapHandler.instance.GetDistanceBetweenGrids(aiPosition, playerPosition);
+                    GridPosition playerPosition = mapHandler.GetGridLocation(playerInfo.position);
+                    float distance = mapHandler.GetDistanceBetweenGrids(aiPosition, playerPosition);
 
                     if(distance < shortestDistance) shortestDistance = distance;
                 }
@@ -76,7 +75,7 @@ public class Ai_Overlord : MonoBehaviour, IExpert
             float distanceToGiveHintSq = distanceToGiveHint * distanceToGiveHint; 
             bool isFarAway = shortestDistance > distanceToGiveHintSq ? true : false;
 
-            Debug.Log(shortestDistance + " , " + isFarAway);
+            //Debug.Log(shortestDistance + " , " + isFarAway);
             return isFarAway; 
         }
         IfGate monsterFarFromPlayers = new IfGate("MonsterIsFarFromPlayersGate", new Condition(MonsterIsFarFromPlayers));
@@ -85,7 +84,7 @@ public class Ai_Overlord : MonoBehaviour, IExpert
         {
             PlayerInfo currentPlayerInfo = new PlayerInfo { fear = -1 };
 
-            foreach(BlackboardKey key in playerBlackboardKeys)
+            foreach(BlackboardKey key in GameManager.instance.playerBlackboardKeys)
             {
                 if(blackboard.TryGetValue(key, out PlayerInfo playerInfo))
                 {
@@ -97,9 +96,11 @@ public class Ai_Overlord : MonoBehaviour, IExpert
         }
         Vector3 GetPositionHint(PlayerInfo playerInfo)
         {
-            GridPosition playerGridPosition = MapHandler.instance.GetGridLocation(playerInfo.position); 
+            MapHandler mapHandler = GameManager.instance.mapHandler;
+
+            GridPosition playerGridPosition = mapHandler.GetGridLocation(playerInfo.position); 
             //Debug.Log(playerGridPosition.x + "," + playerGridPosition.z);
-            return MapHandler.instance.GetRandomLocationInGridPosition(playerGridPosition);
+            return mapHandler.GetRandomLocationInGridPosition(playerGridPosition);
         }
         Leaf givePlayerPositionHint = new Leaf("GivePlayerPositionHintLeaf", new ActionStrategy(() => 
         {
@@ -119,11 +120,6 @@ public class Ai_Overlord : MonoBehaviour, IExpert
     {
         this.tick = tick;
         root.Process(); 
-    }
-
-    private void OnPlayerSpawned(BlackboardKey playerKey)
-    {
-        playerBlackboardKeys.Add(playerKey);
     }
     #endregion
 

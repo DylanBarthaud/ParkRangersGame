@@ -49,7 +49,10 @@ namespace Netcode.Transports.Facepunch
             catch (Exception e)
             {
                 if (LogLevel <= LogLevel.Error)
+                {
                     Debug.LogError($"[{nameof(FacepunchTransport)}] - Caught an exeption during initialization of Steam client: {e}");
+                }
+                    
             }
             finally
             {

@@ -35,6 +35,7 @@ public class SteamManager : MonoBehaviour
 
     private void Start()
     {
+        Cursor.lockState = CursorLockMode.None;
         CheckUI();
     }
 

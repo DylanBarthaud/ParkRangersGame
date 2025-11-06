@@ -8,7 +8,12 @@ public class LobbySaver : MonoBehaviour
     public static LobbySaver instance;
     private void Awake()
     {
-        instance = this;
-        DontDestroyOnLoad(this.gameObject);
+        if (instance == null)
+        {
+            instance = this;
+            DontDestroyOnLoad(this.gameObject);
+        }
+
+        else Destroy(gameObject);
     }
 }

@@ -22,11 +22,8 @@ public class Ai_testScript : NetworkBehaviour, IExpert
 
     bool canParolBool;
 
-    int playerAmount = 0; 
-
     private void Awake()
     {
-        EventManager.instance.onPlayerSpawned += OnPlayerSpawned;
         EventManager.instance.onTick_5 += OnTick_5;
 
         agent = GetComponent<NavMeshAgent>();
@@ -52,7 +49,7 @@ public class Ai_testScript : NetworkBehaviour, IExpert
         PlayerInfo PlayerInfo() 
         {
             List<PlayerInfo> seenPlayers = new List<PlayerInfo>(); 
-            for(int i = 0; i < playerAmount; i++)
+            for(int i = 0; i < GameManager.instance.numberOfPlayers; i++)
             {
                 string playerIdToString = i.ToString();
                 BlackboardKey key = blackboard.GetOrRegisterKey("Player" + playerIdToString + "InfoKey");
@@ -124,11 +121,6 @@ public class Ai_testScript : NetworkBehaviour, IExpert
     {
         if (!IsHost) return;
         root.Process();
-    }
-
-    private void OnPlayerSpawned(BlackboardKey playerInfo)
-    {
-        playerAmount++; 
     }
 
     #region IExpert implimentation

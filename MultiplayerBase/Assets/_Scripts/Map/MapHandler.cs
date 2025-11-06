@@ -1,16 +1,17 @@
 using UnityEngine;
 
-public class MapHandler : MonoBehaviour
+public class MapHandler
 {
-    public static MapHandler instance;
-
     Grid mapGrid;
-    [SerializeField] int width, height;
-    [SerializeField] float cellSize; 
+    int width;
+    int height;
+    float cellSize;
 
-    private void Awake()
+    public MapHandler(int width, int height, float cellSize)
     {
-        if (instance == null) instance = this;
+        this.width = width;
+        this.height = height;
+        this.cellSize = cellSize;
 
         mapGrid = new Grid(width, height, cellSize);
     }

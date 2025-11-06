@@ -22,13 +22,18 @@ public class PlayerSpawner : NetworkBehaviour
         NetworkManager.Singleton.SceneManager.OnLoadEventCompleted += OnSceneLoaded;
     }
 
+    public override void OnNetworkDespawn()
+    {
+        NetworkManager.Singleton.SceneManager.OnLoadEventCompleted -= OnSceneLoaded;
+    }
+
     private void OnSceneLoaded(string sceneName, LoadSceneMode loadSceneMode, List<ulong> clientsCompleted, List<ulong> clientsTimedOut)
     {
-        if (!IsHost) return;
+        if (!IsHost || sceneName != "MainGame") return;
 
         foreach(ulong id in clientsCompleted)
         {
-            GameObject player = Instantiate(playerPrefab, new Vector3(1,1,1), Quaternion.identity);
+            GameObject player = Instantiate(playerPrefab, new Vector3(250,1,250), Quaternion.identity);
             player.GetComponent<NetworkObject>().SpawnAsPlayerObject(id, DESTROY_WITH_SCENE_BOOL);
 
             PlayerInfo info = player.GetComponent<PlayerInfoHolder>().GetPlayerInfo();

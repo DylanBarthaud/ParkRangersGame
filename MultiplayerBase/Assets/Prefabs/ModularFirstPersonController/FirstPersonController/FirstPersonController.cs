@@ -10,6 +10,9 @@ using UnityEngine;
 using UnityEngine.UI;
 using System.Globalization;
 using Unity.Netcode;
+using BlackboardSystem;
+using System;
+
 
 
 
@@ -152,6 +155,19 @@ public class FirstPersonController : NetworkBehaviour
         {
             sprintRemaining = sprintDuration;
             sprintCooldownReset = sprintCooldown;
+        }
+
+        EventManager.instance.onPlayerKilled += OnPlayerKilled;
+    }
+
+    private void OnPlayerKilled(BlackboardKey key)
+    {
+        if(BlackboardController.instance.GetBlackboard().TryGetValue(key, out PlayerInfo playerInfo))
+        {
+            if(playerInfo.id == OwnerClientId)
+            {
+                playerCanMove = false; 
+            }
         }
     }
 

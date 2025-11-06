@@ -5,10 +5,14 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UIElements;
 
-public class PlayerInfoHolder : NetworkBehaviour, IAiViewable
+public class PlayerInfoHolder : NetworkBehaviour, IAiViewable, IHurtable
 {
+    [SerializeField] int playerHealth; 
+
     private BlackboardKey playerInfo_Key;
     private PlayerInfo playerInfo;
+
+    private bool isDead; 
 
     public override void OnNetworkSpawn()
     {
@@ -17,6 +21,8 @@ public class PlayerInfoHolder : NetworkBehaviour, IAiViewable
 
         playerInfo = new PlayerInfo();
         playerInfo.position = transform.position;
+        playerInfo.playerCamera = transform.GetChild(0).GetChild(0).GetComponent<Camera>();
+        playerInfo.health = playerHealth;
         playerInfo.id = OwnerClientId;
         UpdateInfo(false, 0, 200);
 
@@ -24,6 +30,7 @@ public class PlayerInfoHolder : NetworkBehaviour, IAiViewable
         EventManager.instance.onTick += OnTick;
         EventManager.instance.onTick_5 += OnTick_5;
     }
+
     private void OnTick_5(int tick)
     {
         playerInfo.position = transform.position; 
@@ -38,13 +45,11 @@ public class PlayerInfoHolder : NetworkBehaviour, IAiViewable
         }
     }
 
-    public override void OnNetworkDespawn()
-    {
-        base.OnNetworkDespawn();
-    }
-
     public void UpdateInfo(bool playerSeen, int importance = -1, int fear = -1)
     {
+        if (this == null || gameObject == null) return;
+        if (!this) return;
+
         playerInfo.position = gameObject.transform.position;
         playerInfo.canSeePlayer = playerSeen;
         if (importance != -1) playerInfo.importance = importance;
@@ -62,6 +67,8 @@ public class PlayerInfoHolder : NetworkBehaviour, IAiViewable
 
     public int GetImportance(Ai_Eyes caller)
     {
+        if (caller == null || this == null || gameObject == null) return 0;
+
         Vector3 aiPos = caller.transform.position;
         return GetImportance(aiPos); 
     }
@@ -84,6 +91,7 @@ public class PlayerInfoHolder : NetworkBehaviour, IAiViewable
     #region IAiViewable implimentation
     public void OnSeen(Blackboard blackboard, Ai_Eyes caller)
     {
+        if(isDead) return;
         bool playerSeen = true;
 
         Vector3 aiPos = caller.transform.position;
@@ -107,6 +115,45 @@ public class PlayerInfoHolder : NetworkBehaviour, IAiViewable
         }
 
         UpdateBlackboard(blackboard, playerSeen, importance); 
+    }
+    #endregion
+
+    #region IHurtable implimentation
+    public void IsHurt(string caller, int amount)
+    {
+        if (isDead) return;
+        playerInfo.health -= amount;
+        if (caller == "Monster_Ai") playerInfo.fear += 50;
+
+        Blackboard blackboard = BlackboardController.instance.GetBlackboard();
+        blackboard.AddAction(() =>
+        {
+            blackboard.SetValue(playerInfo_Key, playerInfo);
+        });
+
+        if(playerHealth <= 0)
+        {
+            IsKilled(); 
+        }
+    }
+
+    public void IsKilled()
+    {
+        if(isDead) return;
+        EventManager.instance.OnPlayerKilled(playerInfo_Key);
+
+        isDead = true;
+        gameObject.GetComponent<Collider>().enabled = false;
+        //disable regular graphics and enable corpse graphics
+
+        var blackboard = BlackboardController.instance?.GetBlackboard();
+        if (blackboard != null)
+        {
+            blackboard.Remove(playerInfo_Key);
+        }
+
+        EventManager.instance.onTick -= OnTick;
+        EventManager.instance.onTick_5 -= OnTick_5;
     }
     #endregion
 }

@@ -54,6 +54,7 @@ public class Ai_Eyes : NetworkBehaviour, IExpert
         //Check to see if objects are no longer seen 
         foreach(IAiViewable seenObj in seenObjects)
         {
+            if(seenObj == null) continue;
             bool isSeen = false;    
 
             foreach(IAiViewable currentSeenObj in currentSeenObjects)
@@ -91,6 +92,7 @@ public class Ai_Eyes : NetworkBehaviour, IExpert
 
         foreach(IAiViewable seenObj in seenObjects)
         {
+            if(seenObj == null) continue;
             int importance = seenObj.GetImportance(this); 
 
             if(highestImportance < importance)

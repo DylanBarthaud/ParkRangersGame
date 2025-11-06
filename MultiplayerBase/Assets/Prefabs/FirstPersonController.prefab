@@ -276,7 +276,7 @@ MonoBehaviour:
   holdToCrouch: 1
   crouchKey: 306
   crouchHeight: 0.75
-  speedReduction: 0.5
+  crouchSpeed: 0
   enableHeadBob: 1
   joint: {fileID: 4459864851508666808}
   bobSpeed: 10
@@ -294,6 +294,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
+  playerHealth: 5
 --- !u!82 &-3133222403737345314
 AudioSource:
   m_ObjectHideFlags: 0
