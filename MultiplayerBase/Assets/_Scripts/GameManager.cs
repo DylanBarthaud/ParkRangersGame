@@ -18,6 +18,8 @@ public class GameManager : MonoBehaviour
     public int numberOfPlayers;
     public List<BlackboardKey> playerBlackboardKeys;
 
+    private int buttonsPressed = 0; 
+
     private void Awake()
     {
         if (instance == null) instance = this;
@@ -27,6 +29,19 @@ public class GameManager : MonoBehaviour
 
         EventManager.instance.onPlayerSpawned += OnPlayerSpawned;
         EventManager.instance.onPlayerKilled += OnPlayerKilled;
+        EventManager.instance.onButtonPressed += OnButtonPressed;
+    }
+
+    private void OnButtonPressed()
+    {
+        buttonsPressed++;
+        Debug.Log("BUTTON PRESSED");
+
+        if (buttonsPressed >= 5)
+        {
+            Debug.Log("YOU WIN!"); 
+            EndGame();
+        }
     }
 
     private void OnPlayerSpawned(BlackboardKey key)
@@ -56,9 +71,14 @@ public class GameManager : MonoBehaviour
 
         if(numberOfPlayers == 0 && NetworkManager.Singleton.IsHost)
         {
-            playerBlackboardKeys.Clear();
-
-            NetworkManager.Singleton.SceneManager.LoadScene("Menu", LoadSceneMode.Single);
+            EndGame();
         }
+    }
+
+    private void EndGame()
+    {
+        playerBlackboardKeys.Clear();
+
+        NetworkManager.Singleton.SceneManager.LoadScene("Menu", LoadSceneMode.Single);
     }
 }

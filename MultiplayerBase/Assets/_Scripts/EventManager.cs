@@ -15,7 +15,8 @@ public class EventManager : MonoBehaviour
     public event Action<int> onTick;  
     public event Action<int> onTick_5;
     public event Action<BlackboardKey> onPlayerSpawned;
-    public event Action<BlackboardKey> onPlayerKilled; 
+    public event Action<BlackboardKey> onPlayerKilled;
+    public event Action onButtonPressed; 
     public void OnTick(int tick)
     {
         if(onTick != null) onTick(tick);
@@ -31,5 +32,9 @@ public class EventManager : MonoBehaviour
     public void OnPlayerKilled(BlackboardKey playerKey)
     {
         if (onPlayerKilled != null) onPlayerKilled(playerKey);
+    }
+    public void OnButtonPressed()
+    {
+        if(onButtonPressed != null) onButtonPressed();
     }
 }

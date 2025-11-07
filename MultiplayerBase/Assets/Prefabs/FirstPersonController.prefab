@@ -18,6 +18,7 @@ GameObject:
   - component: {fileID: -4997032870617860241}
   - component: {fileID: 4459864850019384740}
   - component: {fileID: 4199134725729588632}
+  - component: {fileID: -1635927792753444105}
   - component: {fileID: -3133222403737345314}
   m_Layer: 6
   m_Name: FirstPersonController
@@ -276,7 +277,7 @@ MonoBehaviour:
   holdToCrouch: 1
   crouchKey: 306
   crouchHeight: 0.75
-  crouchSpeed: 0
+  crouchSpeed: 0.1
   enableHeadBob: 1
   joint: {fileID: 4459864851508666808}
   bobSpeed: 10
@@ -295,6 +296,23 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
   playerHealth: 5
+--- !u!114 &-1635927792753444105
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4459864850019384750}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9678070804d6e9c429d95f60ffd8ad84, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
+  interactRange: 5
+  interactMask:
+    serializedVersion: 2
+    m_Bits: 8
 --- !u!82 &-3133222403737345314
 AudioSource:
   m_ObjectHideFlags: 0
