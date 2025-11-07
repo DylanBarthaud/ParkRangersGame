@@ -1,3 +1,4 @@
+using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -11,6 +12,6 @@ public class WinButton : MonoBehaviour, IInteractable
     public void OnInteract(Interactor interactor)
     {
         EventManager.instance.OnButtonPressed(); 
-        Destroy(gameObject);
+        gameObject.GetComponent<NetworkObject>().Despawn();
     }
 }

@@ -5,7 +5,7 @@ using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class GameManager : MonoBehaviour
+public class GameManager : NetworkBehaviour
 {
     public static GameManager instance;
 
@@ -61,7 +61,7 @@ public class GameManager : MonoBehaviour
             killedPlayerInfo.playerCamera.enabled = false;
         }
 
-        if(numberOfPlayers != 0)
+        if(numberOfPlayers != 0 && killedPlayerInfo.id == OwnerClientId)
         {
             if(blackboard.TryGetValue(playerBlackboardKeys[0], out PlayerInfo playerInfo))
             {
@@ -69,7 +69,7 @@ public class GameManager : MonoBehaviour
             }
         }
 
-        if(numberOfPlayers == 0 && NetworkManager.Singleton.IsHost)
+        if(numberOfPlayers == 0 && IsHost)
         {
             EndGame();
         }
