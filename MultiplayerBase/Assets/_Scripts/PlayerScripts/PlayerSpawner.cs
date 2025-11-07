@@ -31,9 +31,10 @@ public class PlayerSpawner : NetworkBehaviour
     {
         if (!IsHost || sceneName != "MainGame") return;
 
+        int i = 0; 
         foreach(ulong id in clientsCompleted)
         {
-            GameObject player = Instantiate(playerPrefab, new Vector3(250,1,250), Quaternion.identity);
+            GameObject player = Instantiate(playerPrefab, new Vector3(250 + i * 5, 1, 250), Quaternion.identity);
             player.GetComponent<NetworkObject>().SpawnAsPlayerObject(id, DESTROY_WITH_SCENE_BOOL);
 
             PlayerInfo info = player.GetComponent<PlayerInfoHolder>().GetPlayerInfo();
@@ -44,6 +45,7 @@ public class PlayerSpawner : NetworkBehaviour
             BlackboardKey key = blackboard.GetOrRegisterKey(keyName);
 
             blackboard.SetValue(key, info);
+            i++;
         }
     }
 }

@@ -8,7 +8,7 @@ public class Interactor : NetworkBehaviour
 
     private void Update()
     {
-        if(!IsHost) return;
+        if(!IsOwner) return;
 
         if (Input.GetKeyDown(KeyCode.E))
         {
