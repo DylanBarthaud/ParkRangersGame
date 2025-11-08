@@ -17,10 +17,11 @@ public class GameManager : NetworkBehaviour
     [SerializeField] int height;
     [SerializeField] float cellSize;
 
-    public int numberOfPlayers;
-    public List<BlackboardKey> playerBlackboardKeys;
+    [HideInInspector] public int numberOfPlayers;
+    [HideInInspector] public List<BlackboardKey> playerBlackboardKeys;
 
-    private int buttonsPressed = 0; 
+    public UIManager uiManager;
+    private int buttonsPressed = 0;
 
     private void Awake()
     {
@@ -30,12 +31,12 @@ public class GameManager : NetworkBehaviour
         mapHandler = new MapHandler(width, height, cellSize);
 
         EventManager.instance.onPlayerSpawned += OnPlayerSpawnedServerRpc;
-        EventManager.instance.onPlayerKilled += OnPlayerKilledRpc;
-        EventManager.instance.onButtonPressed += OnButtonPressedRpc;
+        EventManager.instance.onPlayerKilled += OnPlayerKilledServerRpc;
+        EventManager.instance.onButtonPressed += OnButtonPressedServerRpc;
     }
 
     [ServerRpc]
-    private void OnButtonPressedRpc()
+    private void OnButtonPressedServerRpc()
     {
         buttonsPressed++;
         Debug.Log("BUTTON PRESSED");
@@ -55,7 +56,7 @@ public class GameManager : NetworkBehaviour
     }
 
     [ServerRpc]
-    private void OnPlayerKilledRpc(BlackboardKey key)
+    private void OnPlayerKilledServerRpc(BlackboardKey key)
     {
         numberOfPlayers--;
         playerBlackboardKeys.Remove(key);

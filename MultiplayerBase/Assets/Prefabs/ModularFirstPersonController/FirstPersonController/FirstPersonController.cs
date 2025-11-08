@@ -157,7 +157,24 @@ public class FirstPersonController : NetworkBehaviour
             sprintCooldownReset = sprintCooldown;
         }
 
+        EventManager.instance.onButtonHeld += DisableMovement;
+        EventManager.instance.onButtonReleased += EnableMovement;
+        EventManager.instance.onButtonPressed += EnableMovement; 
         EventManager.instance.onPlayerKilled += OnPlayerKilled;
+    }
+
+    private void EnableMovement()
+    {
+        playerCanMove = true;
+        cameraCanMove = true; 
+        enableHeadBob = true;
+    }
+
+    private void DisableMovement(int tick, Interactor interactor)
+    {
+        playerCanMove = false;
+        cameraCanMove = false;
+        enableHeadBob = false;
     }
 
     private void OnPlayerKilled(BlackboardKey key)
