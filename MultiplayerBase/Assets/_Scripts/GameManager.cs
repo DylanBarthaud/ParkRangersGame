@@ -2,8 +2,10 @@ using BlackboardSystem;
 using System;
 using System.Collections.Generic;
 using Unity.Netcode;
+using UnityEditor.PackageManager;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using static UnityEngine.GraphicsBuffer;
 
 public class GameManager : NetworkBehaviour
 {
@@ -27,12 +29,13 @@ public class GameManager : NetworkBehaviour
 
         mapHandler = new MapHandler(width, height, cellSize);
 
-        EventManager.instance.onPlayerSpawned += OnPlayerSpawned;
-        EventManager.instance.onPlayerKilled += OnPlayerKilled;
-        EventManager.instance.onButtonPressed += OnButtonPressed;
+        EventManager.instance.onPlayerSpawned += OnPlayerSpawnedServerRpc;
+        EventManager.instance.onPlayerKilled += OnPlayerKilledRpc;
+        EventManager.instance.onButtonPressed += OnButtonPressedRpc;
     }
 
-    private void OnButtonPressed()
+    [ServerRpc]
+    private void OnButtonPressedRpc()
     {
         buttonsPressed++;
         Debug.Log("BUTTON PRESSED");
@@ -44,34 +47,55 @@ public class GameManager : NetworkBehaviour
         }
     }
 
-    private void OnPlayerSpawned(BlackboardKey key)
+    [ServerRpc]
+    private void OnPlayerSpawnedServerRpc(BlackboardKey key)
     {
         numberOfPlayers++;
         playerBlackboardKeys.Add(key);
     }
 
-    private void OnPlayerKilled(BlackboardKey key)
+    [ServerRpc]
+    private void OnPlayerKilledRpc(BlackboardKey key)
     {
         numberOfPlayers--;
         playerBlackboardKeys.Remove(key);
 
+        if(numberOfPlayers == 0)
+        {
+            EndGame();
+        }
+
+        ulong killedPlayerId = 10;
+        if (BlackboardController.instance.GetBlackboard().TryGetValue(key, out PlayerInfo killedPlayerInfo))
+        {
+            killedPlayerId = killedPlayerInfo.id;
+        }
+        else return; 
+
+        EnableSpectatorModeClientRpc(key, new ClientRpcParams 
+        {
+            Send = new ClientRpcSendParams
+            {
+                TargetClientIds = new ulong[] { killedPlayerId }
+            }
+        });  
+    }
+
+    [ClientRpc]
+    private void EnableSpectatorModeClientRpc(BlackboardKey key, ClientRpcParams rpcParams = default)
+    {
         Blackboard blackboard = BlackboardController.instance.GetBlackboard();
-        if(blackboard.TryGetValue(key, out PlayerInfo killedPlayerInfo))
+        if (blackboard.TryGetValue(key, out PlayerInfo killedPlayerInfo))
         {
             killedPlayerInfo.playerCamera.enabled = false;
         }
 
-        if(numberOfPlayers != 0 && killedPlayerInfo.id == OwnerClientId)
+        if (numberOfPlayers != 0)
         {
-            if(blackboard.TryGetValue(playerBlackboardKeys[0], out PlayerInfo playerInfo))
+            if (blackboard.TryGetValue(playerBlackboardKeys[0], out PlayerInfo playerInfo))
             {
                 playerInfo.playerCamera.enabled = true;
             }
-        }
-
-        if(numberOfPlayers == 0 && IsHost)
-        {
-            EndGame();
         }
     }
 

@@ -2,7 +2,7 @@ using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class WinButton : MonoBehaviour, IInteractable
+public class WinButton : NetworkBehaviour, IInteractable
 {
     public bool CanInteract(Interactor interactor)
     {
@@ -11,7 +11,13 @@ public class WinButton : MonoBehaviour, IInteractable
 
     public void OnInteract(Interactor interactor)
     {
-        EventManager.instance.OnButtonPressed(); 
+        EventManager.instance.OnButtonPressed();
+        DeleteButtonRpc(); 
+    }
+
+    [ServerRpc(RequireOwnership = false)]
+    private void DeleteButtonRpc()
+    {
         gameObject.GetComponent<NetworkObject>().Despawn();
     }
 }
