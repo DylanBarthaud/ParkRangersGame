@@ -1,10 +1,12 @@
 using System;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class UIManager : MonoBehaviour
 {
-    [SerializeField] private Slider slider; 
+    [SerializeField] private Slider slider;
+    public TextMeshProUGUI ButtonsPressedText; 
 
     private void Awake()
     {

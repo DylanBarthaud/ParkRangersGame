@@ -39,13 +39,21 @@ public class GameManager : NetworkBehaviour
     private void OnButtonPressedServerRpc()
     {
         buttonsPressed++;
-        Debug.Log("BUTTON PRESSED");
+        //Debug.Log("BUTTON PRESSED");
+
+        ChangeButtonsPressedUIClientRpc(); 
 
         if (buttonsPressed >= 5)
         {
             Debug.Log("YOU WIN!"); 
             EndGame();
         }
+    }
+
+    [ClientRpc]
+    private void ChangeButtonsPressedUIClientRpc()
+    {
+        uiManager.ButtonsPressedText.text = buttonsPressed.ToString() + " / 5";
     }
 
     [ServerRpc]
