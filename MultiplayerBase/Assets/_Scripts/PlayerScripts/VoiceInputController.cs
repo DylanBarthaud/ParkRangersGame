@@ -52,6 +52,7 @@ public class VoiceInputController : NetworkBehaviour
             int compressedWritten = SteamUser.ReadVoiceData(stream);
             stream.Position = 0;
 
+            Debug.Log("Steam User has voice");
             VoiceServerRpc(stream.GetBuffer(), compressedWritten, NetworkManager.Singleton.LocalClientId);
         }
 
@@ -60,6 +61,7 @@ public class VoiceInputController : NetworkBehaviour
     [ServerRpc(RequireOwnership = false)]
     public void VoiceServerRpc(byte[] compressed, int bytesWritten, ulong senderId)
     {
+        Debug.Log("VoiceServerRpc");
         VoiceDataClientRpc(compressed, bytesWritten, senderId);
     }
 
