@@ -79,13 +79,14 @@ public class GameManager : NetworkBehaviour
         {
             killedPlayerId = killedPlayerInfo.id;
         }
-        else return; 
+        else return;
 
-        EnableSpectatorModeClientRpc(key, killedPlayerId);  
+        BlackboardKey playerToSpectateKey = playerBlackboardKeys[0]; 
+        EnableSpectatorModeClientRpc(key, killedPlayerId, numberOfPlayers, playerToSpectateKey);  
     }
 
     [ClientRpc]
-    private void EnableSpectatorModeClientRpc(BlackboardKey key, ulong clientId)
+    private void EnableSpectatorModeClientRpc(BlackboardKey key, ulong clientId, int numOfPlayers, BlackboardKey playerToSpectateKey)
     {
         Debug.Log("IN CLIENT RPC" + NetworkManager.Singleton.LocalClientId + ", " + clientId);
         if (clientId != NetworkManager.Singleton.LocalClientId) return;
@@ -98,11 +99,16 @@ public class GameManager : NetworkBehaviour
             killedPlayerInfo.playerCamera.enabled = false;
         }
 
-        if (blackboard.TryGetValue(playerBlackboardKeys[0], out PlayerInfo playerInfo))
+        if (numOfPlayers != 0)
         {
-            Debug.Log("SPECTATE ON");
-            playerInfo.playerCamera.enabled = true;
-            uiManager.SetSpectatePanelOn();
+            Debug.Log("NUM OF PLAYER > 0");
+
+            if (blackboard.TryGetValue(playerToSpectateKey, out PlayerInfo playerInfo))
+            {
+                Debug.Log("SPECTATE ON");
+                playerInfo.playerCamera.enabled = true;
+                uiManager.SetSpectatePanelOn(); 
+            }
         }
     }
 
