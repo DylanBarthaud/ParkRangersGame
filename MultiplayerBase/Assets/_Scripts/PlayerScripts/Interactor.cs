@@ -7,7 +7,7 @@ public class Interactor : NetworkBehaviour
     [SerializeField] private float interactRange;
     [SerializeField] private LayerMask interactMask;
 
-    private void Awake()
+    public override void OnNetworkSpawn()
     {
         EventManager.instance.onTick += OnTick;
     }
@@ -51,5 +51,10 @@ public class Interactor : NetworkBehaviour
             localTick = 0;
         }
 
+    }
+
+    public override void OnNetworkDespawn()
+    {
+        EventManager.instance.onTick += OnTick;
     }
 }

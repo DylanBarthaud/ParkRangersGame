@@ -21,12 +21,12 @@ public class WinButton : NetworkBehaviour, IInteractable
 
     public void OnInteract(Interactor interactor)
     {
+        isBeingPressed.Value = true;
     }
 
     public void OnInteractHeld(Interactor interactor, int tick)
     {
         EventManager.instance.OnButtonHeld(tick, interactor);
-        isBeingPressed.Value = true;
 
         if (tick == 30)
         {

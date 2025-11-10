@@ -52,14 +52,15 @@ public class VoiceInputController : NetworkBehaviour
             int compressedWritten = SteamUser.ReadVoiceData(stream);
             stream.Position = 0;
 
-            CmdVoice(stream.GetBuffer(), compressedWritten);
+            VoiceServerRpc(stream.GetBuffer(), compressedWritten, NetworkManager.Singleton.LocalClientId);
         }
 
     }
 
-    public void CmdVoice(byte[] compressed, int bytesWritten)
+    [ServerRpc(RequireOwnership = false)]
+    public void VoiceServerRpc(byte[] compressed, int bytesWritten, ulong senderId)
     {
-        VoiceDataClientRpc(compressed, bytesWritten, NetworkManager.Singleton.LocalClientId);
+        VoiceDataClientRpc(compressed, bytesWritten, senderId);
     }
 
 
