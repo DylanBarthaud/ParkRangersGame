@@ -98,14 +98,11 @@ public class GameManager : NetworkBehaviour
             killedPlayerInfo.playerCamera.enabled = false;
         }
 
-        if (numberOfPlayers != 0)
+        if (blackboard.TryGetValue(playerBlackboardKeys[0], out PlayerInfo playerInfo))
         {
-            if (blackboard.TryGetValue(playerBlackboardKeys[0], out PlayerInfo playerInfo))
-            {
-                Debug.Log("SPECTATE ON");
-                playerInfo.playerCamera.enabled = true;
-                uiManager.SetSpectatePanelOn(); 
-            }
+            Debug.Log("SPECTATE ON");
+            playerInfo.playerCamera.enabled = true;
+            uiManager.SetSpectatePanelOn();
         }
     }
 
