@@ -12,7 +12,7 @@ public class PlayerInfoHolder : NetworkBehaviour, IAiViewable, IHurtable
     private BlackboardKey playerInfo_Key;
     private PlayerInfo playerInfo;
 
-    private bool isDead; 
+    private bool isDead = false; 
 
     public override void OnNetworkSpawn()
     {

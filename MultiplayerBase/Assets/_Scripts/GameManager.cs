@@ -55,14 +55,14 @@ public class GameManager : NetworkBehaviour
         uiManager.ButtonsPressedText.text = buttons.ToString() + " / 5";
     }
 
-    [ServerRpc]
+    [ServerRpc(RequireOwnership = false)]
     private void OnPlayerSpawnedServerRpc(BlackboardKey key)
     {
         numberOfPlayers++;
         playerBlackboardKeys.Add(key);
     }
 
-    [ServerRpc]
+    [ServerRpc(RequireOwnership = false)]
     private void OnPlayerKilledServerRpc(BlackboardKey key)
     {
         numberOfPlayers--;
