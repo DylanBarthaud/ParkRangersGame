@@ -65,6 +65,7 @@ public class GameManager : NetworkBehaviour
     [ServerRpc(RequireOwnership = false)]
     private void OnPlayerKilledServerRpc(BlackboardKey key)
     {
+        Debug.Log("PLAYER KILLED SERVER RPC"); 
         numberOfPlayers--;
         playerBlackboardKeys.Remove(key);
 
@@ -86,7 +87,9 @@ public class GameManager : NetworkBehaviour
     [ClientRpc]
     private void EnableSpectatorModeClientRpc(BlackboardKey key, ulong clientId)
     {
-        if (clientId != OwnerClientId) return; 
+        Debug.Log("IN CLIENT RPC");
+        if (clientId != OwnerClientId) return;
+        Debug.Log("IS OWNER"); 
 
         Blackboard blackboard = BlackboardController.instance.GetBlackboard();
         if (blackboard.TryGetValue(key, out PlayerInfo killedPlayerInfo))

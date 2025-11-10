@@ -139,7 +139,9 @@ public class PlayerInfoHolder : NetworkBehaviour, IAiViewable, IHurtable
 
     public void IsKilled()
     {
+        Debug.Log("BEFORE IS DEAD");
         if(isDead) return;
+        Debug.Log("AFTER IS DEAD");
         EventManager.instance.OnPlayerKilled(playerInfo_Key);
 
         isDead = true;
