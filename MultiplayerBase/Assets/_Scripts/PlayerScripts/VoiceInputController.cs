@@ -37,7 +37,7 @@ public class VoiceInputController : NetworkBehaviour
         input = new MemoryStream();
 
         source = GetComponent<AudioSource>();
-        source.clip = AudioClip.Create("VoiceData", 256, 1, optimalRate, true, OnAudioRead, null);
+        source.clip = AudioClip.Create("VoiceData", optimalRate * 2, 1, optimalRate, true, OnAudioRead, null);
         source.loop = true;
         source.Play();
     }
@@ -70,7 +70,7 @@ public class VoiceInputController : NetworkBehaviour
     public void VoiceDataClientRpc(byte[] compressed, int bytesWritten, ulong senderId)
     {
         Debug.Log("Local Id: " + NetworkManager.Singleton.LocalClientId + ", Voice Sender Id: " + senderId); 
-        if (NetworkManager.Singleton.LocalClientId == senderId) return;
+        //if (NetworkManager.Singleton.LocalClientId == senderId) return;
 
         Debug.Log("and it LOOKS LIKE WE MIGHTA MADE IT");
         input.Write(compressed, 0, bytesWritten);
