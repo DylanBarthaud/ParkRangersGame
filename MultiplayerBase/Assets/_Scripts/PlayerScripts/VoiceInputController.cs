@@ -70,7 +70,7 @@ public class VoiceInputController : NetworkBehaviour
     public void VoiceDataClientRpc(byte[] compressed, int bytesWritten, ulong senderId)
     {
         Debug.Log("Local Id: " + NetworkManager.Singleton.LocalClientId + ", Voice Sender Id: " + senderId); 
-        //if (NetworkManager.Singleton.LocalClientId == senderId) return;
+        if (NetworkManager.Singleton.LocalClientId == senderId) return;
 
         Debug.Log("and it LOOKS LIKE WE MIGHTA MADE IT");
         input.Write(compressed, 0, bytesWritten);
