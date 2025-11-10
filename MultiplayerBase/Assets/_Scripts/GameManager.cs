@@ -87,13 +87,14 @@ public class GameManager : NetworkBehaviour
     [ClientRpc]
     private void EnableSpectatorModeClientRpc(BlackboardKey key, ulong clientId)
     {
-        Debug.Log("IN CLIENT RPC");
+        Debug.Log("IN CLIENT RPC" + OwnerClientId + ", " + clientId);
         if (clientId != OwnerClientId) return;
         Debug.Log("IS OWNER"); 
 
         Blackboard blackboard = BlackboardController.instance.GetBlackboard();
         if (blackboard.TryGetValue(key, out PlayerInfo killedPlayerInfo))
         {
+            Debug.Log("CAM OFF");
             killedPlayerInfo.playerCamera.enabled = false;
         }
 
@@ -101,6 +102,7 @@ public class GameManager : NetworkBehaviour
         {
             if (blackboard.TryGetValue(playerBlackboardKeys[0], out PlayerInfo playerInfo))
             {
+                Debug.Log("SPECTATE ON");
                 playerInfo.playerCamera.enabled = true;
                 uiManager.SetSpectatePanelOn(); 
             }
