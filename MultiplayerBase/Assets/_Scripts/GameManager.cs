@@ -87,8 +87,8 @@ public class GameManager : NetworkBehaviour
     [ClientRpc]
     private void EnableSpectatorModeClientRpc(BlackboardKey key, ulong clientId)
     {
-        Debug.Log("IN CLIENT RPC" + OwnerClientId + ", " + clientId);
-        if (clientId != OwnerClientId) return;
+        Debug.Log("IN CLIENT RPC" + NetworkManager.Singleton.LocalClientId + ", " + clientId);
+        if (clientId != NetworkManager.Singleton.LocalClientId) return;
         Debug.Log("IS OWNER"); 
 
         Blackboard blackboard = BlackboardController.instance.GetBlackboard();
