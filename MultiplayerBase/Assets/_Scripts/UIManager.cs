@@ -6,7 +6,8 @@ using UnityEngine.UI;
 public class UIManager : MonoBehaviour
 {
     [SerializeField] private Slider slider;
-    public TextMeshProUGUI ButtonsPressedText; 
+    public TextMeshProUGUI ButtonsPressedText;
+    [SerializeField] private GameObject SpectatePanel;
 
     private void Awake()
     {
@@ -27,5 +28,10 @@ public class UIManager : MonoBehaviour
     {
         slider.value = 0;
         slider.gameObject.SetActive(false);
+    }
+
+    public void SetSpectatePanelOn()
+    {
+        SpectatePanel.SetActive(true);
     }
 }

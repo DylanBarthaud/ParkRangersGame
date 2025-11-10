@@ -25,6 +25,7 @@ using UnityEditor;
 public class FirstPersonController : NetworkBehaviour
 {
     private Rigidbody rb;
+    private AudioListener audioListener;
 
     #region Camera Movement Variables
 
@@ -197,8 +198,8 @@ public class FirstPersonController : NetworkBehaviour
             sprintBarBG.gameObject.SetActive(false);
             sprintBar.gameObject.SetActive(false);
 
-            AudioListener listener = GetComponent<AudioListener>();
-            listener.enabled = false; 
+            audioListener = GetComponent<AudioListener>();
+            audioListener.enabled = false; 
             return;
         }
 

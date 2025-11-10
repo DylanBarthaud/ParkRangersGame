@@ -25,8 +25,11 @@ public class Interactor : NetworkBehaviour
                 IInteractable interactable = collider.GetComponent<IInteractable>();
                 if (interactable != null)
                 {
-                    if (interactable.CanInteract(this) == false) continue;
-                    if(localTick == 0) interactable.OnInteract(this);
+                    if (localTick == 0)
+                    {
+                        if (interactable.CanInteract(this) == false) continue;
+                        interactable.OnInteract(this);
+                    }
                     else interactable.OnInteractHeld(this, localTick);
 
                     localTick++;

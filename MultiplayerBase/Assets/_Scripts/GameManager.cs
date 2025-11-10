@@ -2,7 +2,6 @@ using BlackboardSystem;
 using System;
 using System.Collections.Generic;
 using Unity.Netcode;
-using UnityEditor.PackageManager;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using static UnityEngine.GraphicsBuffer;
@@ -41,7 +40,7 @@ public class GameManager : NetworkBehaviour
         buttonsPressed++;
         //Debug.Log("BUTTON PRESSED");
 
-        ChangeButtonsPressedUIClientRpc(); 
+        ChangeButtonsPressedUIClientRpc(buttonsPressed); 
 
         if (buttonsPressed >= 5)
         {
@@ -51,9 +50,9 @@ public class GameManager : NetworkBehaviour
     }
 
     [ClientRpc]
-    private void ChangeButtonsPressedUIClientRpc()
+    private void ChangeButtonsPressedUIClientRpc(int buttons)
     {
-        uiManager.ButtonsPressedText.text = buttonsPressed.ToString() + " / 5";
+        uiManager.ButtonsPressedText.text = buttons.ToString() + " / 5";
     }
 
     [ServerRpc]
@@ -81,18 +80,14 @@ public class GameManager : NetworkBehaviour
         }
         else return; 
 
-        EnableSpectatorModeClientRpc(key, new ClientRpcParams 
-        {
-            Send = new ClientRpcSendParams
-            {
-                TargetClientIds = new ulong[] { killedPlayerId }
-            }
-        });  
+        EnableSpectatorModeClientRpc(key, killedPlayerId);  
     }
 
     [ClientRpc]
-    private void EnableSpectatorModeClientRpc(BlackboardKey key, ClientRpcParams rpcParams = default)
+    private void EnableSpectatorModeClientRpc(BlackboardKey key, ulong clientId)
     {
+        if (clientId != OwnerClientId) return; 
+
         Blackboard blackboard = BlackboardController.instance.GetBlackboard();
         if (blackboard.TryGetValue(key, out PlayerInfo killedPlayerInfo))
         {
@@ -104,6 +99,7 @@ public class GameManager : NetworkBehaviour
             if (blackboard.TryGetValue(playerBlackboardKeys[0], out PlayerInfo playerInfo))
             {
                 playerInfo.playerCamera.enabled = true;
+                uiManager.SetSpectatePanelOn(); 
             }
         }
     }
