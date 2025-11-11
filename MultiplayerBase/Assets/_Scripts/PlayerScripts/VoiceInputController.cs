@@ -10,6 +10,8 @@ public class VoiceInputController : NetworkBehaviour
 {
     // Code sourced from https://github.com/Facepunch/Facepunch.Steamworks/issues/261#issuecomment-817334583
 
+    [SerializeField] private float gain; 
+
     private AudioSource source;
 
     private MemoryStream output;
@@ -37,15 +39,16 @@ public class VoiceInputController : NetworkBehaviour
         input = new MemoryStream();
 
         source = GetComponent<AudioSource>();
-        source.clip = AudioClip.Create("VoiceData", optimalRate * 2, 1, optimalRate, true, OnAudioRead, null);
+        source.clip = AudioClip.Create("VoiceData", optimalRate, 1, optimalRate, true, OnAudioRead, null);
         source.loop = true;
         source.Play();
     }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
-        SteamUser.VoiceRecord = Input.GetKey(KeyCode.V);
+        //SteamUser.VoiceRecord = Input.GetKey(KeyCode.V);
+        SteamUser.VoiceRecord = true;
 
         if (SteamUser.HasVoiceData)
         {
@@ -69,10 +72,8 @@ public class VoiceInputController : NetworkBehaviour
     [ClientRpc]
     public void VoiceDataClientRpc(byte[] compressed, int bytesWritten, ulong senderId)
     {
-        Debug.Log("Local Id: " + NetworkManager.Singleton.LocalClientId + ", Voice Sender Id: " + senderId); 
-        if (NetworkManager.Singleton.LocalClientId == senderId) return;
+        //if (NetworkManager.Singleton.LocalClientId == senderId) return;
 
-        Debug.Log("and it LOOKS LIKE WE MIGHTA MADE IT");
         input.Write(compressed, 0, bytesWritten);
         input.Position = 0;
 
@@ -110,7 +111,7 @@ public class VoiceInputController : NetworkBehaviour
         for (int i = 0; i < iSize; i += 2)
         {
             // Insert converted float to buffer
-            float converted = (short)(uncompressed[i] | uncompressed[i + 1] << 8) / 32767.0f;
+            float converted = ((short)(uncompressed[i] | uncompressed[i + 1] << 8) / 32767.0f) * gain;
             clipBuffer[dataReceived] = converted;
 
             // Buffer loop
