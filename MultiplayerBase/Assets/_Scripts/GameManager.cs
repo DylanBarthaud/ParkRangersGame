@@ -34,7 +34,7 @@ public class GameManager : NetworkBehaviour
         EventManager.instance.onButtonPressed += OnButtonPressedServerRpc;
     }
 
-    [ServerRpc]
+    [ServerRpc(RequireOwnership = false)]
     private void OnButtonPressedServerRpc()
     {
         buttonsPressed++;
@@ -69,9 +69,10 @@ public class GameManager : NetworkBehaviour
         numberOfPlayers--;
         playerBlackboardKeys.Remove(key);
 
-        if(numberOfPlayers == 0)
+        if(numberOfPlayers <= 0)
         {
             EndGame();
+            return; 
         }
 
         ulong killedPlayerId = 10;
