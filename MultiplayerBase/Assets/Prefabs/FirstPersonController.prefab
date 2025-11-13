@@ -678,7 +678,7 @@ Camera:
   m_GameObject: {fileID: 4459864851310106424}
   m_Enabled: 1
   serializedVersion: 2
-  m_ClearFlags: 2
+  m_ClearFlags: 1
   m_BackGroundColor: {r: 0, g: 0, b: 0, a: 0}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
@@ -701,7 +701,7 @@ Camera:
     width: 1
     height: 1
   near clip plane: 0.3
-  far clip plane: 1000
+  far clip plane: 10000000
   field of view: 60
   orthographic: 0
   orthographic size: 5
