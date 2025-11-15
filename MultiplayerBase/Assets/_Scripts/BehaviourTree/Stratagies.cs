@@ -1,6 +1,7 @@
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -112,7 +113,68 @@ namespace BehaviourTrees
 
             agent.SetDestination(playerInfo.position);
             agent.speed = chaseSpeed;  
-            return Node.Status.Success;
+            return Node.Status.Running;
+        }
+    }
+
+    public class StalkPlayerStrategy : IStrategy
+    {
+        readonly Func<PlayerInfo> playerInfoFunc;
+        readonly NavMeshAgent agent;
+        readonly float stalkSpeed;
+        readonly float stalkMinDistance; 
+        readonly float stalkMaxDistance; 
+        readonly float maxStalkTime;
+        private float stalkTime;
+
+        public StalkPlayerStrategy(Func<PlayerInfo> playerInfoFunc, NavMeshAgent agent, float stalkSpeed, float maxStalkTime, float stalkMinDistance, float stalkMaxDistance)
+        {
+            this.playerInfoFunc = playerInfoFunc;
+            this.agent = agent;
+            this.stalkSpeed = stalkSpeed;
+            this.maxStalkTime = maxStalkTime;
+            this.stalkMinDistance = stalkMinDistance;
+            this.stalkMaxDistance = stalkMaxDistance;
+        }
+
+        public Node.Status Process()
+        {
+            if (stalkTime >= maxStalkTime)
+            {
+                agent.isStopped = false;
+                return Node.Status.Success;
+            }
+            PlayerInfo playerInfo = playerInfoFunc();
+            if (!playerInfo.canSeePlayer)
+            {
+                agent.isStopped = false;
+                return Node.Status.Failure;
+            }
+
+            agent.SetDestination(playerInfo.position);
+            float distanceFromPlayer = Vector3.Distance(agent.transform.position, playerInfo.position);
+            if(distanceFromPlayer >= stalkMinDistance
+                && distanceFromPlayer <= stalkMaxDistance)
+            {
+                Debug.Log("Stalk");
+                agent.isStopped = true; 
+            }
+            else if(distanceFromPlayer <= stalkMinDistance)
+            {
+                Debug.Log("Too Close");
+                agent.isStopped = false;
+                return Node.Status.Success;
+            }
+            else agent.isStopped = false;
+
+            stalkTime += Time.deltaTime; 
+
+            return Node.Status.Running;
+        }
+
+        public void Reset()
+        {
+            stalkTime = 0;
         }
     }
 
@@ -145,6 +207,50 @@ namespace BehaviourTrees
         public void Reset()
         {
             targetPosition = Vector3.zero;
+        }
+    }
+
+    public class MoveToPositionInCellStrategy : IStrategy
+    {
+        readonly Func<GridPosition> getCellFunc;
+        readonly NavMeshAgent agent;
+        readonly float moveSpeed;
+        private bool destinationSet = false;
+
+        public MoveToPositionInCellStrategy(Func<GridPosition> getCellFunc, NavMeshAgent agent, float moveSpeed)
+        {
+            this.getCellFunc = getCellFunc;
+            this.agent = agent;
+            this.moveSpeed = moveSpeed;
+        }
+
+        public Node.Status Process()
+        {
+            if (!destinationSet)
+            {
+                GridPosition cell = getCellFunc();
+                //Debug.Log(cell.x + ", " + cell.z);
+
+                Vector3 targetPos = GameManager.instance.mapHandler.GetRandomLocationInGridPosition(cell);
+
+                agent.speed = moveSpeed;
+                agent.SetDestination(targetPos);
+
+                destinationSet = true;
+            }
+
+            if (!agent.pathPending && agent.remainingDistance <= agent.stoppingDistance)
+            {
+                Debug.Log("Arrived");
+                return Node.Status.Success;
+            }
+
+            return Node.Status.Running;
+        }
+
+        public void Reset()
+        {
+            destinationSet = false;
         }
     }
 }

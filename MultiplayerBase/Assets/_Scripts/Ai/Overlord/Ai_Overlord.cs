@@ -30,7 +30,12 @@ public class Ai_Overlord : MonoBehaviour, IExpert
         BlackboardController.instance.RegisterExpert(this); 
         Blackboard blackboard = BlackboardController.instance.GetBlackboard();
 
-        key = blackboard.GetOrRegisterKey(keyName); 
+        key = blackboard.GetOrRegisterKey(keyName);
+        infoPackage = new OverlordGivenInfo() 
+        { 
+            playerGridPosition = new GridPosition { x = 0, z = 0 },
+        };
+        blackboard.SetValue(key, infoPackage);
 
         EventManager.instance.onTick_5 += OnTick;
 
@@ -94,17 +99,16 @@ public class Ai_Overlord : MonoBehaviour, IExpert
 
             return currentPlayerInfo;
         }
-        Vector3 GetPositionHint(PlayerInfo playerInfo)
+        GridPosition GetPositionHint(PlayerInfo playerInfo)
         {
             MapHandler mapHandler = GameManager.instance.mapHandler;
 
             GridPosition playerGridPosition = mapHandler.GetGridLocation(playerInfo.position); 
-            //Debug.Log(playerGridPosition.x + "," + playerGridPosition.z);
-            return mapHandler.GetRandomLocationInGridPosition(playerGridPosition);
+            return playerGridPosition;
         }
         Leaf givePlayerPositionHint = new Leaf("GivePlayerPositionHintLeaf", new ActionStrategy(() => 
         {
-            infoPackage.playerPositionHint = GetPositionHint(GetLowestFearedPlayerInfo());
+            infoPackage.playerGridPosition = GetPositionHint(GetLowestFearedPlayerInfo());
             insistance = 90; 
         }));
 

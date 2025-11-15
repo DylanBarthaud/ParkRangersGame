@@ -106,7 +106,6 @@ namespace BehaviourTrees
                 switch (children[currentChild].Process())
                 {
                     case Status.Running:
-                        currentChild = 0;
                         return Status.Running;
                     case Status.Failure:
                         currentChild = 0; 

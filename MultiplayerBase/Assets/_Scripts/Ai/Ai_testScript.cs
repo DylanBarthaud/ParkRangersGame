@@ -16,7 +16,12 @@ public class Ai_testScript : NetworkBehaviour, IExpert
     Root root;
 
     [SerializeField] BlackboardController blackboardController;
-    [SerializeField] private float baseSpeed, investigateHintSpeed, chaseSpeed; 
+    [SerializeField] private float baseSpeed, investigateHintSpeed, chaseSpeed;
+    [Header("Stalk Settings")]
+    [SerializeField] private float stalkSpeed;
+    [SerializeField] private float stalkTime; 
+    [SerializeField] private float minStalkDist;
+    [SerializeField] private float maxStalkDist;
     Blackboard blackboard;
     BlackboardKey AiMonsterKey;
     AiInfo aiInfo;
@@ -47,9 +52,11 @@ public class Ai_testScript : NetworkBehaviour, IExpert
 
         root = new Root("Root");
 
-        PrioritySelector prioritySelector = new PrioritySelector("PrioritySelector"); 
+        PrioritySelector prioritySelector = new PrioritySelector("PrioritySelector");
 
         #region ChasePlayer Sequence
+        Sequence stalkPlayerSequence = new Sequence("StalkPlayerSequence", 100);
+
         PlayerInfo PlayerInfo() 
         {
             List<PlayerInfo> seenPlayers = new List<PlayerInfo>(); 
@@ -84,21 +91,27 @@ public class Ai_testScript : NetworkBehaviour, IExpert
 
             return playerInfo;
         }
+        Leaf stalkPlayer = new Leaf("StalkPlayer", new StalkPlayerStrategy(PlayerInfo, agent, stalkSpeed, stalkTime, minStalkDist, maxStalkDist)); 
         Leaf chasePlayer = new Leaf("ChasePlayer", new ChasePlayerStrategy(PlayerInfo, agent, chaseSpeed), 100);
+
+        stalkPlayerSequence.AddChild(stalkPlayer);
+        stalkPlayerSequence.AddChild(chasePlayer);
         #endregion
 
         #region Investigate Hint
-        void InvestigateHint()
+        GridPosition InvestigateHint()
         {
             BlackboardKey overlordKey = blackboard.GetOrRegisterKey("AiOverlordKey");
 
             if (blackboard.TryGetValue(overlordKey, out OverlordGivenInfo overlordInfo))
             {
-                agent.SetDestination(overlordInfo.playerPositionHint);
-                agent.speed = investigateHintSpeed; 
+                return overlordInfo.playerGridPosition;
             }
+
+            Debug.LogError("OverlordInfo NULL setting grid position to 0,0"); 
+            return new GridPosition { x = 0, z = 0 };
         }
-        Leaf moveToPos = new Leaf("MoveToPos", new ActionStrategy(InvestigateHint), 50);
+        Leaf moveToCell = new Leaf("MoveToPos", new MoveToPositionInCellStrategy(InvestigateHint, agent, investigateHintSpeed), 50);
         #endregion
 
         #region Search Cell
@@ -137,9 +150,9 @@ public class Ai_testScript : NetworkBehaviour, IExpert
         inSameCellAsPlayer.AddChild(searchCell);
         #endregion
 
-        prioritySelector.AddChild(chasePlayer);
+        prioritySelector.AddChild(stalkPlayerSequence);
         prioritySelector.AddChild(inSameCellAsPlayer);
-        prioritySelector.AddChild(moveToPos);
+        prioritySelector.AddChild(moveToCell);
 
         root.AddChild(prioritySelector);
 
