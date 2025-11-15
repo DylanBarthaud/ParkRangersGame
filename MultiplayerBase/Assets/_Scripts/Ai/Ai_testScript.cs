@@ -15,6 +15,7 @@ public class Ai_testScript : NetworkBehaviour, IExpert
 
     Root root;
 
+    [SerializeField] AudioHandler audioHandler;
     [SerializeField] BlackboardController blackboardController;
     [SerializeField] private float baseSpeed, investigateHintSpeed, chaseSpeed;
     [Header("Stalk Settings")]
@@ -31,6 +32,8 @@ public class Ai_testScript : NetworkBehaviour, IExpert
     private void Awake()
     {
         #region Set Up
+        audioHandler.PlaySound("BadgerWalking", true, default, 15);
+
         EventManager.instance.onTick_5 += OnTick_5;
 
         agent = GetComponent<NavMeshAgent>();
@@ -91,7 +94,7 @@ public class Ai_testScript : NetworkBehaviour, IExpert
 
             return playerInfo;
         }
-        Leaf stalkPlayer = new Leaf("StalkPlayer", new StalkPlayerStrategy(PlayerInfo, agent, stalkSpeed, stalkTime, minStalkDist, maxStalkDist)); 
+        Leaf stalkPlayer = new Leaf("StalkPlayer", new StalkPlayerStrategy(PlayerInfo, agent, stalkSpeed, stalkTime, minStalkDist, maxStalkDist, audioHandler)); 
         Leaf chasePlayer = new Leaf("ChasePlayer", new ChasePlayerStrategy(PlayerInfo, agent, chaseSpeed), 100);
 
         stalkPlayerSequence.AddChild(stalkPlayer);

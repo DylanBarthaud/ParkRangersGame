@@ -108,7 +108,8 @@ namespace BehaviourTrees
                     case Status.Running:
                         return Status.Running;
                     case Status.Failure:
-                        currentChild = 0; 
+                        currentChild = 0;
+                        Reset();
                         return Status.Failure;
                     default:
                         currentChild++;

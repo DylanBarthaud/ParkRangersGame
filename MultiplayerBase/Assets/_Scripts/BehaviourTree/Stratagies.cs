@@ -125,9 +125,10 @@ namespace BehaviourTrees
         readonly float stalkMinDistance; 
         readonly float stalkMaxDistance; 
         readonly float maxStalkTime;
+        readonly AudioHandler audioHandler;
         private float stalkTime;
 
-        public StalkPlayerStrategy(Func<PlayerInfo> playerInfoFunc, NavMeshAgent agent, float stalkSpeed, float maxStalkTime, float stalkMinDistance, float stalkMaxDistance)
+        public StalkPlayerStrategy(Func<PlayerInfo> playerInfoFunc, NavMeshAgent agent, float stalkSpeed, float maxStalkTime, float stalkMinDistance, float stalkMaxDistance, AudioHandler audioHandler)
         {
             this.playerInfoFunc = playerInfoFunc;
             this.agent = agent;
@@ -135,6 +136,7 @@ namespace BehaviourTrees
             this.maxStalkTime = maxStalkTime;
             this.stalkMinDistance = stalkMinDistance;
             this.stalkMaxDistance = stalkMaxDistance;
+            this.audioHandler = audioHandler;
         }
 
         public Node.Status Process()
@@ -142,6 +144,7 @@ namespace BehaviourTrees
             if (stalkTime >= maxStalkTime)
             {
                 agent.isStopped = false;
+                audioHandler.PlaySound("BadgerShout"); 
                 return Node.Status.Success;
             }
             PlayerInfo playerInfo = playerInfoFunc();
@@ -156,13 +159,12 @@ namespace BehaviourTrees
             if(distanceFromPlayer >= stalkMinDistance
                 && distanceFromPlayer <= stalkMaxDistance)
             {
-                Debug.Log("Stalk");
                 agent.isStopped = true; 
             }
             else if(distanceFromPlayer <= stalkMinDistance)
             {
-                Debug.Log("Too Close");
                 agent.isStopped = false;
+                audioHandler.PlaySound("BadgerShout");
                 return Node.Status.Success;
             }
             else agent.isStopped = false;
