@@ -22,11 +22,16 @@ public class EventManager : MonoBehaviour
     /// </summary>
     /// <param name="tick"> number of ticks passed </param>
     public event Action<int> onTick_5;
+
     public event Action<BlackboardKey> onPlayerSpawned;
     public event Action<BlackboardKey> onPlayerKilled;
+
     public event Action onButtonPressed; 
     public event Action<int,Interactor> onButtonHeld;
     public event Action onButtonReleased;
+
+    public event Action<Vector3> onBurrow;  
+    public event Action<Vector3> onUnBurrow;
 
     /// <summary>
     /// Tick that happens every 0.2s
@@ -44,6 +49,7 @@ public class EventManager : MonoBehaviour
     {
         if (onTick_5 != null) onTick_5(tick);
     }
+
     public void OnPlayerSpawned(BlackboardKey playerKey)
     {
         if(onPlayerSpawned != null) onPlayerSpawned(playerKey);
@@ -52,6 +58,7 @@ public class EventManager : MonoBehaviour
     {
         if (onPlayerKilled != null) onPlayerKilled(playerKey);
     }
+
     public void OnButtonPressed()
     {
         if(onButtonPressed != null) onButtonPressed();
@@ -63,5 +70,15 @@ public class EventManager : MonoBehaviour
     public void OnButtonReleased()
     {
         if(onButtonReleased != null) onButtonReleased();
+    }
+
+    public void OnBurrow(Vector3 burrowPos)
+    {
+        if (onBurrow != null) onBurrow(burrowPos); 
+    }
+    public void OnUnBurrow(Vector3 unBurrowPos)
+    {
+        if (onBurrow != null) onUnBurrow(unBurrowPos);
+
     }
 }

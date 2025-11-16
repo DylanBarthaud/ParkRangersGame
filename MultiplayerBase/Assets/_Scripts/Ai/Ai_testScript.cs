@@ -15,26 +15,40 @@ public class Ai_testScript : NetworkBehaviour, IExpert
 
     Root root;
 
+    [Header("Handlers")]
     [SerializeField] AudioHandler audioHandler;
+    [SerializeField] GFXHandler gfxHandler;
+
+    [Header("Blackboard")]
     [SerializeField] BlackboardController blackboardController;
+
+    [Header("Base Settings")]
     [SerializeField] private float baseSpeed, investigateHintSpeed, chaseSpeed;
+
     [Header("Stalk Settings")]
     [SerializeField] private float stalkSpeed;
     [SerializeField] private float stalkTime; 
     [SerializeField] private float minStalkDist;
     [SerializeField] private float maxStalkDist;
+
+    [Header("BurrowSettings")]
+    [SerializeField] private float burrowSpeed; 
+
     Blackboard blackboard;
     BlackboardKey AiMonsterKey;
     AiInfo aiInfo;
 
-    bool canParolBool;
+    bool isBurrowed;
 
     private void Awake()
     {
         #region Set Up
+        gfxHandler.DisableGFX("BurrowedGFX");
         audioHandler.PlaySound("BadgerWalking", true, default, 15);
 
         EventManager.instance.onTick_5 += OnTick_5;
+        EventManager.instance.onBurrow += OnBurrow;
+        EventManager.instance.onUnBurrow += OnUnBurrow;
 
         agent = GetComponent<NavMeshAgent>();
         agent.speed = baseSpeed;
@@ -48,7 +62,6 @@ public class Ai_testScript : NetworkBehaviour, IExpert
         blackboardController.RegisterExpert(this);
         AiMonsterKey = blackboard.GetOrRegisterKey("AiMonsterKey");
         blackboard.SetValue(AiMonsterKey, aiInfo);
-
         #endregion
 
         #region Behaviour Tree
@@ -56,6 +69,12 @@ public class Ai_testScript : NetworkBehaviour, IExpert
         root = new Root("Root");
 
         PrioritySelector prioritySelector = new PrioritySelector("PrioritySelector");
+        bool IsBurrowed()
+        {
+            return isBurrowed; 
+        }
+        Leaf unBurrow = new Leaf("UnBurrow", new UnBurrowStrategy(agent, baseSpeed, 0, IsBurrowed, gfxHandler, audioHandler));
+        Leaf IsntBurrowed = new Leaf("IsntBurrowed", new Condition(() => (!IsBurrowed()))); 
 
         #region ChasePlayer Sequence
         Sequence stalkPlayerSequence = new Sequence("StalkPlayerSequence", 100);
@@ -97,11 +116,15 @@ public class Ai_testScript : NetworkBehaviour, IExpert
         Leaf stalkPlayer = new Leaf("StalkPlayer", new StalkPlayerStrategy(PlayerInfo, agent, stalkSpeed, stalkTime, minStalkDist, maxStalkDist, audioHandler)); 
         Leaf chasePlayer = new Leaf("ChasePlayer", new ChasePlayerStrategy(PlayerInfo, agent, chaseSpeed), 100);
 
+        stalkPlayerSequence.AddChild(IsntBurrowed);
         stalkPlayerSequence.AddChild(stalkPlayer);
         stalkPlayerSequence.AddChild(chasePlayer);
         #endregion
 
         #region Investigate Hint
+        Sequence burrowAndMoveToGridSequence = new Sequence("burrowAndMoveToGridSequence", 50);
+
+        Leaf burrow = new Leaf("burrow", new BurrowStrategy(agent, burrowSpeed, 0, IsBurrowed, gfxHandler, audioHandler)); 
         GridPosition InvestigateHint()
         {
             BlackboardKey overlordKey = blackboard.GetOrRegisterKey("AiOverlordKey");
@@ -114,7 +137,11 @@ public class Ai_testScript : NetworkBehaviour, IExpert
             Debug.LogError("OverlordInfo NULL setting grid position to 0,0"); 
             return new GridPosition { x = 0, z = 0 };
         }
-        Leaf moveToCell = new Leaf("MoveToPos", new MoveToPositionInCellStrategy(InvestigateHint, agent, investigateHintSpeed), 50);
+        Leaf moveToCell = new Leaf("MoveToPos", new MoveToPositionInCellStrategy(InvestigateHint, agent, null));
+
+        burrowAndMoveToGridSequence.AddChild(burrow);
+        burrowAndMoveToGridSequence.AddChild(moveToCell);
+        burrowAndMoveToGridSequence.AddChild(unBurrow); 
         #endregion
 
         #region Search Cell
@@ -147,19 +174,33 @@ public class Ai_testScript : NetworkBehaviour, IExpert
 
             return inSameCellAsPlayer;
         }
-        IfGate inSameCellAsPlayer = new IfGate("InSameCellAsPlayer", new Condition(InSameCellAsPlayer), 90); 
-        Leaf searchCell = new Leaf("SearchCell", new SearchCellStrategy(() => GameManager.instance.mapHandler.GetGridLocation(transform.position), agent), 50);
+        IfGate inSameCellAsPlayer = new IfGate("InSameCellAsPlayer", new Condition(InSameCellAsPlayer), 90);
+        Sequence searchCellSequence = new Sequence("SearchCellSequence");
+        Leaf searchCell = new Leaf("SearchCell", new SearchCellStrategy(() => GameManager.instance.mapHandler.GetGridLocation(transform.position), agent));
 
-        inSameCellAsPlayer.AddChild(searchCell);
+        searchCellSequence.AddChild(IsntBurrowed);
+        searchCellSequence.AddChild(searchCell);    
+
+        inSameCellAsPlayer.AddChild(searchCellSequence);
         #endregion
 
         prioritySelector.AddChild(stalkPlayerSequence);
         prioritySelector.AddChild(inSameCellAsPlayer);
-        prioritySelector.AddChild(moveToCell);
+        prioritySelector.AddChild(burrowAndMoveToGridSequence);
 
         root.AddChild(prioritySelector);
 
         #endregion
+    }
+
+    private void OnUnBurrow(Vector3 vector)
+    {
+        isBurrowed = false;
+    }
+
+    private void OnBurrow(Vector3 vector)
+    {
+        isBurrowed = true;
     }
 
     private void OnTick_5(int obj)

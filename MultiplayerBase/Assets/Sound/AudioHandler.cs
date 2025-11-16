@@ -7,14 +7,11 @@ public class AudioHandler : MonoBehaviour
     [SerializeField] AudioSource[] audioSourceArray;
     [SerializeField] AudioClipWrapper[] wrappedAudioClipArray;
 
-    private Dictionary<string, AudioClipWrapper> audioClipDictonary;
-    private Dictionary<AudioClipWrapper, AudioSource> audioSourceDictonary;
+    private Dictionary<string, AudioClipWrapper> audioClipDictonary = new();
+    private Dictionary<AudioClipWrapper, AudioSource> audioSourceDictonary = new();
 
     private void Awake()
     {
-        audioClipDictonary = new Dictionary<string, AudioClipWrapper>();
-        audioSourceDictonary = new Dictionary<AudioClipWrapper, AudioSource>(); 
-
         foreach (AudioClipWrapper wrappedClip in wrappedAudioClipArray)
         {
             audioClipDictonary.Add(wrappedClip.clipName, wrappedClip);

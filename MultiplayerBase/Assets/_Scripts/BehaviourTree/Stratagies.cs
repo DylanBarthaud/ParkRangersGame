@@ -164,7 +164,6 @@ namespace BehaviourTrees
             else if(distanceFromPlayer <= stalkMinDistance)
             {
                 agent.isStopped = false;
-                audioHandler.PlaySound("BadgerShout");
                 return Node.Status.Success;
             }
             else agent.isStopped = false;
@@ -216,10 +215,11 @@ namespace BehaviourTrees
     {
         readonly Func<GridPosition> getCellFunc;
         readonly NavMeshAgent agent;
-        readonly float moveSpeed;
+        readonly float? moveSpeed;
         private bool destinationSet = false;
+        private Vector3 targetPos; 
 
-        public MoveToPositionInCellStrategy(Func<GridPosition> getCellFunc, NavMeshAgent agent, float moveSpeed)
+        public MoveToPositionInCellStrategy(Func<GridPosition> getCellFunc, NavMeshAgent agent, float? moveSpeed)
         {
             this.getCellFunc = getCellFunc;
             this.agent = agent;
@@ -228,20 +228,25 @@ namespace BehaviourTrees
 
         public Node.Status Process()
         {
+            MapHandler mapHandler = GameManager.instance.mapHandler;
+
             if (!destinationSet)
             {
                 GridPosition cell = getCellFunc();
                 //Debug.Log(cell.x + ", " + cell.z);
 
-                Vector3 targetPos = GameManager.instance.mapHandler.GetRandomLocationInGridPosition(cell);
+                targetPos = mapHandler.GetRandomLocationInGridPosition(cell);
 
-                agent.speed = moveSpeed;
+                if(moveSpeed != null) agent.speed = (float)moveSpeed;
                 agent.SetDestination(targetPos);
 
                 destinationSet = true;
             }
 
-            if (!agent.pathPending && agent.remainingDistance <= agent.stoppingDistance)
+            GridPosition agentCellPos = mapHandler.GetGridLocation(agent.transform.position);
+            GridPosition targetCell = mapHandler.GetGridLocation(targetPos); 
+
+            if(agentCellPos == targetCell)
             {
                 Debug.Log("Arrived");
                 return Node.Status.Success;
@@ -253,6 +258,85 @@ namespace BehaviourTrees
         public void Reset()
         {
             destinationSet = false;
+        }
+    }
+
+    public class BurrowStrategy : IStrategy
+    {
+        readonly NavMeshAgent agent;
+        readonly float moveSpeed;
+        readonly float burrowTime;
+        readonly Func<bool> isBurrowedFunc;
+        readonly GFXHandler gfxHandler;
+        readonly AudioHandler audioHandler;
+
+        public BurrowStrategy(NavMeshAgent agent, float moveSpeed, float burrowTime, Func<bool> isBurrowedFunc, GFXHandler gFXHandler, AudioHandler audioHandler)
+        {
+            this.agent = agent;
+            this.moveSpeed = moveSpeed;
+            this.burrowTime = burrowTime;
+            this.isBurrowedFunc = isBurrowedFunc;
+            gfxHandler = gFXHandler;
+            this.audioHandler = audioHandler;
+        }
+
+        public Node.Status Process()
+        { 
+            if(isBurrowedFunc()) return Node.Status.Success;
+            Debug.Log("Burrow");
+
+            EventManager.instance.OnBurrow(agent.transform.position); 
+
+            //play digging animation 
+            //wait "burrow time" amout of seconds
+            gfxHandler.DisableGFX("MonsterGFX");
+            gfxHandler.EnableGFX("BurrowedGFX");
+
+            //audioHandler.PlaySound("BurrowSound"); 
+
+            agent.speed = moveSpeed;
+
+            return Node.Status.Success;
+        }
+    }
+
+    public class UnBurrowStrategy : IStrategy
+    {
+        readonly NavMeshAgent agent;
+        readonly float moveSpeed;
+        readonly float unBurrowTime;
+        readonly Func<bool> isBurrowedFunc;
+        readonly GFXHandler gfxHandler;
+        readonly AudioHandler audioHandler;
+
+        public UnBurrowStrategy(NavMeshAgent agent, float moveSpeed, float unBurrowTime, Func<bool> isBurrowedFunc, GFXHandler gFXHandler, AudioHandler audioHandler)
+        {
+            this.agent = agent;
+            this.moveSpeed = moveSpeed;
+            this.unBurrowTime = unBurrowTime;
+            this.isBurrowedFunc = isBurrowedFunc;
+            gfxHandler = gFXHandler;
+            this.audioHandler = audioHandler;
+        }
+
+        public Node.Status Process()
+        {
+            Debug.Log("UnBurrow1");
+            if (!isBurrowedFunc()) return Node.Status.Success;
+            Debug.Log("UnBurrow");
+
+            EventManager.instance.OnUnBurrow(agent.transform.position);
+
+            //play digging animation 
+            //wait "unburrow time" amout of seconds
+            gfxHandler.DisableGFX("BurrowedGFX");
+            gfxHandler.EnableGFX("MonsterGFX");
+
+            //audioHandler.PlaySound("UnBurrowSound"); 
+
+            agent.speed = moveSpeed;
+
+            return Node.Status.Success;
         }
     }
 }
