@@ -74,7 +74,39 @@ public class Ai_testScript : NetworkBehaviour, IExpert
             return isBurrowed; 
         }
         Leaf unBurrow = new Leaf("UnBurrow", new UnBurrowStrategy(agent, baseSpeed, 0, IsBurrowed, gfxHandler, audioHandler));
-        Leaf IsntBurrowed = new Leaf("IsntBurrowed", new Condition(() => (!IsBurrowed()))); 
+        Leaf IsntBurrowed = new Leaf("IsntBurrowed", new Condition(() => (!IsBurrowed())));
+
+        bool InSameCellAsPlayer()
+        {
+            bool inSameCellAsPlayer = false;
+
+            MapHandler mapHandler = GameManager.instance.mapHandler;
+
+            GridPosition aiPosition = new GridPosition { x = 0, z = 0 };
+            if (blackboard.TryGetValue(AiMonsterKey, out AiInfo monsterInfo))
+            {
+                aiPosition = mapHandler.GetGridLocation(monsterInfo.position);
+            }
+
+            foreach (BlackboardKey playerKey in GameManager.instance.playerBlackboardKeys)
+            {
+                if (blackboard.TryGetValue(playerKey, out PlayerInfo playerInfo))
+                {
+                    GridPosition playerPosition = mapHandler.GetGridLocation(playerInfo.position);
+                    float distance = mapHandler.GetDistanceBetweenGrids(aiPosition, playerPosition);
+
+                    if (distance <= 0)
+                    {
+                        inSameCellAsPlayer = true;
+                        break;
+                    }
+                }
+            }
+
+            return inSameCellAsPlayer;
+        }
+        Leaf inSameCellAsPlayer = new Leaf("InSameCellAsPlayer", new Condition(InSameCellAsPlayer));
+        Leaf inDifferentCellAsPlayer = new Leaf("InDifferentCellAsPlayer", new Condition(() => (!InSameCellAsPlayer())));
 
         #region ChasePlayer Sequence
         Sequence stalkPlayerSequence = new Sequence("StalkPlayerSequence", 100);
@@ -139,53 +171,23 @@ public class Ai_testScript : NetworkBehaviour, IExpert
         }
         Leaf moveToCell = new Leaf("MoveToPos", new MoveToPositionInCellStrategy(InvestigateHint, agent, null));
 
+        burrowAndMoveToGridSequence.AddChild(inDifferentCellAsPlayer);
         burrowAndMoveToGridSequence.AddChild(burrow);
         burrowAndMoveToGridSequence.AddChild(moveToCell);
         burrowAndMoveToGridSequence.AddChild(unBurrow); 
         #endregion
 
         #region Search Cell
-        bool InSameCellAsPlayer()
-        {
-            bool inSameCellAsPlayer = false;
-
-            MapHandler mapHandler = GameManager.instance.mapHandler;
-
-            GridPosition aiPosition = new GridPosition { x = 0, z = 0 };
-            if (blackboard.TryGetValue(AiMonsterKey, out AiInfo monsterInfo))
-            {
-                aiPosition = mapHandler.GetGridLocation(monsterInfo.position);
-            }
-
-            foreach (BlackboardKey playerKey in GameManager.instance.playerBlackboardKeys)
-            {
-                if (blackboard.TryGetValue(playerKey, out PlayerInfo playerInfo))
-                {
-                    GridPosition playerPosition = mapHandler.GetGridLocation(playerInfo.position);
-                    float distance = mapHandler.GetDistanceBetweenGrids(aiPosition, playerPosition);
-
-                    if (distance <= 0)
-                    {
-                        inSameCellAsPlayer = true;
-                        break;
-                    }
-                }
-            }
-
-            return inSameCellAsPlayer;
-        }
-        IfGate inSameCellAsPlayer = new IfGate("InSameCellAsPlayer", new Condition(InSameCellAsPlayer), 90);
-        Sequence searchCellSequence = new Sequence("SearchCellSequence");
+        Sequence searchCellSequence = new Sequence("SearchCellSequence", 90);
         Leaf searchCell = new Leaf("SearchCell", new SearchCellStrategy(() => GameManager.instance.mapHandler.GetGridLocation(transform.position), agent));
 
+        searchCellSequence.AddChild(inSameCellAsPlayer); 
         searchCellSequence.AddChild(IsntBurrowed);
         searchCellSequence.AddChild(searchCell);    
-
-        inSameCellAsPlayer.AddChild(searchCellSequence);
         #endregion
 
         prioritySelector.AddChild(stalkPlayerSequence);
-        prioritySelector.AddChild(inSameCellAsPlayer);
+        prioritySelector.AddChild(searchCellSequence);
         prioritySelector.AddChild(burrowAndMoveToGridSequence);
 
         root.AddChild(prioritySelector);
