@@ -144,7 +144,7 @@ namespace BehaviourTrees
             if (stalkTime >= maxStalkTime)
             {
                 agent.isStopped = false;
-                audioHandler.PlaySound("BadgerShout"); 
+                audioHandler.PlaySoundClientRpc("BadgerShout"); 
                 return Node.Status.Success;
             }
             PlayerInfo playerInfo = playerInfoFunc();
@@ -289,8 +289,8 @@ namespace BehaviourTrees
 
             //play digging animation 
             //wait "burrow time" amout of seconds
-            gfxHandler.DisableGFX("MonsterGFX");
-            gfxHandler.EnableGFX("BurrowedGFX");
+            gfxHandler.DisableGFXClientRpc("MonsterGFX");
+            gfxHandler.EnableGFXClientRpc("BurrowedGFX");
 
             //audioHandler.PlaySound("BurrowSound"); 
 
@@ -329,8 +329,8 @@ namespace BehaviourTrees
 
             //play digging animation 
             //wait "unburrow time" amout of seconds
-            gfxHandler.DisableGFX("BurrowedGFX");
-            gfxHandler.EnableGFX("MonsterGFX");
+            gfxHandler.DisableGFXClientRpc("BurrowedGFX");
+            gfxHandler.EnableGFXClientRpc("MonsterGFX");
 
             //audioHandler.PlaySound("UnBurrowSound"); 
 

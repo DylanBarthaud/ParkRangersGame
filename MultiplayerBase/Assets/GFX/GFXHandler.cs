@@ -1,21 +1,23 @@
 using System.Collections.Generic;
+using Unity.Netcode;
 using UnityEngine;
 
-public class GFXHandler : MonoBehaviour
+public class GFXHandler : NetworkBehaviour
 {
     [SerializeField] private GFXWrapper[] gfxWrapperArray;
 
     Dictionary<string, GFXWrapper> gfxDictonary = new();
 
-    private void Awake()
+    public override void OnNetworkSpawn()
     {
-        foreach(GFXWrapper wrappedGfx in gfxWrapperArray)
+        foreach (GFXWrapper wrappedGfx in gfxWrapperArray)
         {
-            gfxDictonary.Add(wrappedGfx.gfxName, wrappedGfx); 
+            gfxDictonary.Add(wrappedGfx.gfxName, wrappedGfx);
         }
     }
 
-    public void EnableGFX(string gfxName)
+    [ClientRpc]
+    public void EnableGFXClientRpc(string gfxName)
     {
         if (gfxDictonary.ContainsKey(gfxName))
         {
@@ -24,7 +26,8 @@ public class GFXHandler : MonoBehaviour
         else Debug.LogError($"GFX Dictionary does not contain {gfxName} as a key");
     }
 
-    public void DisableGFX(string gfxName)
+    [ClientRpc]
+    public void DisableGFXClientRpc(string gfxName)
     {
         if (gfxDictonary.ContainsKey(gfxName))
         {

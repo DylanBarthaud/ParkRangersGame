@@ -1,8 +1,9 @@
 using System.Collections.Generic;
+using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.Audio;
 
-public class AudioHandler : MonoBehaviour
+public class AudioHandler : NetworkBehaviour
 {
     [SerializeField] AudioSource[] audioSourceArray;
     [SerializeField] AudioClipWrapper[] wrappedAudioClipArray;
@@ -19,7 +20,8 @@ public class AudioHandler : MonoBehaviour
         }
     }
 
-    public void PlaySound(string clipName, bool loop = false, float minDist = 5, float maxDist = 100)
+    [ClientRpc]
+    public void PlaySoundClientRpc(string clipName, bool loop = false, float minDist = 5, float maxDist = 100)
     {
         AudioSource audioSource;
         AudioClip audioClip;
@@ -33,7 +35,8 @@ public class AudioHandler : MonoBehaviour
         audioSource.Play();
     }
 
-    public void StopPlayingClipSound(string clipName)
+    [ClientRpc]
+    public void StopPlayingClipSoundClientRpc(string clipName)
     {
         AudioSource audioSource;
         AudioClip audioClip;
@@ -43,7 +46,8 @@ public class AudioHandler : MonoBehaviour
         if (audioSource.clip == audioClip) audioSource.Stop();
     }
 
-    public void StopSoundFromAudioSource(int sourceId)
+    [ClientRpc]
+    public void StopSoundFromAudioSourceClientRpc(int sourceId)
     {
         AudioSource audioSource = audioSourceArray[sourceId]; 
         if(audioSource.isPlaying) audioSource.Stop();

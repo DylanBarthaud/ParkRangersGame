@@ -43,8 +43,6 @@ public class Ai_testScript : NetworkBehaviour, IExpert
     private void Awake()
     {
         #region Set Up
-        gfxHandler.DisableGFX("BurrowedGFX");
-        audioHandler.PlaySound("BadgerWalking", true, default, 15);
 
         EventManager.instance.onTick_5 += OnTick_5;
         EventManager.instance.onBurrow += OnBurrow;
@@ -193,6 +191,13 @@ public class Ai_testScript : NetworkBehaviour, IExpert
         root.AddChild(prioritySelector);
 
         #endregion
+    }
+
+    private void Start()
+    {
+        audioHandler.PlaySoundClientRpc("BadgerWalking", true, default, 15);
+
+        gfxHandler.DisableGFXClientRpc("BurrowedGFX");
     }
 
     private void OnUnBurrow(Vector3 vector)

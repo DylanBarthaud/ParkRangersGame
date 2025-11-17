@@ -395,8 +395,6 @@ Transform:
   m_Children:
   - {fileID: 369596119}
   - {fileID: 2049646891}
-  - {fileID: 65304512}
-  - {fileID: 1939738771}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: -180.302, z: 0}
 --- !u!114 &17684835
@@ -417,7 +415,7 @@ MonoBehaviour:
   blackboardController: {fileID: 983263167}
   baseSpeed: 6
   investigateHintSpeed: 6
-  chaseSpeed: 9
+  chaseSpeed: 12
   stalkSpeed: 5
   stalkTime: 5
   minStalkDist: 15
@@ -654,6 +652,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2887583503b93ad4eb20a13f0e1b3847, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
   audioSourceArray:
   - {fileID: 17684843}
   - {fileID: 17684841}
@@ -769,6 +768,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 107629a53431b374ca49bd24540fac0f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
   gfxWrapperArray:
   - {fileID: 669653669}
   - {fileID: 2049646892}
@@ -2141,11 +2141,11 @@ Transform:
   m_GameObject: {fileID: 65304511}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.07500083, y: 2.894, z: 1.0379994}
-  m_LocalScale: {x: 0.09999999, y: 0.099999994, z: 0.09999999}
+  m_LocalPosition: {x: 0.7500083, y: 1.4499998, z: 0.6299937}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 17684834}
+  m_Father: {fileID: 369596119}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!135 &65304513
 SphereCollider:
@@ -17883,7 +17883,13 @@ PrefabInstance:
     m_RemovedComponents:
     - {fileID: -1995150314605265975, guid: 653f489ab8352ba4a94dca5218411e7b, type: 3}
     m_RemovedGameObjects: []
-    m_AddedGameObjects: []
+    m_AddedGameObjects:
+    - targetCorrespondingSourceObject: {fileID: -8679921383154817045, guid: 653f489ab8352ba4a94dca5218411e7b, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 65304512}
+    - targetCorrespondingSourceObject: {fileID: -8679921383154817045, guid: 653f489ab8352ba4a94dca5218411e7b, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1939738771}
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 653f489ab8352ba4a94dca5218411e7b, type: 3}
       insertIndex: -1
@@ -17970,7 +17976,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bb90e106c03817b4fa716126b9149f5d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gfx: {fileID: 669653667}
+  gfx:
+  - {fileID: 669653667}
+  - {fileID: 65304514}
+  - {fileID: 1939738773}
   name_: MonsterGFX
 --- !u!1001 &670439568
 PrefabInstance:
@@ -48032,12 +48041,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1939738770}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.095, y: 2.894, z: 1.038}
-  m_LocalScale: {x: 0.1, y: 0.1, z: 0.1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -0.94999695, y: 1.4499998, z: 0.62999606}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 17684834}
+  m_Father: {fileID: 369596119}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!135 &1939738772
 SphereCollider:
@@ -50482,7 +50491,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bb90e106c03817b4fa716126b9149f5d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gfx: {fileID: 169505787}
+  gfx:
+  - {fileID: 169505787}
   name_: BurrowedGFX
 --- !u!1001 &2050013014
 PrefabInstance:
