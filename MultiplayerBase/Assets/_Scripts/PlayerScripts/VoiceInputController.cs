@@ -1,9 +1,9 @@
 using Steamworks;
-using System.Collections.Generic;
+using System.Collections;
 using System.IO;
-using System.Linq;
 using Unity.Netcode;
 using UnityEngine;
+using UnityEngine.UI;
 
 [RequireComponent(typeof(AudioListener))]
 public class VoiceInputController : NetworkBehaviour
@@ -11,6 +11,8 @@ public class VoiceInputController : NetworkBehaviour
     // Code sourced from https://github.com/Facepunch/Facepunch.Steamworks/issues/261#issuecomment-817334583
 
     [SerializeField] private AudioSource source;
+    [SerializeField] private Image voiceIcon;
+    [SerializeField] private float iconDecayTime = 0.5f;
 
     private MemoryStream output;
     private MemoryStream stream;
@@ -23,6 +25,8 @@ public class VoiceInputController : NetworkBehaviour
     private int playbackBuffer;
     private int dataPosition;
     private int dataReceived;
+
+    private Coroutine coroutine = null; // Initiates the coroutine to null
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -45,16 +49,39 @@ public class VoiceInputController : NetworkBehaviour
     // Update is called once per frame
     void Update()
     {
-        SteamUser.VoiceRecord = Input.GetKey(KeyCode.V); // Push to talk using the V key -- Might see if this can be changed into a changeable keybind
+        SteamUser.VoiceRecord = Input.GetKey(KeyCode.V); // Push to talk using the V key -- Might see if this can be changed into a changeable keybind 
 
         if (SteamUser.HasVoiceData)
         {
+            if (coroutine != null) // If the HideIcon() coroutine is active, end it
+            {
+                Debug.Log("Coroutine ended");
+                StopCoroutine(coroutine);
+                coroutine = null;
+            }
+            voiceIcon.enabled = true;
+
             int compressedWritten = SteamUser.ReadVoiceData(stream);
             stream.Position = 0;
 
             CmdVoice(stream.GetBuffer(), compressedWritten);
         }
+        else
+        {
+            if (coroutine == null) // Only starts the HideIcon() coroutine if it isn't already active
+            {
+                Debug.Log("Coroutine started");
+                coroutine = StartCoroutine(HideIcon());
+            }
+        }
 
+    }
+
+    // Icon hiding coroutine - Hides the voice icon after a set amount of seconds to prevent flickering
+    private IEnumerator HideIcon()
+    {
+        yield return new WaitForSeconds(iconDecayTime);
+        voiceIcon.enabled = false;
     }
 
     //[Command()]
