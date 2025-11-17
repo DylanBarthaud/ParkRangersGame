@@ -8,7 +8,7 @@ using Unity.Netcode;
 using Netcode.Transports.Facepunch;
 using UnityEngine.SceneManagement;
 
-public class SteamManager : MonoBehaviour
+public class SteamManager : NetworkBehaviour
 {
 
 
@@ -34,7 +34,7 @@ public class SteamManager : MonoBehaviour
         if (!NetworkManager.Singleton.IsHost) return;
 
         Debug.Log(friend.ToString() + "joined");
-        peopleInLobby.text += friend.ToString() + "\n";
+        peopleInLobby.text += friend.Name + "\n";
         UpdateUiTextClientRpc(peopleInLobby.text);
     }
 
