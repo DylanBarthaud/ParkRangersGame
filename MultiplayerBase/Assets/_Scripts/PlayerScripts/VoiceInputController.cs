@@ -1,9 +1,9 @@
 using Steamworks;
-using System.Collections.Generic;
+using System.Collections;
 using System.IO;
-using System.Linq;
 using Unity.Netcode;
 using UnityEngine;
+using UnityEngine.UI;
 
 [RequireComponent(typeof(AudioListener))]
 public class VoiceInputController : NetworkBehaviour
@@ -13,6 +13,9 @@ public class VoiceInputController : NetworkBehaviour
     [SerializeField] private float gain; 
 
     private AudioSource source;
+
+    [SerializeField] private Image voiceIcon;
+    [SerializeField] private float iconDecayTime = 0.5f;
 
     private MemoryStream output;
     private MemoryStream stream;
@@ -27,11 +30,13 @@ public class VoiceInputController : NetworkBehaviour
     private int dataReceived;
 
     private bool canHearSelf = false;
+    private Coroutine coroutine = null;
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        optimalRate = (int)SteamUser.OptimalSampleRate; // Sets the sample rate to Steam's native sample rate
+        voiceIcon.enabled = false;
+
+        optimalRate = (int)SteamUser.OptimalSampleRate; 
 
         clipBufferSize = optimalRate * 5;
         clipBuffer = new float[clipBufferSize];
@@ -56,30 +61,53 @@ public class VoiceInputController : NetworkBehaviour
             canHearSelf = !canHearSelf;
         }
 
-        //SteamUser.VoiceRecord = Input.GetKey(KeyCode.V);
-        SteamUser.VoiceRecord = true;
+        SteamUser.VoiceRecord = Input.GetKey(KeyCode.V);
 
         if (SteamUser.HasVoiceData)
         {
+            if (coroutine != null) 
+            {
+                Debug.Log("Coroutine ended");
+                StopCoroutine(coroutine);
+                coroutine = null;
+            }
+            voiceIcon.enabled = true;
+
             int compressedWritten = SteamUser.ReadVoiceData(stream);
             stream.Position = 0;
 
-           // Debug.Log("Steam User has voice");
             VoiceServerRpc(stream.GetBuffer(), compressedWritten, NetworkManager.Singleton.LocalClientId);
         }
+
     }
        
     [ServerRpc(RequireOwnership = false)]
     public void VoiceServerRpc(byte[] compressed, int bytesWritten, ulong senderId)
     {
-        //Debug.Log("VoiceServerRpc");
         VoiceDataClientRpc(compressed, bytesWritten, senderId);
     }
 
-    [ClientRpc]
-    public void VoiceDataClientRpc(byte[] compressed, int bytesWritten, ulong senderId)
+    private IEnumerator HideIcon()
     {
-        if (!canHearSelf && NetworkManager.Singleton.LocalClientId == senderId) return;
+        yield return new WaitForSeconds(iconDecayTime);
+        voiceIcon.enabled = false;
+    }
+
+
+    [ClientRpc]
+    public void VoiceDataClientRpc(byte[] compressed, int bytesWritten, ulong ownerId)
+    {
+        if (!canHearSelf && NetworkManager.Singleton.LocalClientId == ownerId) return;
+        else
+        {
+            if (coroutine == null)
+            {
+                Debug.Log("Coroutine started");
+                coroutine = StartCoroutine(HideIcon());
+            }
+        }
+
+        if (ownerId == OwnerClientId) return;
 
         input.Write(compressed, 0, bytesWritten);
         input.Position = 0;
