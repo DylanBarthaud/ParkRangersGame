@@ -35,7 +35,12 @@ public class SteamManager : NetworkBehaviour
 
         Debug.Log(friend.ToString() + "joined");
         peopleInLobby.text += friend.Name + "\n";
-        UpdateUiTextClientRpc(peopleInLobby.text);
+    }
+
+    [ServerRpc(RequireOwnership = false)]
+    private void UpdateAllUiTextServerRpc()
+    {
+        UpdateUiTextClientRpc(peopleInLobby.text); 
     }
 
     [ClientRpc]
@@ -75,6 +80,7 @@ public class SteamManager : NetworkBehaviour
         if (NetworkManager.Singleton.IsHost) return;
         NetworkManager.Singleton.gameObject.GetComponent<FacepunchTransport>().targetSteamId = lobby.Owner.Id;
         NetworkManager.Singleton.StartClient();
+        UpdateAllUiTextServerRpc(); 
     }
 
     public async void HostLobby()
