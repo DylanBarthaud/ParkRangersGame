@@ -100,7 +100,6 @@ public class Ai_testScript : NetworkBehaviour, IExpert
                     }
                 }
             }
-            Debug.Log(inSameCellAsPlayer);
             return inSameCellAsPlayer;
         }
         Leaf inSameCellAsPlayer = new Leaf("InSameCellAsPlayer", new Condition(() => (InSameCellAsPlayer())));
