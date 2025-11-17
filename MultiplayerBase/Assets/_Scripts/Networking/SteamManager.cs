@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.UI;
 using Steamworks;
 using TMPro;
 using Steamworks.Data;
@@ -17,6 +18,7 @@ public class SteamManager : MonoBehaviour
 
     [SerializeField] private GameObject mainMenu;
     [SerializeField] private GameObject inLobbyMenu;
+    [SerializeField] private TextMeshProUGUI PeopleInLobby;
 
     private static int maxMembersInLobby = 4;
 
@@ -31,6 +33,7 @@ public class SteamManager : MonoBehaviour
     private void MemberJoinedLobby(Lobby lobby, Friend friend)
     {
         Debug.Log(friend.ToString() + "joined");
+        PeopleInLobby.text += friend + "\n";
     }
 
     private void Start()
