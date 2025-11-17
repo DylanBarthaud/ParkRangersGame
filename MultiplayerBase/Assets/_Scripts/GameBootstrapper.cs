@@ -21,6 +21,6 @@ public class GameBootstrapper : MonoBehaviour
 
     private void LoadMenu()
     {
-        SceneManager.LoadScene("Menu", LoadSceneMode.Additive);
+        SceneManager.LoadScene("Menu", LoadSceneMode.Single);
     }
 }
