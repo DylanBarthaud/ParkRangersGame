@@ -3,15 +3,16 @@ using Steamworks;
 using TMPro;
 using Steamworks.Data;
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Unity.Netcode;
 using Netcode.Transports.Facepunch;
 using UnityEngine.SceneManagement;
+using NUnit.Framework;
+using System.Collections;
 
-public class SteamManager : NetworkBehaviour
+public class SteamManager : MonoBehaviour
 {
-
-
     [SerializeField] TMP_InputField lobbyIDInputField;
     [SerializeField] private TextMeshProUGUI lobbyId;
     [SerializeField] private TextMeshProUGUI peopleInLobby;
@@ -31,22 +32,13 @@ public class SteamManager : NetworkBehaviour
 
     private void MemberJoinedLobby(Lobby lobby, Friend friend)
     {
-        if (!NetworkManager.Singleton.IsHost) return;
-
         Debug.Log(friend.ToString() + "joined");
-        peopleInLobby.text += friend.Name + "\n";
-    }
-
-    [ServerRpc(RequireOwnership = false)]
-    private void UpdateAllUiTextServerRpc()
-    {
-        UpdateUiTextClientRpc(peopleInLobby.text); 
-    }
-
-    [ClientRpc]
-    private void UpdateUiTextClientRpc(string pplInLobby)
-    {
-        peopleInLobby.text = pplInLobby;
+        peopleInLobby.text = ""; 
+        IEnumerable<Friend> friends = lobby.Members;
+        foreach (Friend currentFriend in friends)
+        {
+            peopleInLobby.text += currentFriend.Name + "\n";
+        }
     }
 
     private void Start()
@@ -80,7 +72,12 @@ public class SteamManager : NetworkBehaviour
         if (NetworkManager.Singleton.IsHost) return;
         NetworkManager.Singleton.gameObject.GetComponent<FacepunchTransport>().targetSteamId = lobby.Owner.Id;
         NetworkManager.Singleton.StartClient();
-        UpdateAllUiTextServerRpc(); 
+        peopleInLobby.text = "";
+        IEnumerable<Friend> friends = lobby.Members; 
+        foreach (Friend friend in friends)
+        {
+            peopleInLobby.text += friend.Name + "\n"; 
+        }
     }
 
     public async void HostLobby()
