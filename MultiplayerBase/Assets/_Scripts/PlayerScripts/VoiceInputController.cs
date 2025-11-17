@@ -96,7 +96,6 @@ public class VoiceInputController : NetworkBehaviour
         voiceIcon.enabled = false;
     }
 
-
     [ClientRpc]
     public void VoiceDataClientRpc(byte[] compressed, int bytesWritten, ulong ownerId)
     {
@@ -109,8 +108,6 @@ public class VoiceInputController : NetworkBehaviour
                 coroutine = StartCoroutine(HideIcon());
             }
         }
-
-        if (ownerId == OwnerClientId) return;
 
         input.Write(compressed, 0, bytesWritten);
         input.Position = 0;
