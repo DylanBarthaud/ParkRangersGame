@@ -31,8 +31,17 @@ public class SteamManager : MonoBehaviour
 
     private void MemberJoinedLobby(Lobby lobby, Friend friend)
     {
+        if (!NetworkManager.Singleton.IsHost) return;
+
         Debug.Log(friend.ToString() + "joined");
-        peopleInLobby.text += friend.ToString() + "\n"; 
+        peopleInLobby.text += friend.ToString() + "\n";
+        UpdateUiTextClientRpc(peopleInLobby.text);
+    }
+
+    [ClientRpc]
+    private void UpdateUiTextClientRpc(string pplInLobby)
+    {
+        peopleInLobby.text = pplInLobby;
     }
 
     private void Start()
@@ -54,7 +63,7 @@ public class SteamManager : MonoBehaviour
             lobby.SetJoinable(true);
 
             NetworkManager.Singleton.StartHost();
-            peopleInLobby.text = "you\n"; 
+            peopleInLobby.text = lobby.Owner.Name + "\n";
         }
     }
 
