@@ -11,7 +11,7 @@ public class AudioHandler : NetworkBehaviour
     private Dictionary<string, AudioClipWrapper> audioClipDictonary = new();
     private Dictionary<AudioClipWrapper, AudioSource> audioSourceDictonary = new();
 
-    private void Awake()
+    public override void OnNetworkSpawn()
     {
         foreach (AudioClipWrapper wrappedClip in wrappedAudioClipArray)
         {

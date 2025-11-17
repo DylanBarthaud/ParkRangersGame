@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class GFXWrapper : MonoBehaviour
 {
-    [SerializeField] private MeshRenderer[] gfx;
+    [SerializeField] private GameObject[] gfx;
     [SerializeField] private string name_;
     public string gfxName => name_; 
 
@@ -13,7 +13,7 @@ public class GFXWrapper : MonoBehaviour
         {
             if (gfx != null)
             {
-                gfx.enabled = true;
+                gfx.SetActive(true); 
             }
             else Debug.LogError($"{gfxName} is NULL");
         }
@@ -25,7 +25,7 @@ public class GFXWrapper : MonoBehaviour
         {
             if (gfx != null)
             {
-                gfx.enabled = false;
+                gfx.SetActive(false);
             }
             else Debug.LogError($"{gfxName} is NULL");
         }

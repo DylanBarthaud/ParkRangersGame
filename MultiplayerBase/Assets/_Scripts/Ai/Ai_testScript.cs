@@ -100,10 +100,10 @@ public class Ai_testScript : NetworkBehaviour, IExpert
                     }
                 }
             }
-
+            Debug.Log(inSameCellAsPlayer);
             return inSameCellAsPlayer;
         }
-        Leaf inSameCellAsPlayer = new Leaf("InSameCellAsPlayer", new Condition(InSameCellAsPlayer));
+        Leaf inSameCellAsPlayer = new Leaf("InSameCellAsPlayer", new Condition(() => (InSameCellAsPlayer())));
         Leaf inDifferentCellAsPlayer = new Leaf("InDifferentCellAsPlayer", new Condition(() => (!InSameCellAsPlayer())));
 
         #region ChasePlayer Sequence
@@ -196,7 +196,6 @@ public class Ai_testScript : NetworkBehaviour, IExpert
     private void Start()
     {
         audioHandler.PlaySoundClientRpc("BadgerWalking", true, default, 15);
-
         gfxHandler.DisableGFXClientRpc("BurrowedGFX");
     }
 

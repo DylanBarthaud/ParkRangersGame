@@ -189,12 +189,12 @@ namespace BehaviourTrees
         {
             this.getCellFunc = getCellFunc;
             this.agent = agent;
+            targetPosition = Vector3.zero; 
         }
 
         public Node.Status Process()
         {
-            if(targetPosition == Vector3.zero
-                || !agent.pathPending && agent.remainingDistance <= agent.stoppingDistance)
+            if(targetPosition == Vector3.zero)
             {
                 GridPosition cell = getCellFunc();
                 //Debug.Log(cell.x + ", " + cell.z);
@@ -202,6 +202,12 @@ namespace BehaviourTrees
             }
 
             agent.SetDestination(targetPosition);
+
+            if(!agent.pathPending && agent.remainingDistance <= agent.stoppingDistance)
+            {
+                return Node.Status.Success;
+            }
+
             return Node.Status.Running;
         }
 
@@ -292,7 +298,10 @@ namespace BehaviourTrees
             gfxHandler.DisableGFXClientRpc("MonsterGFX");
             gfxHandler.EnableGFXClientRpc("BurrowedGFX");
 
-            //audioHandler.PlaySound("BurrowSound"); 
+            audioHandler.StopPlayingClipSoundClientRpc("BadgerWalking");
+            audioHandler.PlaySoundClientRpc("BadgerDigging", true); 
+
+            agent.gameObject.GetComponent<Collider>().enabled = false;
 
             agent.speed = moveSpeed;
 
@@ -333,6 +342,10 @@ namespace BehaviourTrees
             gfxHandler.EnableGFXClientRpc("MonsterGFX");
 
             //audioHandler.PlaySound("UnBurrowSound"); 
+            audioHandler.StopPlayingClipSoundClientRpc("BadgerDigging");
+            audioHandler.PlaySoundClientRpc("BadgerWalking", true, default, 15);
+
+            agent.gameObject.GetComponent<Collider>().enabled = true;
 
             agent.speed = moveSpeed;
 
