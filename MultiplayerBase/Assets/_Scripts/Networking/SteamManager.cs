@@ -20,7 +20,7 @@ public class SteamManager : MonoBehaviour
     [SerializeField] private GameObject mainMenu;
     [SerializeField] private GameObject inLobbyMenu;
 
-    private static int maxMembersInLobby = 4;
+    private static int maxMembersInLobby = 8;
 
     private void OnEnable()
     {

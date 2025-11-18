@@ -94,7 +94,15 @@ public class GameManager : NetworkBehaviour
         BlackboardKey playerToSpectateKey = playerBlackboardKeys[0];
         BlackboardKey[] spectatorKeysArray = spectatorKeys.ToArray();
         ulong[] spectatePlayerIdsArray = spectatePlayerIds.ToArray(); 
-        EnableSpectatorModeClientRpc(spectatorKeysArray, spectatePlayerIdsArray, numberOfPlayers, playerToSpectateKey);  
+        EnableSpectatorModeClientRpc(spectatorKeysArray, spectatePlayerIdsArray, numberOfPlayers, playerToSpectateKey);
+
+        if (numberOfPlayers != 0)
+        {
+            if (blackboard.TryGetValue(playerToSpectateKey, out PlayerInfo playerInfo))
+            {
+                foreach (var spectatorKey in spectatorKeysArray) playerInfo.spectators.Add(key);
+            }
+        }
     }
 
     [ClientRpc]
