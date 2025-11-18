@@ -75,26 +75,44 @@ public class GameManager : NetworkBehaviour
             return; 
         }
 
-        ulong killedPlayerId = 10;
-        if (BlackboardController.instance.GetBlackboard().TryGetValue(key, out PlayerInfo killedPlayerInfo))
+        List<BlackboardKey> spectatorKeys = new List<BlackboardKey>();
+        spectatorKeys.Add(key);
+
+        List<ulong> spectatePlayerIds = new List<ulong>();
+        Blackboard blackboard = BlackboardController.instance.GetBlackboard(); 
+        if (blackboard.TryGetValue(key, out PlayerInfo killedPlayerInfo))
         {
-            killedPlayerId = killedPlayerInfo.id;
+            spectatePlayerIds.Add(killedPlayerInfo.id);
+            foreach(var spectatorKey in killedPlayerInfo.spectators)
+            {
+                spectatorKeys.Add(spectatorKey);
+                if (blackboard.TryGetValue(spectatorKey, out PlayerInfo spectatorInfo)) spectatePlayerIds.Add(spectatorInfo.id); 
+            }
         }
         else return;
 
-        BlackboardKey playerToSpectateKey = playerBlackboardKeys[0]; 
-        EnableSpectatorModeClientRpc(key, killedPlayerId, numberOfPlayers, playerToSpectateKey);  
+        BlackboardKey playerToSpectateKey = playerBlackboardKeys[0];
+        BlackboardKey[] spectatorKeysArray = spectatorKeys.ToArray();
+        ulong[] spectatePlayerIdsArray = spectatePlayerIds.ToArray(); 
+        EnableSpectatorModeClientRpc(spectatorKeysArray, spectatePlayerIdsArray, numberOfPlayers, playerToSpectateKey);  
     }
 
     [ClientRpc]
-    private void EnableSpectatorModeClientRpc(BlackboardKey key, ulong clientId, int numOfPlayers, BlackboardKey playerToSpectateKey)
+    private void EnableSpectatorModeClientRpc(BlackboardKey[] keys, ulong[] spectatorIds, int numOfPlayers, BlackboardKey playerToSpectateKey)
     {
-        Debug.Log("IN CLIENT RPC" + NetworkManager.Singleton.LocalClientId + ", " + clientId);
-        if (clientId != NetworkManager.Singleton.LocalClientId) return;
+        Debug.Log("IN CLIENT RPC" + NetworkManager.Singleton.LocalClientId + ", " + spectatorIds);
+
+        bool needsToSpectate = false;
+        foreach (ulong id in spectatorIds)
+        {
+            if (id == NetworkManager.Singleton.LocalClientId) { needsToSpectate = true; break; }
+        }
+        if(!needsToSpectate) return;
+
         Debug.Log("IS OWNER"); 
 
         Blackboard blackboard = BlackboardController.instance.GetBlackboard();
-        if (blackboard.TryGetValue(key, out PlayerInfo killedPlayerInfo))
+        if (blackboard.TryGetValue(keys[0], out PlayerInfo killedPlayerInfo))
         {
             Debug.Log("CAM OFF");
             killedPlayerInfo.playerCamera.enabled = false;
@@ -108,6 +126,7 @@ public class GameManager : NetworkBehaviour
             {
                 Debug.Log("SPECTATE ON");
                 playerInfo.playerCamera.enabled = true;
+                foreach (var key in keys) playerInfo.spectators.Add(key);
                 uiManager.SetSpectatePanelOn(); 
             }
         }
