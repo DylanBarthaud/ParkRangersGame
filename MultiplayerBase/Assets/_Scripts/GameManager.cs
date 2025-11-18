@@ -100,11 +100,12 @@ public class GameManager : NetworkBehaviour
     [ClientRpc]
     private void EnableSpectatorModeClientRpc(BlackboardKey[] keys, ulong[] spectatorIds, int numOfPlayers, BlackboardKey playerToSpectateKey)
     {
-        Debug.Log("IN CLIENT RPC" + NetworkManager.Singleton.LocalClientId + ", " + spectatorIds);
+        Debug.Log("IN CLIENT RPC");
 
         bool needsToSpectate = false;
         foreach (ulong id in spectatorIds)
         {
+            Debug.Log(id + " " + NetworkManager.Singleton.LocalClientId);
             if (id == NetworkManager.Singleton.LocalClientId) { needsToSpectate = true; break; }
         }
         if(!needsToSpectate) return;

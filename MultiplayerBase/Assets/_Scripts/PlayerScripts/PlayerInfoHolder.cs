@@ -1,5 +1,6 @@
 using BlackboardSystem;
 using System;
+using System.Collections.Generic;
 using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -24,6 +25,7 @@ public class PlayerInfoHolder : NetworkBehaviour, IAiViewable, IHurtable
         playerInfo.playerCamera = transform.GetChild(0).GetChild(0).GetComponent<Camera>();
         playerInfo.health = playerHealth;
         playerInfo.id = OwnerClientId;
+        playerInfo.spectators = new List<BlackboardKey>();  
         UpdateInfo(false, 0, 200);
 
         EventManager.instance.OnPlayerSpawned(playerInfo_Key);
