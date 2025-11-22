@@ -27,7 +27,6 @@ public class AudioHandler : NetworkBehaviour
         AudioClip audioClip;
 
         (audioSource, audioClip) = GetSourceAndClip(clipName);
-
         audioSource.loop = loop;
         audioSource.minDistance = minDist;
         audioSource.maxDistance = maxDist;
@@ -42,7 +41,6 @@ public class AudioHandler : NetworkBehaviour
         AudioClip audioClip;
 
         (audioSource, audioClip) = GetSourceAndClip(clipName);
-
         if (audioSource.clip == audioClip) audioSource.Stop();
     }
 

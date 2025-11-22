@@ -1,10 +1,8 @@
 using BlackboardSystem;
-using System;
 using System.Collections.Generic;
 using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using static UnityEngine.GraphicsBuffer;
 
 public class GameManager : NetworkBehaviour
 {

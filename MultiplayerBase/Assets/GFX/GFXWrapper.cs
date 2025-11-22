@@ -4,18 +4,15 @@ using UnityEngine;
 public class GFXWrapper : MonoBehaviour
 {
     [SerializeField] private GameObject[] gfx;
-    [SerializeField] private string name_;
-    public string gfxName => name_; 
+    [SerializeField] private string gfxName;
+    public string GfxName => gfxName; 
 
     public void EnableGFX()
     {
         foreach (var gfx in gfx)
         {
-            if (gfx != null)
-            {
-                gfx.SetActive(true); 
-            }
-            else Debug.LogError($"{gfxName} is NULL");
+            if (gfx != null) gfx.SetActive(true); 
+            else Debug.LogError($"{GfxName} is NULL");
         }
     }
 
@@ -23,11 +20,8 @@ public class GFXWrapper : MonoBehaviour
     {
         foreach (var gfx in gfx)
         {
-            if (gfx != null)
-            {
-                gfx.SetActive(false);
-            }
-            else Debug.LogError($"{gfxName} is NULL");
+            if (gfx != null) gfx.SetActive(false);
+            else Debug.LogError($"{GfxName} is NULL");
         }
     }
 }

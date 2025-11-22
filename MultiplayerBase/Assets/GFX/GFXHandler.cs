@@ -12,27 +12,21 @@ public class GFXHandler : NetworkBehaviour
     {
         foreach (GFXWrapper wrappedGfx in gfxWrapperArray)
         {
-            gfxDictonary.Add(wrappedGfx.gfxName, wrappedGfx);
+            gfxDictonary.Add(wrappedGfx.GfxName, wrappedGfx);
         }
     }
 
     [ClientRpc]
     public void EnableGFXClientRpc(string gfxName)
     {
-        if (gfxDictonary.ContainsKey(gfxName))
-        {
-            gfxDictonary[gfxName].EnableGFX();
-        }
+        if (gfxDictonary.ContainsKey(gfxName)) gfxDictonary[gfxName].EnableGFX();
         else Debug.LogError($"GFX Dictionary does not contain {gfxName} as a key");
     }
 
     [ClientRpc]
     public void DisableGFXClientRpc(string gfxName)
     {
-        if (gfxDictonary.ContainsKey(gfxName))
-        {
-            gfxDictonary[gfxName].DisableGFX();
-        }
+        if (gfxDictonary.ContainsKey(gfxName)) gfxDictonary[gfxName].DisableGFX();
         else Debug.LogError($"GFX Dictionary does not contain {gfxName} as a key");
     }
 }

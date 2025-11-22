@@ -9,7 +9,7 @@ using UnityEngine.AI;
 using UnityEngine.InputSystem;
 
 [RequireComponent(typeof(NavMeshAgent))]
-public class Ai_testScript : NetworkBehaviour, IExpert
+public class Ai_testScript : NetworkBehaviour
 {
     private NavMeshAgent agent;
 
@@ -57,7 +57,6 @@ public class Ai_testScript : NetworkBehaviour, IExpert
         };
 
         blackboard = blackboardController.GetBlackboard();
-        blackboardController.RegisterExpert(this);
         AiMonsterKey = blackboard.GetOrRegisterKey("AiMonsterKey");
         blackboard.SetValue(AiMonsterKey, aiInfo);
         #endregion
@@ -223,18 +222,4 @@ public class Ai_testScript : NetworkBehaviour, IExpert
         if (!IsHost) return;
         root.Process();
     }
-
-    #region IExpert implimentation
-
-    public int GetInsistence(Blackboard blackboard)
-    {
-       int insistence = 0;
-       return insistence;
-    }
-
-    public void Execute(Blackboard blackboard)
-    {
-    }
-
-    #endregion
 }
