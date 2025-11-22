@@ -15,6 +15,12 @@ public class AudioHandler : NetworkBehaviour
     {
         foreach (AudioClipWrapper wrappedClip in wrappedAudioClipArray)
         {
+            if(wrappedClip.sourceId > audioSourceArray.Length - 1)
+            {
+                Debug.LogWarning($"Audio source {wrappedClip.sourceId} doesn't exist");
+                continue;
+            }
+
             audioClipDictonary.Add(wrappedClip.clipName, wrappedClip);
             audioSourceDictonary.Add(wrappedClip, audioSourceArray[wrappedClip.sourceId]); 
         }

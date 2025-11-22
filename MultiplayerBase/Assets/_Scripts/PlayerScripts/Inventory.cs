@@ -4,8 +4,8 @@ using UnityEngine;
 public class Inventory : MonoBehaviour
 {
     [SerializeField] GameObject inventoryUi; 
-    private List<Item> items = new List<Item>();
-    private int selectedItemSlot; 
+    [SerializeField] private List<Item> items = new List<Item>();
+    [SerializeField] private int selectedItemSlot; 
 
     private void Awake()
     {

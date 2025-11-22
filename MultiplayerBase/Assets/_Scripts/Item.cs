@@ -1,7 +1,8 @@
+using Unity.Netcode;
 using UnityEngine;
 
 [RequireComponent(typeof(Collider))]
-public abstract class Item : MonoBehaviour, IInteractable
+public abstract class Item : NetworkBehaviour, IInteractable
 {
     [SerializeField] private Sprite sprite;
     [SerializeField] private bool removeOnPickUp = true; 
