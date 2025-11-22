@@ -6,6 +6,5 @@ public class Test_Item : Item
     {
         Debug.Log("USED ITEM:" + name);
         GetComponent<AudioHandler>().PlaySoundClientRpc("Bob", default, 20, 400); 
-        GetComponent<GFXHandler>().DisableGFXClientRpc("ItemGfx"); 
     }
 }
