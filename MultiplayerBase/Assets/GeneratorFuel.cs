@@ -6,6 +6,14 @@ public class GeneratorFuel : NetworkBehaviour, IInteractable
 {
     private NetworkVariable<bool> isBeingPressed = new NetworkVariable<bool>();
 
+    public override void OnNetworkSpawn()
+    {
+        if (IsHost)
+        {
+            isBeingPressed.Value = false;
+        }
+    }
+
     public bool CanInteract(Interactor interactor)
     {
         return !isBeingPressed.Value;
