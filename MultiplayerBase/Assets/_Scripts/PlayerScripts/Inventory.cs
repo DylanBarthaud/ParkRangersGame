@@ -7,8 +7,8 @@ public class Inventory : MonoBehaviour
     [SerializeField] GameObject inventoryUi;
     [SerializeField] GameObject[] inventorySlots;
     [SerializeField] Sprite baseInvSlotSprite; 
-    private List<Item> items = new List<Item>();
-    private int selectedItemSlot; 
+    [SerializeField] private List<Item> items = new List<Item>();
+    [SerializeField] private int selectedItemSlot; 
 
     private void Awake()
     {
@@ -19,27 +19,46 @@ public class Inventory : MonoBehaviour
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.Tab)) inventoryUi.SetActive(!inventoryUi.activeInHierarchy);
-        if (Input.GetKeyDown(KeyCode.Mouse0) && items.Count > 0) items[selectedItemSlot].UseItem();
+
+        if (Input.GetKeyDown(KeyCode.Mouse0) && 
+            items.Count > 0 && 
+            !IsItemNull(items[selectedItemSlot])) items[selectedItemSlot].UseItem();
+
         if (Input.GetKeyDown(KeyCode.Q) && items.Count > 0)
         {
+            if (IsItemNull(items[selectedItemSlot])) return; 
             Vector3 newPos = new Vector3(transform.position.x + 4, transform.position.y, transform.position.z);
             items[selectedItemSlot].DropItem(newPos);
-            inventorySlots[selectedItemSlot].transform.GetChild(0).GetComponent<Image>().sprite = baseInvSlotSprite;
+            inventorySlots[items.Count - 1].transform.GetChild(0).GetComponent<Image>().sprite = baseInvSlotSprite;
             items.Remove(items[selectedItemSlot]);
-            if (selectedItemSlot > items.Count - 1) selectedItemSlot -= 1; 
+            if (selectedItemSlot > items.Count - 1 && selectedItemSlot > 0)
+            {
+                inventorySlots[selectedItemSlot].GetComponent<Image>().color = Color.gray;
+                selectedItemSlot -= 1;
+                inventorySlots[selectedItemSlot].GetComponent<Image>().color = Color.green;
+
+            }
         }
+
         if (Input.mouseScrollDelta.y > 0 && selectedItemSlot < items.Count - 1)
         {
             inventorySlots[selectedItemSlot].GetComponent<Image>().color = Color.gray;
             selectedItemSlot++;
             inventorySlots[selectedItemSlot].GetComponent<Image>().color = Color.green;
         }
+
         if (Input.mouseScrollDelta.y < 0 && selectedItemSlot > 0)
         {
             inventorySlots[selectedItemSlot].GetComponent<Image>().color = Color.gray;
             selectedItemSlot--;
             inventorySlots[selectedItemSlot].GetComponent<Image>().color = Color.green;
         }
+    }
+
+    private bool IsItemNull(Item? item)
+    {
+        if (item == null) return true;
+        return false; 
     }
 
     public bool AddItemToInventory(Item item)
