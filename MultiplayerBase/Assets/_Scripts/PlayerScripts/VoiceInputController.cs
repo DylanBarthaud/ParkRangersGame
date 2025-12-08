@@ -81,6 +81,14 @@ public class VoiceInputController : NetworkBehaviour
 
             VoiceServerRpc(stream.GetBuffer(), compressedWritten, NetworkManager.Singleton.LocalClientId);
         }
+        else
+        {
+            if (coroutine == null) // Only starts the HideIcon() coroutine if it isn't already active
+            {
+                Debug.Log("Coroutine started");
+                coroutine = StartCoroutine(HideIcon());
+            }
+        }
 
     }
        
