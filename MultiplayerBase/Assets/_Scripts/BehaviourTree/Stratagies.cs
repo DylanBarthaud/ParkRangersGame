@@ -254,7 +254,6 @@ namespace BehaviourTrees
 
             if(agentCellPos == targetCell)
             {
-                Debug.Log("Arrived");
                 return Node.Status.Success;
             }
 
@@ -289,7 +288,6 @@ namespace BehaviourTrees
         public Node.Status Process()
         { 
             if(isBurrowedFunc()) return Node.Status.Success;
-            Debug.Log("Burrow");
 
             EventManager.instance.OnBurrow(agent.transform.position); 
 
@@ -299,7 +297,7 @@ namespace BehaviourTrees
             gfxHandler.EnableGFXClientRpc("BurrowedGFX");
 
             audioHandler.StopPlayingClipSoundClientRpc("BadgerWalking");
-            audioHandler.PlaySoundClientRpc("BadgerDigging", true); 
+            audioHandler.PlaySoundClientRpc("BadgerDigging", true, 0.5f, default, 20); 
 
             agent.gameObject.GetComponent<Collider>().enabled = false;
 
@@ -330,9 +328,7 @@ namespace BehaviourTrees
 
         public Node.Status Process()
         {
-            Debug.Log("UnBurrow1");
             if (!isBurrowedFunc()) return Node.Status.Success;
-            Debug.Log("UnBurrow");
 
             EventManager.instance.OnUnBurrow(agent.transform.position);
 
@@ -342,8 +338,8 @@ namespace BehaviourTrees
             gfxHandler.EnableGFXClientRpc("MonsterGFX");
 
             //audioHandler.PlaySound("UnBurrowSound"); 
-            audioHandler.StopPlayingClipSoundClientRpc("BadgerDigging");
-            audioHandler.PlaySoundClientRpc("BadgerWalking", true, default, 15);
+            //audioHandler.StopPlayingClipSoundClientRpc("BadgerDigging");
+            audioHandler.PlaySoundClientRpc("BadgerWalking", true, 1, 5, 15);
 
             agent.gameObject.GetComponent<Collider>().enabled = true;
 

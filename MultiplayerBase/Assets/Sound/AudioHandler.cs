@@ -27,13 +27,14 @@ public class AudioHandler : NetworkBehaviour
     }
 
     [ClientRpc]
-    public void PlaySoundClientRpc(string clipName, bool loop = false, float minDist = 5, float maxDist = 100)
+    public void PlaySoundClientRpc(string clipName, bool loop = false, float volume = 1, float minDist = 5, float maxDist = 100)
     {
         AudioSource audioSource;
         AudioClip audioClip;
 
         (audioSource, audioClip) = GetSourceAndClip(clipName);
         audioSource.loop = loop;
+        audioSource.volume = volume;
         audioSource.minDistance = minDist;
         audioSource.maxDistance = maxDist;
         audioSource.clip = audioClip;

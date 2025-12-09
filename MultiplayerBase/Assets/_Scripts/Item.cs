@@ -5,6 +5,20 @@ using UnityEngine;
 public abstract class Item : NetworkBehaviour, IInteractable
 {
     [SerializeField] private Sprite sprite;
+    [SerializeField] private bool infiniteUses = true; 
+    public bool InfiniteUses => infiniteUses;
+    [SerializeField] protected int uses;
+    public int Uses => uses;
+
+    [SerializeField] private bool hasAudio = false;
+    public bool HasAudio => hasAudio;
+
+    [SerializeField] protected float audioVolume = 1; 
+    public float AudioVolume => audioVolume;
+
+    [SerializeField] private string audioName;
+    public string AudioName => audioName;
+
     [SerializeField] private bool removeOnPickUp = true; 
     public Sprite Sprite => sprite;
 
@@ -15,7 +29,7 @@ public abstract class Item : NetworkBehaviour, IInteractable
         gFXHandler = GetComponent<GFXHandler>();
     }
 
-    public abstract void UseItem();
+    public abstract void UseItem(GameObject user);
     public void DropItem(Vector3 newPos) 
     {
         if (gFXHandler != null && removeOnPickUp) gFXHandler.EnableGFXClientRpc("ItemGFX");

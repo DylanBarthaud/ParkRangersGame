@@ -162,6 +162,7 @@ public class FirstPersonController : NetworkBehaviour
         EventManager.instance.onButtonReleased += EnableMovement;
         EventManager.instance.onButtonPressed += EnableMovement; 
         EventManager.instance.onPlayerKilled += OnPlayerKilled;
+        EventManager.instance.onTick += OnTick;
     }
 
     private void EnableMovement()
@@ -495,6 +496,28 @@ public class FirstPersonController : NetworkBehaviour
         }
 
         #endregion
+    }
+
+    int localTick = 0;
+    private void OnTick(int obj)
+    {
+        if (Input.GetKey(KeyCode.E))
+        {
+            Interactor interactor = gameObject.GetComponent<Interactor>();
+
+            if (interactor != null)
+            {
+                interactor.Interact(localTick);
+                localTick++;
+            }
+        }
+        else if (localTick > 0)
+        {
+            Interactor interactor = gameObject.GetComponent<Interactor>();
+            interactor.Release(localTick);
+
+            localTick = 0;
+        }
     }
 
     // Sets isGrounded based on a raycast sent straigth down from the player object

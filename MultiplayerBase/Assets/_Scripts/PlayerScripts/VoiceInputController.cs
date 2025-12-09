@@ -12,7 +12,7 @@ public class VoiceInputController : NetworkBehaviour
 
     [SerializeField] private float gain; 
 
-    private AudioSource source;
+    [SerializeField] private AudioSource source;
 
     [SerializeField] private Image voiceIcon;
     [SerializeField] private float iconDecayTime = 0.5f;
@@ -43,7 +43,6 @@ public class VoiceInputController : NetworkBehaviour
         output = new MemoryStream();
         input = new MemoryStream();
 
-        source = GetComponent<AudioSource>();
         source.clip = AudioClip.Create("VoiceData", optimalRate, 1, optimalRate, true, OnAudioRead, null);
         source.loop = true;
         source.Play();

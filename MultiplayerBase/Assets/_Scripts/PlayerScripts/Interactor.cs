@@ -7,54 +7,34 @@ public class Interactor : NetworkBehaviour
     [SerializeField] private float interactRange;
     [SerializeField] private LayerMask interactMask;
 
-    public override void OnNetworkSpawn()
+    public void Interact(int tick = 0)
     {
-        EventManager.instance.onTick += OnTick;
+        Collider[] seenObjColliders = Physics.OverlapSphere(transform.position, interactRange, interactMask);
+        foreach (Collider collider in seenObjColliders)
+        {
+            IInteractable interactable = collider.GetComponent<IInteractable>();
+            if (interactable != null)
+            {
+                if (tick == 0)
+                {
+                    if (!interactable.CanInteract(this)) continue;
+                    interactable.OnInteract(this);
+                }
+                else interactable.OnInteractHeld(this, tick);
+            }
+        }
     }
 
-    int localTick = 0; 
-    private void OnTick(int tick)
+    public void Release(int tick = 0)
     {
-        if (!IsOwner) return;
-
-        Collider[] seenObjColliders = Physics.OverlapSphere(transform.position, interactRange, interactMask);
-        if (Input.GetKey(KeyCode.E))
+        if (tick > 0)
         {
+            Collider[] seenObjColliders = Physics.OverlapSphere(transform.position, interactRange, interactMask);
             foreach (Collider collider in seenObjColliders)
             {
                 IInteractable interactable = collider.GetComponent<IInteractable>();
-                if (interactable != null)
-                {
-                    if (localTick == 0)
-                    {
-                        if (interactable.CanInteract(this) == false) continue;
-                        interactable.OnInteract(this);
-                    }
-                    else interactable.OnInteractHeld(this, localTick);
-
-                    localTick++;
-                }
+                if (interactable != null) interactable.OnInteractReleased(this, tick);
             }
         }
-
-        else
-        {
-            if(localTick > 0)
-            {
-                foreach (Collider collider in seenObjColliders)
-                {
-                    IInteractable interactable = collider.GetComponent<IInteractable>();
-                    if(interactable != null) interactable.OnInteractReleased(this, localTick);
-                }
-            }
-
-            localTick = 0;
-        }
-
-    }
-
-    public override void OnNetworkDespawn()
-    {
-        EventManager.instance.onTick += OnTick;
     }
 }
