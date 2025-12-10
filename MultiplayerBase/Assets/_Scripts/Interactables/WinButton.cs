@@ -30,7 +30,7 @@ public class WinButton : NetworkBehaviour, IInteractable
 
         if (tick == 30)
         {
-            EventManager.instance.OnButtonPressed();
+            EventManager.instance.OnPuzzleComplete();
             DeleteButtonServerRpc();
         }
     }

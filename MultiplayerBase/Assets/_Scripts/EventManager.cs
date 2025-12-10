@@ -26,7 +26,8 @@ public class EventManager : MonoBehaviour
     public event Action<BlackboardKey> onPlayerSpawned;
     public event Action<BlackboardKey> onPlayerKilled;
 
-    public event Action onButtonPressed; 
+    public event Action<bool, IInteractable> onPuzzleComplete; 
+
     public event Action<int,Interactor> onButtonHeld;
     public event Action onButtonReleased;
 
@@ -59,9 +60,9 @@ public class EventManager : MonoBehaviour
         if (onPlayerKilled != null) onPlayerKilled(playerKey);
     }
 
-    public void OnButtonPressed()
+    public void OnPuzzleComplete(bool success = true, IInteractable puzzle = null)
     {
-        if(onButtonPressed != null) onButtonPressed();
+        if(onPuzzleComplete != null) onPuzzleComplete(success, puzzle);
     }
     public void OnButtonHeld(int tick, Interactor interactor)
     {

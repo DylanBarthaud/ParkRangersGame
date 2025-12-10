@@ -8,6 +8,9 @@ public class GameManager : NetworkBehaviour
 {
     public static GameManager instance;
 
+    [Header("Gameplay")]
+    [SerializeField] int taskCompleteNeeded = 5; 
+
     public MapHandler mapHandler;
     [Header("Grid")]
     [SerializeField] int width; 
@@ -29,18 +32,23 @@ public class GameManager : NetworkBehaviour
 
         EventManager.instance.onPlayerSpawned += OnPlayerSpawnedServerRpc;
         EventManager.instance.onPlayerKilled += OnPlayerKilledServerRpc;
-        EventManager.instance.onButtonPressed += OnButtonPressedServerRpc;
+        EventManager.instance.onPuzzleComplete += OnPuzzleComplete;
+    }
+
+    private void OnPuzzleComplete(bool s, IInteractable puzzle)
+    {
+        if (!s) return;
+        OnPuzzleCompleteServerRpc(); 
     }
 
     [ServerRpc(RequireOwnership = false)]
-    private void OnButtonPressedServerRpc()
+    private void OnPuzzleCompleteServerRpc()
     {
         buttonsPressed++;
-        //Debug.Log("BUTTON PRESSED");
 
         ChangeButtonsPressedUIClientRpc(buttonsPressed); 
 
-        if (buttonsPressed >= 5)
+        if (buttonsPressed >= taskCompleteNeeded)
         {
             Debug.Log("YOU WIN!"); 
             EndGame();
@@ -50,7 +58,7 @@ public class GameManager : NetworkBehaviour
     [ClientRpc]
     private void ChangeButtonsPressedUIClientRpc(int buttons)
     {
-        uiManager.ButtonsPressedText.text = buttons.ToString() + " / 5";
+        uiManager.ButtonsPressedText.text = buttons.ToString() + " / " + taskCompleteNeeded;
     }
 
     [ServerRpc(RequireOwnership = false)]

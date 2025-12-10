@@ -24,7 +24,13 @@ public class Campfire : NetworkBehaviour, IInteractable
 
     public void OnInteract(Interactor interactor)
     {
-        EventManager.instance.OnButtonPressed();
+        EventManager.instance.OnPuzzleComplete();
+        PutOutCampfireClientRpc(); 
+    }
+
+    [ClientRpc]
+    private void PutOutCampfireClientRpc()
+    {
         logs.material = putOutMat;
         ps.Stop();
         audioSource.Stop();

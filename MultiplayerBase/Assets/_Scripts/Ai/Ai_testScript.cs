@@ -23,7 +23,9 @@ public class Ai_testScript : NetworkBehaviour
     [SerializeField] BlackboardController blackboardController;
 
     [Header("Base Settings")]
-    [SerializeField] private float baseSpeed, investigateHintSpeed, chaseSpeed;
+    [SerializeField] private float baseSpeed;
+    [SerializeField] private float chaseSpeed;
+    [SerializeField] private float investigateHintSpeed;
 
     [Header("Stalk Settings")]
     [SerializeField] private float stalkSpeed;
