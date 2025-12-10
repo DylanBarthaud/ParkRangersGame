@@ -12,6 +12,9 @@ public class UIManager : MonoBehaviour
     [Header("Snare Game")]
     [SerializeField] private GameObject snareGameUi;
 
+    [Header("FuseBox Game")]
+    [SerializeField] private GameObject fuseGameUi; 
+
     private void Awake()
     {
         slider.gameObject.SetActive(false);
@@ -52,5 +55,15 @@ public class UIManager : MonoBehaviour
     public void DisableSnareGameUi()
     {
         snareGameUi?.SetActive(false);
+    }
+
+    public void EnableFuseGameUi(FuseBox fuseBox)
+    {
+        fuseGameUi.SetActive(true);
+    }
+
+    public void DisableFuseGameUi()
+    {
+        fuseGameUi?.SetActive(false);
     }
 }

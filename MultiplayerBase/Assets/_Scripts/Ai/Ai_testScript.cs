@@ -16,7 +16,7 @@ public class Ai_testScript : NetworkBehaviour
     Root root;
 
     [Header("Handlers")]
-    [SerializeField] AudioHandler audioHandler;
+    [SerializeField] MultiplayerAudioHandlerWrapper audioHandler;
     [SerializeField] GFXHandler gfxHandler;
 
     [Header("Blackboard")]

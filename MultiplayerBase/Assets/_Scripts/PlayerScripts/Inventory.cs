@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -8,16 +9,44 @@ public class Inventory : MonoBehaviour
     [SerializeField] GameObject[] inventorySlots;
     [SerializeField] Sprite baseInvSlotSprite; 
     [SerializeField] private List<Item> items = new List<Item>();
-    [SerializeField] private int selectedItemSlot; 
+    [SerializeField] private int selectedItemSlot;
+
+    [HideInInspector] public bool canUseInv = true;
 
     private void Awake()
     {
         inventorySlots[0].GetComponent<Image>().color = Color.green;
         inventoryUi.SetActive(false);
+
+        EventManager.instance.onPuzzleComplete += OnPuzzleComplete;
+        EventManager.instance.onButtonReleased += EnableInv;
+        EventManager.instance.onButtonHeld += OnButtonHeld; 
+
+    }
+
+    private void OnButtonHeld(int arg1, Interactor interactor)
+    {
+        DisableInv();
+    }
+
+    private void OnPuzzleComplete(bool arg1, IInteractable interactable)
+    {
+        EnableInv();
+    }
+
+    public void EnableInv()
+    {
+        canUseInv = true;
+    }
+
+    public void DisableInv()
+    {
+        canUseInv = false;
     }
 
     private void Update()
     {
+        if (!canUseInv) return; 
         if (Input.GetKeyDown(KeyCode.Tab)) inventoryUi.SetActive(!inventoryUi.activeInHierarchy);
 
         if (Input.GetKeyDown(KeyCode.Mouse0) 
@@ -26,7 +55,7 @@ public class Inventory : MonoBehaviour
         {
             Item selectedItem = items[selectedItemSlot];
             selectedItem.UseItem(gameObject);
-            if(selectedItem.HasAudio) GetComponent<AudioHandler>().PlaySoundClientRpc(selectedItem.AudioName, default, selectedItem.AudioVolume);
+            if(selectedItem.HasAudio) GetComponent<MultiplayerAudioHandlerWrapper>().PlaySoundClientRpc(selectedItem.AudioName, default, selectedItem.AudioVolume);
             if (!selectedItem.InfiniteUses && selectedItem.Uses <= 0) RemoveItem(selectedItem); 
         }
 

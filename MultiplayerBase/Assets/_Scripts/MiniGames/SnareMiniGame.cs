@@ -18,6 +18,8 @@ public class SnareMiniGame : MonoBehaviour
 
     [HideInInspector] public SnareTrap trap;
 
+    [SerializeField] AudioHandler audioHandler;
+
     private void OnEnable()
     {
         wins = 0; 
@@ -34,7 +36,9 @@ public class SnareMiniGame : MonoBehaviour
                 slider.value < setChecks.value + 3)
             {
                 wins++;
-                if(wins >= winsNeeded)
+                audioHandler.PlaySound("Snip"); 
+
+                if (wins >= winsNeeded)
                 {
                     EventManager.instance.OnPuzzleComplete();
                     GameManager.instance.uiManager.DisableSnareGameUi();
@@ -44,8 +48,9 @@ public class SnareMiniGame : MonoBehaviour
             else
             {
                 loses++;
+                audioHandler.PlaySound("Woosh");
 
-                if(loses >= losesNeeded)
+                if (loses >= losesNeeded)
                 {
                     FailGame();
                 }

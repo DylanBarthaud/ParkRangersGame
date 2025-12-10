@@ -664,6 +664,7 @@ GameObject:
   - component: {fileID: -1635927792753444105}
   - component: {fileID: -2821817791472356823}
   - component: {fileID: 6199517553978207084}
+  - component: {fileID: 1539057979975185806}
   - component: {fileID: -7024500352053469992}
   - component: {fileID: -8493547404905070063}
   m_Layer: 6
@@ -1108,6 +1109,21 @@ MonoBehaviour:
   baseInvSlotSprite: {fileID: 21300000, guid: 127279d577f25ac4ea17dae3782e5074, type: 3}
   items: []
   selectedItemSlot: 0
+  canUseInv: 1
+--- !u!114 &1539057979975185806
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4459864850019384750}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b01d2dff0eb88234ab30ce7bfbf9009d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
+  audioHandler: {fileID: -7024500352053469992}
 --- !u!114 &-7024500352053469992
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1120,7 +1136,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2887583503b93ad4eb20a13f0e1b3847, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ShowTopMostFoldoutHeaderGroup: 1
   audioSourceArray:
   - {fileID: -8493547404905070063}
   wrappedAudioClipArray:

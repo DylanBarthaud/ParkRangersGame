@@ -1,21 +1,19 @@
-using System;
 using Unity.Netcode;
 using UnityEngine;
-using static UnityEditor.Rendering.CameraUI;
 
-public class SnareTrap : NetworkBehaviour, IInteractable
+public class FuseBox : NetworkBehaviour, IInteractable
 {
-    [HideInInspector] public bool canInteract = true; 
+    [HideInInspector] public bool canInteract = true;
 
     public void OnInteract(Interactor interactor)
     {
-        FirstPersonController playerController = interactor.GetComponent<FirstPersonController>(); 
+        FirstPersonController playerController = interactor.GetComponent<FirstPersonController>();
         if (playerController != null)
         {
             playerController.DisableMovement();
-            interactor.GetComponent<Inventory>().canUseInv = false;
+            interactor.GetComponent<Inventory>().DisableInv();
 
-            GameManager.instance.uiManager.EnableSnareGameUi(this); 
+            GameManager.instance.uiManager.EnableFuseGameUi(this);
         }
     }
 

@@ -125,10 +125,10 @@ namespace BehaviourTrees
         readonly float stalkMinDistance; 
         readonly float stalkMaxDistance; 
         readonly float maxStalkTime;
-        readonly AudioHandler audioHandler;
+        readonly MultiplayerAudioHandlerWrapper audioHandler;
         private float stalkTime;
 
-        public StalkPlayerStrategy(Func<PlayerInfo> playerInfoFunc, NavMeshAgent agent, float stalkSpeed, float maxStalkTime, float stalkMinDistance, float stalkMaxDistance, AudioHandler audioHandler)
+        public StalkPlayerStrategy(Func<PlayerInfo> playerInfoFunc, NavMeshAgent agent, float stalkSpeed, float maxStalkTime, float stalkMinDistance, float stalkMaxDistance, MultiplayerAudioHandlerWrapper audioHandler)
         {
             this.playerInfoFunc = playerInfoFunc;
             this.agent = agent;
@@ -273,9 +273,9 @@ namespace BehaviourTrees
         readonly float burrowTime;
         readonly Func<bool> isBurrowedFunc;
         readonly GFXHandler gfxHandler;
-        readonly AudioHandler audioHandler;
+        readonly MultiplayerAudioHandlerWrapper audioHandler;
 
-        public BurrowStrategy(NavMeshAgent agent, float moveSpeed, float burrowTime, Func<bool> isBurrowedFunc, GFXHandler gFXHandler, AudioHandler audioHandler)
+        public BurrowStrategy(NavMeshAgent agent, float moveSpeed, float burrowTime, Func<bool> isBurrowedFunc, GFXHandler gFXHandler, MultiplayerAudioHandlerWrapper audioHandler)
         {
             this.agent = agent;
             this.moveSpeed = moveSpeed;
@@ -314,9 +314,9 @@ namespace BehaviourTrees
         readonly float unBurrowTime;
         readonly Func<bool> isBurrowedFunc;
         readonly GFXHandler gfxHandler;
-        readonly AudioHandler audioHandler;
+        readonly MultiplayerAudioHandlerWrapper audioHandler;
 
-        public UnBurrowStrategy(NavMeshAgent agent, float moveSpeed, float unBurrowTime, Func<bool> isBurrowedFunc, GFXHandler gFXHandler, AudioHandler audioHandler)
+        public UnBurrowStrategy(NavMeshAgent agent, float moveSpeed, float unBurrowTime, Func<bool> isBurrowedFunc, GFXHandler gFXHandler, MultiplayerAudioHandlerWrapper audioHandler)
         {
             this.agent = agent;
             this.moveSpeed = moveSpeed;

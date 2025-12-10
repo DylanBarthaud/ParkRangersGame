@@ -3,7 +3,7 @@ using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.Audio;
 
-public class AudioHandler : NetworkBehaviour
+public class AudioHandler : MonoBehaviour
 {
     [SerializeField] AudioSource[] audioSourceArray;
     [SerializeField] AudioClipWrapper[] wrappedAudioClipArray;
@@ -11,23 +11,31 @@ public class AudioHandler : NetworkBehaviour
     private Dictionary<string, AudioClipWrapper> audioClipDictonary = new();
     private Dictionary<AudioClipWrapper, AudioSource> audioSourceDictonary = new();
 
-    public override void OnNetworkSpawn()
+    private void Awake()
     {
+        SetUp(); 
+    }
+
+    private bool hasSetUp = false;
+    public bool HasSetUp => hasSetUp;
+    public void SetUp()
+    {
+        hasSetUp = true;
+
         foreach (AudioClipWrapper wrappedClip in wrappedAudioClipArray)
         {
-            if(wrappedClip.sourceId > audioSourceArray.Length - 1)
+            if (wrappedClip.sourceId > audioSourceArray.Length - 1)
             {
                 Debug.LogWarning($"Audio source {wrappedClip.sourceId} doesn't exist");
                 continue;
             }
 
             audioClipDictonary.Add(wrappedClip.clipName, wrappedClip);
-            audioSourceDictonary.Add(wrappedClip, audioSourceArray[wrappedClip.sourceId]); 
+            audioSourceDictonary.Add(wrappedClip, audioSourceArray[wrappedClip.sourceId]);
         }
     }
 
-    [ClientRpc]
-    public void PlaySoundClientRpc(string clipName, bool loop = false, float volume = 1, float minDist = 5, float maxDist = 100)
+    public void PlaySound(string clipName, bool loop = false, float volume = 1, float minDist = 5, float maxDist = 100, float pitch = 1)
     {
         AudioSource audioSource;
         AudioClip audioClip;
@@ -37,12 +45,12 @@ public class AudioHandler : NetworkBehaviour
         audioSource.volume = volume;
         audioSource.minDistance = minDist;
         audioSource.maxDistance = maxDist;
+        audioSource.pitch = pitch;
         audioSource.clip = audioClip;
         audioSource.Play();
     }
 
-    [ClientRpc]
-    public void StopPlayingClipSoundClientRpc(string clipName)
+    public void StopPlayingClipSound(string clipName)
     {
         AudioSource audioSource;
         AudioClip audioClip;
@@ -51,11 +59,10 @@ public class AudioHandler : NetworkBehaviour
         if (audioSource.clip == audioClip) audioSource.Stop();
     }
 
-    [ClientRpc]
-    public void StopSoundFromAudioSourceClientRpc(int sourceId)
+    public void StopSoundFromAudioSource(int sourceId)
     {
-        AudioSource audioSource = audioSourceArray[sourceId]; 
-        if(audioSource.isPlaying) audioSource.Stop();
+        AudioSource audioSource = audioSourceArray[sourceId];
+        if (audioSource.isPlaying) audioSource.Stop();
     }
 
     private (AudioSource, AudioClip) GetSourceAndClip(string clipName)
