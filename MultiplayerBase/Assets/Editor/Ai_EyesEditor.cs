@@ -1,12 +1,12 @@
 using UnityEditor;
 using UnityEngine;
 
-[CustomEditor(typeof(Ai_Eyes))]
+[CustomEditor(typeof(Ai_Senses))]
 public class FieldOfViewEditor : Editor
 {
     private void OnSceneGUI()
     {
-        Ai_Eyes fov = (Ai_Eyes)target;
+        Ai_Senses fov = (Ai_Senses)target;
         Handles.color = Color.white;
         Handles.DrawWireArc(fov.transform.position, Vector3.up, Vector3.forward, 360, fov.radius);
 

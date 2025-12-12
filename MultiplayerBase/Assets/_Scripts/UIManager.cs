@@ -8,13 +8,6 @@ public class UIManager : MonoBehaviour
     [SerializeField] private Slider slider;
     public TextMeshProUGUI ButtonsPressedText;
     [SerializeField] private GameObject SpectatePanel;
-
-    [Header("Snare Game")]
-    [SerializeField] private GameObject snareGameUi;
-
-    [Header("FuseBox Game")]
-    [SerializeField] private GameObject fuseGameUi; 
-
     private void Awake()
     {
         slider.gameObject.SetActive(false);
@@ -46,24 +39,14 @@ public class UIManager : MonoBehaviour
         SpectatePanel.SetActive(true);
     }
 
-    public void EnableSnareGameUi(SnareTrap snareTrap)
+    public void EnableMiniGameUi(GameObject MiniGamePanel, GameObject caller)
     {
-        snareGameUi.SetActive(true);
-        snareGameUi.GetComponent<SnareMiniGame>().trap = snareTrap;
+        MiniGamePanel.SetActive(true);
+        MiniGamePanel.GetComponent<MiniGameBase>().SetMiniGameObj(caller);
     }
 
-    public void DisableSnareGameUi()
+    public void DisableMiniGameUi(GameObject MiniGamePanel)
     {
-        snareGameUi?.SetActive(false);
-    }
-
-    public void EnableFuseGameUi(FuseBox fuseBox)
-    {
-        fuseGameUi.SetActive(true);
-    }
-
-    public void DisableFuseGameUi()
-    {
-        fuseGameUi?.SetActive(false);
+        MiniGamePanel?.SetActive(false);
     }
 }

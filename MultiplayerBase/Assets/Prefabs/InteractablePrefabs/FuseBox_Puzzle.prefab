@@ -43,7 +43,7 @@ GameObject:
   - component: {fileID: 8738360055469546841}
   - component: {fileID: 1193430333572171507}
   - component: {fileID: 7326930787183297058}
-  - component: {fileID: 8866730328373648926}
+  - component: {fileID: 3586280018046309498}
   m_Layer: 3
   m_Name: FuseBox_Puzzle
   m_TagString: Untagged
@@ -113,7 +113,7 @@ MonoBehaviour:
   AutoObjectParentSync: 1
   SyncOwnerTransformWhenParented: 1
   AllowOwnerToParent: 0
---- !u!114 &8866730328373648926
+--- !u!114 &3586280018046309498
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -122,10 +122,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 8747715435067450222}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 02ec522a313c7c24b9f4b76ab2486f6c, type: 3}
+  m_Script: {fileID: 11500000, guid: 4253b11d1618ffd43983c53fa08f8b8a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
+  game: 1
   canInteract: 1
 --- !u!1001 &3874834530475453901
 PrefabInstance:

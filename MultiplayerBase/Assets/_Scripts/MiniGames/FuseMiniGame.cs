@@ -4,7 +4,7 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class FuseMiniGame : MonoBehaviour
+public class FuseMiniGame : MiniGameBase
 {
     [SerializeField] int roumds = 3;
     private int round = 0;
@@ -17,6 +17,8 @@ public class FuseMiniGame : MonoBehaviour
     private List<int> pulledLeversList = new List<int>();
 
     private List<int> pattern = new List<int>();
+
+    [SerializeField] private List<GameObject> activatedByFuse; 
 
     [SerializeField] AudioHandler audioHandler;
 
@@ -98,7 +100,6 @@ public class FuseMiniGame : MonoBehaviour
 
         else
         {
-            Debug.Log("LOST"); 
             timesLost++;
             if (timesLost == chances) EndGame(false);
             else ResetGame();
@@ -109,8 +110,13 @@ public class FuseMiniGame : MonoBehaviour
 
     private void EndGame(bool sucess)
     {
+        if (sucess)
+        {
+            foreach (GameObject obj in activatedByFuse) obj.SetActive(true); 
+        }
+
         EventManager.instance.OnPuzzleComplete(sucess);
-        GameManager.instance.uiManager.DisableFuseGameUi();
+        GameManager.instance.DisableMiniGame(MiniGameTypes.FuseBox);
     }
 
     private void UnlockMouse()

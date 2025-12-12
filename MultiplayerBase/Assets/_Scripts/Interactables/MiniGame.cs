@@ -1,8 +1,12 @@
 using Unity.Netcode;
 using UnityEngine;
 
-public class FuseBox : NetworkBehaviour, IInteractable
+public enum MiniGameTypes { SnareTrap, FuseBox }
+
+public class MiniGame : NetworkBehaviour, IInteractable
 {
+    [SerializeField] private MiniGameTypes game;  
+
     [HideInInspector] public bool canInteract = true;
 
     public void OnInteract(Interactor interactor)
@@ -13,7 +17,8 @@ public class FuseBox : NetworkBehaviour, IInteractable
             playerController.DisableMovement();
             interactor.GetComponent<Inventory>().DisableInv();
 
-            GameManager.instance.uiManager.EnableFuseGameUi(this);
+
+            GameManager.instance.EnableMiniGame(game, gameObject); 
         }
     }
 

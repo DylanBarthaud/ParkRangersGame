@@ -4,12 +4,24 @@ using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
+[System.Serializable]
+public class SerializableKeysAndValues<Tkey, Tval>
+{
+    [SerializeField] private Tkey _key;
+    public Tkey Key => _key;
+
+    [SerializeField] private Tval _val;
+    public Tval Value => _val;
+}
+
 public class GameManager : NetworkBehaviour
 {
     public static GameManager instance;
 
     [Header("Gameplay")]
-    [SerializeField] int taskCompleteNeeded = 5; 
+    [SerializeField] int taskCompleteNeeded = 5;
+    [SerializeField] List<SerializableKeysAndValues<MiniGameTypes, GameObject>> miniGames; 
+    private Dictionary<MiniGameTypes, GameObject> miniGameDictionary = new Dictionary<MiniGameTypes, GameObject>(); 
 
     public MapHandler mapHandler;
     [Header("Grid")]
@@ -33,6 +45,23 @@ public class GameManager : NetworkBehaviour
         EventManager.instance.onPlayerSpawned += OnPlayerSpawnedServerRpc;
         EventManager.instance.onPlayerKilled += OnPlayerKilledServerRpc;
         EventManager.instance.onPuzzleComplete += OnPuzzleComplete;
+
+        foreach(var kv in miniGames)
+        {
+            miniGameDictionary.Add(kv.Key, kv.Value);
+        }
+    }
+
+    public void EnableMiniGame(MiniGameTypes gameType, GameObject caller)
+    {
+        GameObject miniGamePanel = miniGameDictionary[gameType];
+        uiManager.EnableMiniGameUi(miniGamePanel, caller);
+    }
+
+    public void DisableMiniGame(MiniGameTypes gameType)
+    {
+        GameObject miniGamePanel = miniGameDictionary[gameType];
+        uiManager.DisableMiniGameUi(miniGamePanel);
     }
 
     private void OnPuzzleComplete(bool s, IInteractable puzzle)

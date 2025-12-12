@@ -67,7 +67,7 @@ public class PlayerInfoHolder : NetworkBehaviour, IAiViewable, IHurtable
         return importance;
     }
 
-    public int GetImportance(Ai_Eyes caller)
+    public int GetImportance(Ai_Senses caller)
     {
         if (caller == null || this == null || gameObject == null) return 0;
 
@@ -91,7 +91,7 @@ public class PlayerInfoHolder : NetworkBehaviour, IAiViewable, IHurtable
     }
 
     #region IAiViewable implimentation
-    public void OnSeen(Blackboard blackboard, Ai_Eyes caller)
+    public void OnSeen(Blackboard blackboard, Ai_Senses caller)
     {
         if(isDead) return;
         bool playerSeen = true;
@@ -102,7 +102,7 @@ public class PlayerInfoHolder : NetworkBehaviour, IAiViewable, IHurtable
         UpdateBlackboard(blackboard, playerSeen, importance);
     }
 
-    public void OnUnSeen(Blackboard blackboard, Ai_Eyes caller)
+    public void OnUnSeen(Blackboard blackboard, Ai_Senses caller)
     {
         bool playerSeen = false;
 

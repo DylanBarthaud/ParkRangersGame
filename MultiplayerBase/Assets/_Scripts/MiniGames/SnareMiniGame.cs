@@ -2,7 +2,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class SnareMiniGame : MonoBehaviour
+public class SnareMiniGame : MiniGameBase
 {
     [SerializeField] Slider setChecks;
     [SerializeField] Slider slider;
@@ -15,8 +15,6 @@ public class SnareMiniGame : MonoBehaviour
     private int loses = 0; 
 
     private bool goingBackwards = false;
-
-    [HideInInspector] public SnareTrap trap;
 
     [SerializeField] AudioHandler audioHandler;
 
@@ -41,8 +39,8 @@ public class SnareMiniGame : MonoBehaviour
                 if (wins >= winsNeeded)
                 {
                     EventManager.instance.OnPuzzleComplete();
-                    GameManager.instance.uiManager.DisableSnareGameUi();
-                    trap.canInteract = false;
+                    miniGameObj.GetComponent<MiniGame>().canInteract = false;
+                    GameManager.instance.DisableMiniGame(MiniGameTypes.SnareTrap);
                 }
             }
             else
@@ -85,7 +83,7 @@ public class SnareMiniGame : MonoBehaviour
     private void FailGame()
     {
         EventManager.instance.OnPuzzleComplete(false);
-        GameManager.instance.uiManager.DisableSnareGameUi();
-        trap.canInteract = false;
+        miniGameObj.GetComponent<MiniGame>().canInteract = false;
+        GameManager.instance.DisableMiniGame(MiniGameTypes.SnareTrap);
     }
 }

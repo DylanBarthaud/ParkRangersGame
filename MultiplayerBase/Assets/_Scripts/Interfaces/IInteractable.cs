@@ -6,4 +6,5 @@ public interface IInteractable
     public void OnInteractHeld(Interactor interactor, int tick) { }
     public void OnInteractReleased(Interactor interactor, int tick) { }
     public bool CanInteract(Interactor interactor) { return true; }
+    public IInteractable GetInteractable() { return this; }
 }

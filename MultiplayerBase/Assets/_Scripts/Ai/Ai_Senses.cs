@@ -4,9 +4,11 @@ using System.Collections.Generic;
 using Unity.Netcode;
 using UnityEngine;
 
-//[RequireComponent(typeof(Ai_Brain))]
-public class Ai_Eyes : NetworkBehaviour, IExpert
+public class Ai_Senses : NetworkBehaviour, IExpert
 {
+    [SerializeField] private float minDistToSenseTarget = 5; 
+
+    [Header("Vision")]
     [SerializeField] public float radius;
     [SerializeField][Range(0f, 360f)] public float angle;
     [SerializeField] protected LayerMask canViewMask, obstructionMask;
@@ -41,7 +43,8 @@ public class Ai_Eyes : NetworkBehaviour, IExpert
             Transform target = seenCollider.transform;
             Vector3 dircToTarget = (target.position - transform.position).normalized;
 
-            if(Vector3.Angle(transform.forward, dircToTarget) < angle / 2)
+            if(Vector3.Angle(transform.forward, dircToTarget) < angle / 2
+                || Vector3.Distance(transform.position, target.position) > minDistToSenseTarget)
             {
                 float distToTarget = Vector3.Distance(transform.position, target.position);
                 if(!Physics.Raycast(transform.position, dircToTarget, distToTarget, obstructionMask))
