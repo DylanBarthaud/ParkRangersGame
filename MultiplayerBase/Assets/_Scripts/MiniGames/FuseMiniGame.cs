@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -110,13 +111,16 @@ public class FuseMiniGame : MiniGameBase
 
     private void EndGame(bool sucess)
     {
-        if (sucess)
-        {
-            foreach (GameObject obj in activatedByFuse) obj.SetActive(true); 
-        }
+        if (sucess) ActivateFuseObjsClientRpc();
 
         EventManager.instance.OnPuzzleComplete(sucess);
         GameManager.instance.DisableMiniGame(MiniGameTypes.FuseBox);
+    }
+
+    [ClientRpc]
+    private void ActivateFuseObjsClientRpc()
+    {
+        foreach (GameObject obj in activatedByFuse) obj.SetActive(true);
     }
 
     private void UnlockMouse()
