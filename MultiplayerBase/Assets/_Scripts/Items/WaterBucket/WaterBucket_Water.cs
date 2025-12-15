@@ -6,7 +6,7 @@ public class WaterBucket_Water : MonoBehaviour
 
     private void Start()
     {
-        interactor.Interact();
+        interactor.CircleInteract();
 
         ParticleSystem particleSystem = GetComponent<ParticleSystem>();
         if (particleSystem != null) Destroy(gameObject, particleSystem.main.startLifetime.constant);

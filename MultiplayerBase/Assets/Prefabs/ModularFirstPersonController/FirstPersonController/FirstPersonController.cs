@@ -197,6 +197,70 @@ public class FirstPersonController : NetworkBehaviour
         }
     }
 
+    private bool isVaulting;
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("Vaultable") && 
+            !isVaulting &&
+            isSprinting)
+        {
+            StartCoroutine(VaultOver(other));
+        }
+    }
+
+    private IEnumerator VaultOver(Collider vaultObject)
+    {
+        Debug.Log("VAULT");
+        isVaulting = true;
+
+        Collider playerCollider = GetComponent<Collider>();
+        Collider vaultCollider = vaultObject.gameObject.GetComponent<Collider>();
+        Physics.IgnoreCollision(playerCollider, vaultCollider, true);
+
+        float vaultHeight = 1.2f;
+        float vaultDistance = 3f;
+        float vaultDuration = 0.3f;
+
+        Vector3 startPos = transform.position;
+        Vector3 forward = transform.forward;
+
+        Vector3 endPos =
+            startPos +
+            forward * vaultDistance +
+            Vector3.up * vaultHeight;
+
+        float elapsed = 0f;
+
+        Quaternion startCameraRot = playerCamera.transform.localRotation; 
+        Quaternion targetCameraRot = Quaternion.Euler(0, 0, 15);
+
+        while (elapsed < vaultDuration)
+        {
+            float t = elapsed / vaultDuration;
+            transform.position = Vector3.Lerp(startPos, endPos, t);
+            playerCamera.transform.localRotation = Quaternion.Slerp(startCameraRot, targetCameraRot, t); 
+            elapsed += Time.deltaTime;
+            yield return null;
+        }
+
+        Physics.IgnoreCollision(playerCollider, vaultCollider, false);
+
+        transform.position = endPos;
+        isVaulting = false;
+
+        elapsed = 0f;
+        while (elapsed < vaultDuration * 0.5f)
+        {
+            float t = elapsed / (vaultDuration * 0.5f);
+
+            playerCamera.transform.localRotation = Quaternion.Slerp(targetCameraRot, startCameraRot, t);
+
+            elapsed += Time.deltaTime;
+            yield return null;
+        }
+    }
+
     void Start()
     {
         if (!IsOwner)
@@ -285,7 +349,7 @@ public class FirstPersonController : NetworkBehaviour
         #region Camera
 
         // Control camera movement
-        if (cameraCanMove)
+        if (cameraCanMove && !isVaulting)
         {
             yaw = transform.localEulerAngles.y + Input.GetAxis("Mouse X") * mouseSensitivity;
 
@@ -596,7 +660,7 @@ public class FirstPersonController : NetworkBehaviour
 
     private void HeadBob()
     {
-        if(isWalking)
+        if(isWalking && !isVaulting)
         {
             // Calculates HeadBob speed during sprint
             if(isSprinting)

@@ -22,10 +22,10 @@ public class Campfire : NetworkBehaviour, IInteractable
         return false;
     }
 
-    public void OnInteract(Interactor interactor)
+    public void OnInteract(Interactor interactor, ItemType itemUsed = ItemType.None)
     {
         EventManager.instance.OnPuzzleComplete();
-        PutOutCampfireClientRpc(); 
+        PutOutCampfireClientRpc();
     }
 
     [ClientRpc]

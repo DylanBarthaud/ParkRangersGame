@@ -19,7 +19,7 @@ public class WinButton : NetworkBehaviour, IInteractable
         return !isBeingPressed.Value; 
     }
 
-    public void OnInteract(Interactor interactor)
+    public void OnInteract(Interactor interactor, ItemType itemUsed = ItemType.None)
     {
         isBeingPressed.Value = true;
     }
