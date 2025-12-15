@@ -1,9 +1,14 @@
 using Unity.Netcode;
 using UnityEngine;
 
+public enum ItemType { None, WaterBucket, ScrewDriver } 
+
 [RequireComponent(typeof(Collider))]
 public abstract class Item : NetworkBehaviour, IInteractable
 {
+    [SerializeField] private ItemType itemType;
+    public ItemType ItemType => itemType;
+
     [SerializeField] private Sprite sprite;
     [SerializeField] private bool infiniteUses = true; 
     public bool InfiniteUses => infiniteUses;
@@ -37,13 +42,13 @@ public abstract class Item : NetworkBehaviour, IInteractable
         transform.position = newPos; 
     }
 
-    public bool CanInteract(Interactor interactor)
+    public bool CanInteract(Interactor interactor, ItemType itemType = ItemType.None)
     {
         if (interactor.gameObject.GetComponent<Inventory>() != null) return true;
         return false;
     }
 
-    public void OnInteract(Interactor interactor)
+    public void OnInteract(Interactor interactor, ItemType itemType = ItemType.None)
     {
         Inventory interactorInventory = interactor.gameObject.GetComponent<Inventory>();
         if (interactorInventory != null)
