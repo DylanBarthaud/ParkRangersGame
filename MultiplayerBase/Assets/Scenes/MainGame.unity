@@ -605,7 +605,7 @@ GameObject:
   - component: {fileID: 144140026}
   - component: {fileID: 144140028}
   - component: {fileID: 144140027}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Terrain_0_0_7a7f85ef-e4d1-4b21-9abf-2fb853dfcedc
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -7090,6 +7090,10 @@ PrefabInstance:
     - target: {fileID: 5765290727647115912, guid: 999cd4a15f4f1f74f98c8654cab6c29f, type: 3}
       propertyPath: m_Name
       value: Monster_Ai (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 5765290727647115912, guid: 999cd4a15f4f1f74f98c8654cab6c29f, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6658972624049328317, guid: 999cd4a15f4f1f74f98c8654cab6c29f, type: 3}
       propertyPath: GlobalObjectIdHash
