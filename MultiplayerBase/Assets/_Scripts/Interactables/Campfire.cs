@@ -13,9 +13,9 @@ public class Campfire : NetworkBehaviour, IInteractable
     [SerializeField] Light pointLight; 
     private bool putOut = false;
 
-    public bool CanInteract(Interactor interactor)
+    public bool CanInteract(Interactor interactor, ItemType itemUsed = ItemType.None)
     {
-        if (interactor.gameObject.CompareTag("Water") && !putOut)
+        if (itemUsed == ItemType.WaterBucket && !putOut)
         {
             return true;
         }

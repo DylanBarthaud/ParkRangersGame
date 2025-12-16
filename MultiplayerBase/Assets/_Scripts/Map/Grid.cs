@@ -22,7 +22,7 @@ public class Grid
             for(int y = 0; y < gridPositions.GetLength(1); y++)
             {
                 Vector3 worldPos = GetWorldPos(x, y);
-                Debug.DrawLine(worldPos, worldPos + Vector3.up * 10f, Color.red, 100f);
+                Debug.DrawLine(worldPos, worldPos + Vector3.up * 100f, Color.red, 100f);
             }
         }
     }

@@ -112,6 +112,7 @@ namespace BehaviourTrees
                         Reset();
                         return Status.Failure;
                     default:
+                        Debug.Log("ITERATE"); 
                         currentChild++;
                         return currentChild == children.Count ? Status.Success : Status.Running;
                 }  

@@ -19,8 +19,6 @@ public class FuseMiniGame : MiniGameBase
 
     private List<int> pattern = new List<int>();
 
-    [SerializeField] private List<GameObject> activatedByFuse; 
-
     [SerializeField] AudioHandler audioHandler;
 
     private void OnEnable()
@@ -111,16 +109,8 @@ public class FuseMiniGame : MiniGameBase
 
     private void EndGame(bool sucess)
     {
-        if (sucess) ActivateFuseObjsClientRpc();
-
         EventManager.instance.OnPuzzleComplete(sucess);
         GameManager.instance.DisableMiniGame(MiniGameTypes.FuseBox);
-    }
-
-    [ClientRpc]
-    private void ActivateFuseObjsClientRpc()
-    {
-        foreach (GameObject obj in activatedByFuse) obj.SetActive(true);
     }
 
     private void UnlockMouse()

@@ -167,7 +167,7 @@ public class Ai_testScript : NetworkBehaviour
             Debug.LogError("OverlordInfo NULL setting grid position to 0,0"); 
             return new GridPosition { x = 0, z = 0 };
         }
-        Leaf moveToCell = new Leaf("MoveToPos", new MoveToPositionInCellStrategy(InvestigateHint, agent, null));
+        Leaf moveToCell = new Leaf("MoveToPos", new SearchCellStrategy(InvestigateHint, agent));
 
         burrowAndMoveToGridSequence.AddChild(inDifferentCellAsPlayer);
         burrowAndMoveToGridSequence.AddChild(burrow);

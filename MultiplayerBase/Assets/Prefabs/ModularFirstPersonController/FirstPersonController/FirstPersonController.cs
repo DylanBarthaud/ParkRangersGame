@@ -24,6 +24,7 @@ using UnityEditor;
 [RequireComponent(typeof(AudioListener))]
 public class FirstPersonController : NetworkBehaviour
 {
+
     private Rigidbody rb;
     private AudioListener audioListener;
 

@@ -197,11 +197,14 @@ namespace BehaviourTrees
             if(targetPosition == Vector3.zero)
             {
                 GridPosition cell = getCellFunc();
-                //Debug.Log(cell.x + ", " + cell.z);
                 targetPosition = GameManager.instance.mapHandler.GetRandomLocationInGridPosition(cell);
             }
 
-            agent.SetDestination(targetPosition);
+            NavMeshHit hit;
+            if(NavMesh.SamplePosition(targetPosition, out hit, 500, NavMesh.AllAreas))
+            {
+                agent.SetDestination(hit.position);
+            }
 
             if(!agent.pathPending && agent.remainingDistance <= agent.stoppingDistance)
             {
