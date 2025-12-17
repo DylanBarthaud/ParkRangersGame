@@ -1,7 +1,7 @@
 using Unity.Netcode;
 using UnityEngine;
 
-public enum MiniGameTypes { SnareTrap, FuseBox }
+public enum MiniGameTypes { SnareTrap, FuseBox, SpringTrap }
 
 public class MiniGame : NetworkBehaviour, IInteractable
 {
