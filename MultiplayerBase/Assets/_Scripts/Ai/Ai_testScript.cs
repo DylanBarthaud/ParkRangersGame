@@ -195,7 +195,7 @@ public class Ai_testScript : NetworkBehaviour
 
     private void Start()
     {
-        audioHandler.PlaySoundClientRpc("BadgerWalking", true, default, 15);
+        audioHandler.PlaySoundServerRpc("BadgerWalking", true, default, 15);
         gfxHandler.DisableGFXServerRpc("BurrowedGFX");
     }
 

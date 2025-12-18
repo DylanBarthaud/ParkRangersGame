@@ -25,6 +25,12 @@ public class Campfire : NetworkBehaviour, IInteractable
     public void OnInteract(Interactor interactor, ItemType itemUsed = ItemType.None)
     {
         EventManager.instance.OnPuzzleComplete();
+        PutOutCampfireServerRpc();
+    }
+
+    [ServerRpc(RequireOwnership = false)]
+    private void PutOutCampfireServerRpc()
+    {
         PutOutCampfireClientRpc();
     }
 
@@ -37,4 +43,5 @@ public class Campfire : NetworkBehaviour, IInteractable
         pointLight.enabled = false;
         putOut = true;
     }
+
 }

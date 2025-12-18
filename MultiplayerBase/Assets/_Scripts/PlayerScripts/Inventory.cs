@@ -55,7 +55,7 @@ public class Inventory : MonoBehaviour
         {
             Item selectedItem = items[selectedItemSlot];
             selectedItem.UseItem(gameObject);
-            if(selectedItem.HasAudio) GetComponent<MultiplayerAudioHandlerWrapper>().PlaySoundClientRpc(selectedItem.AudioName, default, selectedItem.AudioVolume);
+            if(selectedItem.HasAudio) GetComponent<MultiplayerAudioHandlerWrapper>().PlaySoundServerRpc(selectedItem.AudioName, default, selectedItem.AudioVolume);
             if (!selectedItem.InfiniteUses && selectedItem.Uses <= 0) RemoveItem(selectedItem); 
         }
 
