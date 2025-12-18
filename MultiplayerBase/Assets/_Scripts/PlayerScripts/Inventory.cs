@@ -51,7 +51,7 @@ public class Inventory : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.Mouse0) 
             && items.Count > 0 
-            && !IsItemNull(items[selectedItemSlot])) 
+            && items[selectedItemSlot] != null) 
         {
             Item selectedItem = items[selectedItemSlot];
             selectedItem.UseItem(gameObject);
@@ -61,7 +61,7 @@ public class Inventory : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.Q) && items.Count > 0)
         {
-            if (IsItemNull(items[selectedItemSlot])) return; 
+            if (items[selectedItemSlot] == null) return; 
             Vector3 newPos = new Vector3(transform.position.x + 4, transform.position.y, transform.position.z);
             items[selectedItemSlot].DropItem(newPos);
             RemoveItem(items[selectedItemSlot]);
@@ -80,12 +80,6 @@ public class Inventory : MonoBehaviour
             selectedItemSlot--;
             inventorySlots[selectedItemSlot].GetComponent<Image>().color = Color.green;
         }
-    }
-
-    private bool IsItemNull(Item item)
-    {
-        if (item == null) return true;
-        return false; 
     }
 
     public bool AddItemToInventory(Item item)

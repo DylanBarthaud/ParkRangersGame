@@ -196,7 +196,7 @@ public class Ai_testScript : NetworkBehaviour
     private void Start()
     {
         audioHandler.PlaySoundClientRpc("BadgerWalking", true, default, 15);
-        gfxHandler.DisableGFXClientRpc("BurrowedGFX");
+        gfxHandler.DisableGFXServerRpc("BurrowedGFX");
     }
 
     private void OnUnBurrow(Vector3 vector)

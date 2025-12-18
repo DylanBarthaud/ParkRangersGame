@@ -37,7 +37,7 @@ public abstract class Item : NetworkBehaviour, IInteractable
     public abstract void UseItem(GameObject user);
     public void DropItem(Vector3 newPos) 
     {
-        if (gFXHandler != null && removeOnPickUp) gFXHandler.EnableGFXClientRpc("ItemGFX");
+        if (gFXHandler != null && removeOnPickUp) gFXHandler.EnableGFXServerRpc("ItemGFX");
         if (removeOnPickUp) GetComponent<Collider>().enabled = true;
         transform.position = newPos; 
     }
@@ -54,7 +54,7 @@ public abstract class Item : NetworkBehaviour, IInteractable
         if (interactorInventory != null)
         {
             if(!interactorInventory.AddItemToInventory(this)) return; 
-            if (gFXHandler != null && removeOnPickUp) gFXHandler.DisableGFXClientRpc("ItemGFX"); 
+            if (gFXHandler != null && removeOnPickUp) gFXHandler.DisableGFXServerRpc("ItemGFX"); 
             if (removeOnPickUp) GetComponent<Collider>().enabled = false;
         }
     }

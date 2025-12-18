@@ -296,8 +296,8 @@ namespace BehaviourTrees
 
             //play digging animation 
             //wait "burrow time" amout of seconds
-            gfxHandler.DisableGFXClientRpc("MonsterGFX");
-            gfxHandler.EnableGFXClientRpc("BurrowedGFX");
+            gfxHandler.DisableGFXServerRpc("MonsterGFX");
+            gfxHandler.EnableGFXServerRpc("BurrowedGFX");
 
             audioHandler.StopPlayingClipSoundClientRpc("BadgerWalking");
             audioHandler.PlaySoundClientRpc("BadgerDigging", true, 0.5f, default, 20); 
@@ -337,8 +337,8 @@ namespace BehaviourTrees
 
             //play digging animation 
             //wait "unburrow time" amout of seconds
-            gfxHandler.DisableGFXClientRpc("BurrowedGFX");
-            gfxHandler.EnableGFXClientRpc("MonsterGFX");
+            gfxHandler.DisableGFXServerRpc("BurrowedGFX");
+            gfxHandler.EnableGFXServerRpc("MonsterGFX");
 
             //audioHandler.PlaySound("UnBurrowSound"); 
             //audioHandler.StopPlayingClipSoundClientRpc("BadgerDigging");

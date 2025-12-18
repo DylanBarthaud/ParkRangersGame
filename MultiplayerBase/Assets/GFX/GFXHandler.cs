@@ -16,15 +16,27 @@ public class GFXHandler : NetworkBehaviour
         }
     }
 
+    [ServerRpc(RequireOwnership = false)]
+    public void EnableGFXServerRpc(string gfxName)
+    {
+        EnableGFXClientRpc(gfxName);
+    }
+
     [ClientRpc]
-    public void EnableGFXClientRpc(string gfxName)
+    private void EnableGFXClientRpc(string gfxName)
     {
         if (gfxDictonary.ContainsKey(gfxName)) gfxDictonary[gfxName].EnableGFX();
         else Debug.LogError($"GFX Dictionary does not contain {gfxName} as a key");
     }
 
+    [ServerRpc(RequireOwnership = false)]
+    public void DisableGFXServerRpc(string gfxName)
+    {
+        DisableGFXClientRpc(gfxName);
+    }
+
     [ClientRpc]
-    public void DisableGFXClientRpc(string gfxName)
+    private void DisableGFXClientRpc(string gfxName)
     {
         if (gfxDictonary.ContainsKey(gfxName)) gfxDictonary[gfxName].DisableGFX();
         else Debug.LogError($"GFX Dictionary does not contain {gfxName} as a key");
