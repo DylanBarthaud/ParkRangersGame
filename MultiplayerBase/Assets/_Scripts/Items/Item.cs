@@ -56,7 +56,11 @@ public abstract class Item : NetworkBehaviour, IInteractable
         {
             if (!interactorInventory.AddItemToInventory(this)) return; 
             if (gFXHandler != null && removeOnPickUp) gFXHandler.DisableGFXServerRpc("ItemGFX"); 
-            if (removeOnPickUp) SetItemColliderServerRpc(false);
+            if (removeOnPickUp)
+            {
+                GetComponent<Collider>().enabled = false;
+                SetItemColliderServerRpc(false);
+            }
         }
     }
 
