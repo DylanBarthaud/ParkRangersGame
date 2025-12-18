@@ -4,6 +4,7 @@ using UnityEngine;
 public enum ItemType { None, WaterBucket, ScrewDriver } 
 
 [RequireComponent(typeof(Collider))]
+[RequireComponent(typeof(GFXHandler))]
 public abstract class Item : NetworkBehaviour, IInteractable
 {
     [SerializeField] private ItemType itemType;
@@ -53,6 +54,7 @@ public abstract class Item : NetworkBehaviour, IInteractable
         Inventory interactorInventory = interactor.gameObject.GetComponent<Inventory>();
         if (interactorInventory != null)
         {
+            if (IsServer) return; 
             if (!interactorInventory.AddItemToInventory(this)) return; 
             if (gFXHandler != null && removeOnPickUp) gFXHandler.DisableGFXServerRpc("ItemGFX"); 
             if (removeOnPickUp) SetItemColliderServerRpc(false);
