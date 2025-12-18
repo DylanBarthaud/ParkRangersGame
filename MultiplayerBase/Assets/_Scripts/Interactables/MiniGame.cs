@@ -39,19 +39,20 @@ public class MiniGame : NetworkBehaviour, IInteractable
         return false;
     }
 
-    public void OnComplete(bool canInteract)
+    [ServerRpc(RequireOwnership = false)]
+    public void OnCompleteServerRpc(bool canInteract)
     {
         SetCanInteractClientRpc(canInteract);
         ActivateObjsClientRpc(); 
     }
 
-    [ClientRpc(RequireOwnership = false)]
+    [ClientRpc]
     public void SetCanInteractClientRpc(bool canInteract)
     {
         this.canInteract = canInteract;
     }
 
-    [ClientRpc(RequireOwnership = false)]
+    [ClientRpc]
     public void ActivateObjsClientRpc()
     {
         if(setObjests.Length <= 0) return;

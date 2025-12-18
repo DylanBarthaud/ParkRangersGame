@@ -81,7 +81,7 @@ public class SnareMiniGame : MiniGameBase
     private void EndGame(bool success)
     {
         EventManager.instance.OnPuzzleComplete(success);
-        miniGameObj.GetComponent<MiniGame>().OnComplete(success);
+        miniGameObj.GetComponent<MiniGame>().OnCompleteServerRpc(success);
         GameManager.instance.DisableMiniGame(MiniGameTypes.SnareTrap);
     }
 }

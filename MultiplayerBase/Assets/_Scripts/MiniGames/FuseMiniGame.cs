@@ -109,7 +109,7 @@ public class FuseMiniGame : MiniGameBase
 
     private void EndGame(bool success)
     {
-        miniGameObj.GetComponent<MiniGame>().OnComplete(success);
+        miniGameObj.GetComponent<MiniGame>().OnCompleteServerRpc(success);
         EventManager.instance.OnPuzzleComplete(success);
         GameManager.instance.DisableMiniGame(MiniGameTypes.FuseBox);
     }
