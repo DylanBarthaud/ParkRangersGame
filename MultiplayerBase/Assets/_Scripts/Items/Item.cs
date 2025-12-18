@@ -53,7 +53,6 @@ public abstract class Item : NetworkBehaviour, IInteractable
         Inventory interactorInventory = interactor.gameObject.GetComponent<Inventory>();
         if (interactorInventory != null)
         {
-            if (!IsOwner) return;
             if (!interactorInventory.AddItemToInventory(this)) return; 
             if (gFXHandler != null && removeOnPickUp) gFXHandler.DisableGFXServerRpc("ItemGFX"); 
             if (removeOnPickUp) SetItemColliderServerRpc(false);
