@@ -38,9 +38,7 @@ public class SnareMiniGame : MiniGameBase
 
                 if (wins >= winsNeeded)
                 {
-                    EventManager.instance.OnPuzzleComplete();
-                    miniGameObj.GetComponent<MiniGame>().canInteract = false;
-                    GameManager.instance.DisableMiniGame(MiniGameTypes.SnareTrap);
+                    EndGame(true); 
                 }
             }
             else
@@ -50,7 +48,7 @@ public class SnareMiniGame : MiniGameBase
 
                 if (loses >= losesNeeded)
                 {
-                    FailGame();
+                    EndGame(false);
                 }
             }
 
@@ -61,7 +59,7 @@ public class SnareMiniGame : MiniGameBase
 
         if(Input.GetKeyDown(KeyCode.Q))
         {
-            FailGame();
+            EndGame(false);
         }
     }
 
@@ -80,10 +78,10 @@ public class SnareMiniGame : MiniGameBase
         slider.value = 0;
     }
 
-    private void FailGame()
+    private void EndGame(bool success)
     {
-        EventManager.instance.OnPuzzleComplete(false);
-        miniGameObj.GetComponent<MiniGame>().canInteract = false;
+        EventManager.instance.OnPuzzleComplete(success);
+        miniGameObj.GetComponent<MiniGame>().OnComplete(success);
         GameManager.instance.DisableMiniGame(MiniGameTypes.SnareTrap);
     }
 }

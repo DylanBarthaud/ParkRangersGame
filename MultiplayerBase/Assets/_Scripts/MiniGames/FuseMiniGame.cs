@@ -107,9 +107,10 @@ public class FuseMiniGame : MiniGameBase
         pulledLeversList.Clear();
     }
 
-    private void EndGame(bool sucess)
+    private void EndGame(bool success)
     {
-        EventManager.instance.OnPuzzleComplete(sucess);
+        miniGameObj.GetComponent<MiniGame>().OnComplete(success);
+        EventManager.instance.OnPuzzleComplete(success);
         GameManager.instance.DisableMiniGame(MiniGameTypes.FuseBox);
     }
 
