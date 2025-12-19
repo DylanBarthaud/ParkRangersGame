@@ -30,8 +30,8 @@ public class SnareMiniGame : MiniGameBase
     {
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            if (slider.value > setChecks.value - 3 &&
-                slider.value < setChecks.value + 3)
+            if (slider.value > setChecks.value - 4 &&
+                slider.value < setChecks.value + 4)
             {
                 wins++;
                 audioHandler.PlaySound("Snip"); 

@@ -49,6 +49,7 @@ public class Ai_testScript : NetworkBehaviour
         EventManager.instance.onTick_5 += OnTick_5;
         EventManager.instance.onBurrow += OnBurrow;
         EventManager.instance.onUnBurrow += OnUnBurrow;
+        EventManager.instance.onPlayerSpawned += OnPlayerSpawned;
 
         agent = GetComponent<NavMeshAgent>();
         agent.speed = baseSpeed;
@@ -193,21 +194,16 @@ public class Ai_testScript : NetworkBehaviour
         #endregion
     }
 
+    private void OnPlayerSpawned(BlackboardKey key) => root.Reset();
+
     private void Start()
     {
         audioHandler.PlaySoundServerRpc("BadgerWalking", true, default, 15);
         gfxHandler.DisableGFXServerRpc("BurrowedGFX");
     }
 
-    private void OnUnBurrow(Vector3 vector)
-    {
-        isBurrowed = false;
-    }
-
-    private void OnBurrow(Vector3 vector)
-    {
-        isBurrowed = true;
-    }
+    private void OnUnBurrow(Vector3 vector) => isBurrowed = false;
+    private void OnBurrow(Vector3 vector) => isBurrowed = true;
 
     private void OnTick_5(int obj)
     {

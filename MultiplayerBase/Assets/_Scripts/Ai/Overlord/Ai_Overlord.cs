@@ -33,7 +33,7 @@ public class Ai_Overlord : MonoBehaviour, IExpert
         key = blackboard.GetOrRegisterKey(keyName);
         infoPackage = new OverlordGivenInfo() 
         { 
-            playerGridPosition = new GridPosition { x = 0, z = 0 },
+            playerGridPosition = new GridPosition { x = 1400, z = 1300 },
         };
         blackboard.SetValue(key, infoPackage);
 
@@ -58,7 +58,7 @@ public class Ai_Overlord : MonoBehaviour, IExpert
         {
             MapHandler mapHandler = GameManager.instance.mapHandler; 
 
-            GridPosition aiPosition = new GridPosition { x = 0, z = 0 }; 
+            GridPosition aiPosition = new GridPosition { x = 1400, z = 1300 }; 
             BlackboardKey monsterKey = blackboard.GetOrRegisterKey("AiMonsterKey");
             if (blackboard.TryGetValue(monsterKey, out AiInfo monsterInfo))
             {

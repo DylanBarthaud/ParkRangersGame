@@ -29,7 +29,7 @@ public class GameManager : NetworkBehaviour
     [SerializeField] int height;
     [SerializeField] float cellSize;
 
-    [HideInInspector] public int numberOfPlayers;
+    [HideInInspector] public int numberOfPlayers = 0;
     [HideInInspector] public List<BlackboardKey> playerBlackboardKeys;
 
     public UIManager uiManager;
@@ -94,6 +94,7 @@ public class GameManager : NetworkBehaviour
     private void OnPlayerSpawnedServerRpc(BlackboardKey key)
     {
         numberOfPlayers++;
+        Debug.Log(numberOfPlayers);
         playerBlackboardKeys.Add(key);
     }
 
@@ -103,6 +104,7 @@ public class GameManager : NetworkBehaviour
         Debug.Log("PLAYER KILLED SERVER RPC"); 
         numberOfPlayers--;
         playerBlackboardKeys.Remove(key);
+        Debug.Log(numberOfPlayers);
 
         if(numberOfPlayers <= 0)
         {
