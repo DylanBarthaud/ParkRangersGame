@@ -66,7 +66,7 @@ public class SpringTrapMiniGame : MiniGameBase
 
     private void EndGame(bool success)
     {
-        if(success) miniGameObj.GetComponent<MiniGame>().OnCompleteServerRpc(false);
+        if(success) miniGameObj.GetComponent<MiniGame>().OnCompleteServerRpc(success);
         EventManager.instance.OnPuzzleComplete(success);
         GameManager.instance.DisableMiniGame(MiniGameTypes.SpringTrap);
     }
