@@ -12,7 +12,8 @@ public struct PlayerInfo
     public int health; 
     public bool canSeePlayer;
     public int importance;
-    public int fear; 
+    public int ravenCount;
+    public int maxRavens;
     public ulong id;
     public List<BlackboardKey> spectators; 
 }

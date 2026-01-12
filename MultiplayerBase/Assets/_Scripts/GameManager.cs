@@ -94,7 +94,7 @@ public class GameManager : NetworkBehaviour
     private void OnPlayerSpawnedServerRpc(BlackboardKey key)
     {
         numberOfPlayers++;
-        Debug.Log(numberOfPlayers);
+        Debug.Log("Number of players: " + numberOfPlayers);
         playerBlackboardKeys.Add(key);
     }
 

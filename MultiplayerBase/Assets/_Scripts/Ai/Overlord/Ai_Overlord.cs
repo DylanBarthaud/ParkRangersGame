@@ -87,13 +87,13 @@ public class Ai_Overlord : MonoBehaviour, IExpert
 
         PlayerInfo GetLowestFearedPlayerInfo()
         {
-            PlayerInfo currentPlayerInfo = new PlayerInfo { fear = -1 };
+            PlayerInfo currentPlayerInfo = new PlayerInfo { ravenCount = -1 };
 
             foreach(BlackboardKey key in GameManager.instance.playerBlackboardKeys)
             {
                 if(blackboard.TryGetValue(key, out PlayerInfo playerInfo))
                 {
-                    if(playerInfo.fear > currentPlayerInfo.fear) currentPlayerInfo = playerInfo;
+                    if(playerInfo.ravenCount > currentPlayerInfo.ravenCount) currentPlayerInfo = playerInfo;
                 }
             }
 

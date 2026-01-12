@@ -212,7 +212,6 @@ public class FirstPersonController : NetworkBehaviour
 
     private IEnumerator VaultOver(Collider vaultObject)
     {
-        Debug.Log("VAULT");
         isVaulting = true;
 
         Collider playerCollider = GetComponent<Collider>();

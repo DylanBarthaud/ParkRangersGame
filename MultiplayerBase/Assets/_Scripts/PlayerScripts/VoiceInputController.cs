@@ -84,7 +84,6 @@ public class VoiceInputController : NetworkBehaviour
         {
             if (coroutine == null) // Only starts the HideIcon() coroutine if it isn't already active
             {
-                Debug.Log("Coroutine started");
                 coroutine = StartCoroutine(HideIcon());
             }
         }

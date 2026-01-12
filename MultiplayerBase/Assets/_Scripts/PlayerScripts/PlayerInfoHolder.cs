@@ -25,29 +25,32 @@ public class PlayerInfoHolder : NetworkBehaviour, IAiViewable, IHurtable
         playerInfo.playerCamera = transform.GetChild(0).GetChild(0).GetComponent<Camera>();
         playerInfo.health = playerHealth;
         playerInfo.id = OwnerClientId;
-        playerInfo.spectators = new List<BlackboardKey>();  
-        UpdateInfo(false, 0, 200);
+        playerInfo.spectators = new List<BlackboardKey>();
+        playerInfo.ravenCount = 0;
+        playerInfo.maxRavens = 20; 
+        UpdateInfo(false, 0);
 
         EventManager.instance.OnPlayerSpawned(playerInfo_Key);
-        EventManager.instance.onTick += OnTick;
         EventManager.instance.onTick_5 += OnTick_5;
     }
 
+    int localRavenTick = 0; 
     private void OnTick_5(int tick)
     {
         playerInfo.position = transform.position; 
         BlackboardController.instance.GetBlackboard().SetValue(playerInfo_Key, playerInfo);
-    }
 
-    private void OnTick(int tick)
-    {
-        if(playerInfo.fear > 0)
+        localRavenTick++;
+        if (playerInfo.ravenCount < playerInfo.maxRavens &&
+            localRavenTick >= 20)
         {
-            playerInfo.fear--;
+            playerInfo.ravenCount++;
+            Debug.Log("Raven count: " + playerInfo.ravenCount);
+            localRavenTick = 0; 
         }
     }
 
-    public void UpdateInfo(bool playerSeen, int importance = -1, int fear = -1)
+    public void UpdateInfo(bool playerSeen, int importance = -1)
     {
         if (this == null || gameObject == null) return;
         if (!this) return;
@@ -55,7 +58,6 @@ public class PlayerInfoHolder : NetworkBehaviour, IAiViewable, IHurtable
         playerInfo.position = gameObject.transform.position;
         playerInfo.canSeePlayer = playerSeen;
         if (importance != -1) playerInfo.importance = importance;
-        if (fear != -1) playerInfo.fear = fear;
     }
 
     private int GetImportance(Vector3 aiPos)
@@ -125,7 +127,7 @@ public class PlayerInfoHolder : NetworkBehaviour, IAiViewable, IHurtable
     {
         if (isDead) return;
         playerInfo.health -= amount;
-        if (caller == "Monster_Ai") playerInfo.fear += 50;
+        if (caller == "Monster_Ai") playerInfo.ravenCount += 50;
 
         Blackboard blackboard = BlackboardController.instance.GetBlackboard();
         blackboard.AddAction(() =>
@@ -154,7 +156,6 @@ public class PlayerInfoHolder : NetworkBehaviour, IAiViewable, IHurtable
             blackboard.Remove(playerInfo_Key);
         }
 
-        EventManager.instance.onTick -= OnTick;
         EventManager.instance.onTick_5 -= OnTick_5;
     }
     #endregion
