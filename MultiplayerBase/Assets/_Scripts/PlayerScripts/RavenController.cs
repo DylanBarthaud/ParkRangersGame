@@ -1,42 +1,69 @@
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(VoiceInputController))]
 public class RavenController : MonoBehaviour
 {
     [SerializeField] GameObject ravenObj;
     [SerializeField] PlayerInfoHolder playerInfoHolder;
 
-    [Header("Raven Stats")]
+    private VoiceInputController voiceInputController;
+
+    [Header("Raven Settings")]
     [SerializeField] int spawnInterval;
     [SerializeField, Range(0,100)] int spawnChance;
-    [SerializeField] float spawnRadius; 
+    [SerializeField] float spawnRadius;
+
+    [Header("Voice Collection Settings")]
+    [SerializeField] int collectionInterval;
+    [SerializeField] private List<AudioClip> crowAudioClips;
 
     private void Awake()
     {
+        voiceInputController = gameObject.GetComponent<VoiceInputController>();
+
         EventManager.instance.onTick += OnTick;
     }
 
-    int localTick = 0; 
+    int localTick = 0;
+    int collectionTick = 0; 
     private void OnTick(int tick)
     {
         localTick++;
-        if(localTick <  spawnInterval)
+        collectionTick++;
+
+        if(collectionTick >= collectionInterval)
         {
-            return;
+            AudioClip newClip = voiceInputController.CreatePlayerVoiceClip();
+            if (newClip != null) crowAudioClips.Add(newClip);
         }
 
-        for(int i = 0; i < playerInfoHolder.GetPlayerInfo().ravenCount; i++)
+        if(localTick >= spawnInterval)
         {
-            int roll = Random.Range(0, 101);
-            if (spawnChance >= roll) StartCoroutine(spawnRaven(Random.Range(0, (spawnInterval / 5) - 0.1f))); 
-            localTick = 0; 
+            for (int i = 0; i < playerInfoHolder.GetPlayerInfo().ravenCount; i++)
+            {
+                int roll = Random.Range(0, 101);
+                if (spawnChance >= roll)
+                {
+                    StartCoroutine(spawnRaven(Random.Range(0, (spawnInterval / 5) - 0.1f)));
+                }
+            }
+
+            localTick = 0;
         }
     }
 
     public IEnumerator spawnRaven(float delay)
     {
         yield return new WaitForSeconds(delay);
-        Instantiate(ravenObj, GetPointOnRing(), Quaternion.identity);
+        Debug.Log("Spawn");
+
+        GameObject crow = Instantiate(ravenObj, GetPointOnRing(), Quaternion.identity);
+        Crow_AI crowScript = crow.GetComponent<Crow_AI>();
+
+        int roll = Random.Range(0, crowAudioClips.Count);
+        crowScript.SetNoiseData(crowAudioClips[roll]); 
     }
 
     public Vector3 GetPointOnRing()

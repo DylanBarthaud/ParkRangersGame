@@ -1,5 +1,6 @@
 using Steamworks;
 using System.Collections;
+using System.Collections.Generic;
 using System.IO;
 using Unity.Netcode;
 using UnityEngine;
@@ -8,7 +9,7 @@ using UnityEngine.UI;
 [RequireComponent(typeof(AudioListener))]
 public class VoiceInputController : NetworkBehaviour
 {
-    // Code sourced from https://github.com/Facepunch/Facepunch.Steamworks/issues/261#issuecomment-817334583
+    // Base voice chat code sourced from https://github.com/Facepunch/Facepunch.Steamworks/issues/261#issuecomment-817334583
 
     [SerializeField] private float gain; 
 
@@ -30,7 +31,13 @@ public class VoiceInputController : NetworkBehaviour
     private int dataReceived;
 
     private bool canHearSelf = false;
-    private Coroutine coroutine = null;
+
+    private List<float> recordedSamples = new List<float>();
+    private List<float> storedSample = new List<float>();
+    private bool isRecording = false;
+    [SerializeField] private float silenceTimeout = 0.25f;
+
+    private float lastVoiceTime;
 
     void Start()
     {
@@ -53,8 +60,7 @@ public class VoiceInputController : NetworkBehaviour
         voiceIcon.enabled = false;
     }
 
-    // Update is called once per frame
-    void FixedUpdate()
+    private void Update()
     {
         if (!IsOwner) return;
 
@@ -64,15 +70,19 @@ public class VoiceInputController : NetworkBehaviour
         }
 
         SteamUser.VoiceRecord = Input.GetKey(KeyCode.V);
+    }
 
-        if (SteamUser.HasVoiceData)
+    // Update is called once per frame
+    void FixedUpdate()
+    {
+        if (!IsOwner) return;
+
+        isRecording = true;
+
+        if (SteamUser.HasVoiceData) lastVoiceTime = Time.time;
+
+        if (Time.time - lastVoiceTime < silenceTimeout)
         {
-            if (coroutine != null) 
-            {
-                Debug.Log("Coroutine ended");
-                StopCoroutine(coroutine);
-                coroutine = null;
-            }
             voiceIcon.enabled = true;
 
             int compressedWritten = SteamUser.ReadVoiceData(stream);
@@ -80,14 +90,17 @@ public class VoiceInputController : NetworkBehaviour
 
             VoiceServerRpc(stream.GetBuffer(), compressedWritten, NetworkManager.Singleton.LocalClientId);
         }
-        else
-        {
-            if (coroutine == null) // Only starts the HideIcon() coroutine if it isn't already active
-            {
-                coroutine = StartCoroutine(HideIcon());
-            }
-        }
 
+        if (isRecording && Time.time - lastVoiceTime > silenceTimeout)
+        {
+            if (recordedSamples.Count != 0)
+            {
+                storedSample = new List<float>(recordedSamples);
+                recordedSamples.Clear();
+            }
+
+            voiceIcon.enabled = false;
+        }
     }
        
     [ServerRpc(RequireOwnership = false)]
@@ -96,24 +109,10 @@ public class VoiceInputController : NetworkBehaviour
         VoiceDataClientRpc(compressed, bytesWritten, senderId);
     }
 
-    private IEnumerator HideIcon()
-    {
-        yield return new WaitForSeconds(iconDecayTime);
-        voiceIcon.enabled = false;
-    }
-
     [ClientRpc]
     public void VoiceDataClientRpc(byte[] compressed, int bytesWritten, ulong ownerId)
     {
         if (!canHearSelf && NetworkManager.Singleton.LocalClientId == ownerId) return;
-        else
-        {
-            if (coroutine == null)
-            {
-                Debug.Log("Coroutine started");
-                coroutine = StartCoroutine(HideIcon());
-            }
-        }
 
         input.Write(compressed, 0, bytesWritten);
         input.Position = 0;
@@ -159,6 +158,26 @@ public class VoiceInputController : NetworkBehaviour
             dataReceived = (dataReceived +1) % clipBufferSize;
 
             playbackBuffer++;
+
+            if(isRecording) recordedSamples.Add(converted);
         }
+    }
+
+    public AudioClip CreatePlayerVoiceClip()
+    {
+        if(storedSample.Count == 0) return null;
+
+        AudioClip clip = AudioClip.Create(
+            "PlayerVoice",
+            storedSample.Count,
+            1,
+            optimalRate,
+            false
+        );
+
+        clip.SetData(storedSample.ToArray(), 0);
+        storedSample.Clear();
+
+        return clip; 
     }
 }
