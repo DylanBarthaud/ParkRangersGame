@@ -1,19 +1,22 @@
 using BlackboardSystem;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Unity.Netcode;
 using UnityEngine;
 
 public class Ai_Senses : NetworkBehaviour, IExpert
 {
-    [SerializeField] private float minDistToSenseTarget = 5; 
+    [Header("General")]
+    [SerializeField] private float minDistToSenseTarget = 5f;
+    [SerializeField] public float maxDistToSenseTarget = 50f;
 
     [Header("Vision")]
     [SerializeField] public float radius;
     [SerializeField][Range(0f, 360f)] public float angle;
     [SerializeField] protected LayerMask canViewMask, obstructionMask;
 
-    public List<IAiViewable> seenObjects = new List<IAiViewable>();
+    public HashSet<IAiSensible> sensedObjects = new HashSet<IAiSensible>();
 
     [SerializeField] BlackboardController blackboardController;
     private Blackboard blackboard;
@@ -29,16 +32,29 @@ public class Ai_Senses : NetworkBehaviour, IExpert
     private void OnTick(int tick)
     {
         if (!IsHost) return;
-        FieldOfViewCheck();
+        Collider[] objectsInRange = Physics.OverlapSphere(transform.position, maxDistToSenseTarget, canViewMask);
+
+        HashSet<IAiSensible> currentSensedObjects = FieldOfViewCheck(objectsInRange);
+        currentSensedObjects.UnionWith(NoiseDetectionCheck(objectsInRange));
+
+        //Check to see if objects are no longer seen 
+        foreach (IAiSensible seenObj in sensedObjects)
+        {
+            if (seenObj == null) continue;
+
+            if (!currentSensedObjects.Contains(seenObj))
+            {
+                seenObj.OnUnSeen(blackboard, this);
+            }
+        }
+
+        sensedObjects = currentSensedObjects; 
     }
 
-    private void FieldOfViewCheck()
+    private HashSet<IAiSensible> FieldOfViewCheck(Collider[] sensedObjColliders)
     {
-        Collider[] seenObjColliders = Physics.OverlapSphere(transform.position, radius, canViewMask);
-        //Debug.Log(seenObjColliders.Length); 
-
-        List<IAiViewable> currentSeenObjects = new List<IAiViewable>();
-        foreach (Collider seenCollider in seenObjColliders)
+        HashSet<IAiSensible> currentSeenObjects = new HashSet<IAiSensible>();
+        foreach (Collider seenCollider in sensedObjColliders)
         {
             Transform target = seenCollider.transform;
             Vector3 dircToTarget = (target.position - transform.position).normalized;
@@ -49,40 +65,43 @@ public class Ai_Senses : NetworkBehaviour, IExpert
                 float distToTarget = Vector3.Distance(transform.position, target.position);
                 if(!Physics.Raycast(transform.position, dircToTarget, distToTarget, obstructionMask))
                 {
-                    IAiViewable seenObj = seenCollider.gameObject.GetComponent<IAiViewable>();
+                    IAiSensible seenObj = seenCollider.gameObject.GetComponent<IAiSensible>();
                     currentSeenObjects.Add(seenObj);
                 }
             }
         }
 
-        //Check to see if objects are no longer seen 
-        foreach(IAiViewable seenObj in seenObjects)
+        return currentSeenObjects;
+    }
+
+    private HashSet<IAiSensible> NoiseDetectionCheck(Collider[] sensedObjColliders)
+    {
+        HashSet<IAiSensible> currentHeardObjects = new HashSet<IAiSensible>();
+        
+        foreach(Collider sensedCollider in sensedObjColliders)
         {
-            if(seenObj == null) continue;
-            bool isSeen = false;    
-
-            foreach(IAiViewable currentSeenObj in currentSeenObjects)
+            IAiSensible sensedObj = sensedCollider.gameObject.GetComponent<IAiSensible>();
+            if(sensedObj != null)
             {
-                if(currentSeenObj ==  seenObj)
+                float audioHeardDataSquared = sensedObj.GetAudioDataSquared();
+                float distanceToObj = Vector3.Distance(transform.position, sensedCollider.gameObject.transform.position);
+
+                if (distanceToObj * distanceToObj >= audioHeardDataSquared)
                 {
-                    isSeen = true;
+                    Debug.Log("NoiseDetected");
+                    Debug.Log(sensedCollider.name); 
+                    currentHeardObjects.Add(sensedObj);
                 }
-            }
-
-            if (!isSeen)
-            {
-                seenObj.OnUnSeen(blackboard, this);
             }
         }
 
-        //Debug.Log(currentSeenObjects.Count);
-        seenObjects = currentSeenObjects;
+        return currentHeardObjects;
     }
 
     #region IExpert implimentation
     public void Execute(Blackboard blackboard)
     {
-        foreach(IAiViewable seenObj in seenObjects)
+        foreach(IAiSensible seenObj in sensedObjects)
         {
             if(seenObj == null) continue;
             seenObj.OnSeen(blackboard, this); 
@@ -91,11 +110,11 @@ public class Ai_Senses : NetworkBehaviour, IExpert
 
     public int GetInsistence(Blackboard blackboard)
     {
-        if(seenObjects.Count == 0) return 0;
+        if(sensedObjects.Count == 0) return 0;
 
         int highestImportance = 0;
 
-        foreach(IAiViewable seenObj in seenObjects)
+        foreach(IAiSensible seenObj in sensedObjects)
         {
             if(seenObj == null) continue;
             int importance = seenObj.GetImportance(this); 

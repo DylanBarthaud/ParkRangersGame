@@ -5003,6 +5003,7 @@ GameObject:
   - component: {fileID: 6658972624049328317}
   - component: {fileID: 4733849015524932456}
   - component: {fileID: 2967532476716474800}
+  - component: {fileID: 7701198310220955367}
   - component: {fileID: 5722278665596667358}
   - component: {fileID: 4541498214082990497}
   - component: {fileID: 6190160101655585735}
@@ -5010,7 +5011,6 @@ GameObject:
   - component: {fileID: 1797313044507634291}
   - component: {fileID: 5940184560845537565}
   - component: {fileID: 3144581661527680361}
-  - component: {fileID: 7701198310220955367}
   m_Layer: 0
   m_Name: Monster_Ai
   m_TagString: Untagged
@@ -5089,7 +5089,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 2446618234
+  GlobalObjectIdHash: 198619891
   InScenePlacedSourceGlobalObjectIdHash: 0
   DeferredDespawnTick: 0
   Ownership: 1
@@ -5172,6 +5172,30 @@ MonoBehaviour:
   minStalkDist: 15
   maxStalkDist: 30
   burrowSpeed: 8
+--- !u!114 &7701198310220955367
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5765290727647115912}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f6e65b1f396a6ab46bf858a526281cfe, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
+  minDistToSenseTarget: 5
+  maxDistToSenseTarget: 5
+  radius: 40
+  angle: 160
+  canViewMask:
+    serializedVersion: 2
+    m_Bits: 64
+  obstructionMask:
+    serializedVersion: 2
+    m_Bits: 128
+  blackboardController: {fileID: 0}
 --- !u!114 &5722278665596667358
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5467,29 +5491,6 @@ MonoBehaviour:
   gfxWrapperArray:
   - {fileID: 8558484680742527526}
   - {fileID: 8749929782993765202}
---- !u!114 &7701198310220955367
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5765290727647115912}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f6e65b1f396a6ab46bf858a526281cfe, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ShowTopMostFoldoutHeaderGroup: 1
-  minDistToSenseTarget: 5
-  radius: 40
-  angle: 160
-  canViewMask:
-    serializedVersion: 2
-    m_Bits: 64
-  obstructionMask:
-    serializedVersion: 2
-    m_Bits: 128
-  blackboardController: {fileID: 0}
 --- !u!1 &9154496540790206160
 GameObject:
   m_ObjectHideFlags: 0

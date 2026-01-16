@@ -14,10 +14,13 @@ public class RavenController : MonoBehaviour
     [SerializeField] int spawnInterval;
     [SerializeField, Range(0,100)] int spawnChance;
     [SerializeField] float spawnRadius;
+    [SerializeField, Range(0,100)] int copyVoiceChance;
 
     [Header("Voice Collection Settings")]
     [SerializeField] int collectionInterval;
     [SerializeField] private List<AudioClip> crowAudioClips;
+    [SerializeField] private int maximumAdditionalClips = 4;
+    [SerializeField] private List<AudioClip> additionalClips; 
 
     private void Awake()
     {
@@ -36,13 +39,19 @@ public class RavenController : MonoBehaviour
         if(collectionTick >= collectionInterval)
         {
             AudioClip newClip = voiceInputController.CreatePlayerVoiceClip();
-            if (newClip != null) crowAudioClips.Add(newClip);
+
+            if(newClip != null)
+            {
+                if (additionalClips.Count < maximumAdditionalClips) additionalClips.Add(newClip);
+                else shuffleClipList(newClip);
+            }
         }
 
         if(localTick >= spawnInterval)
         {
             for (int i = 0; i < playerInfoHolder.GetPlayerInfo().ravenCount; i++)
             {
+                float playerNoiseLevelSquared = playerInfoHolder.GetAudioDataSquared(); 
                 int roll = Random.Range(0, 101);
                 if (spawnChance >= roll)
                 {
@@ -54,16 +63,35 @@ public class RavenController : MonoBehaviour
         }
     }
 
-    public IEnumerator spawnRaven(float delay)
+    private void shuffleClipList(AudioClip newClip)
+    {
+        int clipCount = additionalClips.Count;
+        
+        for(int i = clipCount - 1; i >= 0; i--) if (i != 0) additionalClips[i] = additionalClips[i - 1];
+
+        additionalClips[0] = newClip;
+    }
+
+    private IEnumerator spawnRaven(float delay)
     {
         yield return new WaitForSeconds(delay);
-        Debug.Log("Spawn");
 
         GameObject crow = Instantiate(ravenObj, GetPointOnRing(), Quaternion.identity);
         Crow_AI crowScript = crow.GetComponent<Crow_AI>();
 
-        int roll = Random.Range(0, crowAudioClips.Count);
-        crowScript.SetNoiseData(crowAudioClips[roll]); 
+        int copyVoiceRoll = Random.Range(0, 101); 
+
+        if(copyVoiceRoll <= copyVoiceChance)
+        {
+            int roll = Random.Range(0, additionalClips.Count);
+            crowScript.SetNoiseData(additionalClips[roll]);
+        }
+
+        else
+        {
+            int roll = Random.Range(0, crowAudioClips.Count);
+            crowScript.SetNoiseData(crowAudioClips[roll]);
+        }
     }
 
     public Vector3 GetPointOnRing()

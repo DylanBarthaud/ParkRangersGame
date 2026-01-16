@@ -694,10 +694,10 @@ GameObject:
   - component: {fileID: -637524533923752487}
   - component: {fileID: 4199134725729588632}
   - component: {fileID: -1635927792753444105}
-  - component: {fileID: -2821817791472356823}
   - component: {fileID: 6199517553978207084}
   - component: {fileID: 1539057979975185806}
   - component: {fileID: -7024500352053469992}
+  - component: {fileID: -2821817791472356823}
   - component: {fileID: 4120214330100131268}
   m_Layer: 6
   m_Name: FirstPersonController
@@ -1179,6 +1179,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
   playerHealth: 5
+  audioSources:
+  - {fileID: -3133222403737345314}
+  - {fileID: -8493547404905070063}
 --- !u!114 &-1635927792753444105
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1196,23 +1199,6 @@ MonoBehaviour:
   interactMask:
     serializedVersion: 2
     m_Bits: 8
---- !u!114 &-2821817791472356823
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4459864850019384750}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d1e734e62f4a7444db2e33cbbfbca166, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ShowTopMostFoldoutHeaderGroup: 1
-  gain: 2
-  source: {fileID: -3133222403737345314}
-  voiceIcon: {fileID: 6489259224666698550}
-  iconDecayTime: 0.1
 --- !u!114 &6199517553978207084
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1269,6 +1255,26 @@ MonoBehaviour:
   - {fileID: -8493547404905070063}
   wrappedAudioClipArray:
   - {fileID: 11400000, guid: e8edc269ce6a0484082e4e93817a0209, type: 2}
+--- !u!114 &-2821817791472356823
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4459864850019384750}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d1e734e62f4a7444db2e33cbbfbca166, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
+  gain: 2
+  source: {fileID: -3133222403737345314}
+  voiceIcon: {fileID: 6489259224666698550}
+  iconDecayTime: 0.1
+  silenceTimeout: 0.25
+  maxSavedSampleDuration: 5
+  minSavedSampleDuration: 1
 --- !u!114 &4120214330100131268
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1286,9 +1292,12 @@ MonoBehaviour:
   spawnInterval: 10
   spawnChance: 60
   spawnRadius: 30
+  copyVoiceChance: 20
   collectionInterval: 1
   crowAudioClips:
   - {fileID: 8300000, guid: 0207c7b8ecd10dd4c8e9818edea6b530, type: 3}
+  maximumAdditionalClips: 8
+  additionalClips: []
 --- !u!1 &4459864850190357393
 GameObject:
   m_ObjectHideFlags: 0

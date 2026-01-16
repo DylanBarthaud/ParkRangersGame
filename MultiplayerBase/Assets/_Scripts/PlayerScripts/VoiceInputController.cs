@@ -17,6 +17,8 @@ public class VoiceInputController : NetworkBehaviour
 
     [SerializeField] private Image voiceIcon;
     [SerializeField] private float iconDecayTime = 0.5f;
+    [SerializeField] private float silenceTimeout = 0.25f;
+    [SerializeField] private float volumeSampleWindow = 0.1f;
 
     private MemoryStream output;
     private MemoryStream stream;
@@ -30,13 +32,14 @@ public class VoiceInputController : NetworkBehaviour
     private int dataPosition;
     private int dataReceived;
 
+    private bool isTalking = false; 
     private bool canHearSelf = false;
 
+    [SerializeField] float maxSavedSampleDuration = 5f; 
+    [SerializeField] float minSavedSampleDuration = 0.5f;
     private List<float> recordedSamples = new List<float>();
     private List<float> storedSample = new List<float>();
     private bool isRecording = false;
-    [SerializeField] private float silenceTimeout = 0.25f;
-
     private float lastVoiceTime;
 
     void Start()
@@ -53,6 +56,9 @@ public class VoiceInputController : NetworkBehaviour
         source.clip = AudioClip.Create("VoiceData", optimalRate, 1, optimalRate, true, OnAudioRead, null);
         source.loop = true;
         source.Play();
+
+        SteamUser.VoiceRecord = true;
+
     }
 
     public override void OnNetworkSpawn()
@@ -69,7 +75,7 @@ public class VoiceInputController : NetworkBehaviour
             canHearSelf = !canHearSelf;
         }
 
-        SteamUser.VoiceRecord = Input.GetKey(KeyCode.V);
+        //SteamUser.VoiceRecord = Input.GetKey(KeyCode.V);
     }
 
     // Update is called once per frame
@@ -83,6 +89,7 @@ public class VoiceInputController : NetworkBehaviour
 
         if (Time.time - lastVoiceTime < silenceTimeout)
         {
+            isTalking = true; 
             voiceIcon.enabled = true;
 
             int compressedWritten = SteamUser.ReadVoiceData(stream);
@@ -93,12 +100,18 @@ public class VoiceInputController : NetworkBehaviour
 
         if (isRecording && Time.time - lastVoiceTime > silenceTimeout)
         {
-            if (recordedSamples.Count != 0)
+            isTalking = false;
+            float clipDuration = recordedSamples.Count / (float)optimalRate;
+            float maxVolume = GetMeanSquare(recordedSamples); 
+
+            if (recordedSamples.Count != 0
+                && clipDuration > minSavedSampleDuration
+                && clipDuration < maxSavedSampleDuration)
             {
                 storedSample = new List<float>(recordedSamples);
-                recordedSamples.Clear();
             }
 
+            recordedSamples.Clear();
             voiceIcon.enabled = false;
         }
     }
@@ -161,6 +174,31 @@ public class VoiceInputController : NetworkBehaviour
 
             if(isRecording) recordedSamples.Add(converted);
         }
+    }
+
+    public float GetVoiceVolumeSquared()
+    {
+        if (!isTalking || recordedSamples.Count == 0)
+            return 0f;
+
+        int windowSamples = Mathf.CeilToInt(optimalRate * volumeSampleWindow);
+        windowSamples = Mathf.Min(windowSamples, recordedSamples.Count);
+
+        var temp = recordedSamples.GetRange(
+            recordedSamples.Count - windowSamples,
+            windowSamples
+        );
+
+        float meanSquare = GetMeanSquare(temp);
+        return meanSquare;  
+    }
+
+    public float GetMeanSquare(List<float> samples)
+    {
+        float sum = 0.0f;
+        for (int i = 0; i < samples.Count; i++) sum += samples[i] * samples[i];
+
+        return sum / samples.Count;
     }
 
     public AudioClip CreatePlayerVoiceClip()

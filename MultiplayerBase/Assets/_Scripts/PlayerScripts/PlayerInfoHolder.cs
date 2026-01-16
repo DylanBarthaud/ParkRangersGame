@@ -1,14 +1,19 @@
 using BlackboardSystem;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UIElements;
 
-public class PlayerInfoHolder : NetworkBehaviour, IAiViewable, IHurtable
+public class PlayerInfoHolder : NetworkBehaviour, IAiSensible, IHurtable
 {
-    [SerializeField] int playerHealth; 
+    [SerializeField] int playerHealth;
+    [SerializeField] AudioSource[] audioSources;
+    [SerializeField] VoiceInputController voiceInputController;
+
+    [SerializeField] float volumeRequiredToAddRaven = 0f; 
 
     private BlackboardKey playerInfo_Key;
     private PlayerInfo playerInfo;
@@ -42,7 +47,8 @@ public class PlayerInfoHolder : NetworkBehaviour, IAiViewable, IHurtable
 
         localRavenTick++;
         if (playerInfo.ravenCount < playerInfo.maxRavens &&
-            localRavenTick >= 20)
+            localRavenTick >= 20 &&
+            GetAudioDataSquared() >= volumeRequiredToAddRaven * volumeRequiredToAddRaven)
         {
             playerInfo.ravenCount++;
             Debug.Log("Raven count: " + playerInfo.ravenCount);
@@ -92,7 +98,22 @@ public class PlayerInfoHolder : NetworkBehaviour, IAiViewable, IHurtable
         });
     }
 
-    #region IAiViewable implimentation
+    #region IAiSensible Implimentation
+
+    public float GetAudioDataSquared()
+    {
+        float loudestHeardAudioSquared = 0f; 
+
+        foreach(AudioSource audioSource  in audioSources)
+            if(audioSource.isPlaying && audioSource.maxDistance > loudestHeardAudioSquared)
+                loudestHeardAudioSquared = audioSource.maxDistance * audioSource.maxDistance;
+
+        if(voiceInputController.GetVoiceVolumeSquared() > loudestHeardAudioSquared) 
+            loudestHeardAudioSquared = voiceInputController.GetVoiceVolumeSquared();
+
+        return loudestHeardAudioSquared;
+    }
+
     public void OnSeen(Blackboard blackboard, Ai_Senses caller)
     {
         if(isDead) return;
@@ -122,7 +143,7 @@ public class PlayerInfoHolder : NetworkBehaviour, IAiViewable, IHurtable
     }
     #endregion
 
-    #region IHurtable implimentation
+    #region IHurtable Implimentation
     public void IsHurt(string caller, int amount)
     {
         if (isDead) return;

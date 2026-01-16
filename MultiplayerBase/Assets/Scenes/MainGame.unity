@@ -5555,6 +5555,10 @@ PrefabInstance:
       propertyPath: blackboardController
       value: 
       objectReference: {fileID: 377514124}
+    - target: {fileID: 2967532476716474800, guid: 999cd4a15f4f1f74f98c8654cab6c29f, type: 3}
+      propertyPath: investigateHintSpeed
+      value: 20
+      objectReference: {fileID: 0}
     - target: {fileID: 5765290727647115912, guid: 999cd4a15f4f1f74f98c8654cab6c29f, type: 3}
       propertyPath: m_Name
       value: Monster_Ai
@@ -5571,6 +5575,10 @@ PrefabInstance:
       propertyPath: blackboardController
       value: 
       objectReference: {fileID: 377514124}
+    - target: {fileID: 7701198310220955367, guid: 999cd4a15f4f1f74f98c8654cab6c29f, type: 3}
+      propertyPath: maxDistToSenseTarget
+      value: 50
+      objectReference: {fileID: 0}
     - target: {fileID: 8611278526811629783, guid: 999cd4a15f4f1f74f98c8654cab6c29f, type: 3}
       propertyPath: m_LocalPosition.x
       value: 1009.78
