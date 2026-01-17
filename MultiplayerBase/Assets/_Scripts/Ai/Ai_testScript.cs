@@ -32,6 +32,8 @@ public class Ai_testScript : NetworkBehaviour
     [SerializeField] private float stalkTime; 
     [SerializeField] private float minStalkDist;
     [SerializeField] private float maxStalkDist;
+    [SerializeField] private float ObjectPermanenceTimer;
+    private float CurrentObjectPermamenceTime; 
 
     [Header("BurrowSettings")]
     [SerializeField] private float burrowSpeed; 
@@ -107,7 +109,6 @@ public class Ai_testScript : NetworkBehaviour
         Leaf inSameCellAsPlayer = new Leaf("InSameCellAsPlayer", new Condition(() => (InSameCellAsPlayer())));
         Leaf inDifferentCellAsPlayer = new Leaf("InDifferentCellAsPlayer", new Condition(() => (!InSameCellAsPlayer())));
 
-        #region ChasePlayer Sequence
         Sequence stalkPlayerSequence = new Sequence("StalkPlayerSequence", 100);
 
         PlayerInfo PlayerInfo() 
@@ -117,7 +118,10 @@ public class Ai_testScript : NetworkBehaviour
             {
                 if (blackboard.TryGetValue(playerKey, out PlayerInfo info))
                 {
-                    if (info.canSeePlayer) seenPlayers.Add(info);
+                    float timeSinceSeen = Time.time - info.lastTimePlayerSeen; 
+
+                    if (info.canSeePlayer
+                        || timeSinceSeen <= ObjectPermanenceTimer) seenPlayers.Add(info);
                 }
             }
 
@@ -127,8 +131,9 @@ public class Ai_testScript : NetworkBehaviour
                 {
                     canSeePlayer = false,
                     importance = 0,
-                    position = Vector3.zero 
-                };
+                    position = Vector3.zero,
+                    lastTimePlayerSeen = -1
+                }; 
 
                 return placeHolderInfo;
             }
@@ -150,9 +155,7 @@ public class Ai_testScript : NetworkBehaviour
         stalkPlayerSequence.AddChild(IsntBurrowed);
         stalkPlayerSequence.AddChild(stalkPlayer);
         stalkPlayerSequence.AddChild(chasePlayer);
-        #endregion
 
-        #region Investigate Hint
         Sequence burrowAndMoveToGridSequence = new Sequence("burrowAndMoveToGridSequence", 50);
 
         Leaf burrow = new Leaf("burrow", new BurrowStrategy(agent, burrowSpeed, 0, IsBurrowed, gfxHandler, audioHandler)); 
@@ -174,16 +177,13 @@ public class Ai_testScript : NetworkBehaviour
         burrowAndMoveToGridSequence.AddChild(burrow);
         burrowAndMoveToGridSequence.AddChild(moveToCell);
         burrowAndMoveToGridSequence.AddChild(unBurrow); 
-        #endregion
 
-        #region Search Cell
         Sequence searchCellSequence = new Sequence("SearchCellSequence", 90);
         Leaf searchCell = new Leaf("SearchCell", new SearchCellStrategy(() => GameManager.instance.mapHandler.GetGridLocation(transform.position), agent));
 
         searchCellSequence.AddChild(inSameCellAsPlayer); 
         searchCellSequence.AddChild(IsntBurrowed);
         searchCellSequence.AddChild(searchCell);    
-        #endregion
 
         prioritySelector.AddChild(stalkPlayerSequence);
         prioritySelector.AddChild(searchCellSequence);

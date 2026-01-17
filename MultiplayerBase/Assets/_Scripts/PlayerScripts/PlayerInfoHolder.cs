@@ -91,6 +91,7 @@ public class PlayerInfoHolder : NetworkBehaviour, IAiSensible, IHurtable
     private void UpdateBlackboard(Blackboard blackboard, bool playerSeen, int importance)
     {
         UpdateInfo(playerSeen, importance);
+        playerInfo.lastTimePlayerSeen = Time.time;
 
         blackboard.AddAction(() =>
         {

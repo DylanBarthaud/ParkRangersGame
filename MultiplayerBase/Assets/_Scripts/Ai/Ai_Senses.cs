@@ -86,7 +86,7 @@ public class Ai_Senses : NetworkBehaviour, IExpert
                 float audioHeardDataSquared = sensedObj.GetAudioDataSquared();
                 float distanceToObj = Vector3.Distance(transform.position, sensedCollider.gameObject.transform.position);
 
-                if (distanceToObj * distanceToObj >= audioHeardDataSquared)
+                if (distanceToObj * distanceToObj <= audioHeardDataSquared)
                 {
                     Debug.Log("NoiseDetected");
                     Debug.Log(sensedCollider.name); 

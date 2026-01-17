@@ -823,7 +823,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
   m_Resource: {fileID: 0}
-  m_PlayOnAwake: 0
+  m_PlayOnAwake: 1
   m_Volume: 1
   m_Pitch: 1
   Loop: 0
@@ -929,7 +929,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
   m_Resource: {fileID: 0}
-  m_PlayOnAwake: 1
+  m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
   Loop: 0
@@ -1180,8 +1180,9 @@ MonoBehaviour:
   ShowTopMostFoldoutHeaderGroup: 1
   playerHealth: 5
   audioSources:
-  - {fileID: -3133222403737345314}
   - {fileID: -8493547404905070063}
+  voiceInputController: {fileID: -2821817791472356823}
+  volumeRequiredToAddRaven: 3
 --- !u!114 &-1635927792753444105
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1273,6 +1274,7 @@ MonoBehaviour:
   voiceIcon: {fileID: 6489259224666698550}
   iconDecayTime: 0.1
   silenceTimeout: 0.25
+  volumeSampleWindow: 0.1
   maxSavedSampleDuration: 5
   minSavedSampleDuration: 1
 --- !u!114 &4120214330100131268

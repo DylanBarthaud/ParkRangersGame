@@ -106,7 +106,7 @@ namespace BehaviourTrees
         {
             PlayerInfo playerInfo = playerInfoFunc();
 
-            if (!playerInfo.canSeePlayer)
+            if (playerInfo.lastTimePlayerSeen == -1)
             {
                 return Node.Status.Failure;
             }
@@ -148,7 +148,7 @@ namespace BehaviourTrees
                 return Node.Status.Success;
             }
             PlayerInfo playerInfo = playerInfoFunc();
-            if (!playerInfo.canSeePlayer)
+            if (playerInfo.lastTimePlayerSeen == -1)
             {
                 agent.isStopped = false;
                 return Node.Status.Failure;
@@ -157,7 +157,8 @@ namespace BehaviourTrees
             agent.SetDestination(playerInfo.position);
             float distanceFromPlayer = Vector3.Distance(agent.transform.position, playerInfo.position);
             if(distanceFromPlayer >= stalkMinDistance
-                && distanceFromPlayer <= stalkMaxDistance)
+                && distanceFromPlayer <= stalkMaxDistance
+                && playerInfo.canSeePlayer)
             {
                 agent.isStopped = true; 
             }

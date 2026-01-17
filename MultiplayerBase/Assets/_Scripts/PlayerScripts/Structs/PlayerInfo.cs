@@ -11,6 +11,7 @@ public struct PlayerInfo
     public Vector3 position;
     public int health; 
     public bool canSeePlayer;
+    public float lastTimePlayerSeen; 
     public int importance;
     public int ravenCount;
     public int maxRavens;

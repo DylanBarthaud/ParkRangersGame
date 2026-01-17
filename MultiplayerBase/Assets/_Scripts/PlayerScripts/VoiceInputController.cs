@@ -55,7 +55,10 @@ public class VoiceInputController : NetworkBehaviour
 
         source.clip = AudioClip.Create("VoiceData", optimalRate, 1, optimalRate, true, OnAudioRead, null);
         source.loop = true;
-        source.Play();
+        if (!IsOwner || canHearSelf)
+        {
+            source.Play();
+        }
 
         SteamUser.VoiceRecord = true;
 
@@ -82,6 +85,8 @@ public class VoiceInputController : NetworkBehaviour
     void FixedUpdate()
     {
         if (!IsOwner) return;
+
+        //Debug.Log(GetVoiceVolumeSquared());
 
         isRecording = true;
 
@@ -125,8 +130,6 @@ public class VoiceInputController : NetworkBehaviour
     [ClientRpc]
     public void VoiceDataClientRpc(byte[] compressed, int bytesWritten, ulong ownerId)
     {
-        if (!canHearSelf && NetworkManager.Singleton.LocalClientId == ownerId) return;
-
         input.Write(compressed, 0, bytesWritten);
         input.Position = 0;
 
