@@ -149,7 +149,7 @@ public class PlayerInfoHolder : NetworkBehaviour, IAiSensible, IHurtable
     {
         if (isDead) return;
         playerInfo.health -= amount;
-        if (caller == "Monster_Ai") playerInfo.ravenCount += 50;
+        if (caller == "Monster_Ai") playerInfo.ravenCount = 0;
 
         Blackboard blackboard = BlackboardController.instance.GetBlackboard();
         blackboard.AddAction(() =>

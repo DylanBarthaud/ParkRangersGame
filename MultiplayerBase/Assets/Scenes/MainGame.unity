@@ -5552,6 +5552,14 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 2967532476716474800, guid: 999cd4a15f4f1f74f98c8654cab6c29f, type: 3}
+      propertyPath: stalkTime
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 2967532476716474800, guid: 999cd4a15f4f1f74f98c8654cab6c29f, type: 3}
+      propertyPath: stalkSpeed
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 2967532476716474800, guid: 999cd4a15f4f1f74f98c8654cab6c29f, type: 3}
       propertyPath: burrowSpeed
       value: 20
       objectReference: {fileID: 0}
@@ -5569,12 +5577,20 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2967532476716474800, guid: 999cd4a15f4f1f74f98c8654cab6c29f, type: 3}
       propertyPath: ObjectPermanenceTimer
-      value: 3
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 5765290727647115912, guid: 999cd4a15f4f1f74f98c8654cab6c29f, type: 3}
       propertyPath: m_Name
       value: Monster_Ai
       objectReference: {fileID: 0}
+    - target: {fileID: 5940184560845537565, guid: 999cd4a15f4f1f74f98c8654cab6c29f, type: 3}
+      propertyPath: wrappedAudioClipArray.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 5940184560845537565, guid: 999cd4a15f4f1f74f98c8654cab6c29f, type: 3}
+      propertyPath: 'wrappedAudioClipArray.Array.data[3]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 2f296dc9359d7f54993b92825adfacd9, type: 2}
     - target: {fileID: 6658972624049328317, guid: 999cd4a15f4f1f74f98c8654cab6c29f, type: 3}
       propertyPath: GlobalObjectIdHash
       value: 4206892115

@@ -28,7 +28,7 @@ public class FuseMiniGame : MiniGameBase
 
     private void Update()
     {
-        if (Input.GetKeyUp(KeyCode.Q))
+        if (Input.GetKeyDown(KeyCode.Q))
         {
             LockMouse();
             EndGame(false);

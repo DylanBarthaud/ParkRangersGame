@@ -160,7 +160,7 @@ namespace BehaviourTrees
                 && distanceFromPlayer <= stalkMaxDistance
                 && playerInfo.canSeePlayer)
             {
-                agent.isStopped = true; 
+                agent.isStopped = true;
             }
             else if(distanceFromPlayer <= stalkMinDistance)
             {
