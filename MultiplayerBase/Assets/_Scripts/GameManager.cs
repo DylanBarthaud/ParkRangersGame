@@ -178,6 +178,28 @@ public class GameManager : NetworkBehaviour
         }
     }
 
+    public AudioClip GetAudioClip(ulong callerId)
+    {
+        List<AudioClip> audioClipList = new List<AudioClip>();
+
+        Blackboard blackboard = BlackboardController.instance.GetBlackboard();
+        foreach (BlackboardKey key in playerBlackboardKeys)
+        {
+            if(blackboard.TryGetValue(key, out PlayerInfo playerInfo))
+            {
+                if (playerInfo.id == callerId) continue;
+
+                AudioClip newClip = playerInfo.voiceInputController.CreatePlayerVoiceClip(); 
+                if(newClip != null) audioClipList.Add(newClip);
+            }
+        }
+
+        if(audioClipList.Count <= 0) return null;
+
+        int roll = Random.Range(0, audioClipList.Count);
+        return audioClipList[roll];   
+    }
+
     private void EndGame()
     {
         playerBlackboardKeys.Clear();

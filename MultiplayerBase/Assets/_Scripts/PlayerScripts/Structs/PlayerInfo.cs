@@ -17,4 +17,5 @@ public struct PlayerInfo
     public int maxRavens;
     public ulong id;
     public List<BlackboardKey> spectators; 
+    public VoiceInputController voiceInputController;
 }

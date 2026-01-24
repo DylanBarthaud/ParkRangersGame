@@ -18,8 +18,6 @@ public class PlayerInfoHolder : NetworkBehaviour, IAiSensible, IHurtable
     private BlackboardKey playerInfo_Key;
     private PlayerInfo playerInfo;
 
-    private bool isDead = false; 
-
     public override void OnNetworkSpawn()
     {
         string clientIDString = OwnerClientId.ToString();
@@ -33,6 +31,7 @@ public class PlayerInfoHolder : NetworkBehaviour, IAiSensible, IHurtable
         playerInfo.spectators = new List<BlackboardKey>();
         playerInfo.ravenCount = 0;
         playerInfo.maxRavens = 20; 
+        playerInfo.voiceInputController = voiceInputController;
         UpdateInfo(false, 0);
 
         EventManager.instance.OnPlayerSpawned(playerInfo_Key);
@@ -117,7 +116,6 @@ public class PlayerInfoHolder : NetworkBehaviour, IAiSensible, IHurtable
 
     public void OnSeen(Blackboard blackboard, Ai_Senses caller)
     {
-        if(isDead) return;
         bool playerSeen = true;
 
         Vector3 aiPos = caller.transform.position;
@@ -147,7 +145,6 @@ public class PlayerInfoHolder : NetworkBehaviour, IAiSensible, IHurtable
     #region IHurtable Implimentation
     public void IsHurt(string caller, int amount)
     {
-        if (isDead) return;
         playerInfo.health -= amount;
         if (caller == "Monster_Ai") playerInfo.ravenCount = 0;
 
@@ -165,12 +162,7 @@ public class PlayerInfoHolder : NetworkBehaviour, IAiSensible, IHurtable
 
     public void IsKilled()
     {
-        if(isDead) return;
         EventManager.instance.OnPlayerKilled(playerInfo_Key);
-
-        isDead = true;
-        gameObject.GetComponent<Collider>().enabled = false;
-        //disable regular graphics and enable corpse graphics
 
         var blackboard = BlackboardController.instance?.GetBlackboard();
         if (blackboard != null)
@@ -178,6 +170,7 @@ public class PlayerInfoHolder : NetworkBehaviour, IAiSensible, IHurtable
             blackboard.Remove(playerInfo_Key);
         }
 
+        NetworkObject.Despawn();
         EventManager.instance.onTick_5 -= OnTick_5;
     }
     #endregion

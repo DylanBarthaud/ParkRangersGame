@@ -1,14 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Netcode;
 using UnityEngine;
 
-[RequireComponent(typeof(VoiceInputController))]
-public class RavenController : MonoBehaviour
+public class RavenController : NetworkBehaviour
 {
     [SerializeField] GameObject ravenObj;
     [SerializeField] PlayerInfoHolder playerInfoHolder;
-
-    private VoiceInputController voiceInputController;
 
     [Header("Raven Settings")]
     [SerializeField] int spawnInterval;
@@ -24,8 +22,6 @@ public class RavenController : MonoBehaviour
 
     private void Awake()
     {
-        voiceInputController = gameObject.GetComponent<VoiceInputController>();
-
         EventManager.instance.onTick += OnTick;
     }
 
@@ -38,7 +34,7 @@ public class RavenController : MonoBehaviour
 
         if(collectionTick >= collectionInterval)
         {
-            AudioClip newClip = voiceInputController.CreatePlayerVoiceClip();
+            AudioClip newClip = GameManager.instance.GetAudioClip(OwnerClientId); 
 
             if(newClip != null)
             {
