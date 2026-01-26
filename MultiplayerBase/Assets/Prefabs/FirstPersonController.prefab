@@ -699,6 +699,7 @@ GameObject:
   - component: {fileID: -7024500352053469992}
   - component: {fileID: -2821817791472356823}
   - component: {fileID: 4120214330100131268}
+  - component: {fileID: 3291311155822121652}
   m_Layer: 6
   m_Name: FirstPersonController
   m_TagString: Player
@@ -1033,7 +1034,7 @@ CapsuleCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.5
+  m_Radius: 0.45
   m_Height: 2
   m_Direction: 1
   m_Center: {x: 0, y: 0, z: 0}
@@ -1289,6 +1290,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7dee1d90d511e6542ba33943a1044fdd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
   ravenObj: {fileID: 7709512528297619388, guid: ed88bb8e2b3caa0498e1ddbf59e443e2, type: 3}
   playerInfoHolder: {fileID: 4199134725729588632}
   spawnInterval: 10
@@ -1300,6 +1302,29 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 0207c7b8ecd10dd4c8e9818edea6b530, type: 3}
   maximumAdditionalClips: 8
   additionalClips: []
+--- !u!136 &3291311155822121652
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4459864850019384750}
+  m_Material: {fileID: 13400000, guid: 6365ecc958d94c24ab5886640e58f810, type: 2}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.5
+  m_Height: 1.9
+  m_Direction: 1
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &4459864850190357393
 GameObject:
   m_ObjectHideFlags: 0
@@ -2082,10 +2107,10 @@ Light:
   serializedVersion: 11
   m_Type: 0
   m_Color: {r: 0.9528302, g: 0.8972082, b: 0.80451226, a: 1}
-  m_Intensity: 25
-  m_Range: 22.5
-  m_SpotAngle: 74.15233
-  m_InnerSpotAngle: 41.97418
+  m_Intensity: 65
+  m_Range: 25
+  m_SpotAngle: 61.78505
+  m_InnerSpotAngle: 55.643265
   m_CookieSize: 10
   m_Shadows:
     m_Type: 0
