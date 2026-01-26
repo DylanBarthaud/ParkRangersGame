@@ -7,13 +7,17 @@ public class MapHandler
     int height;
     float cellSize;
 
-    public MapHandler(int width, int height, float cellSize)
+    MapSpawner spawner;
+
+    public MapHandler(int width, int height, float cellSize, Terrain terrain, GameObject[] spawnables = null, int numberOfObject = 0)
     {
         this.width = width;
         this.height = height;
         this.cellSize = cellSize;
 
         mapGrid = new Grid(width, height, cellSize);
+        spawner = new MapSpawner(); 
+        spawner.Spawn(terrain, spawnables, numberOfObject);
     }
 
     public GridPosition GetGridLocation(Vector3 position)

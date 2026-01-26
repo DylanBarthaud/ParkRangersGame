@@ -20,14 +20,18 @@ public class GameManager : NetworkBehaviour
 
     [Header("Gameplay")]
     [SerializeField] int taskCompleteNeeded = 5;
-    [SerializeField] List<SerializableKeysAndValues<MiniGameTypes, GameObject>> miniGames; 
-    private Dictionary<MiniGameTypes, GameObject> miniGameDictionary = new Dictionary<MiniGameTypes, GameObject>(); 
+    [SerializeField] List<SerializableKeysAndValues<MiniGameTypes, GameObject>> miniGames;
+    private Dictionary<MiniGameTypes, GameObject> miniGameDictionary = new Dictionary<MiniGameTypes, GameObject>();
 
     public MapHandler mapHandler;
+    [SerializeField] Terrain terrain;
     [Header("Grid")]
-    [SerializeField] int width; 
+    [SerializeField] int width;
     [SerializeField] int height;
     [SerializeField] float cellSize;
+    [Header("Spawns")]
+    [SerializeField] GameObject[] spawnableObjects;
+    [SerializeField] int numberOfSpawns; 
 
     [HideInInspector] public int numberOfPlayers = 0;
     [HideInInspector] public List<BlackboardKey> playerBlackboardKeys;
@@ -40,7 +44,7 @@ public class GameManager : NetworkBehaviour
         if (instance == null) instance = this;
         else Destroy(gameObject);
 
-        mapHandler = new MapHandler(width, height, cellSize);
+        mapHandler = new MapHandler(width, height, cellSize, terrain, spawnableObjects, numberOfSpawns);
 
         EventManager.instance.onPlayerSpawned += OnPlayerSpawnedServerRpc;
         EventManager.instance.onPlayerKilled += OnPlayerKilledServerRpc;
@@ -50,6 +54,13 @@ public class GameManager : NetworkBehaviour
         {
             miniGameDictionary.Add(kv.Key, kv.Value);
         }
+    }
+
+    public void SpawnObjectOnNetwork(GameObject obj, Vector3 pos, Quaternion rot, bool destroyWithScene = true)
+    {
+        GameObject spawnedObject = Instantiate(obj, pos, rot);
+        spawnedObject.GetComponent<NetworkObject>().Spawn(destroyWithScene);
+
     }
 
     public void EnableMiniGame(MiniGameTypes gameType, GameObject caller)
