@@ -24,6 +24,7 @@ public class MiniGame : NetworkBehaviour, IInteractable
         FirstPersonController playerController = interactor.GetComponent<FirstPersonController>();
         if (playerController != null)
         {
+            Debug.Log("Interacted with puzzle"); 
             playerController.DisableMovement();
             interactor.GetComponent<Inventory>().DisableInv();
             GameManager.instance.EnableMiniGame(game, gameObject);

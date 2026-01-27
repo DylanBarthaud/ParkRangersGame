@@ -56,7 +56,7 @@ public class SnareMiniGame : MiniGameBase
 
             ResetGame();
         }
-
+        
         if(Input.GetKeyDown(KeyCode.Q))
         {
             EndGame(false);

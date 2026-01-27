@@ -4,6 +4,12 @@ using UnityEngine;
 public class MapSpawner
 {
     private List<GameObject> spawns = new List<GameObject>();
+    private float maxSteepness; 
+
+    public MapSpawner(float maxSteepness)
+    {
+        this.maxSteepness = maxSteepness;
+    }
 
     public void Spawn(Terrain terrain, GameObject[] spawnableObjects, int numberOfObjects)
     {
@@ -19,13 +25,27 @@ public class MapSpawner
         TerrainData terrainData = terrain.terrainData;
         Vector3 terrainSize = terrainData.size;
 
-        int xPos = Random.Range(0, (int)terrainSize.x + 1);
-        int zPos = Random.Range(0, (int)terrainSize.z + 1);
-        float yPos = terrain.SampleHeight(new Vector3(xPos, 0, zPos));
+        const int maxAttempts = 5;  
+        for (int i = 0; i < maxAttempts; i++)
+        {
+            float xPos = Random.Range(0f, terrainSize.x);
+            float zPos = Random.Range(0f, terrainSize.z);
+            float yPos = terrain.SampleHeight(new Vector3(xPos, 0f, zPos));
 
-        Vector3 spawnPoint = new Vector3(xPos, yPos, zPos);
+            float normX = xPos / terrainSize.x;
+            float normZ = zPos / terrainSize.z;
 
-        GameManager.instance.SpawnObjectOnNetwork(spawnObject, spawnPoint, Quaternion.identity); 
-        spawns.Add(spawnObject);
+            if (terrainData.GetSteepness(normX, normZ) <= maxSteepness)
+            {
+                Vector3 spawnPoint = new Vector3(xPos, yPos, zPos);
+                GameManager.instance.SpawnObjectOnNetwork(
+                    spawnObject,
+                    spawnPoint,
+                    Quaternion.identity
+                );
+                spawns.Add(spawnObject);
+                break;
+            }
+        }
     }
 }
