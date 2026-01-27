@@ -41,6 +41,8 @@ public class UIManager : MonoBehaviour
 
     public void EnableMiniGameUi(GameObject MiniGamePanel, GameObject caller)
     {
+        Debug.Log("In ui");
+
         MiniGamePanel.SetActive(true);
         MiniGamePanel.GetComponent<MiniGameBase>().SetMiniGameObj(caller);
     }

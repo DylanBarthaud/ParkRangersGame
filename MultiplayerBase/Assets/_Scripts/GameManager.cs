@@ -31,7 +31,8 @@ public class GameManager : NetworkBehaviour
     [SerializeField] float cellSize;
     [Header("Spawns")]
     [SerializeField] GameObject[] spawnableObjects;
-    [SerializeField] int numberOfSpawns; 
+    [SerializeField] int numberOfSpawns;
+    [SerializeField, Range(0f, 180f)] float maxSteepness;  
 
     [HideInInspector] public int numberOfPlayers = 0;
     [HideInInspector] public List<BlackboardKey> playerBlackboardKeys;
@@ -44,7 +45,7 @@ public class GameManager : NetworkBehaviour
         if (instance == null) instance = this;
         else Destroy(gameObject);
 
-        mapHandler = new MapHandler(width, height, cellSize, terrain, spawnableObjects, numberOfSpawns);
+        mapHandler = new MapHandler(width, height, cellSize, terrain, maxSteepness, spawnableObjects, numberOfSpawns);
 
         EventManager.instance.onPlayerSpawned += OnPlayerSpawnedServerRpc;
         EventManager.instance.onPlayerKilled += OnPlayerKilledServerRpc;
@@ -66,6 +67,8 @@ public class GameManager : NetworkBehaviour
     public void EnableMiniGame(MiniGameTypes gameType, GameObject caller)
     {
         GameObject miniGamePanel = miniGameDictionary[gameType];
+        if (miniGamePanel != null) Debug.Log("Mini Game Panel Is not Null"); 
+
         uiManager.EnableMiniGameUi(miniGamePanel, caller);
     }
 

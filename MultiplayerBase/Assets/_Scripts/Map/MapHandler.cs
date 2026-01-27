@@ -8,15 +8,16 @@ public class MapHandler
     float cellSize;
 
     MapSpawner spawner;
+    float maxSteepness; 
 
-    public MapHandler(int width, int height, float cellSize, Terrain terrain, GameObject[] spawnables = null, int numberOfObject = 0)
+    public MapHandler(int width, int height, float cellSize, Terrain terrain, float maxSteepness, GameObject[] spawnables = null, int numberOfObject = 0)
     {
         this.width = width;
         this.height = height;
         this.cellSize = cellSize;
 
         mapGrid = new Grid(width, height, cellSize);
-        spawner = new MapSpawner(); 
+        spawner = new MapSpawner(maxSteepness); 
         spawner.Spawn(terrain, spawnables, numberOfObject);
     }
 
