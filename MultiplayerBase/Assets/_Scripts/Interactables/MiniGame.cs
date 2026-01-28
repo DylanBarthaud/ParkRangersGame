@@ -35,7 +35,11 @@ public class MiniGame : NetworkBehaviour, IInteractable
     {
         if (canInteract)
         {
-            if (itemUsed == neededItem) return true;
+            if (itemUsed == neededItem)
+            {
+                Debug.Log("Can interact");
+                return true;
+            }
         }
         return false;
     }

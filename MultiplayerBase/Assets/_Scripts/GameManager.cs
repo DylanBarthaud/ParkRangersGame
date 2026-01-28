@@ -66,6 +66,7 @@ public class GameManager : NetworkBehaviour
 
     public void EnableMiniGame(MiniGameTypes gameType, GameObject caller)
     {
+        Debug.Log("Enable minigame");
         GameObject miniGamePanel = miniGameDictionary[gameType];
         if (miniGamePanel != null) Debug.Log("Mini Game Panel Is not Null"); 
 
