@@ -1,9 +1,10 @@
 using BehaviourTrees;
+using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.AI;
 
 [RequireComponent(typeof(NavMeshAgent))]
-public class Rabbit_Ai : MonoBehaviour
+public class Rabbit_Ai : NetworkBehaviour
 {
     private NavMeshAgent agent;
 
@@ -24,6 +25,7 @@ public class Rabbit_Ai : MonoBehaviour
 
     private void Update()
     {
+        if(!IsHost) return;
         root.Process(); 
     }
 }

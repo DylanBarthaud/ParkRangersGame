@@ -3,6 +3,7 @@ using BlackboardSystem;
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;
+using Unity.Netcode;
 using UnityEngine;
 
 public class Ai_Overlord : MonoBehaviour, IExpert
@@ -122,6 +123,7 @@ public class Ai_Overlord : MonoBehaviour, IExpert
     #region Events
     private void OnTick(int tick)
     {
+        if (!NetworkManager.Singleton.IsHost) return;
         this.tick = tick;
         root.Process(); 
     }

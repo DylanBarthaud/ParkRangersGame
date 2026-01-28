@@ -45,7 +45,7 @@ public class GameManager : NetworkBehaviour
         if (instance == null) instance = this;
         else Destroy(gameObject);
 
-        mapHandler = new MapHandler(width, height, cellSize, terrain, maxSteepness, spawnableObjects, numberOfSpawns);
+        if(IsHost) mapHandler = new MapHandler(width, height, cellSize, terrain, maxSteepness, spawnableObjects, numberOfSpawns);
 
         EventManager.instance.onPlayerSpawned += OnPlayerSpawnedServerRpc;
         EventManager.instance.onPlayerKilled += OnPlayerKilledServerRpc;
