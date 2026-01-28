@@ -81,7 +81,7 @@ public class Ai_Overlord : MonoBehaviour, IExpert
             float distanceToGiveHintSq = distanceToGiveHint * distanceToGiveHint; 
             bool isFarAway = shortestDistance > distanceToGiveHintSq ? true : false;
 
-            //Debug.Log(shortestDistance + " , " + isFarAway);
+            Debug.Log(shortestDistance + " , " + isFarAway);
             return isFarAway; 
         }
         IfGate monsterFarFromPlayers = new IfGate("MonsterIsFarFromPlayersGate", new Condition(MonsterIsFarFromPlayers));
@@ -113,10 +113,10 @@ public class Ai_Overlord : MonoBehaviour, IExpert
             insistance = 90; 
         }));
 
-        root.AddChild(primaryOverlordSelector); 
-
-        primaryOverlordSelector.AddChild(monsterFarFromPlayers);
         monsterFarFromPlayers.AddChild(givePlayerPositionHint);
+        primaryOverlordSelector.AddChild(monsterFarFromPlayers);
+
+        root.AddChild(primaryOverlordSelector);
         #endregion
     }
 

@@ -34,7 +34,6 @@ public class PlayerInfoHolder : NetworkBehaviour, IAiSensible, IHurtable
         playerInfo.voiceInputController = voiceInputController;
         UpdateInfo(false, 0);
 
-        EventManager.instance.OnPlayerSpawned(playerInfo_Key);
         EventManager.instance.onTick_5 += OnTick_5;
     }
 

@@ -24,7 +24,6 @@ public class MiniGame : NetworkBehaviour, IInteractable
         FirstPersonController playerController = interactor.GetComponent<FirstPersonController>();
         if (playerController != null)
         {
-            Debug.Log("Interacted with puzzle"); 
             playerController.DisableMovement();
             interactor.GetComponent<Inventory>().DisableInv();
             GameManager.instance.EnableMiniGame(game, gameObject);
@@ -35,11 +34,7 @@ public class MiniGame : NetworkBehaviour, IInteractable
     {
         if (canInteract)
         {
-            if (itemUsed == neededItem)
-            {
-                Debug.Log("Can interact");
-                return true;
-            }
+            if (itemUsed == neededItem) return true;
         }
         return false;
     }
