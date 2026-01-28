@@ -45,8 +45,6 @@ public class GameManager : NetworkBehaviour
         if (instance == null) instance = this;
         else Destroy(gameObject);
 
-        if(IsHost) mapHandler = new MapHandler(width, height, cellSize, terrain, maxSteepness, spawnableObjects, numberOfSpawns);
-
         EventManager.instance.onPlayerSpawned += OnPlayerSpawnedServerRpc;
         EventManager.instance.onPlayerKilled += OnPlayerKilledServerRpc;
         EventManager.instance.onPuzzleComplete += OnPuzzleComplete;
@@ -55,6 +53,12 @@ public class GameManager : NetworkBehaviour
         {
             miniGameDictionary.Add(kv.Key, kv.Value);
         }
+    }
+
+    public override void OnNetworkSpawn()
+    {
+        if (!IsHost) return;
+        mapHandler = new MapHandler(width, height, cellSize, terrain, maxSteepness, spawnableObjects, numberOfSpawns);
     }
 
     public void SpawnObjectOnNetwork(GameObject obj, Vector3 pos, Quaternion rot, bool destroyWithScene = true)
