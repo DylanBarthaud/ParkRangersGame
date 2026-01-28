@@ -217,7 +217,7 @@ public class Ai_testScript : NetworkBehaviour
 
     private void Update()
     {
-        if (!IsHost) return;
+        if (!IsServer) return;
         root.Process();
     }
 }

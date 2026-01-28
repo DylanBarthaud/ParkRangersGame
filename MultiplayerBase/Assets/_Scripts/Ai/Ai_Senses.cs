@@ -103,8 +103,10 @@ public class Ai_Senses : NetworkBehaviour, IExpert
     {
         foreach(IAiSensible seenObj in sensedObjects)
         {
-            if(seenObj == null) continue;
-            seenObj.OnSeen(blackboard, this); 
+            if(seenObj != null)
+            {
+                seenObj.OnSeen(blackboard, this);
+            }
         }
     }
 

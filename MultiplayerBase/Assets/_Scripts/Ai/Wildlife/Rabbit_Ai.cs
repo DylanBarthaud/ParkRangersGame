@@ -25,7 +25,6 @@ public class Rabbit_Ai : NetworkBehaviour
 
     private void Update()
     {
-        if(!IsHost) return;
         root.Process(); 
     }
 }

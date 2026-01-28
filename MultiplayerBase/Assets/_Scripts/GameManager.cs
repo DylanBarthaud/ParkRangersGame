@@ -61,6 +61,7 @@ public class GameManager : NetworkBehaviour
         mapHandler = new MapHandler(width, height, cellSize, terrain, maxSteepness, spawnableObjects, numberOfSpawns);
     }
 
+
     public void SpawnObjectOnNetwork(GameObject obj, Vector3 pos, Quaternion rot, bool destroyWithScene = true)
     {
         GameObject spawnedObject = Instantiate(obj, pos, rot);

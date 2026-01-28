@@ -159,8 +159,11 @@ public class PlayerInfoHolder : NetworkBehaviour, IAiSensible, IHurtable
         }
     }
 
+    private bool isDead = false;
     public void IsKilled()
     {
+        if(isDead) return;
+        isDead = true;
         EventManager.instance.OnPlayerKilled(playerInfo_Key);
 
         var blackboard = BlackboardController.instance?.GetBlackboard();
@@ -169,7 +172,7 @@ public class PlayerInfoHolder : NetworkBehaviour, IAiSensible, IHurtable
             blackboard.Remove(playerInfo_Key);
         }
 
-        NetworkObject.Despawn();
+        if(NetworkObject.IsSpawned) NetworkObject.Despawn();
         EventManager.instance.onTick_5 -= OnTick_5;
     }
     #endregion
