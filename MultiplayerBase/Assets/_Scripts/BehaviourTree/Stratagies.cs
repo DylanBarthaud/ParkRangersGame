@@ -127,6 +127,7 @@ namespace BehaviourTrees
         readonly float maxStalkTime;
         readonly MultiplayerAudioHandlerWrapper audioHandler;
         private float stalkTime;
+        private int timesCalled = 0; 
 
         public StalkPlayerStrategy(Func<PlayerInfo> playerInfoFunc, NavMeshAgent agent, float stalkSpeed, float maxStalkTime, float stalkMinDistance, float stalkMaxDistance, MultiplayerAudioHandlerWrapper audioHandler)
         {
@@ -141,6 +142,7 @@ namespace BehaviourTrees
 
         public Node.Status Process()
         {
+            timesCalled++; 
             if (stalkTime >= maxStalkTime)
             {
                 agent.isStopped = false;
@@ -152,6 +154,12 @@ namespace BehaviourTrees
             {
                 agent.isStopped = false;
                 return Node.Status.Failure;
+            }
+
+            if (timesCalled == 100)
+            {
+                Debug.Log("RUSTLE"); 
+                audioHandler.PlaySoundServerRpc("Rustle");
             }
 
             agent.SetDestination(playerInfo.position);
@@ -176,6 +184,7 @@ namespace BehaviourTrees
 
         public void Reset()
         {
+            timesCalled = 0;
             stalkTime = 0;
         }
     }
