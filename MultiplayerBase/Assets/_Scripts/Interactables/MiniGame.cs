@@ -1,3 +1,4 @@
+using NUnit.Framework;
 using System;
 using Unity.Netcode;
 using UnityEngine;
@@ -9,6 +10,12 @@ public struct ActivatedObjs
     public GameObject obj;
     public bool setActive; 
 }
+[Serializable]
+public struct Pair<Item1, Item2>
+{
+    public Item1 item1;
+    public Item2 item2;
+}
 
 public class MiniGame : NetworkBehaviour, IInteractable
 {
@@ -17,7 +24,8 @@ public class MiniGame : NetworkBehaviour, IInteractable
 
     [HideInInspector] private bool canInteract = true;
 
-    [SerializeField] ActivatedObjs[] setObjests;
+    [SerializeField] Pair<GameObject, bool>[] setObjests;
+    [SerializeField] Pair<bool, string> completesQuest; 
 
     public void OnInteract(Interactor interactor, ItemType itemUsed = ItemType.None)
     {
@@ -43,7 +51,11 @@ public class MiniGame : NetworkBehaviour, IInteractable
     public void OnCompleteServerRpc(bool success)
     {
         SetCanInteractClientRpc(!success);
-        if(success) ActivateObjsClientRpc(); 
+        if(success)
+        {
+            if (completesQuest.item1) EventManager.instance.OnQuestComplete(completesQuest.item2); 
+            ActivateObjsClientRpc();
+        }
     }
 
     [ClientRpc]
@@ -59,8 +71,8 @@ public class MiniGame : NetworkBehaviour, IInteractable
         
         foreach (var objWrapped in setObjests)
         {
-            GameObject obj = objWrapped.obj; 
-            bool setActive = objWrapped.setActive;
+            GameObject obj = objWrapped.item1; 
+            bool setActive = objWrapped.item2;
             obj.SetActive(setActive);
         }
     }
