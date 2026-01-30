@@ -1,16 +1,23 @@
+using TMPro;
 using UnityEngine;
 
 public class NotebookHandler : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    [SerializeField] TextMeshProUGUI pageOneText;
+    [SerializeField] TextMeshProUGUI pageTwoText;
+
+    public void UpdatePageOneText(string text)
     {
-        
+        UpdateText(text, pageOneText); 
     }
 
-    // Update is called once per frame
-    void Update()
+    public void UpdatePageTwoText(string text)
     {
-        
+        UpdateText(text, pageTwoText);
+    }
+
+    private void UpdateText(string text, TextMeshProUGUI page)
+    {
+        page.text = text;
     }
 }
