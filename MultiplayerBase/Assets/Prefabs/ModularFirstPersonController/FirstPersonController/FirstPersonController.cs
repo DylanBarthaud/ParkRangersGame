@@ -28,6 +28,9 @@ public class FirstPersonController : NetworkBehaviour
     private Rigidbody rb;
     private AudioListener audioListener;
 
+    private KeyCode notebookKey = KeyCode.N;
+    private GameObject notebook; 
+
     #region Camera Movement Variables
 
     public Camera playerCamera;
@@ -147,6 +150,7 @@ public class FirstPersonController : NetworkBehaviour
         rb = GetComponent<Rigidbody>();
 
         crosshairObject = GetComponentInChildren<Image>();
+        notebook = transform.GetChild(0).GetChild(0).GetChild(2).gameObject;
 
         // Set internal variables
         playerCamera.fieldOfView = fov;
@@ -347,6 +351,8 @@ public class FirstPersonController : NetworkBehaviour
         if (!IsOwner) return;
 
         #region Camera
+
+        if (Input.GetKeyDown(notebookKey)) notebook.SetActive(!notebook.activeInHierarchy); 
 
         // Control camera movement
         if (cameraCanMove && !isVaulting)

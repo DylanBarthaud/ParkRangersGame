@@ -34,6 +34,8 @@ public class EventManager : MonoBehaviour
     public event Action<Vector3> onBurrow;  
     public event Action<Vector3> onUnBurrow;
 
+    public event Action<string> onQuestComplete; 
+
     /// <summary>
     /// Tick that happens every 0.2s
     /// </summary>
@@ -81,5 +83,10 @@ public class EventManager : MonoBehaviour
     {
         if (onBurrow != null) onUnBurrow(unBurrowPos);
 
+    }
+
+    public void OnQuestComplete(string quest)
+    {
+        if(onQuestComplete != null) onQuestComplete(quest);
     }
 }

@@ -440,11 +440,23 @@ PrefabInstance:
     m_TransformParent: {fileID: 136042509}
     m_Modifications:
     - target: {fileID: 3586280018046309498, guid: 82dd53dacc6260e4296693854f811054, type: 3}
+      propertyPath: completesQuest.item1
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3586280018046309498, guid: 82dd53dacc6260e4296693854f811054, type: 3}
+      propertyPath: completesQuest.item2
+      value: ShedQuest
+      objectReference: {fileID: 0}
+    - target: {fileID: 3586280018046309498, guid: 82dd53dacc6260e4296693854f811054, type: 3}
       propertyPath: setObjests.Array.size
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3586280018046309498, guid: 82dd53dacc6260e4296693854f811054, type: 3}
       propertyPath: setObjests.Array.data[0].obj
+      value: 
+      objectReference: {fileID: 912863035}
+    - target: {fileID: 3586280018046309498, guid: 82dd53dacc6260e4296693854f811054, type: 3}
+      propertyPath: setObjests.Array.data[0].item1
       value: 
       objectReference: {fileID: 912863035}
     - target: {fileID: 3586280018046309498, guid: 82dd53dacc6260e4296693854f811054, type: 3}
@@ -13425,12 +13437,14 @@ MonoBehaviour:
   questKVs:
   - _key: ShedQuest
     _val: 1
-  - _key: 
-    _val: 0
-  - _key: 
-    _val: 0
-  - _key: 
-    _val: 0
+  - _key: CastleQuest
+    _val: 2
+  - _key: CarparkQuest
+    _val: 3
+  - _key: Run
+    _val: 4
+  - _key: HAHA
+    _val: 5
 --- !u!1001 &1676807597
 PrefabInstance:
   m_ObjectHideFlags: 0
