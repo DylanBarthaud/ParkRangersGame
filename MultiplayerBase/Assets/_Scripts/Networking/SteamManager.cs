@@ -19,6 +19,7 @@ public class SteamManager : MonoBehaviour
 
     [SerializeField] private GameObject mainMenu;
     [SerializeField] private GameObject inLobbyMenu;
+    [SerializeField] private GameObject startMenu;
 
     private static int maxMembersInLobby = 8;
 
@@ -44,7 +45,9 @@ public class SteamManager : MonoBehaviour
     private void Start()
     {
         Cursor.lockState = CursorLockMode.None;
-        CheckUI();
+        startMenu.SetActive(true);
+        mainMenu.SetActive(false);
+        inLobbyMenu.SetActive(false);
     }
 
     private void GameLobbyJoinRequested(Lobby lobby, SteamId id)
