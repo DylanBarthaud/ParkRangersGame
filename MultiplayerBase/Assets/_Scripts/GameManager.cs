@@ -1,4 +1,5 @@
 using BlackboardSystem;
+using System;
 using System.Collections.Generic;
 using Unity.Netcode;
 using UnityEngine;
@@ -49,7 +50,8 @@ public class GameManager : NetworkBehaviour
         EventManager.instance.onPlayerKilled += OnPlayerKilledServerRpc;
         EventManager.instance.onPuzzleComplete += OnPuzzleComplete;
 
-        foreach(var kv in miniGames)
+
+        foreach (var kv in miniGames)
         {
             miniGameDictionary.Add(kv.Key, kv.Value);
         }
@@ -213,7 +215,7 @@ public class GameManager : NetworkBehaviour
 
         if(audioClipList.Count <= 0) return null;
 
-        int roll = Random.Range(0, audioClipList.Count);
+        int roll = UnityEngine.Random.Range(0, audioClipList.Count);
         return audioClipList[roll];   
     }
 
