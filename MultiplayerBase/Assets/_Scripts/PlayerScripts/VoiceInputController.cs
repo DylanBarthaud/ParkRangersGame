@@ -113,7 +113,7 @@ public class VoiceInputController : NetworkBehaviour
                 && clipDuration > minSavedSampleDuration
                 && clipDuration < maxSavedSampleDuration)
             {
-                storedSample = new List<float>(recordedSamples);
+                + = new List<float>(recordedSamples);
             }
 
             recordedSamples.Clear();
@@ -130,6 +130,7 @@ public class VoiceInputController : NetworkBehaviour
     [ClientRpc]
     public void VoiceDataClientRpc(byte[] compressed, int bytesWritten, ulong ownerId)
     {
+        if (OwnerClientId == ownerId) return; 
         input.Write(compressed, 0, bytesWritten);
         input.Position = 0;
 

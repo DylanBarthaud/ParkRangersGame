@@ -18,6 +18,7 @@ public class NotebookHandler : MonoBehaviour
 
     private void UpdateText(string text, TextMeshProUGUI page)
     {
+        Debug.Log(text);
         page.text = text;
     }
 }
