@@ -389,12 +389,12 @@ GameObject:
   - component: {fileID: -7187426609009175677}
   - component: {fileID: -4997032870617860241}
   - component: {fileID: -637524533923752487}
-  - component: {fileID: 4199134725729588632}
   - component: {fileID: -1635927792753444105}
   - component: {fileID: 6199517553978207084}
   - component: {fileID: 1539057979975185806}
   - component: {fileID: -7024500352053469992}
   - component: {fileID: -2821817791472356823}
+  - component: {fileID: 4199134725729588632}
   - component: {fileID: 4120214330100131268}
   - component: {fileID: 3291311155822121652}
   m_Layer: 6
@@ -863,24 +863,6 @@ MonoBehaviour:
   joint: {fileID: 4459864851508666808}
   bobSpeed: 10
   bobAmount: {x: 0, y: 0.1, z: 0}
---- !u!114 &4199134725729588632
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4459864850019384750}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dc3f9e7ffcea2e740809b73e709eac4a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ShowTopMostFoldoutHeaderGroup: 1
-  playerHealth: 5
-  audioSources:
-  - {fileID: -8493547404905070063}
-  voiceInputController: {fileID: -2821817791472356823}
-  volumeRequiredToAddRaven: 3
 --- !u!114 &-1635927792753444105
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -970,6 +952,24 @@ MonoBehaviour:
   volumeSampleWindow: 0.1
   maxSavedSampleDuration: 5
   minSavedSampleDuration: 1
+--- !u!114 &4199134725729588632
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4459864850019384750}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dc3f9e7ffcea2e740809b73e709eac4a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
+  playerHealth: 5
+  audioSources:
+  - {fileID: -8493547404905070063}
+  voiceInputController: {fileID: -2821817791472356823}
+  volumeRequiredToAddRaven: 3
 --- !u!114 &4120214330100131268
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -986,9 +986,9 @@ MonoBehaviour:
   ravenObj: {fileID: 7709512528297619388, guid: ed88bb8e2b3caa0498e1ddbf59e443e2, type: 3}
   playerInfoHolder: {fileID: 4199134725729588632}
   spawnInterval: 10
-  spawnChance: 45
+  spawnChance: 5
   spawnRadius: 30
-  copyVoiceChance: 30
+  copyVoiceChance: 100
   collectionInterval: 1
   crowAudioClips:
   - {fileID: 8300000, guid: 0207c7b8ecd10dd4c8e9818edea6b530, type: 3}

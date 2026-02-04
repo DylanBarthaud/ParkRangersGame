@@ -30,7 +30,7 @@ public class PlayerInfoHolder : NetworkBehaviour, IAiSensible, IHurtable
         playerInfo.id = OwnerClientId;
         playerInfo.spectators = new List<BlackboardKey>();
         playerInfo.ravenCount = 0;
-        playerInfo.maxRavens = 20; 
+        playerInfo.maxRavens = 10; 
         playerInfo.voiceInputController = voiceInputController;
         UpdateInfo(false, 0);
 
@@ -110,6 +110,7 @@ public class PlayerInfoHolder : NetworkBehaviour, IAiSensible, IHurtable
         if(voiceInputController.GetVoiceVolumeSquared() > loudestHeardAudioSquared) 
             loudestHeardAudioSquared = voiceInputController.GetVoiceVolumeSquared();
 
+        Debug.Log(loudestHeardAudioSquared); 
         return loudestHeardAudioSquared;
     }
 

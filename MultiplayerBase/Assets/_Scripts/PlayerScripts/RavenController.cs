@@ -47,7 +47,6 @@ public class RavenController : NetworkBehaviour
         {
             for (int i = 0; i < playerInfoHolder.GetPlayerInfo().ravenCount; i++)
             {
-                float playerNoiseLevelSquared = playerInfoHolder.GetAudioDataSquared(); 
                 int roll = Random.Range(0, 101);
                 if (spawnChance >= roll)
                 {
@@ -77,7 +76,7 @@ public class RavenController : NetworkBehaviour
 
         int copyVoiceRoll = Random.Range(0, 101); 
 
-        if(copyVoiceRoll <= copyVoiceChance)
+        if(copyVoiceRoll <= copyVoiceChance && additionalClips.Count > 0)
         {
             int roll = Random.Range(0, additionalClips.Count);
             crowScript.SetNoiseData(additionalClips[roll]);

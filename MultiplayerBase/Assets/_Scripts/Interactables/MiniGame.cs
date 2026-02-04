@@ -5,12 +5,6 @@ using UnityEngine;
 
 public enum MiniGameTypes { SnareTrap, FuseBox, SpringTrap }
 [Serializable]
-public struct ActivatedObjs
-{
-    public GameObject obj;
-    public bool setActive; 
-}
-[Serializable]
 public struct Pair<Item1, Item2>
 {
     public Item1 item1;
