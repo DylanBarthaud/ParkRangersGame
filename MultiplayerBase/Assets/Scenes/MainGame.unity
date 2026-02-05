@@ -3136,7 +3136,6 @@ GameObject:
   m_Component:
   - component: {fileID: 340858781}
   - component: {fileID: 340858784}
-  - component: {fileID: 340858783}
   - component: {fileID: 340858782}
   m_Layer: 0
   m_Name: DisplayCamera
@@ -3204,14 +3203,6 @@ MonoBehaviour:
     m_MipBias: 0
     m_VarianceClampScale: 0.9
     m_ContrastAdaptiveSharpening: 0
---- !u!81 &340858783
-AudioListener:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 340858780}
-  m_Enabled: 1
 --- !u!20 &340858784
 Camera:
   m_ObjectHideFlags: 0
@@ -5269,7 +5260,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 0/30
+  m_text: 0/15
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 4ffd5aa58d36d5c4cb9fa549c1fa9569, type: 2}
   m_sharedMaterial: {fileID: 828018089262179027, guid: 4ffd5aa58d36d5c4cb9fa549c1fa9569, type: 2}
@@ -11685,7 +11676,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
-  taskCompleteNeeded: 30
+  taskCompleteNeeded: 15
   miniGames:
   - _key: 0
     _val: {fileID: 1268122631}
@@ -11701,7 +11692,7 @@ MonoBehaviour:
   - {fileID: 1256396987020351959, guid: 4dab23d0cd1c4e84aa92324cb540e9b2, type: 3}
   - {fileID: 4247365521558108193, guid: c73de4c7b56818a4fb188862d929cc8a, type: 3}
   numberOfSpawns: 500
-  maxSteepness: 10
+  maxSteepness: 20
   numberOfPlayers: 0
   playerBlackboardKeys: []
   uiManager: {fileID: 1468556926}
@@ -12258,7 +12249,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1561113417}
   - component: {fileID: 1561113420}
-  - component: {fileID: 1561113419}
   - component: {fileID: 1561113418}
   m_Layer: 0
   m_Name: DisplayCameraTwo
@@ -12326,14 +12316,6 @@ MonoBehaviour:
     m_MipBias: 0
     m_VarianceClampScale: 0.9
     m_ContrastAdaptiveSharpening: 0
---- !u!81 &1561113419
-AudioListener:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1561113416}
-  m_Enabled: 1
 --- !u!20 &1561113420
 Camera:
   m_ObjectHideFlags: 0

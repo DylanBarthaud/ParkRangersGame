@@ -6,7 +6,7 @@ using System;
 public class QuestManager : MonoBehaviour
 {
     [SerializeField] private NotebookHandler notebookHandler;
-    private string questTextFilePath = Application.dataPath + "/Text/QuestText.txt";
+    private string questTextFilePath = Application.streamingAssetsPath + "/Text/QuestText.txt";
 
     List<int> completedQuests = new List<int>();
     [SerializeField] List<SerializableKeysAndValues<string, int>> questKVs;

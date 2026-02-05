@@ -28,7 +28,7 @@ public class SnareMiniGame : MiniGameBase
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (Input.GetKeyDown(KeyCode.Mouse0))
         {
             if (slider.value > setChecks.value - 4 &&
                 slider.value < setChecks.value + 4)

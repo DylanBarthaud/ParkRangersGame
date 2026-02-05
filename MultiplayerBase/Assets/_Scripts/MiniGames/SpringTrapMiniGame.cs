@@ -12,6 +12,7 @@ public class SpringTrapMiniGame : MiniGameBase
     private float skillSliderSpeed = 0; 
 
     private bool attempted = false;
+    private bool letGoOfMouse = false; 
 
     private void OnEnable()
     {
@@ -20,12 +21,17 @@ public class SpringTrapMiniGame : MiniGameBase
 
     void Update()
     {
+        if (Input.GetKeyUp(KeyCode.Mouse0))
+        {
+            letGoOfMouse = true;
+        }
+
         if (Input.GetKeyUp(KeyCode.Q))
         {
             EndGame(false);
         }
 
-        if (Input.GetKey(KeyCode.Space) && !attempted)
+        if (Input.GetKey(KeyCode.Mouse0) && !attempted && letGoOfMouse)
         {
             skillSliderSpeed += acceleration * Time.deltaTime;
             if (skillSliderSpeed >= skillSliderMaxSpeed) skillSliderSpeed = skillSliderMaxSpeed; 
@@ -66,7 +72,8 @@ public class SpringTrapMiniGame : MiniGameBase
 
     private void EndGame(bool success)
     {
-        if(success) miniGameObj.GetComponent<MiniGame>().OnCompleteServerRpc(success);
+        letGoOfMouse = false; 
+        if (success) miniGameObj.GetComponent<MiniGame>().OnCompleteServerRpc(success);
         EventManager.instance.OnPuzzleComplete(success);
         GameManager.instance.DisableMiniGame(MiniGameTypes.SpringTrap);
     }
