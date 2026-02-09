@@ -42,7 +42,9 @@ public class Ai_testScript : NetworkBehaviour
     BlackboardKey AiMonsterKey;
     AiInfo aiInfo;
 
-    bool isBurrowed;
+    private bool isBurrowed;
+    private bool canHunt = false; 
+    private bool aiIsActive = true;
 
     private void Awake()
     {
@@ -52,6 +54,7 @@ public class Ai_testScript : NetworkBehaviour
         EventManager.instance.onBurrow += OnBurrow;
         EventManager.instance.onUnBurrow += OnUnBurrow;
         EventManager.instance.onPlayerSpawned += OnPlayerSpawned;
+        EventManager.instance.onPlayerKilled += OnPlayerKilled;
 
         agent = GetComponent<NavMeshAgent>();
         agent.speed = baseSpeed;
@@ -68,16 +71,57 @@ public class Ai_testScript : NetworkBehaviour
 
         #region Behaviour Tree
 
-        root = new Root("Root");
+        bool CanHunt()
+        {
+            return canHunt;
+        }
+        GridPosition InvestigateHint()
+        {
+            BlackboardKey overlordKey = blackboard.GetOrRegisterKey("AiOverlordKey");
 
-        PrioritySelector prioritySelector = new PrioritySelector("PrioritySelector");
+            if (blackboard.TryGetValue(overlordKey, out OverlordGivenInfo overlordInfo))
+            {
+                return overlordInfo.playerGridPosition;
+            }
+
+            Debug.LogError("OverlordInfo NULL setting grid position to 0,0");
+            return new GridPosition { x = 0, z = 0 };
+        }
+        GridPosition GetHomeCellPos()
+        {
+            GridPosition aiHomePosition = new GridPosition { x = 0, z = 0 };
+            BlackboardKey overlordKey = blackboard.GetOrRegisterKey("AiOverlordKey");
+            if (blackboard.TryGetValue(overlordKey, out OverlordGivenInfo overlordInfo))
+            {
+                aiHomePosition = overlordInfo.homeGrid;
+            }
+
+            Debug.Log(aiHomePosition);
+            return aiHomePosition;
+        }
+        bool InHomeCell()
+        {
+            bool inHomeCell = false;
+
+            MapHandler mapHandler = GameManager.instance.mapHandler;
+
+            GridPosition aiPosition = new GridPosition { x = 0, z = 0 };
+            if (blackboard.TryGetValue(AiMonsterKey, out AiInfo monsterInfo))
+            {
+                aiPosition = mapHandler.GetGridLocation(monsterInfo.position);
+            }
+
+            GridPosition aiHomePosition = GetHomeCellPos();
+
+            float distance = mapHandler.GetDistanceBetweenGrids(aiPosition, aiHomePosition);
+            if (distance <= 0) inHomeCell = true;
+
+            return inHomeCell;
+        }
         bool IsBurrowed()
         {
-            return isBurrowed; 
+            return isBurrowed;
         }
-        Leaf unBurrow = new Leaf("UnBurrow", new UnBurrowStrategy(agent, baseSpeed, 0, IsBurrowed, gfxHandler, audioHandler));
-        Leaf IsntBurrowed = new Leaf("IsntBurrowed", new Condition(() => (!IsBurrowed())));
-
         bool InSameCellAsPlayer()
         {
             bool inSameCellAsPlayer = false;
@@ -106,6 +150,25 @@ public class Ai_testScript : NetworkBehaviour
             }
             return inSameCellAsPlayer;
         }
+
+        root = new Root("Root");
+
+        Selector canHuntSelector = new Selector("CanHuntSelector");
+        IfGate canHuntLeaf = new IfGate("CanHunt", new Condition(() => CanHunt()));
+
+        Selector inHomeCellSelector = new Selector("InHomeCellSelector");
+
+        IfGate inHomeCellLeaf = new IfGate("InHomeCell", new Condition(() => InHomeCell()));
+        Leaf setCanHuntTrue = new Leaf("setCanHunt", new ActionStrategy(() => { canHunt = true; Debug.Log("SET CAN HUNT"); }));
+
+        Sequence goToHomeCellSequence = new Sequence("GoToHomeCellSequence");
+        Leaf moveToHomeCell = new Leaf("MoveToHomeCell", new SearchCellStrategy(GetHomeCellPos, agent));
+
+        PrioritySelector huntSelector = new PrioritySelector("HuntSelector");
+
+        Leaf unBurrow = new Leaf("UnBurrow", new UnBurrowStrategy(agent, baseSpeed, 0, IsBurrowed, gfxHandler, audioHandler));
+        Leaf IsntBurrowed = new Leaf("IsntBurrowed", new Condition(() => (!IsBurrowed())));
+
         Leaf inSameCellAsPlayer = new Leaf("InSameCellAsPlayer", new Condition(() => (InSameCellAsPlayer())));
         Leaf inDifferentCellAsPlayer = new Leaf("InDifferentCellAsPlayer", new Condition(() => (!InSameCellAsPlayer())));
 
@@ -152,49 +215,55 @@ public class Ai_testScript : NetworkBehaviour
         Leaf stalkPlayer = new Leaf("StalkPlayer", new StalkPlayerStrategy(PlayerInfo, agent, stalkSpeed, stalkTime, minStalkDist, maxStalkDist, audioHandler)); 
         Leaf chasePlayer = new Leaf("ChasePlayer", new ChasePlayerStrategy(PlayerInfo, agent, chaseSpeed), 100);
 
-        stalkPlayerSequence.AddChild(IsntBurrowed);
-        stalkPlayerSequence.AddChild(stalkPlayer);
-        stalkPlayerSequence.AddChild(chasePlayer);
-
         Sequence burrowAndMoveToGridSequence = new Sequence("burrowAndMoveToGridSequence", 50);
 
         Leaf burrow = new Leaf("burrow", new BurrowStrategy(agent, burrowSpeed, 0, IsBurrowed, gfxHandler, audioHandler)); 
-        GridPosition InvestigateHint()
-        {
-            BlackboardKey overlordKey = blackboard.GetOrRegisterKey("AiOverlordKey");
-
-            if (blackboard.TryGetValue(overlordKey, out OverlordGivenInfo overlordInfo))
-            {
-                return overlordInfo.playerGridPosition;
-            }
-
-            Debug.LogError("OverlordInfo NULL setting grid position to 0,0"); 
-            return new GridPosition { x = 0, z = 0 };
-        }
         Leaf moveToCell = new Leaf("MoveToPos", new SearchCellStrategy(InvestigateHint, agent));
-
-        burrowAndMoveToGridSequence.AddChild(inDifferentCellAsPlayer);
-        burrowAndMoveToGridSequence.AddChild(burrow);
-        burrowAndMoveToGridSequence.AddChild(moveToCell);
-        burrowAndMoveToGridSequence.AddChild(unBurrow); 
 
         Sequence searchCellSequence = new Sequence("SearchCellSequence", 90);
         Leaf searchCell = new Leaf("SearchCell", new SearchCellStrategy(() => GameManager.instance.mapHandler.GetGridLocation(transform.position), agent));
 
-        searchCellSequence.AddChild(inSameCellAsPlayer); 
+        root.AddChild(canHuntSelector);
+          
+        canHuntSelector.AddChild(canHuntLeaf);
+        canHuntLeaf.AddChild(huntSelector);
+        huntSelector.AddChild(stalkPlayerSequence);
+        stalkPlayerSequence.AddChild(IsntBurrowed);
+        stalkPlayerSequence.AddChild(stalkPlayer);
+        stalkPlayerSequence.AddChild(chasePlayer);
+
+        huntSelector.AddChild(searchCellSequence);
+        searchCellSequence.AddChild(inSameCellAsPlayer);
         searchCellSequence.AddChild(IsntBurrowed);
-        searchCellSequence.AddChild(searchCell);    
+        searchCellSequence.AddChild(searchCell);
 
-        prioritySelector.AddChild(stalkPlayerSequence);
-        prioritySelector.AddChild(searchCellSequence);
-        prioritySelector.AddChild(burrowAndMoveToGridSequence);
+        huntSelector.AddChild(burrowAndMoveToGridSequence);
+        burrowAndMoveToGridSequence.AddChild(inDifferentCellAsPlayer);
+        burrowAndMoveToGridSequence.AddChild(burrow);
+        burrowAndMoveToGridSequence.AddChild(moveToCell);
+        burrowAndMoveToGridSequence.AddChild(unBurrow);
 
-        root.AddChild(prioritySelector);
+        canHuntSelector.AddChild(inHomeCellSelector);
+        inHomeCellSelector.AddChild(inHomeCellLeaf);
+        inHomeCellLeaf.AddChild(setCanHuntTrue);
 
+        inHomeCellSelector.AddChild(goToHomeCellSequence);
+        goToHomeCellSequence.AddChild(burrow);
+        goToHomeCellSequence.AddChild(moveToHomeCell);
+        goToHomeCellSequence.AddChild(unBurrow); 
         #endregion
     }
 
     private void OnPlayerSpawned(BlackboardKey key) => root.Reset();
+
+    private void OnPlayerKilled(BlackboardKey key)
+    {
+        canHunt = false; 
+
+        //Play animation
+
+        root.Reset();
+    }
 
     private void Start()
     {
@@ -217,7 +286,7 @@ public class Ai_testScript : NetworkBehaviour
 
     private void Update()
     {
-        if (!IsServer) return;
+        if (!IsServer || !aiIsActive) return;
         root.Process();
     }
 }

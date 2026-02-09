@@ -84,12 +84,12 @@ namespace BehaviourTrees
                         return Status.Success;
                     case Status.Failure:
                         currentChild++;
-                        return Status.Failure;
+                        return Status.Running;
                 }
             }
 
             Reset();
-            return Status.Success;
+            return Status.Failure;
         }
     }
 
@@ -124,6 +124,7 @@ namespace BehaviourTrees
 
     public class Root : Node
     {
+        public bool debugMode = false;
         public Root(string name, int priority = 0) : base(name, priority) { }
 
         public override Status Process()
@@ -132,7 +133,7 @@ namespace BehaviourTrees
             while (currentChild < children.Count)
             {
                 var status = children[currentChild].Process();
-                if(status != Status.Success)
+                if (status != Status.Success)
                 {
                     currentChild = 0; 
                     return status;
@@ -184,6 +185,11 @@ namespace BehaviourTrees
         public void AddChild(Node child) 
         { 
             children.Add(child);
+        }
+
+        public void DebugNode()
+        {
+            Debug.Log($"Name: {children[currentChild].name}");
         }
 
         public virtual Status Process() => children[currentChild].Process(); 

@@ -35,6 +35,7 @@ public class Ai_Overlord : MonoBehaviour, IExpert
         infoPackage = new OverlordGivenInfo() 
         { 
             playerGridPosition = new GridPosition { x = 1400, z = 1300 },
+            homeGrid = new GridPosition { x = 5, z = 5 }
         };
         blackboard.SetValue(key, infoPackage);
 
@@ -81,7 +82,7 @@ public class Ai_Overlord : MonoBehaviour, IExpert
             float distanceToGiveHintSq = distanceToGiveHint * distanceToGiveHint; 
             bool isFarAway = shortestDistance > distanceToGiveHintSq ? true : false;
 
-            Debug.Log(shortestDistance + " , " + isFarAway);
+            //Debug.Log(shortestDistance + " , " + isFarAway);
             return isFarAway; 
         }
         IfGate monsterFarFromPlayers = new IfGate("MonsterIsFarFromPlayersGate", new Condition(MonsterIsFarFromPlayers));
