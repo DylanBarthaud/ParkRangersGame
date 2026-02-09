@@ -2,6 +2,7 @@ using UnityEngine;
 using System.IO;
 using UnityEngine.UI;
 using System;
+using TMPro;
 
 public class SettingsHandler : MonoBehaviour
 {
@@ -24,10 +25,15 @@ public class SettingsHandler : MonoBehaviour
         }
     }
 
+    void Update()
+    {
+        // Might use for some debug things idk
+    }
+
     public void ReadSettings()
     {
         GameObject tempText = settingsMenu.transform.Find("TempText").gameObject;
-        tempText.GetComponent<Text>().text = JsonUtility.ToJson(settings);
+        tempText.GetComponent<TextMeshProUGUI>().text = JsonUtility.ToJson(settings);
     }
 
     public void SaveSettings()
@@ -38,10 +44,10 @@ public class SettingsHandler : MonoBehaviour
 }
 
 [Serializable]
-public class ClientSettings : MonoBehaviour
+public class ClientSettings
 {
     // Could be using the input manager for this, but for now manually setting the key codes should work fine
-    public struct Keybinds
+    [Serializable] public struct Keybinds
     {
         public KeyCode moveForward;
         public KeyCode moveBackward;
@@ -58,7 +64,7 @@ public class ClientSettings : MonoBehaviour
         }
     }
 
-    public struct Audio
+    [Serializable] public struct Audio
     {
         public float volume;
 
@@ -69,7 +75,7 @@ public class ClientSettings : MonoBehaviour
         }
     }
 
-    public struct Video
+    [Serializable] public struct Video
     {
         public int width;
         public int height;
