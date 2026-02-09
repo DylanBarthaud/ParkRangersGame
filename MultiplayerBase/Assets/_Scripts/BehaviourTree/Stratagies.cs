@@ -158,7 +158,6 @@ namespace BehaviourTrees
 
             if (timesCalled == 100)
             {
-                Debug.Log("RUSTLE"); 
                 audioHandler.PlaySoundServerRpc("Rustle");
             }
 
@@ -171,7 +170,7 @@ namespace BehaviourTrees
                 agent.isStopped = true;
             }
             else if(distanceFromPlayer <= stalkMinDistance)
-            {
+            {   
                 agent.isStopped = false;
                 return Node.Status.Success;
             }
@@ -207,6 +206,7 @@ namespace BehaviourTrees
             if(targetPosition == Vector3.zero)
             {
                 GridPosition cell = getCellFunc();
+                Debug.Log(cell.x + " " + cell.z); 
                 targetPosition = GameManager.instance.mapHandler.GetRandomLocationInGridPosition(cell);
             }
 

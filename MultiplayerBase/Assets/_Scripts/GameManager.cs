@@ -61,6 +61,8 @@ public class GameManager : NetworkBehaviour
     {
         if (!IsHost) return;
         mapHandler = new MapHandler(width, height, cellSize, terrain, maxSteepness, spawnableObjects, numberOfSpawns);
+
+        ChangeButtonsPressedUIClientRpc(0); 
     }
 
 
@@ -120,10 +122,9 @@ public class GameManager : NetworkBehaviour
     [ServerRpc(RequireOwnership = false)]
     private void OnPlayerKilledServerRpc(BlackboardKey key)
     {
-        Debug.Log("PLAYER KILLED SERVER RPC"); 
         numberOfPlayers--;
         playerBlackboardKeys.Remove(key);
-        Debug.Log(numberOfPlayers);
+        //Debug.Log(numberOfPlayers);
 
         if(numberOfPlayers <= 0)
         {
@@ -131,67 +132,41 @@ public class GameManager : NetworkBehaviour
             return; 
         }
 
-        List<BlackboardKey> spectatorKeys = new List<BlackboardKey>();
-        spectatorKeys.Add(key);
-
+        BlackboardKey playerToSpectateKey = playerBlackboardKeys[0];
         List<ulong> spectatePlayerIds = new List<ulong>();
         Blackboard blackboard = BlackboardController.instance.GetBlackboard(); 
         if (blackboard.TryGetValue(key, out PlayerInfo killedPlayerInfo))
         {
             spectatePlayerIds.Add(killedPlayerInfo.id);
-            foreach(var spectatorKey in killedPlayerInfo.spectators)
+            foreach(var spectatorId in killedPlayerInfo.spectatorIds)
             {
-                spectatorKeys.Add(spectatorKey);
-                if (blackboard.TryGetValue(spectatorKey, out PlayerInfo spectatorInfo)) spectatePlayerIds.Add(spectatorInfo.id); 
+                spectatePlayerIds.Add(spectatorId);
+                if (blackboard.TryGetValue(playerToSpectateKey, out PlayerInfo playerInfo)) playerInfo.spectatorIds.Add(spectatorId);
             }
         }
         else return;
 
-        BlackboardKey playerToSpectateKey = playerBlackboardKeys[0];
-        BlackboardKey[] spectatorKeysArray = spectatorKeys.ToArray();
         ulong[] spectatePlayerIdsArray = spectatePlayerIds.ToArray(); 
-        EnableSpectatorModeClientRpc(spectatorKeysArray, spectatePlayerIdsArray, numberOfPlayers, playerToSpectateKey);
-
-        if (numberOfPlayers != 0)
-        {
-            if (blackboard.TryGetValue(playerToSpectateKey, out PlayerInfo playerInfo))
-            {
-                foreach (var spectatorKey in spectatorKeysArray) playerInfo.spectators.Add(key);
-            }
-        }
+        EnableSpectatorModeClientRpc(spectatePlayerIdsArray, numberOfPlayers, playerToSpectateKey);
     }
 
     [ClientRpc]
-    private void EnableSpectatorModeClientRpc(BlackboardKey[] keys, ulong[] spectatorIds, int numOfPlayers, BlackboardKey playerToSpectateKey)
+    private void EnableSpectatorModeClientRpc(ulong[] spectatorIds, int numOfPlayers, BlackboardKey playerToSpectateKey)
     {
-        Debug.Log("IN CLIENT RPC");
-
         bool needsToSpectate = false;
         foreach (ulong id in spectatorIds)
         {
-            Debug.Log(id + " " + NetworkManager.Singleton.LocalClientId);
             if (id == NetworkManager.Singleton.LocalClientId) { needsToSpectate = true; break; }
         }
         if(!needsToSpectate) return;
 
-        Debug.Log("IS OWNER"); 
-
         Blackboard blackboard = BlackboardController.instance.GetBlackboard();
-        if (blackboard.TryGetValue(keys[0], out PlayerInfo killedPlayerInfo))
-        {
-            Debug.Log("CAM OFF");
-            killedPlayerInfo.playerCamera.enabled = false;
-        }
-
         if (numOfPlayers != 0)
         {
-            Debug.Log("NUM OF PLAYER > 0");
-
             if (blackboard.TryGetValue(playerToSpectateKey, out PlayerInfo playerInfo))
             {
-                Debug.Log("SPECTATE ON");
+                //Debug.Log("SPECTATE ON");
                 playerInfo.playerCamera.enabled = true;
-                foreach (var key in keys) playerInfo.spectators.Add(key);
                 uiManager.SetSpectatePanelOn(); 
             }
         }

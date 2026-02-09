@@ -28,7 +28,7 @@ public class PlayerInfoHolder : NetworkBehaviour, IAiSensible, IHurtable
         playerInfo.playerCamera = transform.GetChild(0).GetChild(0).GetComponent<Camera>();
         playerInfo.health = playerHealth;
         playerInfo.id = OwnerClientId;
-        playerInfo.spectators = new List<BlackboardKey>();
+        playerInfo.spectatorIds = new List<ulong>();
         playerInfo.ravenCount = 0;
         playerInfo.maxRavens = 10; 
         playerInfo.voiceInputController = voiceInputController;
@@ -110,7 +110,7 @@ public class PlayerInfoHolder : NetworkBehaviour, IAiSensible, IHurtable
         if(voiceInputController.GetVoiceVolumeSquared() > loudestHeardAudioSquared) 
             loudestHeardAudioSquared = voiceInputController.GetVoiceVolumeSquared();
 
-        Debug.Log(loudestHeardAudioSquared); 
+        // Debug.Log(loudestHeardAudioSquared); 
         return loudestHeardAudioSquared;
     }
 
