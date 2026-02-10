@@ -111,7 +111,7 @@ public class KeypadMiniGame : MiniGameBase
     {
         miniGameObj.GetComponent<MiniGame>().OnCompleteServerRpc(success);
         EventManager.instance.OnPuzzleComplete(success);
-        GameManager.instance.DisableMiniGame(MiniGameTypes.FuseBox);
+        GameManager.instance.DisableMiniGame(MiniGameTypes.Keypad);
     }
 
     private void UnlockMouse()

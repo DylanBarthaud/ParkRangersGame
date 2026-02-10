@@ -11,8 +11,8 @@ GameObject:
   - component: {fileID: 2621478710436044774}
   - component: {fileID: 2397499447735844029}
   - component: {fileID: 4382317622734093677}
-  - component: {fileID: 2674975145916988480}
   - component: {fileID: 6288064011597383165}
+  - component: {fileID: -3953485183071298290}
   m_Layer: 3
   m_Name: Generator_Puzzle
   m_TagString: Untagged
@@ -82,19 +82,6 @@ MonoBehaviour:
   AutoObjectParentSync: 1
   SyncOwnerTransformWhenParented: 1
   AllowOwnerToParent: 0
---- !u!114 &2674975145916988480
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3120176207323904010}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 37810c8a771b1e84cb915351a71a85ba, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ShowTopMostFoldoutHeaderGroup: 1
 --- !u!82 &6288064011597383165
 AudioSource:
   m_ObjectHideFlags: 0
@@ -192,6 +179,25 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &-3953485183071298290
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3120176207323904010}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4253b11d1618ffd43983c53fa08f8b8a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
+  game: 1
+  neededItem: 0
+  setObjests: []
+  completesQuest:
+    item1: 0
+    item2: 
 --- !u!1 &4377818454485915767
 GameObject:
   m_ObjectHideFlags: 0
