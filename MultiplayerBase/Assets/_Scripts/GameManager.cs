@@ -41,6 +41,9 @@ public class GameManager : NetworkBehaviour
     public UIManager uiManager;
     private int buttonsPressed = 0;
 
+    private bool clientPlayerIsDead = false;
+    private int playerSpectatingIndex = 0; 
+
     private void Awake()
     {
         if (instance == null) instance = this;
@@ -57,6 +60,11 @@ public class GameManager : NetworkBehaviour
         }
     }
 
+    private void Update()
+    {
+        if(clientPlayerIsDead && Input.GetKeyDown(KeyCode.RightArrow)) CycleSpectate(); 
+    }
+
     public override void OnNetworkSpawn()
     {
         if (!IsHost) return;
@@ -64,7 +72,6 @@ public class GameManager : NetworkBehaviour
 
         ChangeButtonsPressedUIClientRpc(0); 
     }
-
 
     public void SpawnObjectOnNetwork(GameObject obj, Vector3 pos, Quaternion rot, bool destroyWithScene = true)
     {
@@ -153,6 +160,8 @@ public class GameManager : NetworkBehaviour
     [ClientRpc]
     private void EnableSpectatorModeClientRpc(ulong[] spectatorIds, int numOfPlayers, BlackboardKey playerToSpectateKey)
     {
+        if (NetworkManager.Singleton.LocalClientId == spectatorIds[0]) clientPlayerIsDead = true;
+
         bool needsToSpectate = false;
         foreach (ulong id in spectatorIds)
         {
@@ -170,6 +179,32 @@ public class GameManager : NetworkBehaviour
                 uiManager.SetSpectatePanelOn(); 
             }
         }
+    }
+
+    private void CycleSpectate()
+    {
+        Blackboard blackboard = BlackboardController.instance.GetBlackboard();
+        if (blackboard.TryGetValue(playerBlackboardKeys[playerSpectatingIndex], out PlayerInfo prevPlayerSpectatingInfo))
+            prevPlayerSpectatingInfo.playerCamera.enabled = false;
+
+        playerSpectatingIndex++; 
+        if(playerSpectatingIndex >= playerBlackboardKeys.Count - 1) playerSpectatingIndex = 0;
+
+        if (blackboard.TryGetValue(playerBlackboardKeys[playerSpectatingIndex], out PlayerInfo newPlayerSpectatingInfo))
+            newPlayerSpectatingInfo.playerCamera.enabled = true;
+
+        RemoveAndAddSpectateKeysServerRpc(playerSpectatingIndex - 1, playerSpectatingIndex, OwnerClientId); 
+    }
+
+    [ServerRpc(RequireOwnership = false)]
+    private void RemoveAndAddSpectateKeysServerRpc(int removeIndex, int addIndex, ulong id)
+    {
+        Blackboard blackboard = BlackboardController.instance.GetBlackboard();
+        if (blackboard.TryGetValue(playerBlackboardKeys[removeIndex], out PlayerInfo remove))
+            remove.spectatorIds.Remove(id);
+
+        if (blackboard.TryGetValue(playerBlackboardKeys[addIndex], out PlayerInfo add))
+            add.spectatorIds.Remove(id);
     }
 
     public AudioClip GetAudioClip(ulong callerId)

@@ -3,7 +3,7 @@ using System;
 using Unity.Netcode;
 using UnityEngine;
 
-public enum MiniGameTypes { SnareTrap, FuseBox, SpringTrap }
+public enum MiniGameTypes { SnareTrap, FuseBox, SpringTrap, Keypad }
 [Serializable]
 public struct Pair<Item1, Item2>
 {

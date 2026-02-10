@@ -5,7 +5,7 @@ using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class FuseMiniGame : MiniGameBase
+public class KeypadMiniGame : MiniGameBase
 {
     [SerializeField] int roumds = 3;
     private int round = 0;
