@@ -1,18 +1,23 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using Utlility; 
+using Utlility;
 
 public class FuseMiniGame : MiniGameBase
 {
-    private uint current = 0b111111; 
+    private uint current = 0b111111;
     private uint target = 0b111111;
 
-    [SerializeField] private int numberOfLevers = 6;
-    [SerializeField] GameObject[] levers; 
-    [SerializeField, Range(1, 6)] private int minNumberOfLeversPulled = 1; 
+    [Header("Game Settings")]
+    private int numberOfLevers = 6;
+    [SerializeField] GameObject[] levers;
+    [SerializeField, Range(1, 6)] private int minNumberOfLeversPulled = 1;
     [SerializeField, Range(1, 6)] private int maxNumberOfLeversPulled = 6;
+
+    [Header("Externals")]
+    [SerializeField] GameObject[] displayLights;
 
     List<uint> leverBinaryValues = new List<uint>();
     private Dictionary<int, bool> leverIndexIsActiveDictionary = new Dictionary<int, bool>();
@@ -35,13 +40,14 @@ public class FuseMiniGame : MiniGameBase
             if (i < numberOfLeversNeeded)
             {
                 Debug.Log(i); 
-                target ^= binaryValue;
+                current ^= binaryValue;
             }
         }
 
         Debug.Log(Convert.ToString(target, 2).PadLeft(6, '0'));
 
-        ListExtentions.Shuffle(leverBinaryValues); 
+        ListExtentions.Shuffle(leverBinaryValues);
+        SetCurrentDisplayLights();
     }
 
     public void FlipLever(int index)
@@ -51,9 +57,47 @@ public class FuseMiniGame : MiniGameBase
 
         Image leverImage = levers[index].GetComponent<Image>();
         if (leverIndexIsActiveDictionary[index]) leverImage.color = Color.green;
-        else leverImage.color = Color.red;  
+        else leverImage.color = Color.red;
+
+        SetCurrentDisplayLights(); 
+
         Debug.Log(Convert.ToString(current, 2).PadLeft(6, '0'));
-        if(current == target) EndGame(true);
+
+        if (current == target) StartCoroutine(EndGame(true));
+    }
+
+    private void SetCurrentDisplayLights()
+    {
+        List<int> lightIndexes = GetLightIndexes(current);
+        int i = 0;
+        foreach (GameObject light in displayLights)
+        {
+            foreach (int lightIndex in lightIndexes)
+            {
+                if (i == lightIndex)
+                {
+                    light.GetComponent<Image>().color = Color.green;
+                    break;
+                }
+
+                light.GetComponent<Image>().color = Color.red;
+            }
+
+            i++;
+        }
+    }
+
+    private List<int> GetLightIndexes(uint binaryData)
+    {
+        List<int> indexes = new List<int>();
+
+        for(int i = 0; i < numberOfLevers; i++)
+        {
+            bool check = (binaryData & (1 << i)) != 0;
+            if(check) indexes.Add(i);
+        }
+
+        return indexes;
     }
 
     private void ResetGame()
@@ -61,13 +105,18 @@ public class FuseMiniGame : MiniGameBase
         target = 0b111111;
         current = 0b111111;
 
+        leverIndexIsActiveDictionary.Clear();
+
         foreach (var lever in levers)
             lever.GetComponent<Image>().color = Color.red;
+        foreach (var light in displayLights)
+            light.GetComponent<Image>().color = Color.red;
     }
 
-
-    private void EndGame(bool success)
+    private IEnumerator EndGame(bool success)
     {
+        yield return new WaitForSeconds(1); 
+
         Cursor.lockState = CursorLockMode.Locked;
         miniGameObj.GetComponent<MiniGame>().OnCompleteServerRpc(success);
         EventManager.instance.OnPuzzleComplete(success);
