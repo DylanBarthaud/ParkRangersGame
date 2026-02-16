@@ -182,7 +182,8 @@ public class VoiceInputController : NetworkBehaviour
     public float GetVoiceVolumeSquared()
     {
         if (!isTalking || recordedSamples.Count == 0)
-            return 0f;
+            return -100f;
+
 
         int windowSamples = Mathf.CeilToInt(optimalRate * volumeSampleWindow);
         windowSamples = Mathf.Min(windowSamples, recordedSamples.Count);
@@ -193,7 +194,9 @@ public class VoiceInputController : NetworkBehaviour
         );
 
         float meanSquare = GetMeanSquare(temp);
-        return meanSquare;  
+        float rms = Mathf.Sqrt(meanSquare);
+        float db = 20f * Mathf.Log10(Mathf.Max(rms, 0.0001f));
+        return db;  
     }
 
     public float GetMeanSquare(List<float> samples)

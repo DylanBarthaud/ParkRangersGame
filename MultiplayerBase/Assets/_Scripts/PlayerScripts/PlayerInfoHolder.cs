@@ -13,7 +13,7 @@ public class PlayerInfoHolder : NetworkBehaviour, IAiSensible, IHurtable
     [SerializeField] AudioSource[] audioSources;
     [SerializeField] VoiceInputController voiceInputController;
 
-    [SerializeField] float volumeRequiredToAddRaven = 0f; 
+    [SerializeField, Range(-60f, 0f)] float volumeToAddRavenGate = 0f; 
 
     private BlackboardKey playerInfo_Key;
     private PlayerInfo playerInfo;
@@ -42,15 +42,15 @@ public class PlayerInfoHolder : NetworkBehaviour, IAiSensible, IHurtable
     {
         playerInfo.position = transform.position; 
         BlackboardController.instance.GetBlackboard().SetValue(playerInfo_Key, playerInfo);
-
         localRavenTick++;
+
         if (playerInfo.ravenCount < playerInfo.maxRavens &&
-            localRavenTick >= 20 &&
-            GetAudioDataSquared() >= volumeRequiredToAddRaven * volumeRequiredToAddRaven)
+            localRavenTick >= 2 &&
+            GetAudioDataSquared() >= volumeToAddRavenGate)
         {
             playerInfo.ravenCount++;
             Debug.Log("Raven count: " + playerInfo.ravenCount);
-            localRavenTick = 0; 
+            localRavenTick = 0;
         }
     }
 
@@ -101,7 +101,7 @@ public class PlayerInfoHolder : NetworkBehaviour, IAiSensible, IHurtable
 
     public float GetAudioDataSquared()
     {
-        float loudestHeardAudioSquared = 0f; 
+        float loudestHeardAudioSquared = -100f; 
 
         foreach(AudioSource audioSource  in audioSources)
             if(audioSource.isPlaying && audioSource.maxDistance > loudestHeardAudioSquared)
@@ -110,7 +110,7 @@ public class PlayerInfoHolder : NetworkBehaviour, IAiSensible, IHurtable
         if(voiceInputController.GetVoiceVolumeSquared() > loudestHeardAudioSquared) 
             loudestHeardAudioSquared = voiceInputController.GetVoiceVolumeSquared();
 
-        // Debug.Log(loudestHeardAudioSquared); 
+        //Debug.Log(loudestHeardAudioSquared); 
         return loudestHeardAudioSquared;
     }
 
