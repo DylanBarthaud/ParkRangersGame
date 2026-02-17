@@ -1,127 +1,78 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using Unity.Netcode;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using Utlility; 
 
 public class KeypadMiniGame : MiniGameBase
 {
-    [SerializeField] int roumds = 3;
-    private int round = 0;
+    private static int CODE_LENGTH = 4;
+    private static int DIGIT_AMOUNT = 9;
+    [SerializeField] private Image[] symbolCode;
+    [SerializeField] private List<Sprite> symbols; 
+    private Dictionary<int, Sprite> numberToSymbolKey = new Dictionary<int, Sprite>();
+    private int[] code = new int[CODE_LENGTH];
 
-    [SerializeField] private int chances = 1;
-    private int timesLost = 0; 
+    private List<int> currentCode = new List<int>();
 
-    [SerializeField] GameObject[] levers;
-    private int pulledLeversAmount = 0;
-    private List<int> pulledLeversList = new List<int>();
-
-    private List<int> pattern = new List<int>();
-
-    [SerializeField] AudioHandler audioHandler;
+    private void Awake()
+    {
+        Reset();
+    }
 
     private void OnEnable()
     {
-        ResetGame();
+        Cursor.lockState = CursorLockMode.None;
     }
 
-    private void Update()
+    public void ButtonPress(int index)
     {
-        if (Input.GetKeyDown(KeyCode.Q))
-        {
-            LockMouse();
-            EndGame(false);
-        }
+        if(currentCode.Count == CODE_LENGTH) return;
+
+        Debug.Log(index); 
+        currentCode.Add(index);
     }
 
-    private void ResetGame()
+    public void EnterButton()
     {
-        foreach (int i in pattern)
-        {
-            levers[i].transform.GetChild(0).GetComponent<Image>().color = Color.red;
-        }
+        if (currentCode.Count < CODE_LENGTH) return;
 
-        round = 0;
-        timesLost = 0; 
-        pattern.Clear();
-        LockMouse();
-        ShowPattern();
+        bool success = code.SequenceEqual(currentCode);
+        Debug.Log(success);
+        StartCoroutine(EndGame(success)); 
     }
 
-    private void ShowPattern()
+    public void ClearCurrentCode()
     {
-        round++;
-        int newEntry = Random.Range(0, 9);  
-        pattern.Add(newEntry);
-
-        StartCoroutine(ShowColour());
+        currentCode.Clear();
     }
 
-    private IEnumerator ShowColour()
+    private IEnumerator EndGame(bool success)
     {
-        yield return new WaitForSeconds(0.5f); 
-        foreach (int i in pattern)
-        {
-            levers[i].transform.GetChild(0).GetComponent<Image>().color = Color.green;
-            audioHandler.PlaySound("Beep", false, 1, 5, 100, 1.4f - (((float)i + 1) / 10)); 
-            yield return new WaitForSeconds(0.5f);
-            levers[i].transform.GetChild(0).GetComponent<Image>().color = Color.red;
-            yield return new WaitForSeconds(0.1f);
-        }
+        yield return new WaitForSeconds(0.2f);
 
-        UnlockMouse();
-    }
-
-    public void PullLever(int i)
-    {
-        audioHandler.PlaySound("Switch");
-
-        pulledLeversAmount++;
-        pulledLeversList.Add(i);
-        if(pulledLeversAmount == round)
-        {
-            pulledLeversAmount = 0; 
-            LockMouse();
-            CheckPattern();
-        }
-    }
-    private void CheckPattern()
-    {
-        if(pulledLeversList.SequenceEqual(pattern))
-        {
-            if (round == roumds) EndGame(true);
-            else
-            {
-                ShowPattern();
-            }
-        }
-
-        else
-        {
-            timesLost++;
-            if (timesLost == chances) EndGame(false);
-            else ResetGame();
-        }
-
-        pulledLeversList.Clear();
-    }
-
-    private void EndGame(bool success)
-    {
+        Cursor.lockState = CursorLockMode.Locked;
         miniGameObj.GetComponent<MiniGame>().OnCompleteServerRpc(success);
         EventManager.instance.OnPuzzleComplete(success);
         GameManager.instance.DisableMiniGame(MiniGameTypes.Keypad);
     }
 
-    private void UnlockMouse()
+    private void Reset()
     {
-        Cursor.lockState = CursorLockMode.None;
-    }
+        ClearCurrentCode();
+        ListExtentions.Shuffle(symbols);
 
-    private void LockMouse()
-    {
-        Cursor.lockState = CursorLockMode.Locked;
+        for (int i = 0; i < DIGIT_AMOUNT; i++)
+            numberToSymbolKey.Add(i, symbols[i]);
+
+        for (int i = 0; i < CODE_LENGTH; i++)
+        {
+            int roll = Random.Range(0, DIGIT_AMOUNT);
+            Debug.Log(roll);
+            code[i] = roll;
+            symbolCode[i].sprite = numberToSymbolKey[roll];
+        }
     }
 }
-

@@ -206,7 +206,7 @@ namespace BehaviourTrees
             if(targetPosition == Vector3.zero)
             {
                 GridPosition cell = getCellFunc();
-                Debug.Log(cell.x + " " + cell.z); 
+                //Debug.Log(cell.x + " " + cell.z); 
                 targetPosition = GameManager.instance.mapHandler.GetRandomLocationInGridPosition(cell);
             }
 
