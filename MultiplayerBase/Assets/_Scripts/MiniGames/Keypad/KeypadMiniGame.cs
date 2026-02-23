@@ -12,7 +12,8 @@ public class KeypadMiniGame : MiniGameBase
     private static int DIGIT_AMOUNT = 9;
     [SerializeField] private Image[] symbolCode;
     [SerializeField] private List<Sprite> symbols; 
-    private Dictionary<int, Sprite> numberToSymbolKey = new Dictionary<int, Sprite>();
+    public Sprite GetSymbol(int index) => symbols[index];
+
     private int[] code = new int[CODE_LENGTH];
 
     private List<int> currentCode = new List<int>();
@@ -40,15 +41,12 @@ public class KeypadMiniGame : MiniGameBase
         if (currentCode.Count < CODE_LENGTH) return;
 
         bool success = code.SequenceEqual(currentCode);
-        Debug.Log(success);
-        StartCoroutine(EndGame(success)); 
+        StartCoroutine(EndGame(success));
+        ClearCurrentCode();
     }
 
-    public void ClearCurrentCode()
-    {
-        currentCode.Clear();
-    }
-
+    public void ClearCurrentCode() => currentCode.Clear();
+    
     private IEnumerator EndGame(bool success)
     {
         yield return new WaitForSeconds(0.2f);
@@ -61,18 +59,17 @@ public class KeypadMiniGame : MiniGameBase
 
     private void Reset()
     {
+        print("KEYPAD LOCAL"); 
         ClearCurrentCode();
         ListExtentions.Shuffle(symbols);
-
-        for (int i = 0; i < DIGIT_AMOUNT; i++)
-            numberToSymbolKey.Add(i, symbols[i]);
 
         for (int i = 0; i < CODE_LENGTH; i++)
         {
             int roll = Random.Range(0, DIGIT_AMOUNT);
-            Debug.Log(roll);
+
             code[i] = roll;
-            symbolCode[i].sprite = numberToSymbolKey[roll];
+            Debug.Log(roll);
+            symbolCode[i].sprite = GetSymbol(roll);
         }
     }
 }

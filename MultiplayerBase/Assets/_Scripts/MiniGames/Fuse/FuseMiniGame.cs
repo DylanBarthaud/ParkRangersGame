@@ -17,7 +17,8 @@ public class FuseMiniGame : MiniGameBase
     [SerializeField, Range(1, 6)] private int maxNumberOfLeversPulled = 6;
 
     [Header("Externals")]
-    [SerializeField] GameObject[] displayLights;
+    [SerializeField] GameObject[] debugDisplayLights;
+    [SerializeField] FuseDisplay fuseDisplay;
 
     List<uint> leverBinaryValues = new List<uint>();
     private Dictionary<int, bool> leverIndexIsActiveDictionary = new Dictionary<int, bool>();
@@ -44,7 +45,7 @@ public class FuseMiniGame : MiniGameBase
             }
         }
 
-        Debug.Log(Convert.ToString(target, 2).PadLeft(6, '0'));
+        //Debug.Log(Convert.ToString(target, 2).PadLeft(6, '0'));
 
         ListExtentions.Shuffle(leverBinaryValues);
         SetCurrentDisplayLights();
@@ -61,30 +62,35 @@ public class FuseMiniGame : MiniGameBase
 
         SetCurrentDisplayLights(); 
 
-        Debug.Log(Convert.ToString(current, 2).PadLeft(6, '0'));
+        //Debug.Log(Convert.ToString(current, 2).PadLeft(6, '0'));
 
         if (current == target) StartCoroutine(EndGame(true));
     }
 
     private void SetCurrentDisplayLights()
     {
+        bool[] displayLightsActiveList = new bool[numberOfLevers];  
         List<int> lightIndexes = GetLightIndexes(current);
         int i = 0;
-        foreach (GameObject light in displayLights)
+        foreach (GameObject light in debugDisplayLights)
         {
             foreach (int lightIndex in lightIndexes)
             {
                 if (i == lightIndex)
                 {
+                    displayLightsActiveList[i] = true;
                     light.GetComponent<Image>().color = Color.green;
                     break;
                 }
 
+                displayLightsActiveList[i] = false; 
                 light.GetComponent<Image>().color = Color.red;
             }
 
             i++;
         }
+
+        fuseDisplay.SetLightsServerRpc(displayLightsActiveList); 
     }
 
     private List<int> GetLightIndexes(uint binaryData)
@@ -109,7 +115,7 @@ public class FuseMiniGame : MiniGameBase
 
         foreach (var lever in levers)
             lever.GetComponent<Image>().color = Color.red;
-        foreach (var light in displayLights)
+        foreach (var light in debugDisplayLights)
             light.GetComponent<Image>().color = Color.red;
     }
 
