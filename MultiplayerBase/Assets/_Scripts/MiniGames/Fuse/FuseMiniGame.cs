@@ -45,8 +45,6 @@ public class FuseMiniGame : MiniGameBase
             }
         }
 
-        //Debug.Log(Convert.ToString(target, 2).PadLeft(6, '0'));
-
         ListExtentions.Shuffle(leverBinaryValues);
         SetCurrentDisplayLights();
     }

@@ -13,6 +13,8 @@ public class PlayerInfoHolder : NetworkBehaviour, IAiSensible, IHurtable
     [SerializeField] AudioSource[] audioSources;
     [SerializeField] VoiceInputController voiceInputController;
 
+    [SerializeField] GameObject playerCanvas; 
+ 
     [SerializeField, Range(-60f, 0f)] float volumeToAddRavenGate = 0f; 
 
     private BlackboardKey playerInfo_Key;
@@ -22,6 +24,11 @@ public class PlayerInfoHolder : NetworkBehaviour, IAiSensible, IHurtable
     {
         string clientIDString = OwnerClientId.ToString();
         playerInfo_Key = new BlackboardKey("Player" + clientIDString + "InfoKey");
+
+        if(IsOwner)
+        {
+            playerCanvas.SetActive(true); 
+        }
 
         playerInfo = new PlayerInfo();
         playerInfo.position = transform.position;

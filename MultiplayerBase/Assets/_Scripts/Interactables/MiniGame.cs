@@ -16,13 +16,14 @@ public class MiniGame : NetworkBehaviour, IInteractable
     [SerializeField] private MiniGameTypes game;
     [SerializeField] private ItemType neededItem = ItemType.None;
 
-    [HideInInspector] private bool canInteract = true;
+    private bool canInteract = true;
 
     [SerializeField] Pair<GameObject, bool>[] setObjests;
     [SerializeField] Pair<bool, string> completesQuest; 
 
     public void OnInteract(Interactor interactor, ItemType itemUsed = ItemType.None)
     {
+        SetCanInteractServerRpc(false); 
         FirstPersonController playerController = interactor.GetComponent<FirstPersonController>();
         if (playerController != null)
         {
@@ -52,16 +53,14 @@ public class MiniGame : NetworkBehaviour, IInteractable
         }
     }
     [ClientRpc]
-    private void SendQuestCompleteClientRpc()
-    {
-        EventManager.instance.OnQuestComplete(completesQuest.item2);
-    }
+    private void SendQuestCompleteClientRpc() => EventManager.instance.OnQuestComplete(completesQuest.item2);
+
+    [ServerRpc(RequireOwnership = false)]
+    public void SetCanInteractServerRpc(bool canInteract) => SetCanInteractClientRpc(canInteract);
 
     [ClientRpc]
-    public void SetCanInteractClientRpc(bool canInteract)
-    {
-        this.canInteract = canInteract;
-    }
+    private void SetCanInteractClientRpc(bool canInteract) => this.canInteract = canInteract;
+    
 
     [ClientRpc]
     public void ActivateObjsClientRpc()
