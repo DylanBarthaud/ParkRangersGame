@@ -13,16 +13,17 @@ public class CodeKey : NetworkBehaviour
         if (IsServer)
         {
             game.Reset();
-            SetSymbolsClientRpc(game.SymbolSeed);
+            SetSymbolsClientRpc(game.SymbolSeed, game.Code);
         }
 
         DeactivateGameObj();
     }
 
     [ClientRpc]
-    public void SetSymbolsClientRpc(int[] symbolSeed)
+    public void SetSymbolsClientRpc(int[] symbolSeed, int[] code)
     {
         game.SetSymbolSeed(symbolSeed);
+        game.SetCode(code);
         for (int i = 0; i < symbols.Length; i++)
             symbols[i].sprite = game.GetSymbol(symbolSeed[i]);
     }

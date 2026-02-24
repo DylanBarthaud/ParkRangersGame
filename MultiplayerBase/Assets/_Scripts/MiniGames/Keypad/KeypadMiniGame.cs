@@ -18,10 +18,12 @@ public class KeypadMiniGame : MiniGameBase
 
 
     private int[] code = new int[CODE_LENGTH];
+    public int[] Code => code;
     private List<int> currentCode = new List<int>();
 
     public Sprite GetSymbol(int index) => symbols[index];
     public void SetSymbolSeed(int[] symbolSeed) => this.symbolSeed = symbolSeed;
+    public void SetCode(int[] code) => this.code = code;
 
     private void OnEnable()
     {
