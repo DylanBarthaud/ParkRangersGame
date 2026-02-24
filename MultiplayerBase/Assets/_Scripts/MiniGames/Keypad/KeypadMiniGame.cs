@@ -9,19 +9,19 @@ using Utlility;
 public class KeypadMiniGame : MiniGameBase
 {
     private static int CODE_LENGTH = 4;
-    private static int DIGIT_AMOUNT = 9;
+    private static int DIGIT_AMOUNT = 10;
     [SerializeField] private Image[] symbolCode;
-    [SerializeField] private List<Sprite> symbols; 
-    public Sprite GetSymbol(int index) => symbols[index];
+    [SerializeField] private List<Sprite> symbols;
+    public List<Sprite> Symbols => symbols;
+    private int[] symbolSeed = new int[DIGIT_AMOUNT];
+    public int[] SymbolSeed => symbolSeed;
+
 
     private int[] code = new int[CODE_LENGTH];
-
     private List<int> currentCode = new List<int>();
 
-    private void Awake()
-    {
-        Reset();
-    }
+    public Sprite GetSymbol(int index) => symbols[index];
+    public void SetSymbolSeed(int[] symbolSeed) => this.symbolSeed = symbolSeed;
 
     private void OnEnable()
     {
@@ -38,7 +38,7 @@ public class KeypadMiniGame : MiniGameBase
 
     public void EnterButton()
     {
-        if (currentCode.Count < CODE_LENGTH) return;
+        //if (currentCode.Count < CODE_LENGTH) return;
 
         bool success = code.SequenceEqual(currentCode);
         StartCoroutine(EndGame(success));
@@ -57,11 +57,12 @@ public class KeypadMiniGame : MiniGameBase
         GameManager.instance.DisableMiniGame(MiniGameTypes.Keypad);
     }
 
-    private void Reset()
+    public void Reset()
     {
-        print("KEYPAD LOCAL"); 
         ClearCurrentCode();
-        ListExtentions.Shuffle(symbols);
+
+        for (int i =  0; i < symbolSeed.Length; i++) symbolSeed[i] = i;
+        ListExtentions.Shuffle(symbolSeed);
 
         for (int i = 0; i < CODE_LENGTH; i++)
         {
@@ -69,7 +70,7 @@ public class KeypadMiniGame : MiniGameBase
 
             code[i] = roll;
             Debug.Log(roll);
-            symbolCode[i].sprite = GetSymbol(roll);
+            symbolCode[i].sprite = GetSymbol(symbolSeed[roll]);
         }
     }
 }

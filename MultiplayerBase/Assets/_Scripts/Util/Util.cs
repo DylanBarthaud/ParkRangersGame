@@ -16,5 +16,16 @@ namespace Utlility
                 list[roll] = temp;
             }
         }
+
+        public static void Shuffle<T>(T[] array)
+        {
+            for (int i = 0; i < array.Length; i++)
+            {
+                int roll = Random.Range(i, array.Length);
+                var temp = array[i];
+                array[i] = array[roll];
+                array[roll] = temp;
+            }
+        }
     }
 }

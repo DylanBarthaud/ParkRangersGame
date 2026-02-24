@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.UI;
@@ -9,15 +10,21 @@ public class CodeKey : NetworkBehaviour
 
     public override void OnNetworkSpawn() 
     {
-        if (IsServer) SetSymbolsClientRpc();
+        if (IsServer)
+        {
+            game.Reset();
+            SetSymbolsClientRpc(game.SymbolSeed);
+        }
+
         DeactivateGameObj();
     }
 
     [ClientRpc]
-    public void SetSymbolsClientRpc()
+    public void SetSymbolsClientRpc(int[] symbolSeed)
     {
+        game.SetSymbolSeed(symbolSeed);
         for (int i = 0; i < symbols.Length; i++)
-            symbols[i].sprite = game.GetSymbol(i);
+            symbols[i].sprite = game.GetSymbol(symbolSeed[i]);
     }
 
     private void DeactivateGameObj() => game.gameObject.SetActive(false); 
