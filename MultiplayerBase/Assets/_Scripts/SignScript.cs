@@ -8,6 +8,7 @@ public class SignScript : MonoBehaviour
 
     // Drag the text or image you want to appear here, in the Editor.
     public Text interactionText;
+    [TextArea]
     public string message;
 
     // How far you can interact with the object from
