@@ -34,7 +34,7 @@ public class KeypadMiniGame : MiniGameBase
     {
         if(currentCode.Count == CODE_LENGTH) return;
 
-        Debug.Log(index); 
+        //Debug.Log(index); 
         currentCode.Add(index);
     }
 
@@ -71,7 +71,7 @@ public class KeypadMiniGame : MiniGameBase
             int roll = Random.Range(0, DIGIT_AMOUNT);
 
             code[i] = roll;
-            Debug.Log(roll);
+            //Debug.Log(roll);
             symbolCode[i].sprite = GetSymbol(symbolSeed[roll]);
         }
     }

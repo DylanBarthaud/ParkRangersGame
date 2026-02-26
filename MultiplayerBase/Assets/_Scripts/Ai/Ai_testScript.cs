@@ -7,6 +7,7 @@ using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.InputSystem;
+using UnityEngine.UIElements;
 
 [RequireComponent(typeof(NavMeshAgent))]
 public class Ai_testScript : NetworkBehaviour
@@ -24,8 +25,11 @@ public class Ai_testScript : NetworkBehaviour
 
     [Header("Base Settings")]
     [SerializeField] private float baseSpeed;
-    [SerializeField] private float chaseSpeed;
     [SerializeField] private float investigateHintSpeed;
+
+    [Header("Hunt Settings")]
+    [SerializeField] private float chaseSpeed;
+    [SerializeField] private int minCrowsNeededToHunt = 3; 
 
     [Header("Stalk Settings")]
     [SerializeField] private float stalkSpeed;
@@ -73,7 +77,23 @@ public class Ai_testScript : NetworkBehaviour
 
         bool CanHunt()
         {
-            return canHunt;
+            bool playerHasSufficientCrows = false;
+            foreach (BlackboardKey playerKey in GameManager.instance.playerBlackboardKeys)
+            {
+                if (blackboard.TryGetValue(playerKey, out PlayerInfo playerInfo))
+                {
+                    if(playerInfo.ravenCount >= minCrowsNeededToHunt)
+                    {
+                        playerHasSufficientCrows = true;
+                        break;
+                    }
+                }
+
+                else Debug.LogError("Cannot find blackboard value with key:" +  playerKey);
+            }
+
+            Debug.Log(playerHasSufficientCrows ? canHunt : false); 
+            return playerHasSufficientCrows ? canHunt : false;
         }
         GridPosition InvestigateHint()
         {
@@ -96,7 +116,7 @@ public class Ai_testScript : NetworkBehaviour
                 aiHomePosition = overlordInfo.homeGrid;
             }
 
-            Debug.Log(aiHomePosition);
+            Debug.Log($"Ai Home Pos: {aiHomePosition.x} {aiHomePosition.z}");
             return aiHomePosition;
         }
         bool InHomeCell()

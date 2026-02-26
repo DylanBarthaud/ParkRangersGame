@@ -13,8 +13,13 @@ public class PlayerInfoHolder : NetworkBehaviour, IAiSensible, IHurtable
     [SerializeField] AudioSource[] audioSources;
     [SerializeField] VoiceInputController voiceInputController;
 
-    [SerializeField] GameObject playerCompass; 
- 
+    [SerializeField] GameObject playerCompass;
+
+    [Header("Raven Settings")]
+    [SerializeField] int tryAddRavenTick = 2; 
+    [SerializeField] int tryRemoveRavenTick = 5;
+    int localLoseRavenTick;
+    int localRavenTick;
     [SerializeField, Range(-60f, 0f)] float volumeToAddRavenGate = 0f; 
 
     private BlackboardKey playerInfo_Key;
@@ -42,22 +47,41 @@ public class PlayerInfoHolder : NetworkBehaviour, IAiSensible, IHurtable
         UpdateInfo(false, 0);
 
         EventManager.instance.onTick_5 += OnTick_5;
+
+        localRavenTick = 0;
+        localLoseRavenTick = 0; 
     }
 
-    int localRavenTick = 0; 
     private void OnTick_5(int tick)
     {
+        Debug.Log("TICK"); 
+
         playerInfo.position = transform.position; 
         BlackboardController.instance.GetBlackboard().SetValue(playerInfo_Key, playerInfo);
-        localRavenTick++;
+
+        if (GetAudioDataSquared() >= volumeToAddRavenGate)
+        {
+            localRavenTick++;
+            localLoseRavenTick = 0;
+        }
+
+        else localLoseRavenTick++; 
+
 
         if (playerInfo.ravenCount < playerInfo.maxRavens &&
-            localRavenTick >= 2 &&
-            GetAudioDataSquared() >= volumeToAddRavenGate)
+            localRavenTick >= tryAddRavenTick)
         {
             playerInfo.ravenCount++;
             Debug.Log("Raven count: " + playerInfo.ravenCount);
             localRavenTick = 0;
+        }
+
+        else if (localLoseRavenTick >= tryRemoveRavenTick &&
+                 playerInfo.ravenCount > 0)
+        {
+            playerInfo.ravenCount--;
+            Debug.Log("Raven count: " + playerInfo.ravenCount);
+            localLoseRavenTick = 0;
         }
     }
 

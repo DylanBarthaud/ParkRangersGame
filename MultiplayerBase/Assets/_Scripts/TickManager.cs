@@ -12,9 +12,9 @@ public class TickManager : MonoBehaviour
         if(tickTimer <= 0)
         {
             EventManager.instance.OnTick(tick);
-            tickTimer = TICK_RATE;
+            tickTimer += TICK_RATE;
             tick++; 
-            if((tick & 5) == 0)
+            if(tick % 5 == 0)
             {
                 EventManager.instance.OnTick_5(tick);
             }

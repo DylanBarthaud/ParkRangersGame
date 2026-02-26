@@ -23,7 +23,6 @@ public class MiniGame : NetworkBehaviour, IInteractable
 
     public void OnInteract(Interactor interactor, ItemType itemUsed = ItemType.None)
     {
-        SetCanInteractServerRpc(false); 
         FirstPersonController playerController = interactor.GetComponent<FirstPersonController>();
         if (playerController != null)
         {
@@ -31,6 +30,8 @@ public class MiniGame : NetworkBehaviour, IInteractable
             interactor.GetComponent<Inventory>().DisableInv();
             GameManager.instance.EnableMiniGame(game, gameObject);
         }
+
+        SetCanInteractServerRpc(false);
     }
 
     public bool CanInteract(Interactor interactor, ItemType itemUsed = ItemType.None)
@@ -45,6 +46,7 @@ public class MiniGame : NetworkBehaviour, IInteractable
     [ServerRpc(RequireOwnership = false)]
     public void OnCompleteServerRpc(bool success)
     {
+        //Debug.Log(success); 
         SetCanInteractClientRpc(!success);
         if(success)
         {
