@@ -5,8 +5,6 @@ using System;
 using TMPro;
 using UnityEngine.InputSystem;
 using System.Collections.Generic;
-using UnityEditor.VersionControl;
-using Unity.VisualScripting.ReorderableList.Element_Adder_Menu;
 using NUnit.Framework;
 
 public class SettingsHandler : MonoBehaviour
