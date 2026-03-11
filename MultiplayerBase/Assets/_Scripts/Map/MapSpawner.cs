@@ -48,4 +48,6 @@ public class MapSpawner
             }
         }
     }
+
+    private void SpawnObjectAtLoc(GameObject spawnObject, Vector3 spawnLoc)
 }

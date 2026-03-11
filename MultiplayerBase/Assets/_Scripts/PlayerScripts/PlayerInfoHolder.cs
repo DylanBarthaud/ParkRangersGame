@@ -47,26 +47,26 @@ public class PlayerInfoHolder : NetworkBehaviour, IAiSensible, IHurtable
         UpdateInfo(false, 0);
 
         EventManager.instance.onTick_5 += OnTick_5;
+        EventManager.instance.onTick += OnTick; 
 
         localRavenTick = 0;
         localLoseRavenTick = 0; 
     }
 
-    private void OnTick_5(int tick)
+    private void OnTick(int obj)
     {
-        Debug.Log("TICK"); 
-
-        playerInfo.position = transform.position; 
-        BlackboardController.instance.GetBlackboard().SetValue(playerInfo_Key, playerInfo);
-
         if (GetAudioDataSquared() >= volumeToAddRavenGate)
         {
             localRavenTick++;
             localLoseRavenTick = 0;
         }
+        else localLoseRavenTick++;
+    }
 
-        else localLoseRavenTick++; 
-
+    private void OnTick_5(int tick)
+    {
+        playerInfo.position = transform.position; 
+        BlackboardController.instance.GetBlackboard().SetValue(playerInfo_Key, playerInfo);
 
         if (playerInfo.ravenCount < playerInfo.maxRavens &&
             localRavenTick >= tryAddRavenTick)
