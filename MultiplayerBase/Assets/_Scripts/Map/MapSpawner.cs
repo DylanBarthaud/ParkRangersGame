@@ -11,23 +11,16 @@ public class MapSpawner
         this.maxSteepness = maxSteepness;
     }
 
-    public (int[] objIds, Vector3[] objPositions) Spawn(Terrain terrain, GameObject[] spawnableObjects, int numberOfObjects)
+    public void Spawn(Terrain terrain, GameObject[] spawnableObjects, int numberOfObjects)
     {
-        List<int> objectIds = new List<int>();
-        List<Vector3> objPositions = new List<Vector3>();
-
         for (int i = 0; i < numberOfObjects; i++) 
         {
             int objectIndex = Random.Range(0, spawnableObjects.Length);
-            bool objectSpawned = false;
-            Vector3 spawnLoc = new Vector3(); 
-            (objectSpawned, spawnLoc) = SpawnObject(terrain, objectIndex);
+            SpawnObject(terrain, objectIndex);
         }
-
-        return (objectIds.ToArray(), objPositions.ToArray());
     }
 
-    private (bool, Vector3) SpawnObject(Terrain terrain, int spawnObjectId)
+    private void SpawnObject(Terrain terrain, int spawnObjectId)
     {
         TerrainData terrainData = terrain.terrainData;
         Vector3 terrainSize = terrainData.size;
@@ -51,25 +44,8 @@ public class MapSpawner
                     Quaternion.identity
                 );
                 spawns.Add(spawnObjectId);
-                return (true, spawnPoint); 
+                break; 
             }
-        }
-
-        return (false, Vector3.zero);   
-    }
-
-    public void SpawnObjectsAtLoc(int[] spawnObjectIds, Vector3[] spawnObjPositions)
-    {
-        int i = 0; 
-        foreach (var spawnObjectId in spawnObjectIds)
-        {
-            GameManager.instance.SpawnObjectOnNetworkServerRpc(
-                spawnObjectId,
-                spawnObjPositions[i],
-                Quaternion.identity
-            );
-
-            i++;
         }
     }
 }

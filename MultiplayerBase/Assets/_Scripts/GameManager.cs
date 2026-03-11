@@ -64,7 +64,6 @@ public class GameManager : NetworkBehaviour
     {
         if (!IsHost) return;
         mapHandler = new MapHandler(width, height, cellSize, terrain, maxSteepness, spawnableObjects, numberOfSpawns);
-        SpawnObjectsOnClientRpc(mapHandler.SpawnedObjIds, mapHandler.SpawnedObjPositions); 
         ChangeButtonsPressedUIClientRpc(0);
     }
 
@@ -78,14 +77,6 @@ public class GameManager : NetworkBehaviour
     {
         GameObject spawnedObject = Instantiate(spawnableObjects[objId], pos, rot);
         spawnedObject.GetComponent<NetworkObject>().Spawn(destroyWithScene);
-
-    }
-
-    [ClientRpc]
-    private void SpawnObjectsOnClientRpc(int[] objIds, Vector3[] objPositions)
-    {
-        if(IsHost) return;
-        mapHandler.SpawnObjectOnMap(objIds, objPositions); 
     }
 
     #region MiniGameFunctions
