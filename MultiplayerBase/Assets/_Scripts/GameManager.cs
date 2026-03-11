@@ -72,8 +72,7 @@ public class GameManager : NetworkBehaviour
         if(clientPlayerIsDead && Input.GetKeyDown(KeyCode.RightArrow)) CycleSpectate(); 
     }
 
-    [ServerRpc(RequireOwnership = false)]
-    public void SpawnObjectOnNetworkServerRpc(int objId, Vector3 pos, Quaternion rot, bool destroyWithScene = true)
+    public void SpawnObjectOnNetwork(int objId, Vector3 pos, Quaternion rot, bool destroyWithScene = true)
     {
         GameObject spawnedObject = Instantiate(spawnableObjects[objId], pos, rot);
         spawnedObject.GetComponent<NetworkObject>().Spawn(destroyWithScene);

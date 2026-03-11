@@ -38,7 +38,7 @@ public class MapSpawner
             if (terrainData.GetSteepness(normX, normZ) <= maxSteepness)
             {
                 Vector3 spawnPoint = new Vector3(xPos, yPos, zPos);
-                GameManager.instance.SpawnObjectOnNetworkServerRpc(
+                GameManager.instance.SpawnObjectOnNetwork(
                     spawnObjectId,
                     spawnPoint,
                     Quaternion.identity
