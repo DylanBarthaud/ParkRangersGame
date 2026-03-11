@@ -31,7 +31,7 @@ public class MiniGame : NetworkBehaviour, IInteractable
             GameManager.instance.EnableMiniGame(game, gameObject);
         }
 
-        SetCanInteractServerRpc(false);
+        //SetCanInteractServerRpc(false);
     }
 
     public bool CanInteract(Interactor interactor, ItemType itemUsed = ItemType.None)
@@ -47,7 +47,7 @@ public class MiniGame : NetworkBehaviour, IInteractable
     public void OnCompleteServerRpc(bool success)
     {
         //Debug.Log(success); 
-        SetCanInteractClientRpc(!success);
+        SetCanInteractServerRpc(!success);
         if(success)
         {
             if (completesQuest.item1) SendQuestCompleteClientRpc(); 
