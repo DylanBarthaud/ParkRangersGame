@@ -4,7 +4,7 @@ using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-using Utlility; 
+using Utlility;
 
 public class KeypadMiniGame : MiniGameBase
 {
@@ -24,6 +24,15 @@ public class KeypadMiniGame : MiniGameBase
     public Sprite GetSymbol(int index) => symbols[index];
     public void SetSymbolSeed(int[] symbolSeed) => this.symbolSeed = symbolSeed;
     public void SetCode(int[] code) => this.code = code;
+    public void SetSymbolCode()
+    {
+        int i = 0;
+        foreach (var index in symbolSeed)
+        {
+            symbolCode[i].sprite = GetSymbol(index);
+            i++; 
+        }
+    }
 
     private void OnEnable()
     {

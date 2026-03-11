@@ -24,8 +24,10 @@ public class CodeKey : NetworkBehaviour
     {
         game.SetSymbolSeed(symbolSeed);
         game.SetCode(code);
+        game.SetSymbolCode();
         for (int i = 0; i < symbols.Length; i++)
-            symbols[i].sprite = game.GetSymbol(symbolSeed[code[i]]);
+            symbols[i].sprite = game.GetSymbol(symbolSeed[i]);
+
     }
 
     private void DeactivateGameObj() => game.gameObject.SetActive(false); 
