@@ -74,9 +74,9 @@ public class GameManager : NetworkBehaviour
     }
 
     [ServerRpc(RequireOwnership = false)]
-    public void SpawnObjectOnNetwork(GameObject obj, Vector3 pos, Quaternion rot, bool destroyWithScene = true)
+    public void SpawnObjectOnNetworkServerRpc(int objId, Vector3 pos, Quaternion rot, bool destroyWithScene = true)
     {
-        GameObject spawnedObject = Instantiate(obj, pos, rot);
+        GameObject spawnedObject = Instantiate(spawnableObjects[objId], pos, rot);
         spawnedObject.GetComponent<NetworkObject>().Spawn(destroyWithScene);
 
     }
@@ -85,11 +85,7 @@ public class GameManager : NetworkBehaviour
     private void SpawnObjectsOnClientRpc(int[] objIds, Vector3[] objPositions)
     {
         if(IsHost) return;
-
-        List<GameObject> objsToSpawn = new List<GameObject>();
-        foreach (int objId in objIds) objsToSpawn.Add(spawnableObjects[objId]);
-
-        mapHandler.SpawnObjectOnMap(objsToSpawn.ToArray(), objPositions); 
+        mapHandler.SpawnObjectOnMap(objIds, objPositions); 
     }
 
     #region MiniGameFunctions

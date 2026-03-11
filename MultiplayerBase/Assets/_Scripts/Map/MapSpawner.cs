@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class MapSpawner
 {
-    private List<GameObject> spawns = new List<GameObject>();
+    private List<int> spawns = new List<int>();
     private float maxSteepness; 
 
     public MapSpawner(float maxSteepness)
@@ -21,13 +21,13 @@ public class MapSpawner
             int objectIndex = Random.Range(0, spawnableObjects.Length);
             bool objectSpawned = false;
             Vector3 spawnLoc = new Vector3(); 
-            (objectSpawned, spawnLoc) = SpawnObject(terrain, spawnableObjects[objectIndex]);
+            (objectSpawned, spawnLoc) = SpawnObject(terrain, objectIndex);
         }
 
         return (objectIds.ToArray(), objPositions.ToArray());
     }
 
-    private (bool, Vector3) SpawnObject(Terrain terrain, GameObject spawnObject)
+    private (bool, Vector3) SpawnObject(Terrain terrain, int spawnObjectId)
     {
         TerrainData terrainData = terrain.terrainData;
         Vector3 terrainSize = terrainData.size;
@@ -45,12 +45,12 @@ public class MapSpawner
             if (terrainData.GetSteepness(normX, normZ) <= maxSteepness)
             {
                 Vector3 spawnPoint = new Vector3(xPos, yPos, zPos);
-                GameManager.instance.SpawnObjectOnNetwork(
-                    spawnObject,
+                GameManager.instance.SpawnObjectOnNetworkServerRpc(
+                    spawnObjectId,
                     spawnPoint,
                     Quaternion.identity
                 );
-                spawns.Add(spawnObject);
+                spawns.Add(spawnObjectId);
                 return (true, spawnPoint); 
             }
         }
@@ -58,13 +58,13 @@ public class MapSpawner
         return (false, Vector3.zero);   
     }
 
-    public void SpawnObjectsAtLoc(GameObject[] spawnObjects, Vector3[] spawnObjPositions)
+    public void SpawnObjectsAtLoc(int[] spawnObjectIds, Vector3[] spawnObjPositions)
     {
         int i = 0; 
-        foreach (var spawnObject in spawnObjects)
+        foreach (var spawnObjectId in spawnObjectIds)
         {
-            GameManager.instance.SpawnObjectOnNetwork(
-                spawnObject,
+            GameManager.instance.SpawnObjectOnNetworkServerRpc(
+                spawnObjectId,
                 spawnObjPositions[i],
                 Quaternion.identity
             );

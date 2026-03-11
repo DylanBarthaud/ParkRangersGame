@@ -51,6 +51,6 @@ public class MapHandler
     /// <returns> Squared distance between grids </returns>
     public float GetDistanceBetweenGrids(GridPosition positionA, GridPosition positionB) => mapGrid.GetSquaredDistanceBetweenGridPositions(positionA, positionB);
 
-    public void SpawnObjectOnMap(GameObject[] objIds, Vector3[] objPositions) => spawner.SpawnObjectsAtLoc(objIds, objPositions); 
+    public void SpawnObjectOnMap(int[] objIds, Vector3[] objPositions) => spawner.SpawnObjectsAtLoc(objIds, objPositions); 
 
 }
