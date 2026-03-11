@@ -8,7 +8,13 @@ public class MapHandler
     float cellSize;
 
     MapSpawner spawner;
-    float maxSteepness; 
+    float maxSteepness;
+
+    int[] spawnedObjIds;
+    Vector3[] spawnedObjPositions; 
+
+    public int[] SpawnedObjIds => spawnedObjIds;
+    public Vector3[] SpawnedObjPositions => spawnedObjPositions;
 
     public MapHandler(int width, int height, float cellSize, Terrain terrain, float maxSteepness, GameObject[] spawnables = null, int numberOfObject = 0)
     {
@@ -18,13 +24,10 @@ public class MapHandler
 
         mapGrid = new Grid(width, height, cellSize);
         spawner = new MapSpawner(maxSteepness); 
-        spawner.Spawn(terrain, spawnables, numberOfObject);
+        (spawnedObjIds, spawnedObjPositions) = spawner.Spawn(terrain, spawnables, numberOfObject);
     }
 
-    public GridPosition GetGridLocation(Vector3 position)
-    {
-        return mapGrid.GetGridPos(position);
-    }
+    public GridPosition GetGridLocation(Vector3 position) => mapGrid.GetGridPos(position);
 
     public Vector3 GetRandomLocationInGridPosition(GridPosition gridPosition)
     {
@@ -46,8 +49,8 @@ public class MapHandler
     /// <param name="positionA"></param>
     /// <param name="positionB"></param>
     /// <returns> Squared distance between grids </returns>
-    public float GetDistanceBetweenGrids(GridPosition positionA, GridPosition positionB)
-    {
-        return mapGrid.GetSquaredDistanceBetweenGridPositions(positionA, positionB);
-    }
+    public float GetDistanceBetweenGrids(GridPosition positionA, GridPosition positionB) => mapGrid.GetSquaredDistanceBetweenGridPositions(positionA, positionB);
+
+    public void SpawnObjectOnMap(GameObject[] objIds, Vector3[] objPositions) => spawner.SpawnObjectsAtLoc(objIds, objPositions); 
+
 }

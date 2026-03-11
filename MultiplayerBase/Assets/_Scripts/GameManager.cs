@@ -60,17 +60,17 @@ public class GameManager : NetworkBehaviour
         }
     }
 
-    private void Update()
-    {
-        if(clientPlayerIsDead && Input.GetKeyDown(KeyCode.RightArrow)) CycleSpectate(); 
-    }
-
     public override void OnNetworkSpawn()
     {
         if (!IsHost) return;
         mapHandler = new MapHandler(width, height, cellSize, terrain, maxSteepness, spawnableObjects, numberOfSpawns);
+        SpawnObjectsOnClientRpc(mapHandler.SpawnedObjIds, mapHandler.SpawnedObjPositions); 
+        ChangeButtonsPressedUIClientRpc(0);
+    }
 
-        ChangeButtonsPressedUIClientRpc(0); 
+    private void Update()
+    {
+        if(clientPlayerIsDead && Input.GetKeyDown(KeyCode.RightArrow)) CycleSpectate(); 
     }
 
     public void SpawnObjectOnNetwork(GameObject obj, Vector3 pos, Quaternion rot, bool destroyWithScene = true)
@@ -80,6 +80,18 @@ public class GameManager : NetworkBehaviour
 
     }
 
+    [ClientRpc]
+    private void SpawnObjectsOnClientRpc(int[] objIds, Vector3[] objPositions)
+    {
+        if(IsHost) return;
+
+        List<GameObject> objsToSpawn = new List<GameObject>();
+        foreach (int objId in objIds) objsToSpawn.Add(spawnableObjects[objId]);
+
+        mapHandler.SpawnObjectOnMap(objsToSpawn.ToArray(), objPositions); 
+    }
+
+    #region MiniGameFunctions
     public void EnableMiniGame(MiniGameTypes gameType, GameObject caller)
     {
         GameObject miniGamePanel = miniGameDictionary[gameType];
@@ -112,12 +124,15 @@ public class GameManager : NetworkBehaviour
         }
     }
 
+    #endregion
+
     [ClientRpc]
     private void ChangeButtonsPressedUIClientRpc(int buttons)
     {
         uiManager.ButtonsPressedText.text = buttons.ToString() + " / " + taskCompleteNeeded;
     }
 
+    #region Player Functions
     [ServerRpc(RequireOwnership = false)]
     private void OnPlayerSpawnedServerRpc(BlackboardKey key)
     {
@@ -228,6 +243,7 @@ public class GameManager : NetworkBehaviour
         int roll = UnityEngine.Random.Range(0, audioClipList.Count);
         return audioClipList[roll];   
     }
+    #endregion
 
     private void EndGame()
     {
