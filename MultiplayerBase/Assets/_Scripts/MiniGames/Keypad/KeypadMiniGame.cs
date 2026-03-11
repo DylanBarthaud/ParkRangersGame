@@ -27,9 +27,9 @@ public class KeypadMiniGame : MiniGameBase
     public void SetSymbolCode()
     {
         int i = 0;
-        foreach (var index in symbolSeed)
+        foreach (var index in code)
         {
-            symbolCode[i].sprite = GetSymbol(index);
+            symbolCode[i].sprite = GetSymbol(symbolSeed[index]);
             i++; 
         }
     }
