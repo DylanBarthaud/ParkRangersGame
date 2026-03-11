@@ -20,7 +20,7 @@ public class MapSpawner
         }
     }
 
-    private void SpawnObject(Terrain terrain, GameObject spawnObject)
+    private (bool,Vector3) SpawnObject(Terrain terrain, GameObject spawnObject)
     {
         TerrainData terrainData = terrain.terrainData;
         Vector3 terrainSize = terrainData.size;
@@ -44,10 +44,15 @@ public class MapSpawner
                     Quaternion.identity
                 );
                 spawns.Add(spawnObject);
-                break;
+                return (true, spawnPoint); 
             }
         }
+
+        return (false, Vector3.zero);   
     }
 
     private void SpawnObjectAtLoc(GameObject spawnObject, Vector3 spawnLoc)
+    {
+
+    }
 }
