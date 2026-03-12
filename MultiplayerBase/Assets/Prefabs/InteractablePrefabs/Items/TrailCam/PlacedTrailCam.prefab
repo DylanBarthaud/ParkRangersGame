@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 6970975601536311573}
   - component: {fileID: 744771983498924005}
   m_Layer: 0
-  m_Name: TrailCamGFX
+  m_Name: TrailCam
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -64,7 +64,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 31321ba15b8f8eb4c954353edc038b1d, type: 2}
+  - {fileID: 2100000, guid: 6f02e9bb876b1c840bc550bc14be13a1, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -97,10 +97,8 @@ GameObject:
   - component: {fileID: 6632084711703522728}
   - component: {fileID: 3643374119816089386}
   - component: {fileID: 2330411706028655018}
-  - component: {fileID: 6808100757019226619}
-  - component: {fileID: 5419912024480313560}
-  m_Layer: 3
-  m_Name: TrailCam
+  m_Layer: 0
+  m_Name: PlacedTrailCam
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -155,7 +153,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 681198179
+  GlobalObjectIdHash: 2568144780
   InScenePlacedSourceGlobalObjectIdHash: 0
   DeferredDespawnTick: 0
   Ownership: 1
@@ -168,50 +166,6 @@ MonoBehaviour:
   AutoObjectParentSync: 1
   SyncOwnerTransformWhenParented: 1
   AllowOwnerToParent: 0
---- !u!114 &6808100757019226619
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2895811010072939249}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 107629a53431b374ca49bd24540fac0f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ShowTopMostFoldoutHeaderGroup: 1
-  gfxWrapperArray:
-  - {fileID: 6027796097664470850}
---- !u!114 &5419912024480313560
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2895811010072939249}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bcc4916d1fcb170439d7e3db866b5872, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ShowTopMostFoldoutHeaderGroup: 1
-  itemType: 0
-  sprite: {fileID: -2413806693520163455, guid: 9dc9f16c62c72d042a2257c20772e59c, type: 3}
-  infiniteUses: 0
-  uses: 1
-  hasAudio: 0
-  audioVolume: 1
-  audioName: 
-  removeOnPickUp: 1
-  gFXHandler: {fileID: 6808100757019226619}
-  objectPrefab: {fileID: 2895811010072939249, guid: 5b0b3f9ec01ea4d45abed33900239158, type: 3}
-  baseMaterial: {fileID: -876546973899608171, guid: f678ff840a56d1a4aa1f16a76bc6dcde, type: 3}
-  previewMaterial: {fileID: 2100000, guid: 6f02e9bb876b1c840bc550bc14be13a1, type: 2}
-  maxPlaceDistance: 10
-  layerMask:
-    serializedVersion: 2
-    m_Bits: 128
 --- !u!1 &3983298035936397215
 GameObject:
   m_ObjectHideFlags: 0
@@ -221,7 +175,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8272004625843564715}
-  - component: {fileID: 6027796097664470850}
   m_Layer: 0
   m_Name: GFX
   m_TagString: Untagged
@@ -245,18 +198,3 @@ Transform:
   - {fileID: 6511212854006296866}
   m_Father: {fileID: 6632084711703522728}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &6027796097664470850
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3983298035936397215}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bb90e106c03817b4fa716126b9149f5d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  gfx:
-  - {fileID: 744722948382211772}
-  gfxName: ItemGFX

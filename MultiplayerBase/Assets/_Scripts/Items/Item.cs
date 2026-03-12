@@ -7,6 +7,7 @@ public enum ItemType { None, WaterBucket, ScrewDriver }
 [RequireComponent(typeof(GFXHandler))]
 public abstract class Item : NetworkBehaviour, IInteractable
 {
+    [Header("Base Item Settings")]
     [SerializeField] private ItemType itemType;
     public ItemType ItemType => itemType;
 
