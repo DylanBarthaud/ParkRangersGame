@@ -17,10 +17,7 @@ public class GFXHandler : NetworkBehaviour
     }
 
     [ServerRpc(RequireOwnership = false)]
-    public void EnableGFXServerRpc(string gfxName)
-    {
-        EnableGFXClientRpc(gfxName);
-    }
+    public void EnableGFXServerRpc(string gfxName) => EnableGFXClientRpc(gfxName);
 
     [ClientRpc]
     private void EnableGFXClientRpc(string gfxName)
@@ -30,15 +27,22 @@ public class GFXHandler : NetworkBehaviour
     }
 
     [ServerRpc(RequireOwnership = false)]
-    public void DisableGFXServerRpc(string gfxName)
-    {
-        DisableGFXClientRpc(gfxName);
-    }
+    public void DisableGFXServerRpc(string gfxName) => DisableGFXClientRpc(gfxName);
 
     [ClientRpc]
     private void DisableGFXClientRpc(string gfxName)
     {
         if (gfxDictonary.ContainsKey(gfxName)) gfxDictonary[gfxName].DisableGFX();
+        else Debug.LogError($"GFX Dictionary does not contain {gfxName} as a key");
+    }
+
+    [ServerRpc(RequireOwnership = false)]
+    public void ChangeGFXMaterialServerRpc(string gfxName, int materialIndex) => ChangeGFXMaterialClientRpc(gfxName, materialIndex);
+
+    [ClientRpc]
+    public void ChangeGFXMaterialClientRpc(string gfxName, int materialIndex)
+    {
+        if (gfxDictonary.ContainsKey(gfxName)) gfxDictonary[gfxName].ChangeGFXMaterial(materialIndex);
         else Debug.LogError($"GFX Dictionary does not contain {gfxName} as a key");
     }
 }

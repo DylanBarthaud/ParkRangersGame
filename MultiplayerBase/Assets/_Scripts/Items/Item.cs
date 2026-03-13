@@ -12,6 +12,7 @@ public abstract class Item : NetworkBehaviour, IInteractable
     public ItemType ItemType => itemType;
 
     [SerializeField] private Sprite sprite;
+    public Sprite Sprite => sprite;
     [SerializeField] private bool infiniteUses = true; 
     public bool InfiniteUses => infiniteUses;
     [SerializeField] protected int uses;
@@ -27,8 +28,6 @@ public abstract class Item : NetworkBehaviour, IInteractable
     public string AudioName => audioName;
 
     [SerializeField] private bool removeOnPickUp = true; 
-    public Sprite Sprite => sprite;
-
     [SerializeField] private GFXHandler gFXHandler;
 
     private void Awake()

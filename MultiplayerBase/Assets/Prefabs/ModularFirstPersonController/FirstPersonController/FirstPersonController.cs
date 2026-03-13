@@ -513,7 +513,7 @@ public class FirstPersonController : NetworkBehaviour
             HeadBob();
         }
 
-        if (Input.GetKey(KeyCode.E))
+        if (Input.GetKeyDown(KeyCode.E))
         {
             Interactor interactor = gameObject.GetComponent<Interactor>();
 

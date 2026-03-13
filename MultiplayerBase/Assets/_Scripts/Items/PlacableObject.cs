@@ -1,3 +1,4 @@
+using Unity.Netcode;
 using UnityEngine;
 
 public class PlacableObject : Item
@@ -34,7 +35,7 @@ public class PlacableObject : Item
             {
                 previewObj = Instantiate(objectPrefab, hit.point, Quaternion.identity);
                 itemIsSpawned = true;
-                previewObj.transform.GetChild(0).GetComponentInChildren<Renderer>().material = previewMaterial;
+                previewObj.GetComponent<GFXHandler>().ChangeGFXMaterialServerRpc("CameraGFX", 1);
             }
         }
 
@@ -56,8 +57,8 @@ public class PlacableObject : Item
             RaycastHit hit;
             if (Physics.Raycast(ray, out hit, maxPlaceDistance, layerMask))
             {
-                previewObj.transform.GetChild(0).GetComponentInChildren<Renderer>().material = baseMaterial;
-                previewObj.transform.position = hit.point;
+                SpawnObjectOnServerRpc(hit.point); 
+                previewObj.GetComponent<GFXHandler>().ChangeGFXMaterialServerRpc("CameraGFX", 0); 
             }
         }
 
@@ -65,4 +66,14 @@ public class PlacableObject : Item
         if (itemIsSpawned && Input.GetKey(KeyCode.Q) && previewObj != null) previewObj.transform.Rotate(new Vector3(0, -5, 0));
 
     }
+
+    [ServerRpc(RequireOwnership = false)]
+    private void SpawnObjectOnServerRpc(Vector3 position)
+    {
+        previewObj.GetComponent<NetworkObject>().Spawn();
+        SpawnObjectOnClientRpc(position); 
+    }
+
+    [ClientRpc]
+    private void SpawnObjectOnClientRpc(Vector3 position) => previewObj.transform.position = position;
 }
