@@ -1047,6 +1047,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
   playerHealth: 5
+  audioSources: []
+  voiceInputController: {fileID: 0}
+  playerCompass: {fileID: 0}
+  tryAddRavenTick: 2
+  tryRemoveRavenTick: 5
+  volumeToAddRavenGate: 0
 --- !u!114 &-1635927792753444105
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1078,8 +1084,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
   gain: 2
+  source: {fileID: 0}
   voiceIcon: {fileID: 6489259224666698550}
   iconDecayTime: 0.1
+  silenceTimeout: 0.25
+  volumeSampleWindow: 0.1
+  maxSavedSampleDuration: 5
+  minSavedSampleDuration: 0.5
 --- !u!114 &6199517553978207084
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1105,6 +1116,7 @@ MonoBehaviour:
   baseInvSlotSprite: {fileID: 10907, guid: 0000000000000000f000000000000000, type: 0}
   items: []
   selectedItemSlot: 0
+  canUseInv: 1
 --- !u!1 &4459864850190357393
 GameObject:
   m_ObjectHideFlags: 0
@@ -1379,7 +1391,7 @@ Camera:
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 1023
   m_RenderingPath: -1
   m_TargetTexture: {fileID: 0}
   m_TargetDisplay: 0

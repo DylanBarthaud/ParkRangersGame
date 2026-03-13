@@ -92,7 +92,7 @@ public class Ai_testScript : NetworkBehaviour
                 else Debug.LogError("Cannot find blackboard value with key:" +  playerKey);
             }
 
-            Debug.Log(playerHasSufficientCrows ? canHunt : false); 
+            //Debug.Log(playerHasSufficientCrows ? canHunt : false); 
             return playerHasSufficientCrows ? canHunt : false;
         }
         GridPosition InvestigateHint()
@@ -116,7 +116,7 @@ public class Ai_testScript : NetworkBehaviour
                 aiHomePosition = overlordInfo.homeGrid;
             }
 
-            Debug.Log($"Ai Home Pos: {aiHomePosition.x} {aiHomePosition.z}");
+            //Debug.Log($"Ai Home Pos: {aiHomePosition.x} {aiHomePosition.z}");
             return aiHomePosition;
         }
         bool InHomeCell()
@@ -179,7 +179,7 @@ public class Ai_testScript : NetworkBehaviour
         Selector inHomeCellSelector = new Selector("InHomeCellSelector");
 
         IfGate inHomeCellLeaf = new IfGate("InHomeCell", new Condition(() => InHomeCell()));
-        Leaf setCanHuntTrue = new Leaf("setCanHunt", new ActionStrategy(() => { canHunt = true; Debug.Log("SET CAN HUNT"); }));
+        Leaf setCanHuntTrue = new Leaf("setCanHunt", new ActionStrategy(() => { canHunt = true; }));
 
         Sequence goToHomeCellSequence = new Sequence("GoToHomeCellSequence");
         Leaf moveToHomeCell = new Leaf("MoveToHomeCell", new SearchCellStrategy(GetHomeCellPos, agent));

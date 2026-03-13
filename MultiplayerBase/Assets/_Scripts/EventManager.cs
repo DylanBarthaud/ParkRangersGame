@@ -36,6 +36,8 @@ public class EventManager : MonoBehaviour
 
     public event Action<string> onQuestComplete; 
 
+    public event Action<TrailCamera> onTrailCameraPlaced;
+
     /// <summary>
     /// Tick that happens every 0.2s
     /// </summary>
@@ -88,5 +90,10 @@ public class EventManager : MonoBehaviour
     public void OnQuestComplete(string quest)
     {
         if(onQuestComplete != null) onQuestComplete(quest);
+    }
+
+    public void OnTrailCameraPlaced(TrailCamera trailCamera)
+    {
+        if(onTrailCameraPlaced != null) onTrailCameraPlaced(trailCamera);
     }
 }
