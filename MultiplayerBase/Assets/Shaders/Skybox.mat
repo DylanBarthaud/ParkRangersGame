@@ -90,6 +90,22 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _SampleTexture2D_27aa27c2f75c4e9aa1459393796e3d43_Texture_1_Texture2D:
+        m_Texture: {fileID: 2800000, guid: f47bd8795de018d47a2a2e4175b77ee5, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _SampleTexture2D_3088f0af81f54772bd6e81a50f25ff49_Texture_1_Texture2D:
+        m_Texture: {fileID: 2800000, guid: 569a50beb1a70164daaa7c180e9e721a, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _SampleTexture2D_81ea450844104d9183a709357f00a1a8_Texture_1_Texture2D:
+        m_Texture: {fileID: 2800000, guid: 569a50beb1a70164daaa7c180e9e721a, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _SampleTexture2D_de583d5ebd604590a5a5e5862e18fe8b_Texture_1_Texture2D:
+        m_Texture: {fileID: 2800000, guid: f47bd8795de018d47a2a2e4175b77ee5, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _SpecGlossMap:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
@@ -140,8 +156,9 @@ Material:
     - _SpecularHighlights: 1
     - _SrcBlend: 1
     - _SrcBlendAlpha: 1
-    - _StarHeight: 1010.7
-    - _StarPower: 38.3
+    - _StarHeight: 6.18
+    - _StarPower: 505.36
+    - _SunSize: 0.06
     - _Surface: 0
     - _WorkflowMode: 1
     - _ZWrite: 1
@@ -154,6 +171,7 @@ Material:
     - _Horizon_Color: {r: 0, g: 0.03485323, b: 0.066037714, a: 0}
     - _SkyColor: {r: 0.066037714, g: 0.066037714, b: 0.066037714, a: 0}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
-    - _StarColor: {r: 0.8156863, g: 0.96535933, b: 1, a: 0}
+    - _StarColor: {r: 0.3301887, g: 0.29979008, b: 0.29748133, a: 0}
+    - _SunDirection: {r: 0.56, g: 0.5, b: -0.5, a: 0}
   m_BuildTextureStacks: []
   m_AllowLocking: 1
