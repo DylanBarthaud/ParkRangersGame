@@ -100,7 +100,7 @@ public class FirstPersonController : NetworkBehaviour
     private float sprintRemaining;
     private float sprintBarWidth;
     private float sprintBarHeight;
-    private bool isSprintCooldown = false;
+    public bool isSprintCooldown = false;
     private float sprintCooldownReset;
 
     #endregion

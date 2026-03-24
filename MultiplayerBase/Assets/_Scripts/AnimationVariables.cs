@@ -19,10 +19,11 @@ public class AnimationVariables : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        GetComponent<FirstPersonController>();
+
         if (Input.GetKey(KeyCode.W))
         {
             _animator.SetBool("isWalking", true);
-            Debug.Log("WALKING");
         }
         else
         {
@@ -33,13 +34,12 @@ public class AnimationVariables : MonoBehaviour
         if (Input.GetKey(KeyCode.LeftShift))
         {
             _animator.SetBool("isRunning", true);
-            Debug.Log("RUNNING");
         }
         else
         {
             _animator.SetBool("isRunning", false);
         }
-        
+
         if (Input.GetKey(KeyCode.Space))
         {
             _animator.SetBool("isJump", true);
