@@ -24,7 +24,7 @@ MonoBehaviour:
     m_Value: 0.19
   scatter:
     m_OverrideState: 1
-    m_Value: 0.666
+    m_Value: 0.634
   clamp:
     m_OverrideState: 0
     m_Value: 65472
@@ -47,6 +47,73 @@ MonoBehaviour:
   dirtIntensity:
     m_OverrideState: 0
     m_Value: 0
+--- !u!114 &-694268189054689356
+MonoBehaviour:
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a074ec59f6e910b4e8c49f57e56cf95a, type: 3}
+  m_Name: VolumetricFogVolumeComponent
+  m_EditorClassIdentifier: 
+  active: 1
+  distance:
+    m_OverrideState: 1
+    m_Value: 506
+  baseHeight:
+    m_OverrideState: 1
+    m_Value: 0
+  maximumHeight:
+    m_OverrideState: 1
+    m_Value: 284.7
+  enableGround:
+    m_OverrideState: 0
+    m_Value: 0
+  groundHeight:
+    m_OverrideState: 0
+    m_Value: 11.1
+  density:
+    m_OverrideState: 1
+    m_Value: 1.951
+  attenuationDistance:
+    m_OverrideState: 1
+    m_Value: 63.45
+  enableAPVContribution:
+    m_OverrideState: 0
+    m_Value: 0
+  APVContributionWeight:
+    m_OverrideState: 1
+    m_Value: 1
+  enableMainLightContribution:
+    m_OverrideState: 1
+    m_Value: 1
+  anisotropy:
+    m_OverrideState: 1
+    m_Value: 0.47
+  scattering:
+    m_OverrideState: 1
+    m_Value: 1
+  tint:
+    m_OverrideState: 1
+    m_Value: {r: 0.047169805, g: 0.047169805, b: 0.047169805, a: 1}
+  enableAdditionalLightsContribution:
+    m_OverrideState: 1
+    m_Value: 1
+  maxSteps:
+    m_OverrideState: 1
+    m_Value: 300
+  blurIterations:
+    m_OverrideState: 1
+    m_Value: 4
+  enabled:
+    m_OverrideState: 1
+    m_Value: 1
+  renderPassEvent:
+    m_OverrideState: 1
+    m_Value: 500
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -64,6 +131,7 @@ MonoBehaviour:
   - {fileID: 8678264526822461826}
   - {fileID: 538282119150702133}
   - {fileID: 8003549193594659529}
+  - {fileID: -694268189054689356}
 --- !u!114 &538282119150702133
 MonoBehaviour:
   m_ObjectHideFlags: 3
@@ -85,7 +153,7 @@ MonoBehaviour:
     m_Value: {x: 1, y: 1, z: 1, w: 0.19220778}
   highlights:
     m_OverrideState: 0
-    m_Value: {x: 1, y: 1, z: 1, w: 0}
+    m_Value: {x: 1, y: 1, z: 1, w: 0.072727285}
   shadowsStart:
     m_OverrideState: 0
     m_Value: 0
@@ -112,14 +180,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   active: 1
   lift:
-    m_OverrideState: 0
-    m_Value: {x: 0.6935485, y: 1, z: 0.87150866, w: 0.08831171}
+    m_OverrideState: 1
+    m_Value: {x: 1, y: 1, z: 1, w: -0.01038961}
   gamma:
-    m_OverrideState: 0
-    m_Value: {x: 1, y: 1, z: 1, w: -1}
+    m_OverrideState: 1
+    m_Value: {x: 1, y: 1, z: 1, w: 0}
   gain:
-    m_OverrideState: 0
-    m_Value: {x: 1, y: 1, z: 1, w: -0.36363637}
+    m_OverrideState: 1
+    m_Value: {x: 1, y: 1, z: 1, w: 0}
 --- !u!114 &8678264526822461826
 MonoBehaviour:
   m_ObjectHideFlags: 3
