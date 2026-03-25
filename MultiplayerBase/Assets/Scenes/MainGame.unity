@@ -13196,6 +13196,10 @@ PrefabInstance:
       value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 2967532476716474800, guid: 999cd4a15f4f1f74f98c8654cab6c29f, type: 3}
+      propertyPath: minCrowsNeededToHunt
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2967532476716474800, guid: 999cd4a15f4f1f74f98c8654cab6c29f, type: 3}
       propertyPath: ObjectPermamenceTimer
       value: 2
       objectReference: {fileID: 0}
@@ -29314,6 +29318,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2299533635359018006, guid: 4374c276437657e458cc77f7b5a07f01, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2358140749812751867, guid: 4374c276437657e458cc77f7b5a07f01, type: 3}
       propertyPath: GlobalObjectIdHash
       value: 1641248992

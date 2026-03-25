@@ -73,7 +73,7 @@ public class MiniGame : NetworkBehaviour, IInteractable
         {
             GameObject obj = objWrapped.item1; 
             bool setActive = objWrapped.item2;
-            //obj.SetActive(setActive);
+            obj.SetActive(setActive);
         }
     }
 }
