@@ -53,7 +53,6 @@ public class GameManager : NetworkBehaviour
         EventManager.instance.onPlayerKilled += OnPlayerKilledServerRpc;
         EventManager.instance.onPuzzleComplete += OnPuzzleComplete;
 
-
         foreach (var kv in miniGames)
         {
             miniGameDictionary.Add(kv.Key, kv.Value);

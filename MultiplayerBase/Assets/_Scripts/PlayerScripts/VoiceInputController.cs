@@ -158,7 +158,6 @@ public class VoiceInputController : NetworkBehaviour
                 playbackBuffer--;
             }
         }
-
     }
 
     //[Client]
