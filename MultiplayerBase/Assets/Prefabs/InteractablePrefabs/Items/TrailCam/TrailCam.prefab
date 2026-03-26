@@ -99,6 +99,7 @@ GameObject:
   - component: {fileID: 2330411706028655018}
   - component: {fileID: 6808100757019226619}
   - component: {fileID: 5419912024480313560}
+  - component: {fileID: 8922015708485074322}
   m_Layer: 3
   m_Name: TrailCam
   m_TagString: Untagged
@@ -135,7 +136,7 @@ BoxCollider:
     m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 320
   m_LayerOverridePriority: 0
   m_IsTrigger: 0
   m_ProvidesContacts: 0
@@ -204,6 +205,8 @@ MonoBehaviour:
   audioVolume: 1
   audioName: 
   removeOnPickUp: 1
+  throwForceFoward: 15
+  throwForceup: 20
   gFXHandler: {fileID: 6808100757019226619}
   objectPrefab: {fileID: 2895811010072939249, guid: 5b0b3f9ec01ea4d45abed33900239158, type: 3}
   baseMaterial: {fileID: -876546973899608171, guid: f678ff840a56d1a4aa1f16a76bc6dcde, type: 3}
@@ -212,6 +215,33 @@ MonoBehaviour:
   layerMask:
     serializedVersion: 2
     m_Bits: 128
+--- !u!54 &8922015708485074322
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2895811010072939249}
+  serializedVersion: 4
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 1
 --- !u!1 &3983298035936397215
 GameObject:
   m_ObjectHideFlags: 0
@@ -260,3 +290,4 @@ MonoBehaviour:
   gfx:
   - {fileID: 744722948382211772}
   gfxName: ItemGFX
+  materials: []

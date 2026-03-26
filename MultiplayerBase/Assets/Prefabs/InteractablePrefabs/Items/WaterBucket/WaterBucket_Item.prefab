@@ -48,6 +48,7 @@ MonoBehaviour:
   gfx:
   - {fileID: 7293321023788987242}
   gfxName: ItemGFX
+  materials: []
 --- !u!1 &8803969556583498036
 GameObject:
   m_ObjectHideFlags: 0
@@ -61,6 +62,7 @@ GameObject:
   - component: {fileID: -4791879625741604886}
   - component: {fileID: 7655900671321464350}
   - component: {fileID: 3285712831813567906}
+  - component: {fileID: -2082984901693053140}
   m_Layer: 3
   m_Name: WaterBucket_Item
   m_TagString: Untagged
@@ -97,7 +99,7 @@ BoxCollider:
     m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 320
   m_LayerOverridePriority: 0
   m_IsTrigger: 0
   m_ProvidesContacts: 0
@@ -151,6 +153,8 @@ MonoBehaviour:
   audioVolume: 0.5
   audioName: WaterSplash
   removeOnPickUp: 1
+  throwForceFoward: 10
+  throwForceup: 20
   gFXHandler: {fileID: 3285712831813567906}
   waterEffect: {fileID: 5984308712488318517, guid: 91ca352f0769d824b84ea9f96a5a6d9c, type: 3}
 --- !u!114 &3285712831813567906
@@ -168,6 +172,33 @@ MonoBehaviour:
   ShowTopMostFoldoutHeaderGroup: 1
   gfxWrapperArray:
   - {fileID: 5528407141862540450}
+--- !u!54 &-2082984901693053140
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8803969556583498036}
+  serializedVersion: 4
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 1
 --- !u!1001 &7635427681698942523
 PrefabInstance:
   m_ObjectHideFlags: 0

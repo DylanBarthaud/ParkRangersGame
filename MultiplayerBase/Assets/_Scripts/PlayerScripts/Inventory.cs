@@ -62,8 +62,7 @@ public class Inventory : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Q) && items.Count > 0)
         {
             if (items[selectedItemSlot] == null) return; 
-            Vector3 newPos = new Vector3(transform.position.x + 4, transform.position.y, transform.position.z);
-            items[selectedItemSlot].DropItem(newPos);
+            items[selectedItemSlot].DropItem(Camera.main.transform.position);
             RemoveItem(items[selectedItemSlot]);
         }
 

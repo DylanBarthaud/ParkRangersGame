@@ -27,7 +27,8 @@ public abstract class Item : NetworkBehaviour, IInteractable
     [SerializeField] private string audioName;
     public string AudioName => audioName;
 
-    [SerializeField] private bool removeOnPickUp = true; 
+    [SerializeField] private bool removeOnPickUp = true;
+    [SerializeField] private int throwForceFoward, throwForceup; 
     [SerializeField] private GFXHandler gFXHandler;
 
     private void Awake()
@@ -39,8 +40,13 @@ public abstract class Item : NetworkBehaviour, IInteractable
     public void DropItem(Vector3 newPos) 
     {
         if (gFXHandler != null && removeOnPickUp) gFXHandler.EnableGFXServerRpc("ItemGFX");
-        if (removeOnPickUp) SetItemColliderServerRpc(true);
-        transform.position = newPos; 
+        if (removeOnPickUp)
+        {
+            GetComponent<Collider>().enabled = true;
+            SetItemColliderServerRpc(true);
+            transform.position = newPos;
+            GetComponent<Rigidbody>().AddForce(Camera.main.transform.forward * throwForceFoward + Vector3.up * throwForceup, ForceMode.Impulse);
+        }
     }
 
     public bool CanInteract(Interactor interactor, ItemType itemType = ItemType.None)
