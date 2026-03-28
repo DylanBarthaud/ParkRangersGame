@@ -32,7 +32,6 @@ Transform:
   m_Children:
   - {fileID: 1180313528254850243}
   - {fileID: 218027754922282643}
-  - {fileID: 6425645084218773526}
   m_Father: {fileID: 4576935339256006944}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &7680333448727078238
@@ -49,7 +48,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gfx:
   - {fileID: 691981969572245596}
-  - {fileID: 1434799443328872216}
   gfxName: ItemGFX
   materials: []
 --- !u!1 &691981969572245596
@@ -242,7 +240,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &218027754922282643
 Transform:
   m_ObjectHideFlags: 0
@@ -255,7 +253,8 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0.884}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 6425645084218773526}
   m_Father: {fileID: 5925307592638964831}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!108 &6562732030891267351
@@ -372,12 +371,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4631344134943139860}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0.82}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: -0.06400001}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 5925307592638964831}
+  m_Father: {fileID: 218027754922282643}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!198 &3964565806944040484
 ParticleSystem:
@@ -514,15 +513,15 @@ ParticleSystem:
         m_RotationOrder: 4
     startSpeed:
       serializedVersion: 2
-      minMaxState: 0
-      scalar: 4
-      minScalar: 5
+      minMaxState: 3
+      scalar: 6
+      minScalar: 1
       maxCurve:
         serializedVersion: 2
         m_Curve:
         - serializedVersion: 3
           time: 0
-          value: 1
+          value: -0.58823586
           inSlope: 0
           outSlope: 0
           tangentMode: 0
@@ -1097,7 +1096,7 @@ ParticleSystem:
     sphericalDirectionAmount: 0
     randomPositionAmount: 0
     radius:
-      value: 0.79
+      value: 1.12
       mode: 0
       spread: 0
       speed:
@@ -1322,7 +1321,7 @@ ParticleSystem:
     m_BurstCount: 0
     m_Bursts: []
   SizeModule:
-    enabled: 0
+    enabled: 1
     curve:
       serializedVersion: 2
       minMaxState: 1
@@ -1333,22 +1332,22 @@ ParticleSystem:
         m_Curve:
         - serializedVersion: 3
           time: 0
-          value: 0
-          inSlope: 0
-          outSlope: 1
-          tangentMode: 0
+          value: 1
+          inSlope: -0.2294159
+          outSlope: -0.2294159
+          tangentMode: 34
           weightedMode: 0
-          inWeight: 0.33333334
+          inWeight: 0
           outWeight: 0.33333334
         - serializedVersion: 3
           time: 1
-          value: 1
-          inSlope: 1
-          outSlope: 0
-          tangentMode: 0
+          value: 0.7705841
+          inSlope: -0.2294159
+          outSlope: -0.2294159
+          tangentMode: 34
           weightedMode: 0
           inWeight: 0.33333334
-          outWeight: 0.33333334
+          outWeight: 0
         m_PreInfinity: 2
         m_PostInfinity: 2
         m_RotationOrder: 4
@@ -5346,3 +5345,4 @@ MonoBehaviour:
   throwForceFoward: 40
   throwForceup: 40
   gFXHandler: {fileID: 7999298913703856445}
+  particles: {fileID: 1434799443328872216}
