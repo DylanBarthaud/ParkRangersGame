@@ -45,7 +45,8 @@ public abstract class Item : NetworkBehaviour, IInteractable
             GetComponent<Collider>().enabled = true;
             SetItemColliderServerRpc(true);
             transform.position = newPos;
-            GetComponent<Rigidbody>().AddForce(Camera.main.transform.forward * throwForceFoward + Vector3.up * throwForceup, ForceMode.Impulse);
+            GetComponent<Rigidbody>().AddForce(Vector3.up * throwForceup, ForceMode.Impulse);
+            GetComponent<Rigidbody>().AddForce(Camera.main.transform.forward * throwForceFoward, ForceMode.Impulse);
         }
     }
 
