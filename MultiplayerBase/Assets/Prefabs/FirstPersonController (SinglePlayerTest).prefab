@@ -1021,6 +1021,7 @@ MonoBehaviour:
   sprintBar: {fileID: 4459864850888339820}
   sprintBarWidthPercent: 0.3
   sprintBarHeightPercent: 0.02
+  isSprintCooldown: 0
   enableJump: 1
   jumpKey: 32
   jumpPower: 3
@@ -1051,7 +1052,7 @@ MonoBehaviour:
   voiceInputController: {fileID: 0}
   playerCompass: {fileID: 0}
   tryAddRavenTick: 2
-  tryRemoveRavenTick: 5
+  tryRemoveRavenTick: 30
   volumeToAddRavenGate: 0
 --- !u!114 &-1635927792753444105
 MonoBehaviour:

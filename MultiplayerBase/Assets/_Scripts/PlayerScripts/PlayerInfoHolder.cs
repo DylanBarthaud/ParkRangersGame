@@ -69,10 +69,11 @@ public class PlayerInfoHolder : NetworkBehaviour, IAiSensible, IHurtable
         BlackboardController.instance.GetBlackboard().SetValue(playerInfo_Key, playerInfo);
 
         if (playerInfo.ravenCount < playerInfo.maxRavens &&
-            localRavenTick >= tryAddRavenTick)
+            localRavenTick >= tryAddRavenTick &&
+            GameManager.instance.mapHandler.GetGridLocation(transform.position) != GameManager.instance.HomeCell)
         {
             playerInfo.ravenCount++;
-            Debug.Log("Raven count: " + playerInfo.ravenCount);
+            Debug.Log($"Add Raven count: {playerInfo.ravenCount}");
             localRavenTick = 0;
         }
 
@@ -80,7 +81,7 @@ public class PlayerInfoHolder : NetworkBehaviour, IAiSensible, IHurtable
                  playerInfo.ravenCount > 0)
         {
             playerInfo.ravenCount--;
-            Debug.Log("Raven count: " + playerInfo.ravenCount);
+            Debug.Log($"Remove Raven count: {playerInfo.ravenCount}");
             localLoseRavenTick = 0;
         }
     }

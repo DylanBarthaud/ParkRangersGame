@@ -1,8 +1,10 @@
+using System;
 using System.Diagnostics;
 using System.Security.Cryptography;
 using UnityEngine;
 using static UnityEngine.Rendering.DebugUI;
 
+[Serializable]
 public struct GridPosition
 {
     public int x; 

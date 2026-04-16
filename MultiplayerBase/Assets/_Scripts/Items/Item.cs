@@ -71,6 +71,18 @@ public abstract class Item : NetworkBehaviour, IInteractable
         }
     }
 
+    [ServerRpc(RequireOwnership = false)]
+    private void DropItemServerRpc()
+    {
+
+    }
+
+    [ClientRpc]
+    private void DropItemClientRpc()
+    {
+
+    }
+
     [ServerRpc(RequireOwnership = false)] 
     private void SetItemColliderServerRpc(bool enabled)
     {

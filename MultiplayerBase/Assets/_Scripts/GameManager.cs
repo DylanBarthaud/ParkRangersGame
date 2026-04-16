@@ -30,6 +30,8 @@ public class GameManager : NetworkBehaviour
     [SerializeField] int width;
     [SerializeField] int height;
     [SerializeField] float cellSize;
+    [SerializeField] private GridPosition homeCell;
+    public GridPosition HomeCell => homeCell;
     [Header("Spawns")]
     [SerializeField] GameObject[] spawnableObjects;
     [SerializeField] int numberOfSpawns;

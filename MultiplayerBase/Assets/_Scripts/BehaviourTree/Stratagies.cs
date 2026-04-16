@@ -1,6 +1,7 @@
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using TMPro;
 using UnityEngine;
 using UnityEngine.AI;
@@ -111,6 +112,15 @@ namespace BehaviourTrees
                 return Node.Status.Failure;
             }
 
+            NavMeshPath testPath = new NavMeshPath();
+            agent.CalculatePath(playerInfo.position, testPath);
+            if (testPath.status == NavMeshPathStatus.PathPartial ||
+                testPath.status == NavMeshPathStatus.PathInvalid)
+            {
+                agent.isStopped = false;
+                return Node.Status.Failure;
+            }
+
             agent.SetDestination(playerInfo.position);
             agent.speed = chaseSpeed;  
             return Node.Status.Running;
@@ -151,6 +161,15 @@ namespace BehaviourTrees
             }
             PlayerInfo playerInfo = playerInfoFunc();
             if (playerInfo.lastTimePlayerSeen == -1)
+            {
+                agent.isStopped = false;
+                return Node.Status.Failure;
+            }
+
+            NavMeshPath testPath = new NavMeshPath();
+            agent.CalculatePath(playerInfo.position, testPath); 
+            if(testPath.status == NavMeshPathStatus.PathPartial || 
+               testPath.status == NavMeshPathStatus.PathInvalid)
             {
                 agent.isStopped = false;
                 return Node.Status.Failure;
@@ -206,7 +225,9 @@ namespace BehaviourTrees
             if(targetPosition == Vector3.zero)
             {
                 GridPosition cell = getCellFunc();
-                //Debug.Log(cell.x + " " + cell.z); 
+                Debug.Log(cell.x + " " + cell.z); 
+                Debug.Log("HOME CELL: " + GameManager.instance.HomeCell.x + " " + GameManager.instance.HomeCell.z);
+                if (cell == GameManager.instance.HomeCell) return Node.Status.Failure;
                 targetPosition = GameManager.instance.mapHandler.GetRandomLocationInGridPosition(cell);
             }
 
