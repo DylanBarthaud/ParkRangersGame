@@ -4974,7 +4974,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
-  logs: {fileID: 8790287321481685148}
+  logs: {fileID: 2723506031791298194}
   putOutMat: {fileID: 2100000, guid: e34e6b200bea6db49b6424208f37bb7d, type: 2}
   ps: {fileID: 4123171747111786933}
   audioSource: {fileID: 8170413110975581426}
@@ -9905,6 +9905,11 @@ Light:
   m_CorrespondingSourceObject: {fileID: 762806245318488727, guid: f5c3faecedc228944a12adb6c19f85a6, type: 3}
   m_PrefabInstance: {fileID: 1744104186493110882}
   m_PrefabAsset: {fileID: 0}
+--- !u!23 &2723506031791298194 stripped
+MeshRenderer:
+  m_CorrespondingSourceObject: {fileID: 4467460648195611888, guid: f5c3faecedc228944a12adb6c19f85a6, type: 3}
+  m_PrefabInstance: {fileID: 1744104186493110882}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &7788322324500017266 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8368216318219975184, guid: f5c3faecedc228944a12adb6c19f85a6, type: 3}
@@ -9913,10 +9918,5 @@ Transform:
 --- !u!82 &8170413110975581426 stripped
 AudioSource:
   m_CorrespondingSourceObject: {fileID: 7590657656257595024, guid: f5c3faecedc228944a12adb6c19f85a6, type: 3}
-  m_PrefabInstance: {fileID: 1744104186493110882}
-  m_PrefabAsset: {fileID: 0}
---- !u!23 &8790287321481685148 stripped
-MeshRenderer:
-  m_CorrespondingSourceObject: {fileID: 7046183135028486910, guid: f5c3faecedc228944a12adb6c19f85a6, type: 3}
   m_PrefabInstance: {fileID: 1744104186493110882}
   m_PrefabAsset: {fileID: 0}
