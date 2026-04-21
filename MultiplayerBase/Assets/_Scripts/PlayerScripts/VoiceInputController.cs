@@ -40,7 +40,7 @@ public class VoiceInputController : NetworkBehaviour
     [SerializeField] float minSavedSampleDuration = 0.5f;
     private List<float> recordedSamples = new List<float>();
     private List<float> storedSample = new List<float>();
-    private bool isRecording = false;
+    private bool isRecording = true;
     private float lastVoiceTime;
 
     void Start()
