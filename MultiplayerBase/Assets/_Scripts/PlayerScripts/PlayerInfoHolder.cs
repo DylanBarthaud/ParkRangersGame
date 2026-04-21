@@ -68,11 +68,6 @@ public class PlayerInfoHolder : NetworkBehaviour, IAiSensible, IHurtable
         playerInfo.position = transform.position; 
         BlackboardController.instance.GetBlackboard().SetValue(playerInfo_Key, playerInfo);
 
-        Debug.Log(playerInfo.ravenCount);
-        Debug.Log(playerInfo.maxRavens);
-        Debug.Log(GameManager.instance.mapHandler.GetGridLocation(transform.position));
-        Debug.Log(GameManager.instance.HomeCell);
-
         if (playerInfo.ravenCount < playerInfo.maxRavens &&
             localRavenTick >= tryAddRavenTick &&
             GameManager.instance.mapHandler.GetGridLocation(transform.position) != GameManager.instance.HomeCell)

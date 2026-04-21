@@ -81,12 +81,9 @@ public class VoiceInputController : NetworkBehaviour
         //SteamUser.VoiceRecord = Input.GetKey(KeyCode.V);
     }
 
-    // Update is called once per frame
     void FixedUpdate()
     {
         if (!IsOwner) return;
-
-        //Debug.Log(GetVoiceVolumeSquared());
 
         isRecording = true;
 
@@ -113,6 +110,7 @@ public class VoiceInputController : NetworkBehaviour
                 && clipDuration > minSavedSampleDuration
                 && clipDuration < maxSavedSampleDuration)
             {
+                Debug.Log("STORE SAMPLE"); 
                 storedSample = new List<float>(recordedSamples);
             }
 
