@@ -55,9 +55,6 @@
             "m_Id": "935a02768d7b4664a551edefdca1af1f"
         },
         {
-            "m_Id": "75e7cb52573c482fb0cc8378cee1bbba"
-        },
-        {
             "m_Id": "d374dc78f73242148c6e6602e033a713"
         },
         {
@@ -141,7 +138,7 @@
                 "m_Node": {
                     "m_Id": "d374dc78f73242148c6e6602e033a713"
                 },
-                "m_SlotId": 1
+                "m_SlotId": 0
             }
         },
         {
@@ -183,7 +180,7 @@
                 "m_Node": {
                     "m_Id": "d374dc78f73242148c6e6602e033a713"
                 },
-                "m_SlotId": 0
+                "m_SlotId": 1
             }
         },
         {
@@ -1045,7 +1042,7 @@
     "m_StageCapability": 3,
     "m_BareResource": false,
     "m_Texture": {
-        "m_SerializedTexture": "{\"texture\":{\"fileID\":2800000,\"guid\":\"8e24647f102e0304eb186600756046f8\",\"type\":3}}",
+        "m_SerializedTexture": "{\"texture\":{\"fileID\":2800000,\"guid\":\"7bd114fd0c75f254e91dc9b198b83ea8\",\"type\":3}}",
         "m_Guid": ""
     },
     "m_DefaultType": 0
@@ -1212,43 +1209,6 @@
         "y": 0.0
     },
     "m_Labels": []
-}
-
-{
-    "m_SGVersion": 0,
-    "m_Type": "UnityEditor.ShaderGraph.Texture2DAssetNode",
-    "m_ObjectId": "75e7cb52573c482fb0cc8378cee1bbba",
-    "m_Group": {
-        "m_Id": ""
-    },
-    "m_Name": "Texture 2D Asset",
-    "m_DrawState": {
-        "m_Expanded": true,
-        "m_Position": {
-            "serializedVersion": "2",
-            "x": -1529.0,
-            "y": 578.0000610351563,
-            "width": 144.0,
-            "height": 106.0
-        }
-    },
-    "m_Slots": [
-        {
-            "m_Id": "aea4125ffd1a4317afd801e80203689b"
-        }
-    ],
-    "synonyms": [],
-    "m_Precision": 0,
-    "m_PreviewExpanded": true,
-    "m_DismissedVersion": 0,
-    "m_PreviewMode": 0,
-    "m_CustomColors": {
-        "m_SerializableColors": []
-    },
-    "m_Texture": {
-        "m_SerializedTexture": "",
-        "m_Guid": ""
-    }
 }
 
 {
@@ -1601,19 +1561,6 @@
 
 {
     "m_SGVersion": 0,
-    "m_Type": "UnityEditor.ShaderGraph.Texture2DMaterialSlot",
-    "m_ObjectId": "aea4125ffd1a4317afd801e80203689b",
-    "m_Id": 0,
-    "m_DisplayName": "Out",
-    "m_SlotType": 1,
-    "m_Hidden": false,
-    "m_ShaderOutputName": "Out",
-    "m_StageCapability": 3,
-    "m_BareResource": false
-}
-
-{
-    "m_SGVersion": 0,
     "m_Type": "UnityEditor.ShaderGraph.Vector1MaterialSlot",
     "m_ObjectId": "b044c28b0fe94f788d1b2ca158b0a0ad",
     "m_Id": 2,
@@ -1728,27 +1675,45 @@
     "m_Value": 0.0,
     "m_SerializableColorKeys": [
         {
-            "x": 1.0,
-            "y": 0.4409199655056,
-            "z": 0.03301888704299927,
+            "x": 0.2871650755405426,
+            "y": 0.5094339847564697,
+            "z": 0.06007475405931473,
             "w": 0.0
         },
         {
-            "x": 0.8962264060974121,
-            "y": 0.10902053862810135,
-            "z": 0.0,
-            "w": 0.3147020637989044
+            "x": 0.8679245114326477,
+            "y": 0.24894855916500092,
+            "z": 0.05322181060910225,
+            "w": 0.24118410050868989
         },
         {
-            "x": 0.5189822316169739,
-            "y": 0.8470588326454163,
-            "z": 0.0,
-            "w": 0.658823549747467
+            "x": 0.8773584961891174,
+            "y": 0.49702125787734988,
+            "z": 0.028969401493668557,
+            "w": 0.426474392414093
         },
         {
-            "x": 0.7830188870429993,
-            "y": 0.7059832811355591,
-            "z": 0.0,
+            "x": 0.8764476180076599,
+            "y": 0.48297807574272158,
+            "z": 0.032849136739969257,
+            "w": 0.573525607585907
+        },
+        {
+            "x": 0.8584905862808228,
+            "y": 0.20612405240535737,
+            "z": 0.10933607071638107,
+            "w": 0.8647134900093079
+        },
+        {
+            "x": 0.8396226167678833,
+            "y": 0.10778442025184632,
+            "z": 0.03564434126019478,
+            "w": 0.9980010390281677
+        },
+        {
+            "x": 0.5283018946647644,
+            "y": 0.13705946505069734,
+            "z": 0.5123606324195862,
             "w": 1.0
         }
     ],
