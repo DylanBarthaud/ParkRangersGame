@@ -180,12 +180,8 @@ public class VoiceInputController : NetworkBehaviour
 
     public float GetVoiceVolumeSquared()
     {
-        Debug.Log("BEFORE GETVOICEVOLUMESQUARED");
-
         if (!isTalking || recordedSamples.Count == 0)
             return -100f;
-
-        Debug.Log("In GETVOICEVOLUMESQUARED"); 
 
         int windowSamples = Mathf.CeilToInt(optimalRate * volumeSampleWindow);
         windowSamples = Mathf.Min(windowSamples, recordedSamples.Count);
