@@ -134,7 +134,7 @@ public class VoiceInputController : NetworkBehaviour
         output.Position = 0;
     }
 
-    //[Client]
+    //Client
     private void OnAudioRead(float[] data)
     {
         for (int i = 0; i < data.Length; ++i)
@@ -153,7 +153,7 @@ public class VoiceInputController : NetworkBehaviour
         }
     }
 
-    //[Client]
+    //Client
     private void WriteToClip(byte[] uncompressed, int iSize)
     {
         for (int i = 0; i < iSize; i += 2)
@@ -212,7 +212,7 @@ public class VoiceInputController : NetworkBehaviour
             && clipDuration > minSavedSampleDuration
             && clipDuration < maxSavedSampleDuration)
         {
-            Debug.Log($"Store clip from {OwnerClientId}"); 
+            Debug.Log($"Stored clip from {OwnerClientId} samples: {recordedSamples.Count}, RMS: {GetMeanSquare(recordedSamples)}"); 
             storedSample = new List<float>(recordedSamples);
         }
 
