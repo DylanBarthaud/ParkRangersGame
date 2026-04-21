@@ -44,7 +44,7 @@ public class GameManager : NetworkBehaviour
     private int buttonsPressed = 0;
 
     private bool clientPlayerIsDead = false;
-    private int playerSpectatingIndex = 0; 
+    private int playerSpectatingIndex = 0;
 
     private void Awake()
     {

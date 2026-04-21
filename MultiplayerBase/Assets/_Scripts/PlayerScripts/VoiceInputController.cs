@@ -1,4 +1,5 @@
 using Steamworks;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
@@ -81,9 +82,12 @@ public class VoiceInputController : NetworkBehaviour
         //SteamUser.VoiceRecord = Input.GetKey(KeyCode.V);
     }
 
+    // Update is called once per frame
     void FixedUpdate()
     {
         if (!IsOwner) return;
+
+        //Debug.Log(GetVoiceVolumeSquared());
 
         isRecording = true;
 
@@ -103,16 +107,7 @@ public class VoiceInputController : NetworkBehaviour
         if (isRecording && Time.time - lastVoiceTime > silenceTimeout)
         {
             isTalking = false;
-            float clipDuration = recordedSamples.Count / (float)optimalRate;
-            float maxVolume = GetMeanSquare(recordedSamples); 
-
-            if (recordedSamples.Count != 0
-                && clipDuration > minSavedSampleDuration
-                && clipDuration < maxSavedSampleDuration)
-            {
-                Debug.Log("STORE SAMPLE"); 
-                storedSample = new List<float>(recordedSamples);
-            }
+            StoreSampleServerRpc(); 
 
             recordedSamples.Clear();
             voiceIcon.enabled = false;
@@ -181,6 +176,7 @@ public class VoiceInputController : NetworkBehaviour
         if (!isTalking || recordedSamples.Count == 0)
             return -100f;
 
+
         int windowSamples = Mathf.CeilToInt(optimalRate * volumeSampleWindow);
         windowSamples = Mathf.Min(windowSamples, recordedSamples.Count);
 
@@ -201,6 +197,26 @@ public class VoiceInputController : NetworkBehaviour
         for (int i = 0; i < samples.Count; i++) sum += samples[i] * samples[i];
 
         return sum / samples.Count;
+    }
+
+    [ServerRpc(RequireOwnership = false)]
+    private void StoreSampleServerRpc() => StoreSampleClientRpc();
+
+    [ClientRpc]
+    private void StoreSampleClientRpc()
+    {
+        float clipDuration = recordedSamples.Count / (float)optimalRate;
+        float maxVolume = GetMeanSquare(recordedSamples);
+
+        if (recordedSamples.Count != 0
+            && clipDuration > minSavedSampleDuration
+            && clipDuration < maxSavedSampleDuration)
+        {
+            Debug.Log($"Store clip from {OwnerClientId}"); 
+            storedSample = new List<float>(recordedSamples);
+        }
+
+        recordedSamples.Clear();
     }
 
     public AudioClip CreatePlayerVoiceClip()
