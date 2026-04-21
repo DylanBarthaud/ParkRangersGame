@@ -86,7 +86,7 @@ public class VoiceInputController : NetworkBehaviour
     {
         if (!IsOwner) return;
 
-        Debug.Log(GetVoiceVolumeSquared());
+        //Debug.Log(GetVoiceVolumeSquared());
 
         isRecording = true;
 

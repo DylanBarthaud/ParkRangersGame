@@ -69,7 +69,7 @@ public class GameManager : NetworkBehaviour
     }
     private void OnSceneLoaded(string sceneName, LoadSceneMode loadSceneMode, List<ulong> clientsCompleted, List<ulong> clientsTimedOut)
     {
-        if (!IsServer || sceneName != "MainGame") return; 
+        if (sceneName != "MainGame") return; 
         mapHandler = new MapHandler(width, height, cellSize, terrain, maxSteepness, spawnableObjects, numberOfSpawns);
     }
 
