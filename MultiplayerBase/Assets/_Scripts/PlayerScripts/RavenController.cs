@@ -34,10 +34,12 @@ public class RavenController : NetworkBehaviour
 
         if(collectionTick >= collectionInterval)
         {
+            Debug.Log("COLLECT CLIP"); 
             AudioClip newClip = GameManager.instance.GetAudioClip(OwnerClientId); 
 
             if(newClip != null)
             {
+                Debug.Log("VALID CLIP");
                 if (additionalClips.Count < maximumAdditionalClips) additionalClips.Add(newClip);
                 else shuffleClipList(newClip);
             }

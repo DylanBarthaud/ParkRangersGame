@@ -14,7 +14,7 @@ public class CameraConsole : MonoBehaviour, IInteractable
 
     private void OnTrailCameraPlaced(TrailCamera camera)
     {
-        Debug.Log("Placed");
+        //Debug.Log("Placed");
 
         cameras.Add(camera);
         if(cameras.Count == 1) camera.ActivateCamera();
@@ -22,7 +22,7 @@ public class CameraConsole : MonoBehaviour, IInteractable
 
     public void OnInteract(Interactor interactor, ItemType itemUsed = ItemType.None)
     {
-        Debug.Log("HERE"); 
+        //Debug.Log("HERE"); 
 
         cameras[currentIndex].DeactivateCamera();
 
