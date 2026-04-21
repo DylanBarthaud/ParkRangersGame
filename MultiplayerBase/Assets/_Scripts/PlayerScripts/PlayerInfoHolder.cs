@@ -70,12 +70,12 @@ public class PlayerInfoHolder : NetworkBehaviour, IAiSensible, IHurtable
 
         Debug.Log(playerInfo.ravenCount);
         Debug.Log(playerInfo.maxRavens);
-        Debug.Log(GameManager.instance.IsPlayerInHomeSquareServerRpc(transform.position));
+        Debug.Log(GameManager.instance.mapHandler.GetGridLocation(transform.position));
         Debug.Log(GameManager.instance.HomeCell);
 
         if (playerInfo.ravenCount < playerInfo.maxRavens &&
             localRavenTick >= tryAddRavenTick &&
-            GameManager.instance.IsPlayerInHomeSquareServerRpc(transform.position))
+            GameManager.instance.mapHandler.GetGridLocation(transform.position) != GameManager.instance.HomeCell)
         {
             playerInfo.ravenCount++;
             Debug.Log($"Add Raven count: {playerInfo.ravenCount}");

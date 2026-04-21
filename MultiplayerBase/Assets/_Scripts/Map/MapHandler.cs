@@ -10,15 +10,19 @@ public class MapHandler
     MapSpawner spawner;
     float maxSteepness;
 
-    public MapHandler(int width, int height, float cellSize, Terrain terrain, float maxSteepness, GameObject[] spawnables = null, int numberOfObject = 0)
+    public MapHandler(int width, int height, float cellSize, Terrain terrain, bool IsHost, float maxSteepness, GameObject[] spawnables = null, int numberOfObject = 0)
     {
         this.width = width;
         this.height = height;
         this.cellSize = cellSize;
 
         mapGrid = new Grid(width, height, cellSize);
-        spawner = new MapSpawner(maxSteepness); 
-        spawner.Spawn(terrain, spawnables, numberOfObject);
+
+        if (IsHost)
+        {
+            spawner = new MapSpawner(maxSteepness);
+            spawner.Spawn(terrain, spawnables, numberOfObject);
+        }
     }
 
     public GridPosition GetGridLocation(Vector3 position) => mapGrid.GetGridPos(position);

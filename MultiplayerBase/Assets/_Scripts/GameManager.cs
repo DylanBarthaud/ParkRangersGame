@@ -63,14 +63,14 @@ public class GameManager : NetworkBehaviour
 
     public override void OnNetworkSpawn()
     {
-        if (!IsHost) return;
         NetworkManager.Singleton.SceneManager.OnLoadEventCompleted += OnSceneLoaded;
+        if (!IsHost) return;
         ChangeButtonsPressedUIClientRpc(0);
     }
     private void OnSceneLoaded(string sceneName, LoadSceneMode loadSceneMode, List<ulong> clientsCompleted, List<ulong> clientsTimedOut)
     {
-        if (!IsServer || sceneName != "MainGame") return; 
-        mapHandler = new MapHandler(width, height, cellSize, terrain, maxSteepness, spawnableObjects, numberOfSpawns);
+        if (sceneName != "MainGame") return; 
+        mapHandler = new MapHandler(width, height, cellSize, terrain, IsHost, maxSteepness, spawnableObjects, numberOfSpawns);
     }
 
     private void Update()
@@ -82,12 +82,6 @@ public class GameManager : NetworkBehaviour
     {
         GameObject spawnedObject = Instantiate(spawnableObjects[objId], pos, rot);
         spawnedObject.GetComponent<NetworkObject>().Spawn(destroyWithScene);
-    }
-
-    [ServerRpc(RequireOwnership = false)]
-    public bool IsPlayerInHomeSquareServerRpc(Vector3 pos)
-    {
-        return mapHandler.GetGridLocation(transform.position) == homeCell ? true : false ; 
     }
 
     #region MiniGameFunctions
