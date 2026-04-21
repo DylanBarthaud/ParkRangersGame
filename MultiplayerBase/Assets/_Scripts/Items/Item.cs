@@ -39,7 +39,7 @@ public abstract class Item : NetworkBehaviour, IInteractable
     public abstract void UseItem(GameObject user);
     public void DropItem(Vector3 newPos) 
     {
-        if (gFXHandler != null && removeOnPickUp) gFXHandler.EnableGFXServerRpc("ItemGFX");
+        if (gFXHandler != null && removeOnPickUp) DropItemServerRpc();
         if (removeOnPickUp)
         {
             GetComponent<Collider>().enabled = true;
@@ -72,15 +72,12 @@ public abstract class Item : NetworkBehaviour, IInteractable
     }
 
     [ServerRpc(RequireOwnership = false)]
-    private void DropItemServerRpc()
-    {
-
-    }
+    private void DropItemServerRpc() => DropItemClientRpc(); 
 
     [ClientRpc]
     private void DropItemClientRpc()
     {
-
+        if (gFXHandler != null && removeOnPickUp) gFXHandler.EnableGFXServerRpc("ItemGFX");
     }
 
     [ServerRpc(RequireOwnership = false)] 
