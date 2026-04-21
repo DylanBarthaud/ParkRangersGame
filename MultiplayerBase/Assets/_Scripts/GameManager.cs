@@ -63,8 +63,9 @@ public class GameManager : NetworkBehaviour
 
     public override void OnNetworkSpawn()
     {
-        if (!IsHost) return;
         NetworkManager.Singleton.SceneManager.OnLoadEventCompleted += OnSceneLoaded;
+
+        if (!IsHost) return;
         ChangeButtonsPressedUIClientRpc(0);
     }
     private void OnSceneLoaded(string sceneName, LoadSceneMode loadSceneMode, List<ulong> clientsCompleted, List<ulong> clientsTimedOut)
