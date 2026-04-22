@@ -112,10 +112,8 @@ namespace BehaviourTrees
                 return Node.Status.Failure;
             }
 
-            NavMeshPath testPath = new NavMeshPath();
-            agent.CalculatePath(playerInfo.position, testPath);
-            if (testPath.status == NavMeshPathStatus.PathPartial ||
-                testPath.status == NavMeshPathStatus.PathInvalid)
+            NavMeshHit hit;
+            if (!NavMesh.SamplePosition(playerInfo.position, out hit, 20, NavMesh.AllAreas))
             {
                 agent.isStopped = false;
                 return Node.Status.Failure;
@@ -166,10 +164,8 @@ namespace BehaviourTrees
                 return Node.Status.Failure;
             }
 
-            NavMeshPath testPath = new NavMeshPath();
-            agent.CalculatePath(playerInfo.position, testPath); 
-            if(testPath.status == NavMeshPathStatus.PathPartial || 
-               testPath.status == NavMeshPathStatus.PathInvalid)
+            NavMeshHit hit;
+            if (!NavMesh.SamplePosition(playerInfo.position, out hit, 20, NavMesh.AllAreas))
             {
                 agent.isStopped = false;
                 return Node.Status.Failure;

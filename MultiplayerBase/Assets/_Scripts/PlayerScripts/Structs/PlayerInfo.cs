@@ -8,6 +8,7 @@ using UnityEngine;
 public struct PlayerInfo
 {
     public Camera playerCamera;
+    public AudioListener audioListener;
     public Vector3 position;
     public int health; 
     public bool canSeePlayer;

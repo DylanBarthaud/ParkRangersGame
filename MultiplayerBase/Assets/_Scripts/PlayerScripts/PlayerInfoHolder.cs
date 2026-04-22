@@ -38,6 +38,7 @@ public class PlayerInfoHolder : NetworkBehaviour, IAiSensible, IHurtable
         playerInfo = new PlayerInfo();
         playerInfo.position = transform.position;
         playerInfo.playerCamera = transform.GetChild(0).GetChild(0).GetComponent<Camera>();
+        playerInfo.audioListener = transform.GetComponent<AudioListener>(); 
         playerInfo.health = playerHealth;
         playerInfo.id = OwnerClientId;
         playerInfo.spectatorIds = new List<ulong>();

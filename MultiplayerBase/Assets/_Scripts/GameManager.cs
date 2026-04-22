@@ -152,6 +152,7 @@ public class GameManager : NetworkBehaviour
         Blackboard blackboard = BlackboardController.instance.GetBlackboard(); 
         if (blackboard.TryGetValue(key, out PlayerInfo killedPlayerInfo))
         {
+            killedPlayerInfo.audioListener.enabled = false;
             spectatePlayerIds.Add(killedPlayerInfo.id);
             foreach(var spectatorId in killedPlayerInfo.spectatorIds)
             {
@@ -184,6 +185,7 @@ public class GameManager : NetworkBehaviour
             {
                 //Debug.Log("SPECTATE ON");
                 playerInfo.playerCamera.enabled = true;
+                playerInfo.audioListener.enabled = true;
                 uiManager.SetSpectatePanelOn(); 
             }
         }
@@ -193,13 +195,20 @@ public class GameManager : NetworkBehaviour
     {
         Blackboard blackboard = BlackboardController.instance.GetBlackboard();
         if (blackboard.TryGetValue(playerBlackboardKeys[playerSpectatingIndex], out PlayerInfo prevPlayerSpectatingInfo))
+        {
             prevPlayerSpectatingInfo.playerCamera.enabled = false;
+            prevPlayerSpectatingInfo.audioListener.enabled = false;
+        }
 
         playerSpectatingIndex++; 
         if(playerSpectatingIndex >= playerBlackboardKeys.Count - 1) playerSpectatingIndex = 0;
 
         if (blackboard.TryGetValue(playerBlackboardKeys[playerSpectatingIndex], out PlayerInfo newPlayerSpectatingInfo))
+        {
+            newPlayerSpectatingInfo.audioListener.enabled = true;
             newPlayerSpectatingInfo.playerCamera.enabled = true;
+        }
+
 
         RemoveAndAddSpectateKeysServerRpc(playerSpectatingIndex - 1, playerSpectatingIndex, OwnerClientId); 
     }
