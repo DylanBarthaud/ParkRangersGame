@@ -234,6 +234,7 @@ GameObject:
   - component: {fileID: 218027754922282643}
   - component: {fileID: 6562732030891267351}
   - component: {fileID: 6978357015246135275}
+  - component: {fileID: 3690164431714288136}
   m_Layer: 0
   m_Name: Point Light
   m_TagString: Untagged
@@ -345,6 +346,21 @@ MonoBehaviour:
   m_LightCookieSize: {x: 1, y: 1}
   m_LightCookieOffset: {x: 0, y: 0}
   m_SoftShadowQuality: 0
+--- !u!114 &3690164431714288136
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1434799443328872216}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5c8bca95f7c947b4db5fb152a0d693d8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  anisotropy: 0.874
+  scattering: 0.07
+  radius: 0.018
 --- !u!1 &4631344134943139860
 GameObject:
   m_ObjectHideFlags: 0
@@ -461,7 +477,7 @@ ParticleSystem:
     startLifetime:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 1
+      scalar: 4
       minScalar: 5
       maxCurve:
         serializedVersion: 2
