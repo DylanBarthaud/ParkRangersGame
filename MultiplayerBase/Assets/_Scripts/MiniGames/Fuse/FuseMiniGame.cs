@@ -41,7 +41,7 @@ public class FuseMiniGame : MiniGameBase
 
             if (i < numberOfLeversNeeded)
             {
-                Debug.Log($"Levers needed: {i + 1}"); 
+                //Debug.Log($"Levers needed: {i + 1}"); 
                 current ^= binaryValue;
             }
         }
@@ -63,8 +63,6 @@ public class FuseMiniGame : MiniGameBase
         SetCurrentDisplayLights(); 
 
         //Debug.Log(Convert.ToString(current, 2).PadLeft(6, '0'));
-
-        if (current == target) StartCoroutine(EndGame(true));
     }
 
     private void SetCurrentDisplayLights()
@@ -119,9 +117,10 @@ public class FuseMiniGame : MiniGameBase
             light.GetComponent<Image>().color = Color.red;
     }
 
-    private IEnumerator EndGame(bool success)
+    public void EnterGuess()
     {
-        yield return new WaitForSeconds(1); 
+        bool success = false;
+        if (current == target) success = true;
 
         Cursor.lockState = CursorLockMode.Locked;
         miniGameObj.GetComponent<MiniGame>().OnCompleteServerRpc(success);
