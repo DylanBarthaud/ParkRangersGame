@@ -39,4 +39,10 @@ public class FuseDisplay : NetworkBehaviour
             i++; 
         }
     }
+
+    [ServerRpc(RequireOwnership = false)]
+    public void ClearLeverValuesKeyTextServerRpc() => ClearLeverValuesKeyTextClientRpc();
+
+    [ClientRpc]
+    private void ClearLeverValuesKeyTextClientRpc() { leverValuesText.text = "Fuse lever values:"; }
 }

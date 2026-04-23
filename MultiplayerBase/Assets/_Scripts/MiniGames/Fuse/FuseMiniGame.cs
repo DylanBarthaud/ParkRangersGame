@@ -110,6 +110,8 @@ public class FuseMiniGame : MiniGameBase
         current = 0b111111;
 
         leverIndexIsActiveDictionary.Clear();
+        leverBinaryValues.Clear();
+        fuseDisplay.ClearLeverValuesKeyTextServerRpc();
 
         foreach (var lever in levers)
             lever.GetComponent<Image>().color = Color.red;
