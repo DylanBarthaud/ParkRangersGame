@@ -11,10 +11,11 @@ public class FuseMiniGame : MiniGameBase
     private uint target = 0b111111;
 
     [Header("Game Settings")]
-    private int numberOfLevers = 6;
+    [SerializeField] private int numberOfLevers = 5;
+    [SerializeField] private int binaryNumberLength = 6; 
     [SerializeField] GameObject[] levers;
     [SerializeField, Range(1, 6)] private int minNumberOfLeversPulled = 1;
-    [SerializeField, Range(1, 6)] private int maxNumberOfLeversPulled = 6;
+    [SerializeField, Range(1, 6)] private int maxNumberOfLeversPulled = 4;
 
     [Header("Externals")]
     [SerializeField] GameObject[] debugDisplayLights;
@@ -40,12 +41,13 @@ public class FuseMiniGame : MiniGameBase
 
             if (i < numberOfLeversNeeded)
             {
-                Debug.Log(i); 
+                Debug.Log($"Levers needed: {i + 1}"); 
                 current ^= binaryValue;
             }
         }
 
         ListExtentions.Shuffle(leverBinaryValues);
+        fuseDisplay.SetLeverValuesKeyTextServerRpc(leverBinaryValues.ToArray());
         SetCurrentDisplayLights();
     }
 
@@ -67,7 +69,7 @@ public class FuseMiniGame : MiniGameBase
 
     private void SetCurrentDisplayLights()
     {
-        bool[] displayLightsActiveList = new bool[numberOfLevers];  
+        bool[] displayLightsActiveList = new bool[binaryNumberLength];  
         List<int> lightIndexes = GetLightIndexes(current);
         int i = 0;
         foreach (GameObject light in debugDisplayLights)
@@ -95,10 +97,10 @@ public class FuseMiniGame : MiniGameBase
     {
         List<int> indexes = new List<int>();
 
-        for(int i = 0; i < numberOfLevers; i++)
+        for(int i = 0; i < binaryNumberLength; i++)
         {
-            bool check = (binaryData & (1 << i)) != 0;
-            if(check) indexes.Add(i);
+            bool check = (binaryData & (1 << (5 - i))) != 0;
+            if (check) indexes.Add(i);
         }
 
         return indexes;
