@@ -260,11 +260,14 @@ public class VoiceInputController : NetworkBehaviour
 
         Debug.Log("ActivatedRadioVoice");
 
-        if (IsOwner || canHearSelf)
+        if (!IsOwner || canHearSelf)
         {
+            Debug.Log("Ativated is not owner");
             if (Input.GetKey(KeyCode.G)) 
             {
+                Debug.Log("Key G Pressed");
                 if (radioSource.isPlaying) return;
+                Debug.Log("Play radio play audio");
                 radioSource.Play();
             }
             else radioSource.Stop();
