@@ -255,6 +255,7 @@ public class VoiceInputController : NetworkBehaviour
     private void ActivateRadioVoiceClientRpc()
     {
         if (IsOwner) return;
+        Debug.Log("PLAY SOURCE"); 
         if(radioSource.isPlaying) radioSource.Stop();
         else radioSource.Play();
     }
