@@ -61,7 +61,7 @@ public class VoiceInputController : NetworkBehaviour
         radioSource.loop = true;
         if (!IsOwner || canHearSelf)
         {
-            radioSource.Play();
+            //radioSource.Play();
         }
 
         source.clip = AudioClip.Create("VoiceData", optimalRate, 1, optimalRate, true, OnAudioRead, null);
@@ -259,8 +259,7 @@ public class VoiceInputController : NetworkBehaviour
     private void ActivateRadioVoiceClientRpc()
     {
         if (IsOwner) return;
-        Debug.Log("PLAY SOURCE"); 
-        if(radioSource.volume > 0) radioSource.volume = 0;
-        else radioSource.volume = 1;
+        if(source.spatialBlend > 0) source.spatialBlend = 0;
+        else source.spatialBlend = 1;
     }
 }
