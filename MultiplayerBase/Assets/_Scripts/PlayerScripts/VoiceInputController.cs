@@ -64,7 +64,7 @@ public class VoiceInputController : NetworkBehaviour
         source.loop = true;
         if (!IsOwner || canHearSelf)
         {
-            source.Play();
+            //source.Play();
         }
 
         SteamUser.VoiceRecord = true;
