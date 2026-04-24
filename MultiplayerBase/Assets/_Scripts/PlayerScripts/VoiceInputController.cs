@@ -132,6 +132,8 @@ public class VoiceInputController : NetworkBehaviour
     [ClientRpc]
     public void VoiceDataClientRpc(byte[] compressed, int bytesWritten, ulong ownerId)
     {
+        if (IsOwner) return;
+
         input.Write(compressed, 0, bytesWritten);
         input.Position = 0;
 
