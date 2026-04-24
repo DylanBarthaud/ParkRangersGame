@@ -15,6 +15,7 @@ public class VoiceInputController : NetworkBehaviour
     [SerializeField] private float gain; 
 
     [SerializeField] private AudioSource source;
+    [SerializeField] private AudioSource radioSource;
 
     [SerializeField] private Image voiceIcon;
     [SerializeField] private float iconDecayTime = 0.5f;
@@ -62,6 +63,8 @@ public class VoiceInputController : NetworkBehaviour
         }
 
         SteamUser.VoiceRecord = true;
+
+        radioSource = GameObject.Find("RadioControlCenter").GetComponent<AudioSource>();
 
     }
 
@@ -111,6 +114,11 @@ public class VoiceInputController : NetworkBehaviour
 
             recordedSamples.Clear();
             voiceIcon.enabled = false;
+        }
+
+        if (Input.GetKeyDown(KeyCode.G))
+        {
+            ActivateRadioVoice();
         }
     }
        
@@ -235,5 +243,15 @@ public class VoiceInputController : NetworkBehaviour
         storedSample.Clear();
 
         return clip; 
+    }
+
+    private void ActivateRadioVoice()
+    {
+        radioSource.clip = AudioClip.Create("VoiceData", optimalRate, 1, optimalRate, true, OnAudioRead, null);
+        radioSource.loop = true;
+        if (!IsOwner || canHearSelf)
+        {
+            radioSource.Play();
+        }
     }
 }
