@@ -35,7 +35,6 @@ public class scriptFlashlight : MonoBehaviour
             if (hit.distance <= 1)
             {
                 targetIntensity = minIntensity;
-                //StartCoroutine(Lerp());
             }
             else if (hit.distance < 5)
             {
@@ -44,29 +43,11 @@ public class scriptFlashlight : MonoBehaviour
             else
             {
                 targetIntensity = maxIntensity;
-                //StartCoroutine(Lerp());
             }
 
+            currentIntensity = light.intensity;
 
-
-            light.intensity = Mathf.MoveTowards(light.intensity, targetIntensity, lerpSpeed / Time.deltaTime);
+            light.intensity = Mathf.MoveTowards(currentIntensity, targetIntensity, lerpSpeed / Time.deltaTime);
         }
     }
-    /*
-    IEnumerator Lerp()
-    {
-        float timeElapsed = 0;
-
-        while (timeElapsed < lerpDuration)
-        {
-            valueToLerp = Mathf.Lerp(currentIntensity, targetIntensity, timeElapsed / lerpDuration);
-            timeElapsed += Time.deltaTime;
-            currentIntensity = valueToLerp;
-
-            light.intensity = valueToLerp;
-            yield return null;
-        }
-        
-    }
-    */
 }
