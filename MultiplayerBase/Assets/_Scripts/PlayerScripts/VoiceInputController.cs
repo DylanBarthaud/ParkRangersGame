@@ -260,7 +260,7 @@ public class VoiceInputController : NetworkBehaviour
     {
         if (IsOwner) return;
         Debug.Log("PLAY SOURCE"); 
-        if(radioSource.isPlaying) radioSource.volume = 0;
+        if(radioSource.volume == 1) radioSource.volume = 0;
         else radioSource.volume = 1;
     }
 }
