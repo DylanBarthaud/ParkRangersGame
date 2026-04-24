@@ -1009,6 +1009,7 @@ MonoBehaviour:
   ShowTopMostFoldoutHeaderGroup: 1
   gain: 2
   source: {fileID: -3133222403737345314}
+  radioSource: {fileID: 0}
   voiceIcon: {fileID: 6489259224666698550}
   iconDecayTime: 0.1
   silenceTimeout: 0.25
@@ -2876,7 +2877,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1811572098983163432, guid: b8fdce78effa52742b4eca27910b8bb1, type: 3}
       propertyPath: lerpSpeed
-      value: 0.1
+      value: 0.005
       objectReference: {fileID: 0}
     - target: {fileID: 1811572098983163432, guid: b8fdce78effa52742b4eca27910b8bb1, type: 3}
       propertyPath: maxIntensity
@@ -2885,6 +2886,70 @@ PrefabInstance:
     - target: {fileID: 1811572098983163432, guid: b8fdce78effa52742b4eca27910b8bb1, type: 3}
       propertyPath: minIntensity
       value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1811572098983163432, guid: b8fdce78effa52742b4eca27910b8bb1, type: 3}
+      propertyPath: playerCamera
+      value: 
+      objectReference: {fileID: 4459864851310106426}
+    - target: {fileID: 1811572098983163432, guid: b8fdce78effa52742b4eca27910b8bb1, type: 3}
+      propertyPath: curve.m_Curve.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1811572098983163432, guid: b8fdce78effa52742b4eca27910b8bb1, type: 3}
+      propertyPath: curve.m_Curve.Array.data[0].time
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1811572098983163432, guid: b8fdce78effa52742b4eca27910b8bb1, type: 3}
+      propertyPath: curve.m_Curve.Array.data[1].time
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1811572098983163432, guid: b8fdce78effa52742b4eca27910b8bb1, type: 3}
+      propertyPath: curve.m_Curve.Array.data[0].value
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1811572098983163432, guid: b8fdce78effa52742b4eca27910b8bb1, type: 3}
+      propertyPath: curve.m_Curve.Array.data[1].value
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1811572098983163432, guid: b8fdce78effa52742b4eca27910b8bb1, type: 3}
+      propertyPath: curve.m_Curve.Array.data[0].inSlope
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1811572098983163432, guid: b8fdce78effa52742b4eca27910b8bb1, type: 3}
+      propertyPath: curve.m_Curve.Array.data[1].inSlope
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1811572098983163432, guid: b8fdce78effa52742b4eca27910b8bb1, type: 3}
+      propertyPath: curve.m_Curve.Array.data[0].inWeight
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1811572098983163432, guid: b8fdce78effa52742b4eca27910b8bb1, type: 3}
+      propertyPath: curve.m_Curve.Array.data[0].outSlope
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1811572098983163432, guid: b8fdce78effa52742b4eca27910b8bb1, type: 3}
+      propertyPath: curve.m_Curve.Array.data[1].inWeight
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1811572098983163432, guid: b8fdce78effa52742b4eca27910b8bb1, type: 3}
+      propertyPath: curve.m_Curve.Array.data[1].outSlope
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1811572098983163432, guid: b8fdce78effa52742b4eca27910b8bb1, type: 3}
+      propertyPath: curve.m_Curve.Array.data[0].outWeight
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1811572098983163432, guid: b8fdce78effa52742b4eca27910b8bb1, type: 3}
+      propertyPath: curve.m_Curve.Array.data[1].outWeight
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1811572098983163432, guid: b8fdce78effa52742b4eca27910b8bb1, type: 3}
+      propertyPath: curve.m_Curve.Array.data[0].tangentMode
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1811572098983163432, guid: b8fdce78effa52742b4eca27910b8bb1, type: 3}
+      propertyPath: curve.m_Curve.Array.data[1].tangentMode
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5008211321945464673, guid: b8fdce78effa52742b4eca27910b8bb1, type: 3}
       propertyPath: m_LocalPosition.x
