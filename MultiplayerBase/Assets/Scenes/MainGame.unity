@@ -17642,9 +17642,9 @@ AudioSource:
   Spatialize: 0
   SpatializePostEffects: 0
   Priority: 128
-  DopplerLevel: 1
-  MinDistance: 1
-  MaxDistance: 100000
+  DopplerLevel: 0.2
+  MinDistance: 5
+  MaxDistance: 4000
   Pan2D: 0
   rolloffMode: 2
   BypassEffects: 0
@@ -17654,23 +17654,23 @@ AudioSource:
     serializedVersion: 2
     m_Curve:
     - serializedVersion: 3
-      time: 0
+      time: 0.19708507
       value: 1
-      inSlope: 0
-      outSlope: 0
+      inSlope: -0.0132800415
+      outSlope: -0.0132800415
       tangentMode: 0
       weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
+      inWeight: 0
+      outWeight: 0.211676
     - serializedVersion: 3
-      time: 0.94259644
-      value: 1.0012817
-      inSlope: 0
-      outSlope: 0
+      time: 0.99282837
+      value: 0.9977455
+      inSlope: 0.027721208
+      outSlope: 0.027721208
       tangentMode: 0
       weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
+      inWeight: 0.15885717
+      outWeight: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
@@ -17679,7 +17679,7 @@ AudioSource:
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: 0
+      value: 1
       inSlope: 0
       outSlope: 0
       tangentMode: 0
@@ -17741,7 +17741,7 @@ AudioDistortionFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 872166001}
-  m_Enabled: 1
+  m_Enabled: 0
   m_DistortionLevel: 0.5
 --- !u!1001 &879750574
 PrefabInstance:
@@ -41423,6 +41423,7 @@ SceneRoots:
   - {fileID: 900744118}
   - {fileID: 1131540429}
   - {fileID: 384677807}
+  - {fileID: 872166003}
   - {fileID: 1701679927}
   - {fileID: 136042509}
   - {fileID: 1471443054}
@@ -41576,4 +41577,3 @@ SceneRoots:
   - {fileID: 1686944613}
   - {fileID: 882053315}
   - {fileID: 1904977526}
-  - {fileID: 872166003}

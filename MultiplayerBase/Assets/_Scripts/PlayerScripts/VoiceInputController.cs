@@ -55,6 +55,11 @@ public class VoiceInputController : NetworkBehaviour
         output = new MemoryStream();
         input = new MemoryStream();
 
+        radioSource = GameObject.Find("RadioControlCenter").GetComponent<AudioSource>();
+
+        radioSource.clip = AudioClip.Create("VoiceData", optimalRate, 1, optimalRate, true, OnAudioRead, null);
+        radioSource.loop = true;
+
         source.clip = AudioClip.Create("VoiceData", optimalRate, 1, optimalRate, true, OnAudioRead, null);
         source.loop = true;
         if (!IsOwner || canHearSelf)
@@ -64,7 +69,7 @@ public class VoiceInputController : NetworkBehaviour
 
         SteamUser.VoiceRecord = true;
 
-        radioSource = GameObject.Find("RadioControlCenter").GetComponent<AudioSource>();
+        
 
     }
 
@@ -81,6 +86,15 @@ public class VoiceInputController : NetworkBehaviour
         {
             canHearSelf = !canHearSelf;
         }
+
+        ActivateRadioVoice();
+        /*
+        if (Input.GetKey(KeyCode.G))
+        {
+            ActivateRadioVoice();
+            Debug.Log("Key G Pressed");
+        }
+        */
 
         //SteamUser.VoiceRecord = Input.GetKey(KeyCode.V);
     }
@@ -116,10 +130,6 @@ public class VoiceInputController : NetworkBehaviour
             voiceIcon.enabled = false;
         }
 
-        if (Input.GetKeyDown(KeyCode.G))
-        {
-            ActivateRadioVoice();
-        }
     }
        
     [ServerRpc(RequireOwnership = false)]
@@ -247,11 +257,17 @@ public class VoiceInputController : NetworkBehaviour
 
     private void ActivateRadioVoice()
     {
-        radioSource.clip = AudioClip.Create("VoiceData", optimalRate, 1, optimalRate, true, OnAudioRead, null);
-        radioSource.loop = true;
+
+        Debug.Log("ActivatedRadioVoice");
+
         if (!IsOwner || canHearSelf)
         {
-            radioSource.Play();
+            if (Input.GetKey(KeyCode.G)) 
+            {
+                if (radioSource.isPlaying) return;
+                radioSource.Play();
+            }
+            else radioSource.Stop();
         }
     }
 }
