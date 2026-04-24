@@ -59,12 +59,16 @@ public class VoiceInputController : NetworkBehaviour
 
         radioSource.clip = AudioClip.Create("VoiceData", optimalRate, 1, optimalRate, true, OnAudioRead, null);
         radioSource.loop = true;
+        if (!IsOwner || canHearSelf)
+        {
+            radioSource.Play();
+        }
 
         source.clip = AudioClip.Create("VoiceData", optimalRate, 1, optimalRate, true, OnAudioRead, null);
         source.loop = true;
         if (!IsOwner || canHearSelf)
         {
-            //source.Play();
+            source.Play();
         }
 
         SteamUser.VoiceRecord = true;
@@ -256,7 +260,7 @@ public class VoiceInputController : NetworkBehaviour
     {
         if (IsOwner) return;
         Debug.Log("PLAY SOURCE"); 
-        if(radioSource.isPlaying) radioSource.Stop();
-        else radioSource.Play();
+        if(radioSource.isPlaying) radioSource.volume = 0;
+        else radioSource.volume = 1;
     }
 }
