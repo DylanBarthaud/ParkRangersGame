@@ -260,7 +260,7 @@ public class VoiceInputController : NetworkBehaviour
 
         Debug.Log("ActivatedRadioVoice");
 
-        if (!IsOwner || canHearSelf)
+        if (IsOwner || canHearSelf)
         {
             if (Input.GetKey(KeyCode.G)) 
             {
