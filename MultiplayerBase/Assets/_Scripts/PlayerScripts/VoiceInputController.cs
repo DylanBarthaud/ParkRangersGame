@@ -68,9 +68,6 @@ public class VoiceInputController : NetworkBehaviour
         }
 
         SteamUser.VoiceRecord = true;
-
-        
-
     }
 
     public override void OnNetworkSpawn()
@@ -87,14 +84,8 @@ public class VoiceInputController : NetworkBehaviour
             canHearSelf = !canHearSelf;
         }
 
-        ActivateRadioVoice();
-        /*
-        if (Input.GetKey(KeyCode.G))
-        {
-            ActivateRadioVoice();
-            Debug.Log("Key G Pressed");
-        }
-        */
+        if (Input.GetKeyDown(KeyCode.G) || Input.GetKeyUp(KeyCode.G)) ActivateRadioVoiceServerRpc();
+
 
         //SteamUser.VoiceRecord = Input.GetKey(KeyCode.V);
     }
@@ -255,22 +246,14 @@ public class VoiceInputController : NetworkBehaviour
         return clip; 
     }
 
-    private void ActivateRadioVoice()
+    [ServerRpc(RequireOwnership = false)]
+    private void ActivateRadioVoiceServerRpc() => ActivateRadioVoiceClientRpc();
+
+    [ClientRpc]
+    private void ActivateRadioVoiceClientRpc()
     {
-
-        Debug.Log("ActivatedRadioVoice");
-
-        if (!IsOwner || canHearSelf)
-        {
-            Debug.Log("Ativated is not owner");
-            if (Input.GetKey(KeyCode.G)) 
-            {
-                Debug.Log("Key G Pressed");
-                if (radioSource.isPlaying) return;
-                Debug.Log("Play radio play audio");
-                radioSource.Play();
-            }
-            else radioSource.Stop();
-        }
+        if (IsOwner) return;
+        if(radioSource.isPlaying) radioSource.Stop();
+        else radioSource.Play();
     }
 }
