@@ -6,20 +6,22 @@ using UnityEngine.AI;
 public class AnimationVariables : MonoBehaviour
 {
 
-    NavMeshAgent _agent;
-    Animator _animator;
+    [SerializeField] private NavMeshAgent _agent;
+    [SerializeField] private Animator _animator;
+    private FirstPersonController _firstPersonVariables;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         _animator = GetComponentInChildren<Animator>();
         _agent = GetComponent<NavMeshAgent>();
+        _firstPersonVariables = GetComponent<FirstPersonController>();
     }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
-        GetComponent<FirstPersonController>();
+        Animator.SetFloat("MoveX", _firstPersonVariables.targetVelocity);
         
 
     }
