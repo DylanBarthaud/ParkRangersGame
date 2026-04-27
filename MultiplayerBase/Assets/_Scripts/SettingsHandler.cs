@@ -25,6 +25,7 @@ public class SettingsHandler : MonoBehaviour
 
     public ClientSettings settings;
 
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -42,6 +43,8 @@ public class SettingsHandler : MonoBehaviour
             print("Settings file not found, using default settings");
             settings = new ClientSettings(false);
         }
+
+        DontDestroyOnLoad(this.gameObject);
     }
 
     void Update()
@@ -108,7 +111,7 @@ public class SettingsHandler : MonoBehaviour
         Transform controlsList = subMenus.transform.Find("Controls");
         for (int i = 0; i < controlsList.childCount; i++)
         {
-            Transform child = controlsList.GetChild(i);
+            Transform child = controlsList.transform.Find("Viewport").Find("Content").GetChild(i);
 
             if (child.gameObject.CompareTag("KeybindSetting"))
             {
@@ -140,7 +143,20 @@ public class SettingsHandler : MonoBehaviour
             {
                 child.Find("Slider").GetComponent<Slider>().value = GetSliderValue(child.gameObject.name);
             }
-            
+            else if (child.gameObject.CompareTag("CheckboxSetting"))
+            {
+                child.Find("Checkbox").Find("Checkmark").gameObject.SetActive(GetToggleValue(child.gameObject.name));
+            }
+            else if (child.gameObject.CompareTag("KeybindSetting"))
+            {
+                string keyName = GetControl(child.gameObject.name).ToString();
+                if (keyName.Contains("Alpha"))
+                {
+                    // Removes "Alpha" from main number keys
+                    keyName = keyName.Replace("Alpha", "");
+                }
+                child.Find("Binding").GetComponent<TextMeshProUGUI>().text = keyName;
+            }
         }
     }
 
@@ -168,6 +184,18 @@ public class SettingsHandler : MonoBehaviour
                 return settings.controls.moveLeft;
             case "moveRight":
                 return settings.controls.moveRight;
+            case "sprint":
+                return settings.controls.sprint;
+            case "crouch":
+                return settings.controls.crouch;
+            case "action":
+                return settings.controls.action;
+            case "map":
+                return settings.controls.map;
+
+            case "pushToTalkKey":
+                return settings.audio.pushToTalkKey;
+
             default:
                 return KeyCode.None;
         }
@@ -193,6 +221,22 @@ public class SettingsHandler : MonoBehaviour
             case "moveRight":
                 settings.controls.moveRight = newKey;
                 break;
+            case "sprint":
+                settings.controls.sprint = newKey;
+                break;
+            case "crouch":
+                settings.controls.crouch = newKey;
+                break;
+            case "action":
+                settings.controls.action = newKey;
+                break;
+            case "map":
+                settings.controls.map = newKey;
+                break;
+
+            case "pushToTalkKey":
+                settings.audio.pushToTalkKey = newKey;
+                break;
             
         }
     }
@@ -212,6 +256,10 @@ public class SettingsHandler : MonoBehaviour
             // Video checkbox options
             case "isFullscreen":
                 return settings.video.isFullscreen;
+
+            // Audio checkbox options
+            case "pushToTalkEnabled":
+                return settings.audio.pushToTalkEnabled;
 
             default:
                 return false;
@@ -243,6 +291,12 @@ public class SettingsHandler : MonoBehaviour
             case "isFullscreen":
                 settings.video.isFullscreen = !settings.video.isFullscreen;
                 checkbox.SetActive(settings.video.isFullscreen);
+                break;
+
+            // Audio checkbox options
+            case "pushToTalkEnabled":
+                settings.audio.pushToTalkEnabled = !settings.audio.pushToTalkEnabled;
+                checkbox.SetActive(settings.audio.pushToTalkEnabled);
                 break;
             
         }
@@ -323,6 +377,10 @@ public class ClientSettings
         public KeyCode moveBackward;
         public KeyCode moveLeft;
         public KeyCode moveRight;
+        public KeyCode sprint;
+        public KeyCode crouch;
+        public KeyCode action;
+        public KeyCode map;
 
         public Controls(bool settingsLoaded)
         {
@@ -334,6 +392,10 @@ public class ClientSettings
             moveBackward = KeyCode.S;
             moveLeft = KeyCode.A;
             moveRight = KeyCode.D;
+            sprint = KeyCode.LeftShift;
+            crouch = KeyCode.LeftControl;
+            action = KeyCode.E;
+            map = KeyCode.M;
         }
     }
 
@@ -341,12 +403,16 @@ public class ClientSettings
     {
         public float musicVolume;
         public float sfxVolume;
+        public bool pushToTalkEnabled;
+        public KeyCode pushToTalkKey;
 
         public Audio(bool settingsLoaded)
         {
             // Will implement settings loaded check later
             musicVolume = 0.5f;
             sfxVolume = 0.5f;
+            pushToTalkEnabled = false;
+            pushToTalkKey = KeyCode.None;
         }
     }
 
