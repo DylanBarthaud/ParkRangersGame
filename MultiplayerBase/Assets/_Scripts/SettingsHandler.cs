@@ -192,6 +192,8 @@ public class SettingsHandler : MonoBehaviour
                 return settings.controls.action;
             case "map":
                 return settings.controls.map;
+            case "notebook":
+                return settings.controls.notebook;
 
             case "pushToTalkKey":
                 return settings.audio.pushToTalkKey;
@@ -232,6 +234,9 @@ public class SettingsHandler : MonoBehaviour
                 break;
             case "map":
                 settings.controls.map = newKey;
+                break;
+            case "notebook":
+                settings.controls.notebook = newKey;
                 break;
 
             case "pushToTalkKey":
@@ -381,6 +386,7 @@ public class ClientSettings
         public KeyCode crouch;
         public KeyCode action;
         public KeyCode map;
+        public KeyCode notebook;
 
         public Controls(bool settingsLoaded)
         {
@@ -396,6 +402,7 @@ public class ClientSettings
             crouch = KeyCode.LeftControl;
             action = KeyCode.E;
             map = KeyCode.M;
+            notebook = KeyCode.N;
         }
     }
 
