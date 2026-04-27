@@ -35,6 +35,8 @@ public class FirstPersonController : NetworkBehaviour
 
     public Camera playerCamera;
 
+    public Slider sensitivitySlider;
+
     public float fov = 60f;
     public bool invertCamera = false;
     public bool cameraCanMove = true;
@@ -693,6 +695,11 @@ public class FirstPersonController : NetworkBehaviour
             joint.localPosition = new Vector3(Mathf.Lerp(joint.localPosition.x, jointOriginalPos.x, Time.deltaTime * bobSpeed), Mathf.Lerp(joint.localPosition.y, jointOriginalPos.y, Time.deltaTime * bobSpeed), Mathf.Lerp(joint.localPosition.z, jointOriginalPos.z, Time.deltaTime * bobSpeed));
         }
     }
+
+    public void AdjustSensitivity(float newSpeed)
+    {
+        mouseSensitivity = newSpeed * 1;
+    }
 }
 
 // Custom Editor
@@ -731,6 +738,7 @@ public class FirstPersonController : NetworkBehaviour
 
         GUI.enabled = fpc.cameraCanMove;
         fpc.invertCamera = EditorGUILayout.ToggleLeft(new GUIContent("Invert Camera Rotation", "Inverts the up and down movement of the camera."), fpc.invertCamera);
+        fpc.sensitivitySlider = (Slider)EditorGUILayout.ObjectField(new GUIContent("Sensitivity Slider", "Slider that determines sensitivity setting"), fpc.sensitivitySlider, typeof(Slider), true);
         fpc.mouseSensitivity = EditorGUILayout.Slider(new GUIContent("Look Sensitivity", "Determines how sensitive the mouse movement is."), fpc.mouseSensitivity, .1f, 10f);
         fpc.maxLookAngle = EditorGUILayout.Slider(new GUIContent("Max Look Angle", "Determines the max and min angle the player camera is able to look."), fpc.maxLookAngle, 40, 90);
         GUI.enabled = true;
