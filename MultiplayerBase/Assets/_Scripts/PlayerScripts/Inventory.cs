@@ -1,5 +1,7 @@
+using JetBrains.Annotations;
 using System;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -52,16 +54,27 @@ public class Inventory : MonoBehaviour
         if (!canUseInv) return;
         if (Input.GetKeyDown(KeyCode.Tab))
         {
+            bool cursorVisibility;
+            
             inventoryUi.SetActive(!inventoryUi.activeInHierarchy);
-            Cursor.visible = true;
-            Cursor.lockState = CursorLockMode.Confined;
+            
+            cursorVisibility = !inventoryUi.activeInHierarchy;
+
+            
+            if (cursorVisibility == false)
+            {
+                Cursor.lockState = CursorLockMode.Confined;
+                Cursor.visible = true;
+            }
+            else
+            {
+                Cursor.lockState = CursorLockMode.Locked;
+                Cursor.visible = false;
+            }
 
         }
-        else
-        {
-            Cursor.visible = false;
-            Cursor.lockState = CursorLockMode.Locked;
-        }
+
+
 
 
 

@@ -81,7 +81,6 @@ public class FirstPersonController : NetworkBehaviour
 
     public bool enableSprint = true;
     public bool unlimitedSprint = false;
-    public KeyCode sprintKey = KeyCode.LeftShift;
     public float sprintSpeed = 7f;
     public float sprintDuration = 5f;
     public float sprintCooldown = .5f;
@@ -110,7 +109,6 @@ public class FirstPersonController : NetworkBehaviour
     #region Jump
 
     public bool enableJump = true;
-    public KeyCode jumpKey = KeyCode.Space;
     public float jumpPower = 5f;
 
     // Internal Variables
@@ -122,7 +120,6 @@ public class FirstPersonController : NetworkBehaviour
 
     public bool enableCrouch = true;
     public bool holdToCrouch = true;
-    public KeyCode crouchKey = KeyCode.LeftControl;
     public float crouchHeight = .75f;
     public float crouchSpeed;
 
@@ -143,6 +140,8 @@ public class FirstPersonController : NetworkBehaviour
     // Internal Variables
     private Vector3 jointOriginalPos;
     private float timer = 0;
+
+    GameObject clientSettings;
 
     #endregion
 
@@ -170,6 +169,8 @@ public class FirstPersonController : NetworkBehaviour
         EventManager.instance.onPuzzleComplete += OnPuzzleComplete;
         EventManager.instance.onPlayerKilled += OnPlayerKilled;
         EventManager.instance.onTick += OnTick;
+
+        clientSettings = GameObject.Find("ClientSettings");
     }
 
     private void OnPuzzleComplete(bool s, IInteractable puzzle = null)
@@ -478,7 +479,7 @@ public class FirstPersonController : NetworkBehaviour
         #region Jump
 
         // Gets input and calls jump method
-        if(enableJump && Input.GetKeyDown(jumpKey) && isGrounded)
+        if(enableJump && Input.GetKeyDown(clientSettings.GetComponent<SettingsHandler>().GetControl("jump")) && isGrounded)
         {
             Jump();
         }
@@ -489,17 +490,17 @@ public class FirstPersonController : NetworkBehaviour
 
         if (enableCrouch && !isSprinting)
         {
-            if(Input.GetKeyDown(crouchKey) && !holdToCrouch)
+            if(Input.GetKeyDown(clientSettings.GetComponent<SettingsHandler>().GetControl("crouch")) && !holdToCrouch)
             {
                 Crouch();
             }
             
-            if(Input.GetKeyDown(crouchKey) && holdToCrouch)
+            if(Input.GetKeyDown(clientSettings.GetComponent<SettingsHandler>().GetControl("crouch")) && holdToCrouch)
             {
                 isCrouched = false;
                 Crouch();
             }
-            else if(Input.GetKeyUp(crouchKey) && holdToCrouch)
+            else if(Input.GetKeyUp(clientSettings.GetComponent<SettingsHandler>().GetControl("crouch")) && holdToCrouch)
             {
                 isCrouched = true;
                 Crouch();
@@ -554,7 +555,7 @@ public class FirstPersonController : NetworkBehaviour
             }
 
             // All movement calculations shile sprint is active
-            if (enableSprint && Input.GetKey(sprintKey) && sprintRemaining > 0f && !isSprintCooldown && !isCrouched)
+            if (enableSprint && Input.GetKey(clientSettings.GetComponent<SettingsHandler>().GetControl("sprint")) && sprintRemaining > 0f && !isSprintCooldown && !isCrouched)
             {
                 targetVelocity = transform.TransformDirection(targetVelocity) * sprintSpeed;
 
@@ -803,7 +804,7 @@ public class FirstPersonController : NetworkBehaviour
 
         GUI.enabled = fpc.enableSprint;
         fpc.unlimitedSprint = EditorGUILayout.ToggleLeft(new GUIContent("Unlimited Sprint", "Determines if 'Sprint Duration' is enabled. Turning this on will allow for unlimited sprint."), fpc.unlimitedSprint);
-        fpc.sprintKey = (KeyCode)EditorGUILayout.EnumPopup(new GUIContent("Sprint Key", "Determines what key is used to sprint."), fpc.sprintKey);
+        //fpc.sprintKey = (KeyCode)EditorGUILayout.EnumPopup(new GUIContent("Sprint Key", "Determines what key is used to sprint."), fpc.sprintKey);
         fpc.sprintSpeed = EditorGUILayout.Slider(new GUIContent("Sprint Speed", "Determines how fast the player will move while sprinting."), fpc.sprintSpeed, fpc.walkSpeed, 20f);
 
         //GUI.enabled = !fpc.unlimitedSprint;
@@ -858,7 +859,7 @@ public class FirstPersonController : NetworkBehaviour
         fpc.enableJump = EditorGUILayout.ToggleLeft(new GUIContent("Enable Jump", "Determines if the player is allowed to jump."), fpc.enableJump);
 
         GUI.enabled = fpc.enableJump;
-        fpc.jumpKey = (KeyCode)EditorGUILayout.EnumPopup(new GUIContent("Jump Key", "Determines what key is used to jump."), fpc.jumpKey);
+        //fpc.jumpKey = (KeyCode)EditorGUILayout.EnumPopup(new GUIContent("Jump Key", "Determines what key is used to jump."), fpc.jumpKey);
         fpc.jumpPower = EditorGUILayout.Slider(new GUIContent("Jump Power", "Determines how high the player will jump."), fpc.jumpPower, .1f, 20f);
         GUI.enabled = true;
 
@@ -874,7 +875,7 @@ public class FirstPersonController : NetworkBehaviour
 
         GUI.enabled = fpc.enableCrouch;
         fpc.holdToCrouch = EditorGUILayout.ToggleLeft(new GUIContent("Hold To Crouch", "Requires the player to hold the crouch key instead if pressing to crouch and uncrouch."), fpc.holdToCrouch);
-        fpc.crouchKey = (KeyCode)EditorGUILayout.EnumPopup(new GUIContent("Crouch Key", "Determines what key is used to crouch."), fpc.crouchKey);
+        //fpc.crouchKey = (KeyCode)EditorGUILayout.EnumPopup(new GUIContent("Crouch Key", "Determines what key is used to crouch."), fpc.crouchKey);
         fpc.crouchHeight = EditorGUILayout.Slider(new GUIContent("Crouch Height", "Determines the y scale of the player object when crouched."), fpc.crouchHeight, .1f, 1);
         fpc.crouchSpeed = EditorGUILayout.Slider(new GUIContent("Speed Reduction", "Determines the percent 'Walk Speed' is reduced by. 1 being no reduction, and .5 being half."), fpc.crouchSpeed, .1f, 1);
         GUI.enabled = true;
