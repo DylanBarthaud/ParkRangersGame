@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
 public class Inventory : MonoBehaviour
@@ -37,6 +39,7 @@ public class Inventory : MonoBehaviour
     public void EnableInv()
     {
         canUseInv = true;
+
     }
 
     public void DisableInv()
@@ -46,17 +49,30 @@ public class Inventory : MonoBehaviour
 
     private void Update()
     {
-        if (!canUseInv) return; 
-        if (Input.GetKeyDown(KeyCode.Tab)) inventoryUi.SetActive(!inventoryUi.activeInHierarchy);
+        if (!canUseInv) return;
+        if (Input.GetKeyDown(KeyCode.Tab))
+        {
+            inventoryUi.SetActive(!inventoryUi.activeInHierarchy);
+            Cursor.visible = true;
+            Cursor.lockState = CursorLockMode.Confined;
 
-        if (Input.GetKeyDown(KeyCode.Mouse0) 
-            && items.Count > 0 
-            && items[selectedItemSlot] != null) 
+        }
+        else
+        {
+            Cursor.visible = false;
+            Cursor.lockState = CursorLockMode.Locked;
+        }
+
+
+
+        if (Input.GetKeyDown(KeyCode.Mouse0)
+            && items.Count > 0
+            && items[selectedItemSlot] != null)
         {
             Item selectedItem = items[selectedItemSlot];
             selectedItem.UseItem(gameObject);
-            if(selectedItem.HasAudio) GetComponent<MultiplayerAudioHandlerWrapper>().PlaySoundServerRpc(selectedItem.AudioName, default, selectedItem.AudioVolume);
-            if (!selectedItem.InfiniteUses && selectedItem.Uses <= 0) RemoveItem(selectedItem); 
+            if (selectedItem.HasAudio) GetComponent<MultiplayerAudioHandlerWrapper>().PlaySoundServerRpc(selectedItem.AudioName, default, selectedItem.AudioVolume);
+            if (!selectedItem.InfiniteUses && selectedItem.Uses <= 0) RemoveItem(selectedItem);
         }
 
         if (Input.GetKeyDown(KeyCode.Q) && items.Count > 0)
