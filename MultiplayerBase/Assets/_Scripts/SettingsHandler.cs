@@ -46,22 +46,6 @@ public class SettingsHandler : MonoBehaviour
 
         DontDestroyOnLoad(this.gameObject);
     }
-
-    void Update()
-    {
-        if (currentRebind == null)
-        {
-            // Temp debug things to make sure things are working, only runs when a rebind prompt isn't active
-            if (Input.GetKey(settings.controls.debugFlash))
-            {
-               settingsMenu.transform.Find("TempText").gameObject.SetActive(true);
-            }
-            else
-            {
-                settingsMenu.transform.Find("TempText").gameObject.SetActive(false);
-            }
-        }
-    }
     
     void OnGUI()
     {
@@ -92,9 +76,6 @@ public class SettingsHandler : MonoBehaviour
 
     public void ReadSettings()
     {
-        GameObject tempText = settingsMenu.transform.Find("TempText").gameObject;
-        tempText.GetComponent<TextMeshProUGUI>().text = JsonUtility.ToJson(settings);
-
         // Loads accessibility settings
         Transform accessibilityList = subMenus.transform.Find("Accessibility");
         for (int i = 0; i < accessibilityList.childCount; i++)
@@ -188,6 +169,8 @@ public class SettingsHandler : MonoBehaviour
                 return settings.controls.sprint;
             case "crouch":
                 return settings.controls.crouch;
+            case "jump":
+                return settings.controls.jump;
             case "action":
                 return settings.controls.action;
             case "map":
@@ -228,6 +211,9 @@ public class SettingsHandler : MonoBehaviour
                 break;
             case "crouch":
                 settings.controls.crouch = newKey;
+                break;
+            case "jump":
+                settings.controls.jump = newKey;
                 break;
             case "action":
                 settings.controls.action = newKey;
@@ -384,6 +370,7 @@ public class ClientSettings
         public KeyCode moveRight;
         public KeyCode sprint;
         public KeyCode crouch;
+        public KeyCode jump;
         public KeyCode action;
         public KeyCode map;
         public KeyCode notebook;
@@ -400,6 +387,7 @@ public class ClientSettings
             moveRight = KeyCode.D;
             sprint = KeyCode.LeftShift;
             crouch = KeyCode.LeftControl;
+            jump = KeyCode.Space;
             action = KeyCode.E;
             map = KeyCode.M;
             notebook = KeyCode.N;
