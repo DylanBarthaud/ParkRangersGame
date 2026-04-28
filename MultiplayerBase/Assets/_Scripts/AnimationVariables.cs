@@ -33,5 +33,14 @@ public class AnimationVariables : MonoBehaviour
         {
             _animator.SetBool("IsRunning", false);
         }
+
+        if (_firstPersonVariables.IsCrouching == true)
+        {
+            _animator.SetBool("IsCrouching", true);
+        }
+        else
+        {
+            _animator.SetBool("IsCrouching", false);
+        }
     }
 }
