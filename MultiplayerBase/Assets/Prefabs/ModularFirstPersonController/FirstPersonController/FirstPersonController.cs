@@ -661,6 +661,8 @@ public class FirstPersonController : NetworkBehaviour
         // Brings walkSpeed back up to original speed
         if(isCrouched)
         {
+            transform.localScale = new Vector3(originalScale.x, originalScale.y, originalScale.z);
+
             walkSpeed = crouchSpeed * 2;
             IsCrouching = false;
             isCrouched = false;
@@ -669,6 +671,8 @@ public class FirstPersonController : NetworkBehaviour
         // Reduces walkSpeed
         else
         {
+            transform.localScale = new Vector3(originalScale.x, crouchHeight, originalScale.z);
+
             walkSpeed = crouchSpeed;
             IsCrouching = true;
             isCrouched = true;
