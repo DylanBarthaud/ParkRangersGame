@@ -666,7 +666,7 @@ GameObject:
   - component: {fileID: 3291311155822121652}
   - component: {fileID: -388853485569961082}
   - component: {fileID: 6493592551718717522}
-  - component: {fileID: -7488551535050675316}
+  - component: {fileID: 5202243050050437873}
   m_Layer: 6
   m_Name: FirstPersonController
   m_TagString: Player
@@ -1327,7 +1327,7 @@ Animator:
   m_Enabled: 1
   m_Avatar: {fileID: 9000000, guid: 8fc92f7cad49dbb40bd24ab9e9f2f294, type: 3}
   m_Controller: {fileID: 9100000, guid: 20cc172a7c0ea204a80389f611d1ed23, type: 2}
-  m_CullingMode: 0
+  m_CullingMode: 1
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
   m_LinearVelocityBlending: 0
@@ -1338,7 +1338,7 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
---- !u!114 &-7488551535050675316
+--- !u!114 &5202243050050437873
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
