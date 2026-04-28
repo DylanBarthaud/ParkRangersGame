@@ -5,15 +5,24 @@ using UnityEngine.Networking;
 public class scriptHideForPlayer : NetworkBehaviour
 {
     public GameObject meshToHide;
-
+    public bool hideForSelf = true;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        if (IsLocalPlayer)
+        if (hideForSelf)
         {
-            meshToHide.SetActive(false);
+
+            if (IsLocalPlayer)
+            {
+                meshToHide.SetActive(false);
+            }
         }
+        else
+            if (!IsLocalPlayer)
+            {
+                meshToHide.SetActive(true);
+            }
     }
 
     // Update is called once per frame
