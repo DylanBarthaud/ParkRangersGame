@@ -6,6 +6,7 @@ public class scriptHideForPlayer : NetworkBehaviour
 {
     public GameObject meshToHide;
     public bool hideForSelf = true;
+    public bool hideForOthers = false;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -18,11 +19,16 @@ public class scriptHideForPlayer : NetworkBehaviour
                 meshToHide.SetActive(false);
             }
         }
-        else
+
+        
+        if (hideForOthers)
+        {
             if (!IsLocalPlayer)
             {
                 meshToHide.SetActive(false);
             }
+        }
+            
     }
 
     // Update is called once per frame
