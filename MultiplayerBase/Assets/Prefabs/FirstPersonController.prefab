@@ -1949,6 +1949,7 @@ MonoBehaviour:
   ShowTopMostFoldoutHeaderGroup: 1
   meshToHide: {fileID: 4719338130389014802}
   hideForSelf: 0
+  hideForOthers: 1
 --- !u!1 &5223613749728530085
 GameObject:
   m_ObjectHideFlags: 0
@@ -3520,6 +3521,7 @@ MonoBehaviour:
   ShowTopMostFoldoutHeaderGroup: 1
   meshToHide: {fileID: 6334542227549456736}
   hideForSelf: 1
+  hideForOthers: 0
 --- !u!4 &6675179298405241818 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 96193ff4012ecd446aebedf46d438657, type: 3}
