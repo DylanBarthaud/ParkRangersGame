@@ -32,6 +32,7 @@ public class FirstPersonController : NetworkBehaviour
     private GameObject notebook;
     public float MoveX;
     public float MoveZ;
+    public bool IsSprinting;
 
     #region Camera Movement Variables
 
@@ -436,6 +437,8 @@ public class FirstPersonController : NetworkBehaviour
                 isZoomed = false;
                 playerCamera.fieldOfView = Mathf.Lerp(playerCamera.fieldOfView, sprintFOV, sprintFOVStepTime * Time.deltaTime);
 
+                IsSprinting = true;
+
                 // Drain sprint remaining while sprinting
                 if(!unlimitedSprint)
                 {
@@ -451,6 +454,8 @@ public class FirstPersonController : NetworkBehaviour
             {
                 // Regain sprint while not sprinting
                 sprintRemaining = Mathf.Clamp(sprintRemaining += 1 * Time.deltaTime, 0, sprintDuration);
+
+                IsSprinting = false;
             }
 
             // Handles sprint cooldown 
