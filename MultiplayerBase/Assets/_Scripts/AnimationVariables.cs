@@ -20,6 +20,14 @@ public class AnimationVariables : MonoBehaviour
         
     }
 
+    public class OwnerNetworkAnimator : NetworkAnimator
+    {
+        protected override bool OnIsServerAuthoritative()
+        {
+            return false;
+        }
+    }
+
     // Update is called once per frame
     void FixedUpdate()
     {
