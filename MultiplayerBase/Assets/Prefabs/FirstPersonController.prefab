@@ -1908,6 +1908,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 282915005338495286}
+  - component: {fileID: 7287321623420979980}
   m_Layer: 0
   m_Name: Notebook
   m_TagString: Untagged
@@ -1933,6 +1934,21 @@ Transform:
   - {fileID: 3200263592594172064}
   m_Father: {fileID: 4459864851310106429}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &7287321623420979980
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4719338130389014802}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bd793c590bf060e4eaccd7a8b40dd094, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
+  meshToHide: {fileID: 4719338130389014802}
+  hideForSelf: 0
 --- !u!1 &5223613749728530085
 GameObject:
   m_ObjectHideFlags: 0
@@ -3503,6 +3519,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
   meshToHide: {fileID: 6334542227549456736}
+  hideForSelf: 1
 --- !u!4 &6675179298405241818 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 96193ff4012ecd446aebedf46d438657, type: 3}
