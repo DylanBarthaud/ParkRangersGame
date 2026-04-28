@@ -21,7 +21,7 @@ public class scriptHideForPlayer : NetworkBehaviour
         else
             if (!IsLocalPlayer)
             {
-                meshToHide.SetActive(true);
+                meshToHide.SetActive(false);
             }
     }
 
