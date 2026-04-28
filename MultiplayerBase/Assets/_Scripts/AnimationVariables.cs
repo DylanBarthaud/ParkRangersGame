@@ -21,7 +21,8 @@ public class AnimationVariables : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
-        Animator.SetFloat("MoveX", _firstPersonVariables.targetVelocity);
+        _animator.SetFloat("MoveX", _firstPersonVariables.MoveX);
+        _animator.SetFloat("MoveZ", _firstPersonVariables.MoveZ);
         
 
     }

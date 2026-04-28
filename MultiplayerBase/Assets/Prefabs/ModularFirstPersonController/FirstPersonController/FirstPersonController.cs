@@ -29,7 +29,9 @@ public class FirstPersonController : NetworkBehaviour
     private AudioListener audioListener;
 
     private KeyCode notebookKey = KeyCode.N;
-    private GameObject notebook; 
+    private GameObject notebook;
+    public float MoveX;
+    public float MoveZ;
 
     #region Camera Movement Variables
 
@@ -542,6 +544,8 @@ public class FirstPersonController : NetworkBehaviour
         {
             // Calculate how fast we should be moving
             Vector3 targetVelocity = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
+            MoveX = targetVelocity.x;
+            MoveZ = targetVelocity.z;
 
             // Checks if player is walking and isGrounded
             // Will allow head bob
