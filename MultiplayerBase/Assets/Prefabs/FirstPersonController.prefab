@@ -666,7 +666,6 @@ GameObject:
   - component: {fileID: 3291311155822121652}
   - component: {fileID: -388853485569961082}
   - component: {fileID: 6493592551718717522}
-  - component: {fileID: -6897891258283682805}
   m_Layer: 6
   m_Name: FirstPersonController
   m_TagString: Player
@@ -1098,10 +1097,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
-  MoveX: 0
-  MoveZ: 0
   IsSprinting: 0
-  IsCrouching: 0
   playerCamera: {fileID: 4459864851310106426}
   sensitivitySlider: {fileID: 1902685858847727440}
   fov: 60
@@ -1338,21 +1334,6 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
---- !u!114 &-6897891258283682805
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4459864850019384750}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7511ec15230d19e40918b1a1d2b149c1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ShowTopMostFoldoutHeaderGroup: 1
-  TransitionStateInfoList: []
-  m_Animator: {fileID: 6493592551718717522}
 --- !u!1 &4459864850190357393
 GameObject:
   m_ObjectHideFlags: 0

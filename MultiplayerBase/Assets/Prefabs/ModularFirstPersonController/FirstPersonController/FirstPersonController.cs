@@ -30,10 +30,8 @@ public class FirstPersonController : NetworkBehaviour
 
     private KeyCode notebookKey = KeyCode.N;
     private GameObject notebook;
-    public float MoveX;
-    public float MoveZ;
     public bool IsSprinting;
-    public bool IsCrouching;
+    public bool IsCrouching => isCrouched;
 
     #region Camera Movement Variables
 
@@ -438,15 +436,15 @@ public class FirstPersonController : NetworkBehaviour
                 isZoomed = false;
                 playerCamera.fieldOfView = Mathf.Lerp(playerCamera.fieldOfView, sprintFOV, sprintFOVStepTime * Time.deltaTime);
 
-                IsSprinting = true;
+                EnableIsSprintingServerRpc(true);
 
                 // Drain sprint remaining while sprinting
-                if(!unlimitedSprint)
+                if (!unlimitedSprint)
                 {
                     sprintRemaining -= 1 * Time.deltaTime;
                     if (sprintRemaining <= 0)
                     {
-                        isSprinting = false;
+                        EnableIsSprintingServerRpc(false);
                         isSprintCooldown = true;
                     }
                 }
@@ -456,7 +454,7 @@ public class FirstPersonController : NetworkBehaviour
                 // Regain sprint while not sprinting
                 sprintRemaining = Mathf.Clamp(sprintRemaining += 1 * Time.deltaTime, 0, sprintDuration);
 
-                IsSprinting = false;
+                EnableIsSprintingServerRpc(false);
             }
 
             // Handles sprint cooldown 
@@ -505,12 +503,12 @@ public class FirstPersonController : NetworkBehaviour
             
             if(Input.GetKeyDown(clientSettings.GetComponent<SettingsHandler>().GetControl("crouch")) && holdToCrouch)
             {
-                isCrouched = false;
+                EnableIsCrouchingServerRpc(false);
                 Crouch();
             }
             else if(Input.GetKeyUp(clientSettings.GetComponent<SettingsHandler>().GetControl("crouch")) && holdToCrouch)
             {
-                isCrouched = true;
+                EnableIsCrouchingServerRpc(true);
                 Crouch();
             }
         }
@@ -550,8 +548,6 @@ public class FirstPersonController : NetworkBehaviour
         {
             // Calculate how fast we should be moving
             Vector3 targetVelocity = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
-            MoveX = targetVelocity.x;
-            MoveZ = targetVelocity.z;
 
             // Checks if player is walking and isGrounded
             // Will allow head bob
@@ -564,9 +560,10 @@ public class FirstPersonController : NetworkBehaviour
                 isWalking = false;
             }
 
-            // All movement calculations shile sprint is active
+            // All movement calculations while sprint is active
             if (enableSprint && Input.GetKey(clientSettings.GetComponent<SettingsHandler>().GetControl("sprint")) && sprintRemaining > 0f && !isSprintCooldown && !isCrouched)
             {
+
                 targetVelocity = transform.TransformDirection(targetVelocity) * sprintSpeed;
 
                 // Apply a force that attempts to reach our target velocity
@@ -580,7 +577,7 @@ public class FirstPersonController : NetworkBehaviour
                 // Makes sure fov change only happens during movement
                 if (velocityChange.x != 0 || velocityChange.z != 0)
                 {
-                    isSprinting = true;
+                    EnableIsSprintingServerRpc(true);
 
                     if (isCrouched)
                     {
@@ -598,7 +595,7 @@ public class FirstPersonController : NetworkBehaviour
             // All movement calculations while walking
             else
             {
-                isSprinting = false;
+                EnableIsSprintingServerRpc(true);
 
                 if (hideBarWhenFull && sprintRemaining == sprintDuration)
                 {
@@ -664,8 +661,7 @@ public class FirstPersonController : NetworkBehaviour
             transform.localScale = new Vector3(originalScale.x, originalScale.y, originalScale.z);
 
             walkSpeed = crouchSpeed * 2;
-            IsCrouching = false;
-            isCrouched = false;
+            EnableIsCrouchingServerRpc(false);
         }
         // Crouches player down to set height
         // Reduces walkSpeed
@@ -674,8 +670,7 @@ public class FirstPersonController : NetworkBehaviour
             transform.localScale = new Vector3(originalScale.x, crouchHeight, originalScale.z);
 
             walkSpeed = crouchSpeed;
-            IsCrouching = true;
-            isCrouched = true;
+            EnableIsCrouchingServerRpc(true);      
         }
     }
 
@@ -713,7 +708,18 @@ public class FirstPersonController : NetworkBehaviour
     {
         mouseSensitivity = newSpeed * 1;
     }
+
+    [ServerRpc(RequireOwnership = false)]
+    private void EnableIsSprintingServerRpc(bool enabled) => EnableIsSprintingClientRpc(enabled);
+    [ClientRpc]
+    private void EnableIsSprintingClientRpc(bool enabled) { IsSprinting = enabled; }
+
+    [ServerRpc(RequireOwnership = false)]
+    private void EnableIsCrouchingServerRpc(bool enabled) => EnableIsCrouchingClientRpc(enabled);
+    [ClientRpc]
+    private void EnableIsCrouchingClientRpc(bool enabled) { IsSprinting = enabled; }
 }
+
 
 // Custom Editor
 #if UNITY_EDITOR

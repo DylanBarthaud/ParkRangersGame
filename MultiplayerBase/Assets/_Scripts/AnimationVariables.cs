@@ -6,25 +6,29 @@ using Unity.Netcode.Components;
 
 public class AnimationVariables : MonoBehaviour
 {
-
     [SerializeField] private NavMeshAgent _agent;
     [SerializeField] private Animator _animator;
     private FirstPersonController _firstPersonVariables;
     private ClientSettings clientSettings;
+
+    private Vector3 _lastPosition = Vector3.zero;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         _animator = GetComponentInChildren<Animator>();
         _agent = GetComponent<NavMeshAgent>();
         _firstPersonVariables = GetComponent<FirstPersonController>();
-        
     }
 
     // Update is called once per frame
-    void FixedUpdate()
+    void Update()
     {
-        _animator.SetFloat("MoveX", _firstPersonVariables.MoveX);
-        _animator.SetFloat("MoveZ", _firstPersonVariables.MoveZ);
+        Vector3 currentPos = transform.position;
+        Vector3 newVector = currentPos - _lastPosition;
+
+        _animator.SetFloat("MoveX", newVector.x);
+        _animator.SetFloat("MoveZ", newVector.z);
 
         if (_firstPersonVariables.IsSprinting == true)
         {
