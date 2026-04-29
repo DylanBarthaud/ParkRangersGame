@@ -11,7 +11,7 @@ public class AnimationVariables : MonoBehaviour
     private FirstPersonController _firstPersonVariables;
     private ClientSettings clientSettings;
 
-    private Vector3 _lastPosition = Vector3.zero;
+    private Vector3 lastPosition = Vector3.zero;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -25,7 +25,10 @@ public class AnimationVariables : MonoBehaviour
     void Update()
     {
         Vector3 currentPos = transform.position;
-        Vector3 newVector = currentPos - _lastPosition;
+        Vector3 newVector = currentPos - lastPosition;
+        lastPosition = currentPos;
+
+        newVector *= 10; 
 
         _animator.SetFloat("MoveX", newVector.x);
         _animator.SetFloat("MoveZ", newVector.z);
