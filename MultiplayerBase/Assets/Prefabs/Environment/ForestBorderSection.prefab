@@ -50,7 +50,6 @@ GameObject:
   - component: {fileID: 484940276923925427}
   - component: {fileID: 2890793506949824325}
   - component: {fileID: 3783506874564080460}
-  - component: {fileID: 445738651434944166}
   m_Layer: 0
   m_Name: BGBillboard (7)
   m_TagString: Untagged
@@ -126,28 +125,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!64 &445738651434944166
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 476297609667509912}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 5
-  m_Convex: 0
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 10209, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!1 &940195088228629139
 GameObject:
   m_ObjectHideFlags: 0
@@ -199,7 +176,6 @@ GameObject:
   - component: {fileID: 9066061286946629599}
   - component: {fileID: 6230316299057289136}
   - component: {fileID: 7382331963613720000}
-  - component: {fileID: 2566112371525739791}
   m_Layer: 0
   m_Name: BGBillboard (1)
   m_TagString: Untagged
@@ -275,28 +251,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!64 &2566112371525739791
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1784213398750835487}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 5
-  m_Convex: 0
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 10209, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!1 &4345544000934130516
 GameObject:
   m_ObjectHideFlags: 0
@@ -308,7 +262,6 @@ GameObject:
   - component: {fileID: 6229374621208558666}
   - component: {fileID: 5922270077360189635}
   - component: {fileID: 5746352834324552356}
-  - component: {fileID: 4652310398596911057}
   m_Layer: 0
   m_Name: BGBillboard (4)
   m_TagString: Untagged
@@ -384,28 +337,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!64 &4652310398596911057
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4345544000934130516}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 5
-  m_Convex: 0
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 10209, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!1 &4612290946639630379
 GameObject:
   m_ObjectHideFlags: 0
@@ -418,6 +349,7 @@ GameObject:
   - component: {fileID: 3930812182743576859}
   - component: {fileID: 4284973311681035462}
   - component: {fileID: 6628352021901633158}
+  - component: {fileID: 3228274078309699562}
   m_Layer: 0
   m_Name: ForestBorderSection
   m_TagString: Untagged
@@ -597,6 +529,27 @@ LODGroup:
     fadeTransitionWidth: 0
     renderers: []
   m_Enabled: 1
+--- !u!65 &3228274078309699562
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4612290946639630379}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 5.73, y: 45.21, z: 8.174772}
+  m_Center: {x: -1.41, y: 22.4, z: -1.04}
 --- !u!1 &4820519009272227181
 GameObject:
   m_ObjectHideFlags: 0
@@ -608,7 +561,6 @@ GameObject:
   - component: {fileID: 4260506492925995762}
   - component: {fileID: 7490323846181315396}
   - component: {fileID: 8196373946915939474}
-  - component: {fileID: 4682872143130390655}
   m_Layer: 0
   m_Name: BGBillboard (6)
   m_TagString: Untagged
@@ -684,28 +636,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!64 &4682872143130390655
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4820519009272227181}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 5
-  m_Convex: 0
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 10209, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!1 &5114024673036054432
 GameObject:
   m_ObjectHideFlags: 0
@@ -717,7 +647,6 @@ GameObject:
   - component: {fileID: 4816935922818775712}
   - component: {fileID: 6541392418736606696}
   - component: {fileID: 3811583594375454803}
-  - component: {fileID: 8744214125441660773}
   m_Layer: 0
   m_Name: BGBillboard (8)
   m_TagString: Untagged
@@ -793,28 +722,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!64 &8744214125441660773
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5114024673036054432}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 5
-  m_Convex: 0
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 10209, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!1 &6084091966288418200
 GameObject:
   m_ObjectHideFlags: 0
@@ -826,7 +733,6 @@ GameObject:
   - component: {fileID: 7808011124512388319}
   - component: {fileID: 7697638184220575986}
   - component: {fileID: 4223337872150247915}
-  - component: {fileID: 6148625259549501592}
   m_Layer: 0
   m_Name: BGBillboard (5)
   m_TagString: Untagged
@@ -902,28 +808,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!64 &6148625259549501592
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6084091966288418200}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 5
-  m_Convex: 0
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 10209, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!1 &6574049828616805882
 GameObject:
   m_ObjectHideFlags: 0
@@ -985,7 +869,6 @@ GameObject:
   - component: {fileID: 1942940274655010347}
   - component: {fileID: 3638584587230292267}
   - component: {fileID: 4675959682690968447}
-  - component: {fileID: 6496068779398077885}
   m_Layer: 0
   m_Name: BGBillboard
   m_TagString: Untagged
@@ -1061,28 +944,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!64 &6496068779398077885
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8394589470595184596}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 5
-  m_Convex: 0
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 10209, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!1 &8558664931086815021
 GameObject:
   m_ObjectHideFlags: 0
@@ -1094,7 +955,6 @@ GameObject:
   - component: {fileID: 7438047360559203436}
   - component: {fileID: 4164090973873376798}
   - component: {fileID: 230588894361094606}
-  - component: {fileID: 5089342355774655964}
   m_Layer: 0
   m_Name: BGBillboard (2)
   m_TagString: Untagged
@@ -1170,28 +1030,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!64 &5089342355774655964
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8558664931086815021}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 5
-  m_Convex: 0
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 10209, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!1 &8704372392469373207
 GameObject:
   m_ObjectHideFlags: 0
@@ -1203,7 +1041,6 @@ GameObject:
   - component: {fileID: 2457689453148489807}
   - component: {fileID: 6832695714991594585}
   - component: {fileID: 5707963031540861499}
-  - component: {fileID: 6697655852700848080}
   m_Layer: 0
   m_Name: BGBillboard (3)
   m_TagString: Untagged
@@ -1279,28 +1116,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!64 &6697655852700848080
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8704372392469373207}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 5
-  m_Convex: 0
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 10209, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!1001 &371543558541668822
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1535,7 +1350,8 @@ PrefabInstance:
       propertyPath: m_Name
       value: Billboard (12)
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 127805571331048600, guid: cfa1d34559d626f49b521486e6af79e0, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
@@ -1730,7 +1546,8 @@ PrefabInstance:
       propertyPath: m_Name
       value: Billboard (6)
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 127805571331048600, guid: cfa1d34559d626f49b521486e6af79e0, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
@@ -2794,7 +2611,8 @@ PrefabInstance:
       propertyPath: m_Name
       value: Billboard (2)
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 127805571331048600, guid: cfa1d34559d626f49b521486e6af79e0, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
@@ -2910,7 +2728,8 @@ PrefabInstance:
       propertyPath: m_Name
       value: Billboard (4)
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 127805571331048600, guid: cfa1d34559d626f49b521486e6af79e0, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
@@ -3263,7 +3082,8 @@ PrefabInstance:
       propertyPath: m_Name
       value: Billboard (10)
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 127805571331048600, guid: cfa1d34559d626f49b521486e6af79e0, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
@@ -3379,7 +3199,8 @@ PrefabInstance:
       propertyPath: m_Name
       value: Billboard (8)
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 127805571331048600, guid: cfa1d34559d626f49b521486e6af79e0, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
@@ -3495,7 +3316,8 @@ PrefabInstance:
       propertyPath: m_Name
       value: Billboard (14)
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 127805571331048600, guid: cfa1d34559d626f49b521486e6af79e0, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
@@ -3603,7 +3425,8 @@ PrefabInstance:
       propertyPath: m_Name
       value: ScotOneLOD (1)
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 127805571331048600, guid: cfa1d34559d626f49b521486e6af79e0, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
