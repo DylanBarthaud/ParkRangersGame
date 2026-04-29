@@ -139,6 +139,13 @@ MonoBehaviour:
   lerpSpeed: 1
   maxIntensity: 65
   minIntensity: 0
+  playerCamera: {fileID: 0}
+  curve:
+    serializedVersion: 2
+    m_Curve: []
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!1 &7771500965225984636
 GameObject:
   m_ObjectHideFlags: 0
@@ -237,7 +244,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: e7adb971b6cd14540a489f348f848fa3, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
