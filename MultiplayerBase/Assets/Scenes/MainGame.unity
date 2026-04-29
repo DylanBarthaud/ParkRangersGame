@@ -11443,7 +11443,7 @@ MonoBehaviour:
     randomZ: 0
     space: 0
   m_DeprecatedInstances: []
-  m_AutoRefresh: 1
+  m_AutoRefresh: 0
   m_Seed: -197756511
 --- !u!114 &579089549
 MonoBehaviour:
@@ -18482,7 +18482,7 @@ MonoBehaviour:
     randomZ: 0
     space: 0
   m_DeprecatedInstances: []
-  m_AutoRefresh: 1
+  m_AutoRefresh: 0
   m_Seed: 368657812
 --- !u!114 &884041603
 MonoBehaviour:
@@ -24705,7 +24705,7 @@ MonoBehaviour:
     randomZ: 0
     space: 0
   m_DeprecatedInstances: []
-  m_AutoRefresh: 1
+  m_AutoRefresh: 0
   m_Seed: 1904944544
 --- !u!114 &1161313028
 MonoBehaviour:
@@ -24740,37 +24740,37 @@ MonoBehaviour:
         y: 0
         z: 0
       TangentIn:
-        x: -0
-        y: -0
+        x: 0
+        y: 0
         z: -29.408907
       TangentOut:
         x: 0
         y: 0
-        z: 29.408907
+        z: 69.42453
       Rotation:
         value:
-          x: -0.037243392
-          y: 0.54591346
-          z: -0.0042537004
-          w: 0.83700264
+          x: -0.000010408068
+          y: 0.64303154
+          z: -0.030301051
+          w: 0.76524013
     - Position:
-        x: 268.84998
-        y: 16.96933
-        z: 117.98352
+        x: 268.84827
+        y: 16.939194
+        z: 117.98523
       TangentIn:
-        x: -0
-        y: -0
-        z: -80.09202
+        x: 0
+        y: 0
+        z: -80.09176
       TangentOut:
         x: 0
         y: 0
-        z: 55.86823
+        z: 55.825527
       Rotation:
         value:
-          x: -0.020330455
-          y: 0.50076175
-          z: 0.012903598
-          w: 0.86525023
+          x: -0.08938368
+          y: 0.51519126
+          z: 0.050088458
+          w: 0.8509287
     - Position:
         x: 384.43835
         y: 22.399193
@@ -24880,9 +24880,9 @@ MonoBehaviour:
           z: 0.0021055546
           w: 0.9889962
     m_MetaData:
-    - Mode: 0
+    - Mode: 3
       Tension: 0.5
-    - Mode: 0
+    - Mode: 4
       Tension: 0.5
     - Mode: 2
       Tension: 0.5
@@ -33095,7 +33095,7 @@ MonoBehaviour:
     randomZ: 0
     space: 0
   m_DeprecatedInstances: []
-  m_AutoRefresh: 1
+  m_AutoRefresh: 0
   m_Seed: 1476983849
 --- !u!114 &1594157549
 MonoBehaviour:
@@ -35544,7 +35544,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 0bb0888679bdc3041b85ba5f3d07f930, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 1796.1
+      value: 1796.88
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 0bb0888679bdc3041b85ba5f3d07f930, type: 3}
       propertyPath: m_LocalPosition.y
@@ -35552,23 +35552,23 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 0bb0888679bdc3041b85ba5f3d07f930, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 512.79
+      value: 513.22
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 0bb0888679bdc3041b85ba5f3d07f930, type: 3}
       propertyPath: m_LocalRotation.w
-      value: -0.35387763
+      value: -0.3753275
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 0bb0888679bdc3041b85ba5f3d07f930, type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0.35387757
+      value: -0.37532744
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 0bb0888679bdc3041b85ba5f3d07f930, type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0.6121852
+      value: 0.59927404
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 0bb0888679bdc3041b85ba5f3d07f930, type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0.6121851
+      value: -0.5992739
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 0bb0888679bdc3041b85ba5f3d07f930, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -35580,7 +35580,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 0bb0888679bdc3041b85ba5f3d07f930, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
-      value: 119.939
+      value: 115.882
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 0bb0888679bdc3041b85ba5f3d07f930, type: 3}
       propertyPath: m_Name
@@ -37182,7 +37182,7 @@ MonoBehaviour:
     randomZ: 0
     space: 0
   m_DeprecatedInstances: []
-  m_AutoRefresh: 1
+  m_AutoRefresh: 0
   m_Seed: 856876440
 --- !u!114 &1790464988
 MonoBehaviour:
@@ -37678,7 +37678,7 @@ MonoBehaviour:
     randomZ: 0
     space: 0
   m_DeprecatedInstances: []
-  m_AutoRefresh: 1
+  m_AutoRefresh: 0
   m_Seed: 831928577
 --- !u!114 &1822864693
 MonoBehaviour:
