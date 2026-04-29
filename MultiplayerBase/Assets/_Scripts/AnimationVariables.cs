@@ -25,13 +25,13 @@ public class AnimationVariables : MonoBehaviour
     void Update()
     {
         Vector3 currentPos = transform.position;
-        Vector3 newVector = currentPos - lastPosition;
+        Vector3 worldDelta = currentPos - lastPosition;
+        Vector3 localDelta = transform.InverseTransformDirection(worldDelta);
+        localDelta *= 10;
         lastPosition = currentPos;
 
-        newVector *= 10; 
-
-        _animator.SetFloat("MoveX", newVector.x);
-        _animator.SetFloat("MoveZ", newVector.z);
+        _animator.SetFloat("MoveX", localDelta.x);
+        _animator.SetFloat("MoveZ", localDelta.z);
 
         if (_firstPersonVariables.IsSprinting == true)
         {
