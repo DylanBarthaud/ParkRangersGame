@@ -231,6 +231,7 @@ namespace BehaviourTrees
             if(NavMesh.SamplePosition(targetPosition, out hit, 500, NavMesh.AllAreas))
             {
                 agent.SetDestination(hit.position);
+                if(agent.path.status == NavMeshPathStatus.PathPartial) return Node.Status.Failure;
             }
 
             if(!agent.pathPending && agent.remainingDistance <= agent.stoppingDistance)
