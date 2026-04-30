@@ -75,7 +75,6 @@ public class PlayerInfoHolder : NetworkBehaviour, IAiSensible, IHurtable
             GameManager.instance.mapHandler.GetGridLocation(transform.position) != GameManager.instance.HomeCell)
         {
             AddCrowServerRPC(); 
-            Debug.Log($"Add Raven count: {playerInfo.ravenCount}");
             localRavenTick = 0;
         }
 
@@ -83,7 +82,6 @@ public class PlayerInfoHolder : NetworkBehaviour, IAiSensible, IHurtable
                  playerInfo.ravenCount > 0)
         {
             RemoveCrowServerRPC();
-            Debug.Log($"Remove Raven count: {playerInfo.ravenCount}");
             localLoseRavenTick = 0;
         }
     }
@@ -92,13 +90,21 @@ public class PlayerInfoHolder : NetworkBehaviour, IAiSensible, IHurtable
     private void AddCrowServerRPC() => AddCrowClientRPC();
 
     [ClientRpc]
-    private void AddCrowClientRPC() { playerInfo.ravenCount++; }
+    private void AddCrowClientRPC() 
+    {
+        Debug.Log($"Add Raven to player {OwnerClientId} count: {playerInfo.ravenCount}");
+        playerInfo.ravenCount++; 
+    }
 
     [ServerRpc(RequireOwnership = false)]
     private void RemoveCrowServerRPC() => RemoveCrowClientRPC();
 
     [ClientRpc]
-    private void RemoveCrowClientRPC() { playerInfo.ravenCount--; }
+    private void RemoveCrowClientRPC() 
+    {
+        Debug.Log($"Remove Raven to player {OwnerClientId} count: {playerInfo.ravenCount}");
+        playerInfo.ravenCount--; 
+    }
 
     public void UpdateInfo(bool playerSeen, int importance = -1)
     {
