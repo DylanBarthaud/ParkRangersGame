@@ -139,7 +139,7 @@ public class GameManager : NetworkBehaviour
     {
         numberOfPlayers--;
         playerBlackboardKeys.Remove(key);
-        //Debug.Log(numberOfPlayers);
+        Debug.Log($"Players left: {numberOfPlayers}");
 
         if(numberOfPlayers <= 0)
         {

@@ -222,7 +222,7 @@ public class PlayerInfoHolder : NetworkBehaviour, IAiSensible, IHurtable
     {
         if(isDead) return;
         isDead = true;
-        EventManager.instance.OnPlayerKilled(playerInfo_Key);
+        if (IsHost) EventManager.instance.OnPlayerKilled(playerInfo_Key);
 
         var blackboard = BlackboardController.instance?.GetBlackboard();
         if (blackboard != null)
