@@ -1,7 +1,3 @@
-using BlackboardSystem;
-using System.Collections;
-using Unity.VisualScripting;
-using UnityEditor.UIElements;
 using UnityEngine;
 
 public class scriptFlashlight : MonoBehaviour

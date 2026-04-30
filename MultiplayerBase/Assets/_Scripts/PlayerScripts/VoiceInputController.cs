@@ -15,7 +15,6 @@ public class VoiceInputController : NetworkBehaviour
     [SerializeField] private float gain; 
 
     [SerializeField] private AudioSource source;
-    [SerializeField] private AudioSource radioSource;
 
     [SerializeField] private Image voiceIcon;
     [SerializeField] private float iconDecayTime = 0.5f;
@@ -54,15 +53,6 @@ public class VoiceInputController : NetworkBehaviour
         stream = new MemoryStream();
         output = new MemoryStream();
         input = new MemoryStream();
-
-        radioSource = GameObject.Find("RadioControlCenter").GetComponent<AudioSource>();
-
-        radioSource.clip = AudioClip.Create("VoiceData", optimalRate, 1, optimalRate, true, OnAudioRead, null);
-        radioSource.loop = true;
-        if (!IsOwner || canHearSelf)
-        {
-            //radioSource.Play();
-        }
 
         source.clip = AudioClip.Create("VoiceData", optimalRate, 1, optimalRate, true, OnAudioRead, null);
         source.loop = true;
@@ -136,7 +126,7 @@ public class VoiceInputController : NetworkBehaviour
     [ClientRpc]
     public void VoiceDataClientRpc(byte[] compressed, int bytesWritten, ulong ownerId)
     {
-        if (IsOwner) return;
+        //if (IsOwner) return;
 
         input.Write(compressed, 0, bytesWritten);
         input.Position = 0;
@@ -173,24 +163,24 @@ public class VoiceInputController : NetworkBehaviour
     {
         for (int i = 0; i < iSize; i += 2)
         {
-            // Insert converted float to buffer
             float converted = ((short)(uncompressed[i] | uncompressed[i + 1] << 8) / 32767.0f) * gain;
             clipBuffer[dataReceived] = converted;
 
-            // Buffer loop
             dataReceived = (dataReceived +1) % clipBufferSize;
 
             playbackBuffer++;
 
-            if(isRecording) recordedSamples.Add(converted);
+            recordedSamples.Add(converted);
         }
     }
 
     public float GetVoiceVolumeSquared()
     {
         if (!isTalking || recordedSamples.Count == 0)
+        {
+            Debug.Log("IS TALKING: " + isTalking);
             return -100f;
-
+        }
 
         int windowSamples = Mathf.CeilToInt(optimalRate * volumeSampleWindow);
         windowSamples = Mathf.Min(windowSamples, recordedSamples.Count);
@@ -227,7 +217,7 @@ public class VoiceInputController : NetworkBehaviour
             && clipDuration > minSavedSampleDuration
             && clipDuration < maxSavedSampleDuration)
         {
-            Debug.Log($"Stored clip from {OwnerClientId} samples: {recordedSamples.Count}, RMS: {GetMeanSquare(recordedSamples)}"); 
+            //Debug.Log($"Stored clip from {OwnerClientId} samples: {recordedSamples.Count}, RMS: {GetMeanSquare(recordedSamples)}"); 
             storedSample = new List<float>(recordedSamples);
         }
 

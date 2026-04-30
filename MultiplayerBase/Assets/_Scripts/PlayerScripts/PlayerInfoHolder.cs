@@ -56,6 +56,7 @@ public class PlayerInfoHolder : NetworkBehaviour, IAiSensible, IHurtable
 
     private void OnTick(int obj)
     {
+        Debug.Log(GetAudioDataSquared()); 
         if (GetAudioDataSquared() >= volumeToAddRavenGate)
         {
             localRavenTick++;
@@ -68,6 +69,8 @@ public class PlayerInfoHolder : NetworkBehaviour, IAiSensible, IHurtable
     {
         playerInfo.position = transform.position; 
         BlackboardController.instance.GetBlackboard().SetValue(playerInfo_Key, playerInfo);
+
+        Debug.Log("HERE"); 
 
         if (playerInfo.ravenCount < playerInfo.maxRavens &&
             localRavenTick >= tryAddRavenTick &&
@@ -143,7 +146,7 @@ public class PlayerInfoHolder : NetworkBehaviour, IAiSensible, IHurtable
         if(voiceInputController.GetVoiceVolumeSquared() > loudestHeardAudioSquared) 
             loudestHeardAudioSquared = voiceInputController.GetVoiceVolumeSquared();
 
-        //Debug.Log(loudestHeardAudioSquared); 
+        Debug.Log(loudestHeardAudioSquared); 
         return loudestHeardAudioSquared;
     }
 
