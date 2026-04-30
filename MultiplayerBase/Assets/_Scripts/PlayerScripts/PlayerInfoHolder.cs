@@ -56,7 +56,7 @@ public class PlayerInfoHolder : NetworkBehaviour, IAiSensible, IHurtable
 
     private void OnTick(int obj)
     {
-        Debug.Log(GetAudioDataSquared()); 
+        //Debug.Log(GetAudioDataSquared()); 
         if (GetAudioDataSquared() >= volumeToAddRavenGate)
         {
             localRavenTick++;
@@ -70,13 +70,11 @@ public class PlayerInfoHolder : NetworkBehaviour, IAiSensible, IHurtable
         playerInfo.position = transform.position; 
         BlackboardController.instance.GetBlackboard().SetValue(playerInfo_Key, playerInfo);
 
-        Debug.Log("HERE"); 
-
         if (playerInfo.ravenCount < playerInfo.maxRavens &&
             localRavenTick >= tryAddRavenTick &&
             GameManager.instance.mapHandler.GetGridLocation(transform.position) != GameManager.instance.HomeCell)
         {
-            playerInfo.ravenCount++;
+            AddCrowServerRPC(); 
             Debug.Log($"Add Raven count: {playerInfo.ravenCount}");
             localRavenTick = 0;
         }
@@ -84,11 +82,23 @@ public class PlayerInfoHolder : NetworkBehaviour, IAiSensible, IHurtable
         else if (localLoseRavenTick >= tryRemoveRavenTick &&
                  playerInfo.ravenCount > 0)
         {
-            playerInfo.ravenCount--;
+            RemoveCrowServerRPC();
             Debug.Log($"Remove Raven count: {playerInfo.ravenCount}");
             localLoseRavenTick = 0;
         }
     }
+
+    [ServerRpc(RequireOwnership = false)]
+    private void AddCrowServerRPC() => AddCrowClientRPC();
+
+    [ClientRpc]
+    private void AddCrowClientRPC() { playerInfo.ravenCount++; }
+
+    [ServerRpc(RequireOwnership = false)]
+    private void RemoveCrowServerRPC() => RemoveCrowClientRPC();
+
+    [ClientRpc]
+    private void RemoveCrowClientRPC() { playerInfo.ravenCount--; }
 
     public void UpdateInfo(bool playerSeen, int importance = -1)
     {
@@ -149,9 +159,11 @@ public class PlayerInfoHolder : NetworkBehaviour, IAiSensible, IHurtable
         if (voiceInputController.GetVoiceVolumeSquared() > loudestHeardAudioSquared) 
             loudestHeardAudioSquared = voiceInputController.GetVoiceVolumeSquared();
 
-        Debug.Log(loudestHeardAudioSquared); 
+        //Debug.Log(loudestHeardAudioSquared); 
         return loudestHeardAudioSquared;
     }
+
+
 
     public void OnSeen(Blackboard blackboard, Ai_Senses caller)
     {

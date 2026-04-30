@@ -176,11 +176,8 @@ public class VoiceInputController : NetworkBehaviour
 
     public float GetVoiceVolumeSquared()
     {
-        if (!isTalking || recordedSamples.Count == 0)
-        {
-            Debug.Log("IS TALKING: " + isTalking);
-            return -100f;
-        }
+        if (!isTalking || recordedSamples.Count == 0) return -100f;
+
 
         int windowSamples = Mathf.CeilToInt(optimalRate * volumeSampleWindow);
         windowSamples = Mathf.Min(windowSamples, recordedSamples.Count);
