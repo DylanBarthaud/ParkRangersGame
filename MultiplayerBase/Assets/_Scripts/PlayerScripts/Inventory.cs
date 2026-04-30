@@ -54,22 +54,18 @@ public class Inventory : MonoBehaviour
         if (!canUseInv) return;
         if (Input.GetKeyDown(KeyCode.Tab))
         {
-            bool cursorVisibility;
-            
             inventoryUi.SetActive(!inventoryUi.activeInHierarchy);
-            
-            cursorVisibility = !inventoryUi.activeInHierarchy;
 
             
-            if (cursorVisibility == false)
+            if (Cursor.lockState == CursorLockMode.Locked)
             {
-                Cursor.lockState = CursorLockMode.Confined;
-                Cursor.visible = true;
+                Cursor.lockState = CursorLockMode.None;
+                //Cursor.visible = true;
             }
             else
             {
                 Cursor.lockState = CursorLockMode.Locked;
-                Cursor.visible = false;
+                //Cursor.visible = false;
             }
 
         }
