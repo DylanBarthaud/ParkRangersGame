@@ -25,6 +25,12 @@ public class RavenController : NetworkBehaviour
         EventManager.instance.onTick += OnTick;
     }
 
+    public override void OnNetworkDespawn()
+    {
+        base.OnNetworkDespawn();
+        EventManager.instance.onTick -= OnTick;
+    }
+
     int localTick = 0;
     int collectionTick = 0; 
     private void OnTick(int tick)

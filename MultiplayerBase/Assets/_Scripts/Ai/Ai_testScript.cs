@@ -92,7 +92,7 @@ public class Ai_testScript : NetworkBehaviour
                 else Debug.LogError("Cannot find blackboard value with key:" +  playerKey);
             }
 
-            //Debug.Log(playerHasSufficientCrows ? canHunt : false); 
+            Debug.Log(playerHasSufficientCrows ? canHunt : false); 
             return playerHasSufficientCrows ? canHunt : false;
         }
         GridPosition InvestigateHint()

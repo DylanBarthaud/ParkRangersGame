@@ -140,10 +140,13 @@ public class PlayerInfoHolder : NetworkBehaviour, IAiSensible, IHurtable
         float loudestHeardAudioSquared = -100f; 
 
         foreach(AudioSource audioSource  in audioSources)
-            if(audioSource.isPlaying && audioSource.maxDistance > loudestHeardAudioSquared)
+        {
+            if( audioSource == null) continue;
+            if (audioSource.isPlaying && audioSource.maxDistance > loudestHeardAudioSquared)
                 loudestHeardAudioSquared = audioSource.maxDistance * audioSource.maxDistance;
+        }
 
-        if(voiceInputController.GetVoiceVolumeSquared() > loudestHeardAudioSquared) 
+        if (voiceInputController.GetVoiceVolumeSquared() > loudestHeardAudioSquared) 
             loudestHeardAudioSquared = voiceInputController.GetVoiceVolumeSquared();
 
         Debug.Log(loudestHeardAudioSquared); 
