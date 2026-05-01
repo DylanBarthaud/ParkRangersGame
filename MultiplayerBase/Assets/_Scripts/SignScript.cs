@@ -26,6 +26,7 @@ public class SignScript : MonoBehaviour
     {
 
         // Creates a ray going from the camera.
+        if (Camera.main == null) return; 
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 
         // Stores information about what the Raycast hit.

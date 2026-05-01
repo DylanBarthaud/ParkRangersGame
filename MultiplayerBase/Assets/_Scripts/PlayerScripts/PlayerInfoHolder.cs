@@ -54,6 +54,11 @@ public class PlayerInfoHolder : NetworkBehaviour, IAiSensible, IHurtable
         localLoseRavenTick = 0; 
     }
 
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.M)) IsKilled(); 
+    }
+
     private void OnTick(int obj)
     {
         //Debug.Log(GetAudioDataSquared()); 

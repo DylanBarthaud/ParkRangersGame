@@ -29,6 +29,11 @@ public class Ai_Senses : NetworkBehaviour, IExpert
         EventManager.instance.onTick += OnTick;
     }
 
+    public override void OnNetworkDespawn()
+    {
+        EventManager.instance.onTick -= OnTick;
+    }
+
     private void OnTick(int tick)
     {
         if (!IsHost) return;

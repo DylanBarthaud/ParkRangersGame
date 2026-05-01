@@ -25,7 +25,7 @@ public class GameManager : NetworkBehaviour
     private Dictionary<MiniGameTypes, GameObject> miniGameDictionary = new Dictionary<MiniGameTypes, GameObject>();
 
     public MapHandler mapHandler;
-    [SerializeField] Terrain terrain;
+    Terrain terrain;
     [Header("Grid")]
     [SerializeField] int width;
     [SerializeField] int height;
@@ -69,7 +69,9 @@ public class GameManager : NetworkBehaviour
     }
     private void OnSceneLoaded(string sceneName, LoadSceneMode loadSceneMode, List<ulong> clientsCompleted, List<ulong> clientsTimedOut)
     {
-        if (sceneName != "MainGame") return; 
+        if (sceneName != "MainGame") return;
+        Debug.Log("SETMAP");
+        Terrain terrain = Terrain.activeTerrain;
         mapHandler = new MapHandler(width, height, cellSize, terrain, IsHost, maxSteepness, spawnableObjects, numberOfSpawns);
     }
 

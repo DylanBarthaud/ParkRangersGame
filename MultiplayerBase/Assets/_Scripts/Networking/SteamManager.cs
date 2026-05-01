@@ -30,7 +30,6 @@ public class SteamManager : MonoBehaviour
         SteamMatchmaking.OnLobbyMemberJoined += MemberJoinedLobby;
         SteamFriends.OnGameLobbyJoinRequested += GameLobbyJoinRequested;
     }
-
     private void MemberJoinedLobby(Lobby lobby, Friend friend)
     {
         Debug.Log(friend.ToString() + "joined");
@@ -45,9 +44,7 @@ public class SteamManager : MonoBehaviour
     private void Start()
     {
         Cursor.lockState = CursorLockMode.None;
-        startMenu.SetActive(true);
-        mainMenu.SetActive(false);
-        inLobbyMenu.SetActive(false);
+        CheckUI(); 
     }
 
     private void GameLobbyJoinRequested(Lobby lobby, SteamId id)
@@ -63,7 +60,7 @@ public class SteamManager : MonoBehaviour
             lobby.SetJoinable(true);
 
             NetworkManager.Singleton.StartHost();
-            peopleInLobby.text = lobby.Owner.Name + "\n";
+            //peopleInLobby.text = lobby.Owner.Name + "\n";
         }
     }
 
@@ -76,11 +73,6 @@ public class SteamManager : MonoBehaviour
         NetworkManager.Singleton.gameObject.GetComponent<FacepunchTransport>().targetSteamId = lobby.Owner.Id;
         NetworkManager.Singleton.StartClient();
         peopleInLobby.text = "";
-        IEnumerable<Friend> friends = lobby.Members; 
-        foreach (Friend friend in friends)
-        {
-            peopleInLobby.text += friend.Name + "\n"; 
-        }
     }
 
     public async void HostLobby()
@@ -127,12 +119,21 @@ public class SteamManager : MonoBehaviour
     {
         if (LobbySaver.instance.currentLobby != null)
         {
+            startMenu.SetActive(false);
             mainMenu.SetActive(false);
             inLobbyMenu.SetActive(true);
+
+            lobbyId.text = LobbySaver.instance.currentLobby?.Id.ToString();
+            IEnumerable<Friend> friends = LobbySaver.instance.currentLobby?.Members;
+            foreach (Friend friend in friends)
+            {
+                peopleInLobby.text += friend.Name + "\n";
+            }
         }
         else
         {
-            mainMenu.SetActive(true);
+            startMenu.SetActive(true);
+            mainMenu.SetActive(false);
             inLobbyMenu.SetActive(false);
         }
     }
@@ -140,7 +141,7 @@ public class SteamManager : MonoBehaviour
     public void StartGameServer()
     {
         if (NetworkManager.Singleton.IsHost)
-        {
+        { 
             NetworkManager.Singleton.SceneManager.LoadScene("MainGame", LoadSceneMode.Single);
         }
     }

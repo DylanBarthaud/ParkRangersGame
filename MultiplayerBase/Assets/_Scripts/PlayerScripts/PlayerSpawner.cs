@@ -7,7 +7,7 @@ using BlackboardSystem;
 
 public class PlayerSpawner : NetworkBehaviour
 {
-    private const bool DESTROY_WITH_SCENE_BOOL = true;
+    private const bool DESTROY_WITH_SCENE_BOOL = false;
 
     [SerializeField] private GameObject playerPrefab;
     private Blackboard blackboard;
