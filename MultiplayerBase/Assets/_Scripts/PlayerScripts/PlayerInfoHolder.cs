@@ -54,9 +54,15 @@ public class PlayerInfoHolder : NetworkBehaviour, IAiSensible, IHurtable
         localLoseRavenTick = 0; 
     }
 
+    public override void OnNetworkDespawn()
+    {
+        EventManager.instance.onTick_5 -= OnTick_5;
+        EventManager.instance.onTick -= OnTick;
+    }
+
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.M) && !isDead && IsOwner) IsKilled(); 
+        if (Input.GetKeyDown(KeyCode.L) && !isDead && IsOwner) IsKilled(); 
     }
 
     private void OnTick(int obj)

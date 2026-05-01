@@ -177,6 +177,15 @@ public class FirstPersonController : NetworkBehaviour
         clientSettings = GameObject.Find("ClientSettings");
     }
 
+    public override void OnNetworkDespawn()
+    {
+        EventManager.instance.onButtonHeld -= DisableMovement;
+        EventManager.instance.onButtonReleased -= EnableMovement;
+        EventManager.instance.onPuzzleComplete -= OnPuzzleComplete;
+        EventManager.instance.onPlayerKilled -= OnPlayerKilled;
+        EventManager.instance.onTick -= OnTick;
+    }
+
     private void OnPuzzleComplete(bool s, IInteractable puzzle = null)
     {
         EnableMovement();
