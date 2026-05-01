@@ -68,11 +68,11 @@ public class SteamManager : MonoBehaviour
     {
         LobbySaver.instance.currentLobby = lobby;
         lobbyId.text = lobby.Id.ToString();
+        peopleInLobby.text = "";
         CheckUI();
         if (NetworkManager.Singleton.IsHost) return;
         NetworkManager.Singleton.gameObject.GetComponent<FacepunchTransport>().targetSteamId = lobby.Owner.Id;
         NetworkManager.Singleton.StartClient();
-        peopleInLobby.text = "";
     }
 
     public async void HostLobby()
