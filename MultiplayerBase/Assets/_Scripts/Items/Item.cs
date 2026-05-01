@@ -39,7 +39,7 @@ public abstract class Item : NetworkBehaviour, IInteractable
     public abstract void UseItem(GameObject user);
     public void DropItem(Vector3 newPos) 
     {
-        if (gFXHandler != null && removeOnPickUp) DropItemServerRpc(newPos);
+        if (gFXHandler != null && removeOnPickUp) DropItemServerRpc(newPos, Camera.main.transform.forward);
     }
 
     public bool CanInteract(Interactor interactor, ItemType itemType = ItemType.None)
@@ -64,14 +64,14 @@ public abstract class Item : NetworkBehaviour, IInteractable
     }
 
     [ServerRpc(RequireOwnership = false)]
-    private void DropItemServerRpc(Vector3 newPos)
+    private void DropItemServerRpc(Vector3 newPos, Vector3 foward)
     {
         SetItemColliderClientRpc(true);
         DropItemClientRpc();
 
         transform.position = newPos;
         GetComponent<Rigidbody>().AddForce(Vector3.up * throwForceup, ForceMode.Impulse);
-        GetComponent<Rigidbody>().AddForce(Camera.main.transform.forward * throwForceFoward, ForceMode.Impulse);
+        GetComponent<Rigidbody>().AddForce(foward * throwForceFoward, ForceMode.Impulse);
     }
 
     [ClientRpc]

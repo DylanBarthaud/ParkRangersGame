@@ -3,10 +3,15 @@ using UnityEngine;
 public class Flare : Item
 {
     [Header("Flare Settings")]
-    [SerializeField] private GameObject particles; 
+    private GFXHandler gfx;
+
+    private void Awake()
+    {
+        gfx = GetComponent<GFXHandler>();
+    }
 
     public override void UseItem(GameObject user)
     {
-        particles.SetActive(!particles.activeInHierarchy);
+        gfx.EnableGFXServerRpc("Particles");
     }
 }
