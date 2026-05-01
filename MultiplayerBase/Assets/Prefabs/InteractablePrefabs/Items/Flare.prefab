@@ -235,6 +235,7 @@ GameObject:
   - component: {fileID: 6562732030891267351}
   - component: {fileID: 6978357015246135275}
   - component: {fileID: 3690164431714288136}
+  - component: {fileID: 795714908494978876}
   m_Layer: 0
   m_Name: Point Light
   m_TagString: Untagged
@@ -361,6 +362,22 @@ MonoBehaviour:
   anisotropy: 0.874
   scattering: 0.07
   radius: 0.018
+--- !u!114 &795714908494978876
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1434799443328872216}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bb90e106c03817b4fa716126b9149f5d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gfx:
+  - {fileID: 1434799443328872216}
+  gfxName: Particles
+  materials: []
 --- !u!1 &4631344134943139860
 GameObject:
   m_ObjectHideFlags: 0
@@ -5209,6 +5226,8 @@ GameObject:
   - component: {fileID: 4022448843850802454}
   - component: {fileID: 2914408668598901024}
   - component: {fileID: 7297536465420800186}
+  - component: {fileID: 8717031359175044371}
+  - component: {fileID: -262502233677825264}
   m_Layer: 3
   m_Name: Flare
   m_TagString: Untagged
@@ -5272,6 +5291,7 @@ MonoBehaviour:
   ShowTopMostFoldoutHeaderGroup: 1
   gfxWrapperArray:
   - {fileID: 7680333448727078238}
+  - {fileID: 795714908494978876}
 --- !u!65 &9084292814626554655
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -5361,4 +5381,67 @@ MonoBehaviour:
   throwForceFoward: 20
   throwForceup: 30
   gFXHandler: {fileID: 7999298913703856445}
-  particles: {fileID: 1434799443328872216}
+  gfx: {fileID: 0}
+--- !u!114 &8717031359175044371
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5792503391861212605}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e96cb6065543e43c4a752faaa1468eb1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
+  NetworkTransformExpanded: 0
+  AutoOwnerAuthorityTickOffset: 1
+  PositionInterpolationType: 0
+  RotationInterpolationType: 0
+  ScaleInterpolationType: 0
+  PositionLerpSmoothing: 1
+  PositionMaxInterpolationTime: 0.1
+  RotationLerpSmoothing: 1
+  RotationMaxInterpolationTime: 0.1
+  ScaleLerpSmoothing: 1
+  ScaleMaxInterpolationTime: 0.1
+  AuthorityMode: 0
+  TickSyncChildren: 0
+  UseUnreliableDeltas: 0
+  SyncPositionX: 1
+  SyncPositionY: 1
+  SyncPositionZ: 1
+  SyncRotAngleX: 1
+  SyncRotAngleY: 1
+  SyncRotAngleZ: 1
+  SyncScaleX: 0
+  SyncScaleY: 0
+  SyncScaleZ: 0
+  PositionThreshold: 0.001
+  RotAngleThreshold: 0.01
+  ScaleThreshold: 0.01
+  UseQuaternionSynchronization: 0
+  UseQuaternionCompression: 0
+  UseHalfFloatPrecision: 0
+  InLocalSpace: 0
+  SwitchTransformSpaceWhenParented: 0
+  Interpolate: 1
+  SlerpPosition: 0
+--- !u!114 &-262502233677825264
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5792503391861212605}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f6c0be61502bb534f922ebb746851216, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
+  NetworkRigidbodyBaseExpanded: 0
+  UseRigidBodyForMotion: 0
+  AutoUpdateKinematicState: 1
+  AutoSetKinematicOnDespawn: 1

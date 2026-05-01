@@ -64,13 +64,18 @@ public class GameManager : NetworkBehaviour
     public override void OnNetworkSpawn()
     {
         NetworkManager.Singleton.SceneManager.OnLoadEventCompleted += OnSceneLoaded;
+        /*
+        if (SceneManager.GetActiveScene().name != "MainGame") return;
+        Terrain terrain = Terrain.activeTerrain;
+        mapHandler = new MapHandler(width, height, cellSize, terrain, IsHost, maxSteepness, spawnableObjects, numberOfSpawns);
+        */
         if (!IsHost) return;
         ChangeButtonsPressedUIClientRpc(0);
     }
+
     private void OnSceneLoaded(string sceneName, LoadSceneMode loadSceneMode, List<ulong> clientsCompleted, List<ulong> clientsTimedOut)
     {
         if (sceneName != "MainGame") return;
-        Debug.Log("SETMAP");
         Terrain terrain = Terrain.activeTerrain;
         mapHandler = new MapHandler(width, height, cellSize, terrain, IsHost, maxSteepness, spawnableObjects, numberOfSpawns);
     }

@@ -121,6 +121,11 @@ public class Ai_Overlord : MonoBehaviour, IExpert
         #endregion
     }
 
+    private void OnDestroy()
+    {
+        EventManager.instance.onTick_5 -= OnTick;
+    }
+
     #region Events
     private void OnTick(int tick)
     {
