@@ -1,3 +1,4 @@
+using System;
 using Unity.Netcode;
 using UnityEngine;
 
@@ -31,6 +32,8 @@ public abstract class Item : NetworkBehaviour, IInteractable
     [SerializeField] private int throwForceFoward, throwForceup; 
     [SerializeField] private GFXHandler gFXHandler;
 
+    private bool canPickUpItem = true; 
+
     private void Awake()
     {
         gFXHandler = GetComponent<GFXHandler>();
@@ -44,7 +47,7 @@ public abstract class Item : NetworkBehaviour, IInteractable
 
     public bool CanInteract(Interactor interactor, ItemType itemType = ItemType.None)
     {
-        if (interactor.gameObject.GetComponent<Inventory>() != null) return true;
+        if (interactor.gameObject.GetComponent<Inventory>() != null && canPickUpItem) return true;
         return false;
     }
 
@@ -90,5 +93,13 @@ public abstract class Item : NetworkBehaviour, IInteractable
     private void SetItemColliderClientRpc(bool enabled)
     {
         GetComponent<Collider>().enabled = enabled;
+    }
+
+    [ServerRpc(RequireOwnership = false)]
+    protected void SetCanPickUpItemServerRPC(bool canPickUp) => SetCanPickUpItemClientRPC(canPickUp);
+    [ClientRpc]
+    private void SetCanPickUpItemClientRPC(bool canPickUp)
+    {
+        canPickUpItem = canPickUp;
     }
 }
