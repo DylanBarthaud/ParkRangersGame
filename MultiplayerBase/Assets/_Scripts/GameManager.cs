@@ -75,7 +75,7 @@ public class GameManager : NetworkBehaviour
 
     private void Update()
     {
-        if(clientPlayerIsDead && Input.GetKeyDown(KeyCode.RightArrow)) CycleSpectate(); 
+        if(clientPlayerIsDead && Input.GetKeyDown(KeyCode.Mouse0)) CycleSpectate(); 
     }
 
     public void SpawnObjectOnNetwork(int objId, Vector3 pos, Quaternion rot, bool destroyWithScene = true)
@@ -193,6 +193,7 @@ public class GameManager : NetworkBehaviour
 
     private void CycleSpectate()
     {
+        Debug.Log("Cycle spectate"); 
         Blackboard blackboard = BlackboardController.instance.GetBlackboard();
         if (blackboard.TryGetValue(playerBlackboardKeys[playerSpectatingIndex], out PlayerInfo prevPlayerSpectatingInfo))
         {
