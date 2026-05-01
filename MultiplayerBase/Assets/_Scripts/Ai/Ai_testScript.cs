@@ -274,6 +274,15 @@ public class Ai_testScript : NetworkBehaviour
         #endregion
     }
 
+    public override void OnNetworkDespawn()
+    {
+        EventManager.instance.onTick_5 -= OnTick_5;
+        EventManager.instance.onBurrow -= OnBurrow;
+        EventManager.instance.onUnBurrow -= OnUnBurrow;
+        EventManager.instance.onPlayerSpawned -= OnPlayerSpawned;
+        EventManager.instance.onPlayerKilled -= OnPlayerKilled;
+    }
+
     private void OnPlayerSpawned(BlackboardKey key) => root.Reset();
 
     private void OnPlayerKilled(BlackboardKey key)
