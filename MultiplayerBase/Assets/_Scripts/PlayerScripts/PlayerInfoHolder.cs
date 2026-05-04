@@ -14,6 +14,8 @@ public class PlayerInfoHolder : NetworkBehaviour, IAiSensible, IHurtable
     [SerializeField] VoiceInputController voiceInputController;
 
     [SerializeField] GameObject playerCompass;
+    [SerializeField] private GameObject playerTorch;
+    public GameObject PlayerTorch => playerTorch;
 
     [Header("Raven Settings")]
     [SerializeField] int tryAddRavenTick = 2; 

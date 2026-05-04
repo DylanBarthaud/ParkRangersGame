@@ -40,18 +40,18 @@ public abstract class Item : NetworkBehaviour, IInteractable
     }
 
     public abstract void UseItem(GameObject user);
-    public void DropItem(Vector3 newPos) 
+    public virtual void DropItem(Vector3 newPos) 
     {
         if (gFXHandler != null && removeOnPickUp) DropItemServerRpc(newPos, Camera.main.transform.forward);
     }
 
-    public bool CanInteract(Interactor interactor, ItemType itemType = ItemType.None)
+    public virtual bool CanInteract(Interactor interactor, ItemType itemType = ItemType.None)
     {
         if (interactor.gameObject.GetComponent<Inventory>() != null && canPickUpItem) return true;
         return false;
     }
 
-    public void OnInteract(Interactor interactor, ItemType itemType = ItemType.None)
+    public virtual void OnInteract(Interactor interactor, ItemType itemType = ItemType.None)
     {
         Inventory interactorInventory = interactor.gameObject.GetComponent<Inventory>();
         if (interactorInventory != null)

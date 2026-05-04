@@ -1246,6 +1246,7 @@ MonoBehaviour:
   - {fileID: -8493547404905070063}
   voiceInputController: {fileID: -2821817791472356823}
   playerCompass: {fileID: 3819259985742591833}
+  playerTorch: {fileID: 8925422123525847256}
   tryAddRavenTick: 10
   tryRemoveRavenTick: 100
   volumeToAddRavenGate: -50.3
@@ -3406,9 +3407,17 @@ PrefabInstance:
       propertyPath: m_Intensity
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7710548520806992763, guid: b8fdce78effa52742b4eca27910b8bb1, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7771500965225984636, guid: b8fdce78effa52742b4eca27910b8bb1, type: 3}
       propertyPath: m_Name
       value: Torch
+      objectReference: {fileID: 0}
+    - target: {fileID: 7771500965225984636, guid: b8fdce78effa52742b4eca27910b8bb1, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -3418,6 +3427,11 @@ PrefabInstance:
 --- !u!4 &6162102398168585669 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5008211321945464673, guid: b8fdce78effa52742b4eca27910b8bb1, type: 3}
+  m_PrefabInstance: {fileID: 1154208835235072676}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &8925422123525847256 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7771500965225984636, guid: b8fdce78effa52742b4eca27910b8bb1, type: 3}
   m_PrefabInstance: {fileID: 1154208835235072676}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &6568985258769855537
