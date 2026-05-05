@@ -35,6 +35,9 @@ public class FirstPersonController : NetworkBehaviour
     public bool IsCrouching => isCrouched;
     private bool wasCrouched = false;
 
+    public bool IsGrounded => isGrounded;
+    private bool wasGrounded = false;
+
     #region Camera Movement Variables
 
     public Camera playerCamera;
@@ -661,6 +664,12 @@ public class FirstPersonController : NetworkBehaviour
 
     private void Jump()
     {
+        if (wasGrounded != isGrounded)
+        {
+            EnableIsSprintingServerRpc(isGrounded);
+            wasGrounded = isGrounded;
+        }
+
         // Adds force to the player rigidbody to jump
         if (isGrounded)
         {

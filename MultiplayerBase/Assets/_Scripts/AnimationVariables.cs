@@ -50,5 +50,14 @@ public class AnimationVariables : MonoBehaviour
         {
             _animator.SetBool("IsCrouching", false);
         }
+        
+        if (_firstPersonVariables.IsGrounded == false)
+        {
+            _animator.SetBool("IsGrounded", false);
+        }
+        else
+        {
+            _animator.SetBool("IsGrounded", true);
+        }
     }
 }
