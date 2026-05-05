@@ -75,6 +75,7 @@ public class VoiceInputController : NetworkBehaviour
 
         if (Input.GetKeyDown(KeyCode.P))
         {
+            Debug.Log($"can hear self: {!canHearSelf}");
             canHearSelf = !canHearSelf;
         }
 
@@ -246,7 +247,15 @@ public class VoiceInputController : NetworkBehaviour
     private void ActivateRadioVoiceClientRpc()
     {
         if (IsOwner) return;
-        if(source.spatialBlend > 0) source.spatialBlend = 0;
-        else source.spatialBlend = 1;
+        if(source.spatialBlend > 0)
+        {
+            source.spatialBlend = 0;
+            optimalRate = (int)SteamUser.OptimalSampleRate / 2;
+        }
+        else
+        {
+            source.spatialBlend = 1;
+            optimalRate = (int)SteamUser.OptimalSampleRate;
+        }
     }
 }
