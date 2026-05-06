@@ -1,3 +1,4 @@
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class TorchItem : Item
@@ -17,10 +18,14 @@ public class TorchItem : Item
         playerTorchLight.SetActive(!playerTorchLight.activeInHierarchy);
     }
 
-    public override void DropItem(Vector3 newPos)
+    public override void DropItem(Vector3 newPos, Inventory inventory )
     {
-        playerTorch.SetActive(false);
-        playerTorch.transform.GetChild(0).gameObject.SetActive(false);
-        base.DropItem(newPos);
+        base.DropItem(newPos, inventory);
+
+        if (!inventory.hasItemOfType<TorchItem>())
+        {
+            playerTorch.SetActive(false);
+            playerTorch.transform.GetChild(0).gameObject.SetActive(false);
+        }
     }
 }

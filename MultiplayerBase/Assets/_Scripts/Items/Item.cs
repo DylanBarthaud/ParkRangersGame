@@ -40,7 +40,7 @@ public abstract class Item : NetworkBehaviour, IInteractable
     }
 
     public abstract void UseItem(GameObject user);
-    public virtual void DropItem(Vector3 newPos) 
+    public virtual void DropItem(Vector3 newPos, Inventory inventory) 
     {
         if (gFXHandler != null && removeOnPickUp) DropItemServerRpc(newPos, Camera.main.transform.forward);
     }
