@@ -1,6 +1,7 @@
 using JetBrains.Annotations;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Runtime.CompilerServices;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -70,10 +71,6 @@ public class Inventory : MonoBehaviour
 
         }
 
-
-
-
-
         if (Input.GetKeyDown(KeyCode.Mouse0)
             && items.Count > 0
             && items[selectedItemSlot] != null)
@@ -86,9 +83,10 @@ public class Inventory : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.Q) && items.Count > 0)
         {
-            if (items[selectedItemSlot] == null) return; 
-            items[selectedItemSlot].DropItem(gameObject.transform.position);
-            RemoveItem(items[selectedItemSlot]);
+            if (items[selectedItemSlot] == null) return;
+            Item item = items[selectedItemSlot];
+            RemoveItem(item);
+            item.DropItem(gameObject.transform.position, this);
         }
 
         if (Input.mouseScrollDelta.y > 0 && selectedItemSlot < items.Count - 1)
@@ -123,7 +121,6 @@ public class Inventory : MonoBehaviour
             inventorySlots[selectedItemSlot].GetComponent<Image>().color = Color.gray;
             selectedItemSlot--;
             inventorySlots[selectedItemSlot].GetComponent<Image>().color = Color.green;
-
         }
 
         items.Remove(item);
@@ -135,5 +132,17 @@ public class Inventory : MonoBehaviour
             i++;
         }
 
+    }
+
+    public bool hasItem(Item item)
+    {
+        if(items.Contains(item)) return true;
+        return false;
+    }
+
+    public bool hasItemOfType<T>()
+    {
+       foreach(var item in items) if (item.GetType() == typeof(T)) return true;
+       return false;
     }
 }
