@@ -3,12 +3,16 @@ using Newtonsoft.Json.Converters;
 using System;
 using UnityEngine;
 
+
+
 public class DiscordManager : MonoBehaviour
 {
 
     Discord.Discord discord;
     long launchtime = 0;
-    //DateTime currentTime = DateTime.UtcNow;
+
+    public string state = string.Empty;
+    public string details = string.Empty;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -22,11 +26,7 @@ public class DiscordManager : MonoBehaviour
         discord = new Discord.Discord(1501573658127368262, (ulong)Discord.CreateFlags.NoRequireDiscord);
         ChangeActivity();
 
-        
-        //launchtime = ((DateTimeOffset)currentTime).ToUnixTimeSeconds();
-        //System.DateTime.Now.ToUniversalTime();
-        //DateTimeOffset.UtcNow.ToUnixTimeSeconds();
-
+        DontDestroyOnLoad(this.gameObject);
     }
 
 
@@ -40,8 +40,8 @@ public class DiscordManager : MonoBehaviour
         var activityManager = discord.GetActivityManager();
         var activity = new Discord.Activity
         {
-            State = "Playing",
-            Details = "and Crying!",
+            State = state,
+            Details = details,
             Assets =
             {
                 LargeImage = "",
@@ -71,6 +71,7 @@ public class DiscordManager : MonoBehaviour
 
     }
 
+    
     // Update is called once per frame
     void Update()
     {
