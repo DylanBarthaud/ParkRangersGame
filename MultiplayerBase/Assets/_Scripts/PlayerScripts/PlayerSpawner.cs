@@ -53,5 +53,7 @@ public class PlayerSpawner : NetworkBehaviour
             EventManager.instance.OnPlayerSpawned(key);
             i++;
         }
+
+        EventManager.instance.PlayerSpawningComplete(); 
     }
 }

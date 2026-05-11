@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 using Unity.Netcode.Components;
+using Unity.Netcode;
 
 public class AnimationVariables : MonoBehaviour
 {
@@ -24,6 +25,8 @@ public class AnimationVariables : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        Debug.Log($"Updating on client: {NetworkManager.Singleton.LocalClientId}"); 
+
         Vector3 currentPos = transform.position;
         Vector3 worldDelta = currentPos - lastPosition;
         Vector3 localDelta = transform.InverseTransformDirection(worldDelta);

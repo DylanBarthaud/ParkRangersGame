@@ -24,6 +24,7 @@ public class EventManager : MonoBehaviour
     public event Action<int> onTick_5;
 
     public event Action<BlackboardKey> onPlayerSpawned;
+    public event Action playerSpawningComplete;
     public event Action<BlackboardKey> onPlayerKilled;
 
     public event Action<bool, IInteractable> onPuzzleComplete; 
@@ -58,6 +59,10 @@ public class EventManager : MonoBehaviour
     public void OnPlayerSpawned(BlackboardKey playerKey)
     {
         if(onPlayerSpawned != null) onPlayerSpawned(playerKey);
+    }
+    public void PlayerSpawningComplete()
+    {
+        playerSpawningComplete?.Invoke();
     }
     public void OnPlayerKilled(BlackboardKey playerKey)
     {

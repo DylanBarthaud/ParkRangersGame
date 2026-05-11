@@ -5,6 +5,7 @@ using BlackboardSystem;
 using System.Collections.Generic;
 using Discord;
 using Unity.Netcode;
+using System;
 
 // ============== INSTRUCTION ==============
 // Create empty game object and add "Spline Container" component
@@ -23,35 +24,42 @@ public class RiverSoundSpline : MonoBehaviour
     public Transform Player;
 
     public float loadTime = 2f;
-    private void Start()
+    private void Awake()
+    {
+        EventManager.instance.playerSpawningComplete += SetPlayer;
+    }
+
+    private void SetPlayer()
     {
         Blackboard blackboard = BlackboardController.instance.GetBlackboard();
         List<BlackboardKey> playerKeys = GameManager.instance.playerBlackboardKeys;
         foreach (BlackboardKey key in playerKeys)
         {
-            if(blackboard.TryGetValue(key, out PlayerInfo playerInfo))
+            if (blackboard.TryGetValue(key, out PlayerInfo playerInfo))
             {
-                if (playerInfo.id == Unity.Netcode.NetworkManager.Singleton.LocalClientId) 
-                    Player = playerInfo.playerCamera.transform; 
+                if (playerInfo.id == Unity.Netcode.NetworkManager.Singleton.LocalClientId)
+                    Player = playerInfo.playerCamera.transform;
             }
         }
     }
 
     void Update()
     {
-                // Convert Player position to spline local space
-                Vector3 localPlayerPos = Spline.transform.InverseTransformPoint(Player.position);
+        if (Player == null) return;  
 
-                // Find nearest point on spline
-                SplineUtility.GetNearestPoint(Spline.Spline, localPlayerPos, out float3 nearestPointLocal, out float normalizedT);
+        // Convert Player position to spline local space
+        Vector3 localPlayerPos = Spline.transform.InverseTransformPoint(Player.position);
 
-                // Convert back to world space
-                Vector3 nearestWorldPos = Spline.transform.TransformPoint(nearestPointLocal);
+        // Find nearest point on spline
+        SplineUtility.GetNearestPoint(Spline.Spline, localPlayerPos, out float3 nearestPointLocal, out float normalizedT);
 
-                // Set object position and rotation
-                transform.position = nearestWorldPos;
-                Vector3 tangent = Spline.transform.TransformDirection(Spline.Spline.EvaluateTangent(normalizedT));
-                if (tangent != Vector3.zero)
-                    transform.rotation = Quaternion.LookRotation(tangent);
+        // Convert back to world space
+        Vector3 nearestWorldPos = Spline.transform.TransformPoint(nearestPointLocal);
+
+        // Set object position and rotation
+        transform.position = nearestWorldPos;
+        Vector3 tangent = Spline.transform.TransformDirection(Spline.Spline.EvaluateTangent(normalizedT));
+        if (tangent != Vector3.zero)
+            transform.rotation = Quaternion.LookRotation(tangent);
     }
 }
