@@ -654,11 +654,11 @@ public class FirstPersonController : NetworkBehaviour
         if (Physics.Raycast(origin, direction, out RaycastHit hit, distance))
         {
             Debug.DrawRay(origin, direction * distance, Color.red);
-            isGrounded = true;
+            EnableIsGroundedServerRpc(true); 
         }
         else
         {
-            isGrounded = false;
+            EnableIsGroundedServerRpc(false);
         }
     }
 
@@ -674,7 +674,7 @@ public class FirstPersonController : NetworkBehaviour
         if (isGrounded)
         {
             rb.AddForce(0f, jumpPower, 0f, ForceMode.Impulse);
-            isGrounded = false;
+            EnableIsGroundedServerRpc(false);
         }
 
         // When crouched and using toggle system, will uncrouch for a jump
@@ -757,6 +757,15 @@ public class FirstPersonController : NetworkBehaviour
     {
         //if (IsOwner) return;
         isCrouched = enabled; 
+    }
+
+    [ServerRpc(RequireOwnership = false)]
+    private void EnableIsGroundedServerRpc(bool enabled) => EnableIsGroundedClientRpc(enabled);
+    [ClientRpc]
+    private void EnableIsGroundedClientRpc(bool enabled)
+    {
+        //if (IsOwner) return;
+        isGrounded = enabled;
     }
 }
 
