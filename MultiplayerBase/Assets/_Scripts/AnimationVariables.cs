@@ -1,8 +1,5 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
-using Unity.Netcode.Components;
 using Unity.Netcode;
 
 public class AnimationVariables : MonoBehaviour
@@ -14,7 +11,6 @@ public class AnimationVariables : MonoBehaviour
 
     private Vector3 lastPosition = Vector3.zero;
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         _animator = GetComponentInChildren<Animator>();
@@ -22,10 +18,9 @@ public class AnimationVariables : MonoBehaviour
         _firstPersonVariables = GetComponent<FirstPersonController>();
     }
 
-    // Update is called once per frame
     void Update()
     {
-        Debug.Log($"Updating on client: {NetworkManager.Singleton.LocalClientId}"); 
+        Debug.Log($"Updating on client: {gameObject.GetComponent<NetworkObject>().OwnerClientId}"); 
 
         Vector3 currentPos = transform.position;
         Vector3 worldDelta = currentPos - lastPosition;
