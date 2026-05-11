@@ -1,8 +1,10 @@
-using System;
 using UnityEngine;
 using Unity.Mathematics;
 using UnityEngine.Splines;
-using System.Collections;
+using BlackboardSystem;
+using System.Collections.Generic;
+using Discord;
+using Unity.Netcode;
 
 // ============== INSTRUCTION ==============
 // Create empty game object and add "Spline Container" component
@@ -23,25 +25,17 @@ public class RiverSoundSpline : MonoBehaviour
     public float loadTime = 2f;
     private void Start()
     {
-        GameObject.FindGameObjectWithTag("Player");
-        StartCoroutine(getPLayer());  //This way works but is a worry, what iff is played on a slow machine and takes longer to load.
-
-    }
-
-
-
-    IEnumerator getPLayer()
-    {
-        while (goPlayer == null)
+        Blackboard blackboard = BlackboardController.instance.GetBlackboard();
+        List<BlackboardKey> playerKeys = GameManager.instance.playerBlackboardKeys;
+        foreach (BlackboardKey key in playerKeys)
         {
-            yield return new WaitForSeconds(loadTime);
-
-            goPlayer = GameObject.FindGameObjectWithTag("Player");
+            if(blackboard.TryGetValue(key, out PlayerInfo playerInfo))
+            {
+                if (playerInfo.id == Unity.Netcode.NetworkManager.Singleton.LocalClientId) 
+                    Player = playerInfo.playerCamera.transform; 
+            }
         }
-        Player = goPlayer.transform;
     }
-
-
 
     void Update()
     {
