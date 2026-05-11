@@ -1,21 +1,19 @@
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class TorchItem : Item
 {
-    private GameObject playerTorch;
+    PlayerInfoHolder playerInfoHolder;
 
     public override void OnInteract(Interactor interactor, ItemType itemType = ItemType.None)
     {
         base.OnInteract(interactor, itemType);
-        if (playerTorch == null) playerTorch = interactor.GetComponent<PlayerInfoHolder>().PlayerTorch;
-        playerTorch.SetActive(true);
+        if (playerInfoHolder == null) playerInfoHolder = interactor.GetComponent<PlayerInfoHolder>();
+        playerInfoHolder.ActivateTorchServerRPC(true);
     }
 
     public override void UseItem(GameObject user)
     {
-        GameObject playerTorchLight = playerTorch.transform.GetChild(0).gameObject;
-        playerTorchLight.SetActive(!playerTorchLight.activeInHierarchy);
+        playerInfoHolder.ActivateTorchServerRPC();
     }
 
     public override void DropItem(Vector3 newPos, Inventory inventory )
@@ -24,8 +22,7 @@ public class TorchItem : Item
 
         if (!inventory.hasItemOfType<TorchItem>())
         {
-            playerTorch.SetActive(false);
-            playerTorch.transform.GetChild(0).gameObject.SetActive(false);
+            playerInfoHolder.ActivateTorchServerRPC(false); 
         }
     }
 }

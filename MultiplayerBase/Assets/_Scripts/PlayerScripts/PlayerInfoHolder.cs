@@ -15,7 +15,6 @@ public class PlayerInfoHolder : NetworkBehaviour, IAiSensible, IHurtable
 
     [SerializeField] GameObject playerCompass;
     [SerializeField] private GameObject playerTorch;
-    public GameObject PlayerTorch => playerTorch;
 
     [Header("Raven Settings")]
     [SerializeField] int tryAddRavenTick = 2; 
@@ -117,6 +116,17 @@ public class PlayerInfoHolder : NetworkBehaviour, IAiSensible, IHurtable
     {
         Debug.Log($"Remove Raven to player {OwnerClientId} count: {playerInfo.ravenCount}");
         playerInfo.ravenCount--; 
+    }
+
+    [ServerRpc(RequireOwnership = false)]
+    public void ActivateTorchServerRPC(bool applyToModel = true) => ActivateTorchClientRPC(applyToModel);
+
+    [ClientRpc]
+    private void ActivateTorchClientRPC(bool applyToModel)
+    {
+        GameObject torchLight = playerTorch.transform.GetChild(0).gameObject;
+        torchLight.SetActive(!torchLight.activeInHierarchy);
+        if(applyToModel != playerTorch.activeInHierarchy) playerTorch.SetActive(applyToModel);
     }
 
     public void UpdateInfo(bool playerSeen, int importance = -1)
