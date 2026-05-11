@@ -20,13 +20,15 @@ public class AnimationVariables : MonoBehaviour
 
     void Update()
     {
-        Debug.Log($"Updating on client: {gameObject.GetComponent<NetworkObject>().OwnerClientId}"); 
-
         Vector3 currentPos = transform.position;
         Vector3 worldDelta = currentPos - lastPosition;
         Vector3 localDelta = transform.InverseTransformDirection(worldDelta);
         localDelta *= 10;
         lastPosition = currentPos;
+
+        Debug.Log($"Updating on client: {gameObject.GetComponent<NetworkObject>().OwnerClientId}\n" +
+                  $"X movement: {localDelta.x}\n" +
+                  $"Z movement: {localDelta.z}");
 
         _animator.SetFloat("MoveX", localDelta.x);
         _animator.SetFloat("MoveZ", localDelta.z);
