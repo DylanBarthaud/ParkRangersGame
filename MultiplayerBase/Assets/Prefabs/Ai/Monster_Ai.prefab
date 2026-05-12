@@ -4904,7 +4904,8 @@ GameObject:
   - component: {fileID: 1797313044507634291}
   - component: {fileID: 5940184560845537565}
   - component: {fileID: 3144581661527680361}
-  - component: {fileID: 5926240765442885139}
+  - component: {fileID: 4762571711040754181}
+  - component: {fileID: 5420939895347116711}
   m_Layer: 0
   m_Name: Monster_Ai
   m_TagString: Untagged
@@ -5387,7 +5388,7 @@ MonoBehaviour:
   gfxWrapperArray:
   - {fileID: 8558484680742527526}
   - {fileID: 8749929782993765202}
---- !u!95 &5926240765442885139
+--- !u!95 &4762571711040754181
 Animator:
   serializedVersion: 7
   m_ObjectHideFlags: 0
@@ -5396,8 +5397,8 @@ Animator:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5765290727647115912}
   m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 52a3bdf005b5a654b9dca53c0f802710, type: 2}
+  m_Avatar: {fileID: 9000000, guid: d2b7e1a251a8fdb48b0cbbbc26b98c9f, type: 3}
+  m_Controller: {fileID: 9100000, guid: cc51f1b6ac651684c90059a4b2fec727, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -5409,6 +5410,18 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &5420939895347116711
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5765290727647115912}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 23ec05e6bc552d543a982d67e1857c92, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &7255717422857557066
 PrefabInstance:
   m_ObjectHideFlags: 0
