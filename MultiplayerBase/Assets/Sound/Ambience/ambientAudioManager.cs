@@ -29,7 +29,7 @@ public class ambientAudioManager : MonoBehaviour
         while (true)
         {
             yield return new WaitForSeconds(Random.Range(5, 40));
-            Debug.Log("Looping");
+            
 
 
             currentAudioId = Random.Range(0, closeSources.Length);
