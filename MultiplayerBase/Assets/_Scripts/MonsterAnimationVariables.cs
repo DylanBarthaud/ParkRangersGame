@@ -1,16 +1,14 @@
 using UnityEngine;
+using UnityEngine.AI;
 
 public class MonsterAnimationVariables : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-        
-    }
+    [SerializeField] private NavMeshAgent _agent;
+    [SerializeField] private Animator animator;
 
-    // Update is called once per frame
     void Update()
     {
-        
+        Debug.Log(_agent.speed); 
+        animator.SetFloat("WalkSpeed", _agent.speed);
     }
 }

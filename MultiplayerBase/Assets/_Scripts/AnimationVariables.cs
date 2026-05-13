@@ -26,10 +26,6 @@ public class AnimationVariables : MonoBehaviour
         localDelta *= 10;
         lastPosition = currentPos;
 
-        Debug.Log($"Updating on client: {gameObject.GetComponent<NetworkObject>().OwnerClientId}\n" +
-                  $"X movement: {localDelta.x}\n" +
-                  $"Z movement: {localDelta.z}");
-
         _animator.SetFloat("MoveX", localDelta.x);
         _animator.SetFloat("MoveZ", localDelta.z);
 
