@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 2913087187192342608}
   - component: {fileID: 8204530846180675539}
   - component: {fileID: 6922453450895356294}
+  - component: {fileID: 5672589032101993816}
   m_Layer: 0
   m_Name: Point Light
   m_TagString: Untagged
@@ -137,6 +138,24 @@ MonoBehaviour:
   anisotropy: 0.498
   scattering: 0.05
   radius: 0.2
+--- !u!114 &5672589032101993816
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 261064621896596067}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0cdaaa8909b831842a2816bc4bb9c917, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  flashInterval: 10
+  enableMicroFlash: 1
+  randomFlashes: 1
+  microFlashInterval: 0.1
+  flashQuantity: 5
+  lightSource: {fileID: 2913087187192342608}
 --- !u!1 &4474395529147639013
 GameObject:
   m_ObjectHideFlags: 0

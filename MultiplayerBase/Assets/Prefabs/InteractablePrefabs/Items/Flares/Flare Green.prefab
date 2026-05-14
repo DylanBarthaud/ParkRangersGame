@@ -115,7 +115,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 04dda3b66d6a74f4f91e2f25622881f6, type: 2}
+  - {fileID: 2100000, guid: 83391dc269c445c41b712292198bcd04, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -201,7 +201,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 30889197255f4d84ca6c39ca2f995c05, type: 2}
+  - {fileID: 2100000, guid: 2994474a946303c40b84b29cc4209277, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -269,7 +269,7 @@ Light:
   m_Enabled: 1
   serializedVersion: 11
   m_Type: 2
-  m_Color: {r: 1, g: 0, b: 0, a: 1}
+  m_Color: {r: 0, g: 1, b: 0.17240834, a: 1}
   m_Intensity: 100
   m_Range: 10
   m_SpotAngle: 30
@@ -5158,7 +5158,7 @@ ParticleSystemRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 462b7e549773ec44fa6ac8a65ba57d34, type: 2}
+  - {fileID: 2100000, guid: 875bd34843d7c584b9b5d06adb1cf8f0, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -5229,7 +5229,7 @@ GameObject:
   - component: {fileID: 8717031359175044371}
   - component: {fileID: -262502233677825264}
   m_Layer: 3
-  m_Name: Flare
+  m_Name: Flare Green
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5263,7 +5263,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 3081348748
+  GlobalObjectIdHash: 3124265971
   InScenePlacedSourceGlobalObjectIdHash: 0
   DeferredDespawnTick: 0
   Ownership: 1
@@ -5381,7 +5381,6 @@ MonoBehaviour:
   throwForceFoward: 20
   throwForceup: 30
   gFXHandler: {fileID: 7999298913703856445}
-  gfx: {fileID: 0}
 --- !u!114 &8717031359175044371
 MonoBehaviour:
   m_ObjectHideFlags: 0

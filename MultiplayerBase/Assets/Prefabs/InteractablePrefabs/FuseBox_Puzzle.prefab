@@ -182,7 +182,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0cdaaa8909b831842a2816bc4bb9c917, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  flashInterval: 1
+  flashInterval: 2
+  enableMicroFlash: 1
+  microFlashInterval: 0.3
+  flashQuantity: 2
   lightSource: {fileID: 4120780298844417298}
 --- !u!1 &8747715435067450222
 GameObject:

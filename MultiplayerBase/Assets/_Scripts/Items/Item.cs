@@ -2,7 +2,7 @@ using System;
 using Unity.Netcode;
 using UnityEngine;
 
-public enum ItemType { None, WaterBucket, ScrewDriver, Fuse } 
+public enum ItemType { None, WaterBucket, ScrewDriver, Fuse, Fuel } 
 
 [RequireComponent(typeof(Collider))]
 [RequireComponent(typeof(GFXHandler))]
