@@ -104,8 +104,9 @@ public class PlayerInfoHolder : NetworkBehaviour, IAiSensible, IHurtable
     [ClientRpc]
     private void AddCrowClientRPC() 
     {
+        playerInfo.ravenCount++;
+        if (playerInfo.ravenCount >= playerInfo.maxRavens) playerInfo.ravenCount = playerInfo.maxRavens;
         Debug.Log($"Add Raven to player {OwnerClientId} count: {playerInfo.ravenCount}");
-        playerInfo.ravenCount++; 
     }
 
     [ServerRpc(RequireOwnership = false)]
@@ -114,8 +115,9 @@ public class PlayerInfoHolder : NetworkBehaviour, IAiSensible, IHurtable
     [ClientRpc]
     private void RemoveCrowClientRPC() 
     {
+        playerInfo.ravenCount--;
+        if(playerInfo.ravenCount == 0) playerInfo.ravenCount = 0;
         Debug.Log($"Remove Raven to player {OwnerClientId} count: {playerInfo.ravenCount}");
-        playerInfo.ravenCount--; 
     }
 
     [ServerRpc(RequireOwnership = false)]
