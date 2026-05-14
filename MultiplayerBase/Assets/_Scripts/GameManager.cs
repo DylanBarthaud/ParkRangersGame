@@ -1,6 +1,7 @@
 using BlackboardSystem;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -132,6 +133,16 @@ public class GameManager : NetworkBehaviour
         uiManager.ButtonsPressedText.text = buttons.ToString() + " / " + taskCompleteNeeded;
     }
 
+    [ServerRpc(RequireOwnership = false)]
+    private void SynqPlayerKeysServerRpc() => SynqPlayerKeyClientRpc(playerBlackboardKeys.ToArray());
+
+    [ClientRpc] 
+    private void SynqPlayerKeyClientRpc(BlackboardKey[] keys)
+    {
+        if (IsHost) return;
+        playerBlackboardKeys = keys.ToList(); 
+    }
+
     #region Player Functions
     [ServerRpc(RequireOwnership = false)]
     private void OnPlayerSpawnedServerRpc(BlackboardKey key)
@@ -235,6 +246,7 @@ public class GameManager : NetworkBehaviour
     public AudioClip GetAudioClip(ulong callerId)
     {
         List<AudioClip> audioClipList = new List<AudioClip>();
+        SynqPlayerKeysServerRpc(); 
 
         Blackboard blackboard = BlackboardController.instance.GetBlackboard();
         foreach (BlackboardKey key in playerBlackboardKeys)
