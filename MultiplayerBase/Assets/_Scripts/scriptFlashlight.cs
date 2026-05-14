@@ -27,6 +27,7 @@ public class scriptFlashlight : MonoBehaviour
     void Start()
     {
         curve = AnimationCurve.EaseInOut(maxIntensity, 15, minIntensity, 5);
+        playerCamera = Camera.main;
     } 
 
     // Update is called once per frame

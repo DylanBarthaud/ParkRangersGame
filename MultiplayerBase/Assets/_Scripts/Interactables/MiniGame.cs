@@ -31,7 +31,7 @@ public class MiniGame : NetworkBehaviour, IInteractable
             GameManager.instance.EnableMiniGame(game, gameObject);
         }
 
-        //SetCanInteractServerRpc(false);
+        SetCanInteractServerRpc(false);
     }
 
     public bool CanInteract(Interactor interactor, ItemType itemUsed = ItemType.None)
