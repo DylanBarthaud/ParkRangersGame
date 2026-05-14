@@ -243,10 +243,10 @@ public class GameManager : NetworkBehaviour
             {
                 if (playerInfo.id == callerId) continue;
 
+                Debug.Log("Found correct player");
                 AudioClip newClip = playerInfo.voiceInputController.CreatePlayerVoiceClip(); 
                 if(newClip != null)
                 {
-                    Debug.Log("CLIP NOT NULL"); 
                     audioClipList.Add(newClip);
                 }
             }

@@ -215,7 +215,7 @@ public class VoiceInputController : NetworkBehaviour
             && clipDuration > minSavedSampleDuration
             && clipDuration < maxSavedSampleDuration)
         {
-            //Debug.Log($"Stored clip from {OwnerClientId} samples: {recordedSamples.Count}, RMS: {GetMeanSquare(recordedSamples)}"); 
+            Debug.Log($"Stored clip from {OwnerClientId} samples: {recordedSamples.Count}, RMS: {GetMeanSquare(recordedSamples)}"); 
             storedSample = new List<float>(recordedSamples);
         }
 
