@@ -244,7 +244,11 @@ public class GameManager : NetworkBehaviour
                 if (playerInfo.id == callerId) continue;
 
                 AudioClip newClip = playerInfo.voiceInputController.CreatePlayerVoiceClip(); 
-                if(newClip != null) audioClipList.Add(newClip);
+                if(newClip != null)
+                {
+                    Debug.Log("CLIP NOT NULL"); 
+                    audioClipList.Add(newClip);
+                }
             }
         }
 
