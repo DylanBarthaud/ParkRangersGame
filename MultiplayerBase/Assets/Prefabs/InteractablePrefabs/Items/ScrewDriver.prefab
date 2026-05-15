@@ -64,9 +64,10 @@ GameObject:
   - component: {fileID: 9084292814626554655}
   - component: {fileID: 4022448843850802454}
   - component: {fileID: 2914408668598901024}
+  - component: {fileID: 8528669346643761635}
   m_Layer: 3
   m_Name: ScrewDriver
-  m_TagString: Untagged
+  m_TagString: InteractObject
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -126,7 +127,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
   itemType: 2
-  sprite: {fileID: 21300000, guid: 9382c856352ae4001b0ec605e74a61de, type: 3}
+  sprite: {fileID: 21300000, guid: 543f6436e983c1d40a95ac5cb3fa24e8, type: 3}
   infiniteUses: 1
   uses: 0
   hasAudio: 0
@@ -220,6 +221,21 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 1
+--- !u!114 &8528669346643761635
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5792503391861212605}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2292959759109d646827d93d98189970, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  itemName: Screwdriver
+  itemextraInfo: Fix it Felix
+  inspectController: {fileID: 0}
 --- !u!1001 &3612734923586287878
 PrefabInstance:
   m_ObjectHideFlags: 0

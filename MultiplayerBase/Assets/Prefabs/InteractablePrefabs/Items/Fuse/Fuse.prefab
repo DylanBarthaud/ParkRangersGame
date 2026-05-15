@@ -64,9 +64,10 @@ GameObject:
   - component: {fileID: 9084292814626554655}
   - component: {fileID: 4022448843850802454}
   - component: {fileID: 2914408668598901024}
+  - component: {fileID: 8049030945955497089}
   m_Layer: 3
   m_Name: Fuse
-  m_TagString: Untagged
+  m_TagString: InteractObject
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -220,6 +221,21 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 1
+--- !u!114 &8049030945955497089
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5792503391861212605}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2292959759109d646827d93d98189970, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  itemName: Fuse
+  itemextraInfo: Go go, Power-rangers
+  inspectController: {fileID: 0}
 --- !u!1001 &8985874213349029127
 PrefabInstance:
   m_ObjectHideFlags: 0

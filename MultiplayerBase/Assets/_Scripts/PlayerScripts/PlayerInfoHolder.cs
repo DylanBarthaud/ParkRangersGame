@@ -12,6 +12,7 @@ public class PlayerInfoHolder : NetworkBehaviour, IAiSensible, IHurtable
     [SerializeField] int playerHealth;
     [SerializeField] AudioSource[] audioSources;
     [SerializeField] VoiceInputController voiceInputController;
+    [SerializeField] InspectController inspectController;
 
     [SerializeField] GameObject playerCompass;
     [SerializeField] private GameObject playerTorch;
@@ -46,6 +47,7 @@ public class PlayerInfoHolder : NetworkBehaviour, IAiSensible, IHurtable
         playerInfo.ravenCount = 0;
         playerInfo.maxRavens = 10; 
         playerInfo.voiceInputController = voiceInputController;
+        playerInfo.inspectController = inspectController;
         UpdateInfo(false, 0);
 
         EventManager.instance.onTick_5 += OnTick_5;

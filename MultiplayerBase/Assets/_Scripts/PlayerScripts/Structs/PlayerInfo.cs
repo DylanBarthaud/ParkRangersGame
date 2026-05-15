@@ -19,4 +19,5 @@ public struct PlayerInfo
     public ulong id;
     public List<ulong> spectatorIds; 
     public VoiceInputController voiceInputController;
+    public InspectController inspectController;
 }

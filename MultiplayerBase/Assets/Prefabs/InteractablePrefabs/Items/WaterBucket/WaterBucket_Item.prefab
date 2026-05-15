@@ -63,9 +63,10 @@ GameObject:
   - component: {fileID: 7655900671321464350}
   - component: {fileID: 3285712831813567906}
   - component: {fileID: -2082984901693053140}
+  - component: {fileID: 7645049001584190847}
   m_Layer: 3
   m_Name: WaterBucket_Item
-  m_TagString: Untagged
+  m_TagString: InteractObject
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -146,7 +147,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
   itemType: 1
-  sprite: {fileID: 21300000, guid: 338f0e6eb8f2be24798c73e7d29a009e, type: 3}
+  sprite: {fileID: 21300000, guid: 15fa5f731a405af45a915e98a9fbaf51, type: 3}
   infiniteUses: 0
   uses: 1
   hasAudio: 1
@@ -199,6 +200,21 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 1
+--- !u!114 &7645049001584190847
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8803969556583498036}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2292959759109d646827d93d98189970, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  itemName: Bucket
+  itemextraInfo: Don't question why we store it with water inside already.
+  inspectController: {fileID: 0}
 --- !u!1001 &7635427681698942523
 PrefabInstance:
   m_ObjectHideFlags: 0

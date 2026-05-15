@@ -187,9 +187,10 @@ GameObject:
   - component: {fileID: 6808100757019226619}
   - component: {fileID: 5419912024480313560}
   - component: {fileID: 8922015708485074322}
+  - component: {fileID: 6204019662763026522}
   m_Layer: 3
   m_Name: PlacableLight
-  m_TagString: Untagged
+  m_TagString: InteractObject
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -329,6 +330,21 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 1
+--- !u!114 &6204019662763026522
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2895811010072939249}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2292959759109d646827d93d98189970, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  itemName: Placeable Light
+  itemextraInfo: I guess this is useful
+  inspectController: {fileID: 0}
 --- !u!1 &3983298035936397215
 GameObject:
   m_ObjectHideFlags: 0
