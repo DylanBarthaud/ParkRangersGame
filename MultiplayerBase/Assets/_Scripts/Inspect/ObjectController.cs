@@ -12,42 +12,18 @@ public class ObjectController : MonoBehaviour
 
     [TextArea][SerializeField] private string itemextraInfo;
 
-    [SerializeField] private InspectController inspectController;
-
-    private void Awake()
-    {
-        EventManager.instance.playerSpawningComplete += SetPlayer;
-    }
-
-    private void SetPlayer()
-    {
-        Blackboard blackboard = BlackboardController.instance.GetBlackboard();
-        List<BlackboardKey> playerKeys = GameManager.instance.playerBlackboardKeys;
-        foreach (BlackboardKey key in playerKeys)
-        {
-            if (blackboard.TryGetValue(key, out PlayerInfo playerInfo))
-            {
-                if (playerInfo.id == NetworkManager.Singleton.LocalClientId)
-                {
-                    Debug.Log(playerInfo.id); 
-                    inspectController = playerInfo.inspectController;
-                    break; 
-                }
-            }
-        }
-    }
-    public void ShowObjectName()
+    public void ShowObjectName(InspectController inspectController)
     {
         inspectController.ShowName(itemName);
         Debug.Log(itemName);
     }
 
-    public void HideObjectName()
+    public void HideObjectName(InspectController inspectController)
     {
         inspectController.HideName();
     }
 
-    public void ShowExtraInfo()
+    public void ShowExtraInfo(InspectController inspectController)
     {
         inspectController.ShowAdditionalInfo(itemextraInfo);
     }

@@ -12,8 +12,7 @@ public class inspectScript : MonoBehaviour
     private bool isCrosshairActive;
     private bool doOnce;
 
-
-
+    [SerializeField] private InspectController inspectController;
 
     private void Update()
     {
@@ -27,7 +26,7 @@ public class inspectScript : MonoBehaviour
                 if (!doOnce)
                 {
                     raycastedObj = hit.collider.gameObject.GetComponent<ObjectController>();
-                    raycastedObj.ShowObjectName();
+                    raycastedObj.ShowObjectName(inspectController);
                     CrosshairChange(true);
                 }
 
@@ -36,7 +35,7 @@ public class inspectScript : MonoBehaviour
 
                 if (Input.GetMouseButtonDown(0))
                 {
-                    raycastedObj.ShowExtraInfo();
+                    raycastedObj.ShowExtraInfo(inspectController);
                 }
             }
         }
@@ -44,7 +43,7 @@ public class inspectScript : MonoBehaviour
         {
             if(isCrosshairActive)
             {
-                raycastedObj.HideObjectName();
+                raycastedObj.HideObjectName(inspectController);
                 CrosshairChange(false);
                 doOnce = false;
             }
