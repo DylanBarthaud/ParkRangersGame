@@ -27,12 +27,14 @@ public class ObjectController : MonoBehaviour
         {
             if (blackboard.TryGetValue(key, out PlayerInfo playerInfo))
             {
-                if (playerInfo.id == Unity.Netcode.NetworkManager.Singleton.LocalClientId)
+                if (playerInfo.id == NetworkManager.Singleton.LocalClientId)
+                {
+                    Debug.Log(playerInfo.id); 
                     inspectController = playerInfo.inspectController;
+                    break; 
+                }
             }
         }
-
-        
     }
     public void ShowObjectName()
     {

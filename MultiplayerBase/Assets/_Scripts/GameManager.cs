@@ -248,13 +248,9 @@ public class GameManager : NetworkBehaviour
             if(blackboard.TryGetValue(key, out PlayerInfo playerInfo))
             {
                 if (playerInfo.id == callerId) continue;
-
-                Debug.Log("Found correct player");
                 AudioClip newClip = playerInfo.voiceInputController.CreatePlayerVoiceClip(); 
-                if(newClip != null)
-                {
-                    audioClipList.Add(newClip);
-                }
+                if(newClip != null) audioClipList.Add(newClip);
+
             }
         }
 

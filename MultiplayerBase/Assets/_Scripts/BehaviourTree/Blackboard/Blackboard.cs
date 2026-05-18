@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using Unity.Netcode;
+using UnityEngine;
 
 namespace BlackboardSystem
 {
@@ -74,6 +75,7 @@ namespace BlackboardSystem
                 value = castedEntry.Value;
                 return true;
             }
+            else Debug.LogWarning("Key could not be matched to value");
 
             value = default;
             return false;
