@@ -133,22 +133,17 @@ public class GameManager : NetworkBehaviour
         uiManager.ButtonsPressedText.text = buttons.ToString() + " / " + taskCompleteNeeded;
     }
 
-    [ServerRpc(RequireOwnership = false)]
-    private void SynqPlayerKeysServerRpc() => SynqPlayerKeyClientRpc(playerBlackboardKeys.ToArray());
-
-    [ClientRpc] 
-    private void SynqPlayerKeyClientRpc(BlackboardKey[] keys)
-    {
-        if (IsHost) return;
-        playerBlackboardKeys = keys.ToList(); 
-    }
-
     #region Player Functions
     [ServerRpc(RequireOwnership = false)]
     private void OnPlayerSpawnedServerRpc(BlackboardKey key)
     {
         numberOfPlayers++;
-        //Debug.Log("Number of players: " + numberOfPlayers);
+        AddPlayerKeyClientRpc(key);
+    }
+
+    [ClientRpc]
+    private void AddPlayerKeyClientRpc(BlackboardKey key)
+    {
         playerBlackboardKeys.Add(key);
     }
 
@@ -246,7 +241,6 @@ public class GameManager : NetworkBehaviour
     public AudioClip GetAudioClip(ulong callerId)
     {
         List<AudioClip> audioClipList = new List<AudioClip>();
-        SynqPlayerKeysServerRpc(); 
 
         Blackboard blackboard = BlackboardController.instance.GetBlackboard();
         foreach (BlackboardKey key in playerBlackboardKeys)
