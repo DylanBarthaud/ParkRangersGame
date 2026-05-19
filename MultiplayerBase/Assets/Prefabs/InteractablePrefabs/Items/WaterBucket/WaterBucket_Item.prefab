@@ -154,8 +154,8 @@ MonoBehaviour:
   audioVolume: 0.5
   audioName: WaterSplash
   removeOnPickUp: 1
-  throwForceFoward: 10
-  throwForceup: 20
+  throwForceFoward: 15
+  throwForceup: 0
   gFXHandler: {fileID: 3285712831813567906}
   waterEffect: {fileID: 5984308712488318517, guid: 91ca352f0769d824b84ea9f96a5a6d9c, type: 3}
 --- !u!114 &3285712831813567906
@@ -214,7 +214,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemName: Bucket
   itemextraInfo: Don't question why we store it with water inside already.
-  inspectController: {fileID: 0}
 --- !u!1001 &7635427681698942523
 PrefabInstance:
   m_ObjectHideFlags: 0

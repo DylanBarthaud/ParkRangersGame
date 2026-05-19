@@ -149,7 +149,7 @@ MonoBehaviour:
   audioVolume: 1
   audioName: 
   removeOnPickUp: 1
-  throwForceFoward: 0
+  throwForceFoward: 5
   throwForceup: 0
   gFXHandler: {fileID: 7999298913703856445}
   interactDistance: 5
@@ -208,7 +208,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemName: Generator Fuel
   itemextraInfo: This is fuel for the generator.
-  inspectController: {fileID: 0}
 --- !u!54 &2914408668598901024
 Rigidbody:
   m_ObjectHideFlags: 0

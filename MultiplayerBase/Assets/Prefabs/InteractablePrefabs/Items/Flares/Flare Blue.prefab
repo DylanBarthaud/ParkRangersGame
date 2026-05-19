@@ -31,7 +31,6 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1180313528254850243}
-  - {fileID: 218027754922282643}
   m_Father: {fileID: 4576935339256006944}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &7680333448727078238
@@ -82,6 +81,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 8348015995965023467}
+  - {fileID: 218027754922282643}
   m_Father: {fileID: 5925307592638964831}
   m_LocalEulerAnglesHint: {x: -90, y: 0, z: 0}
 --- !u!33 &2681946197271264752
@@ -251,13 +251,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1434799443328872216}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0.884}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalRotation: {x: 0.7071068, y: -0, z: -0, w: 0.7071068}
+  m_LocalPosition: {x: 0, y: -1.6679249, z: -0}
+  m_LocalScale: {x: 6.666666, y: 6.6666646, z: 1.8867922}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 6425645084218773526}
-  m_Father: {fileID: 5925307592638964831}
+  m_Father: {fileID: 1180313528254850243}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!108 &6562732030891267351
 Light:
@@ -5380,7 +5380,7 @@ MonoBehaviour:
   audioName: 
   removeOnPickUp: 1
   throwForceFoward: 20
-  throwForceup: 30
+  throwForceup: 20
   gFXHandler: {fileID: 7999298913703856445}
 --- !u!114 &8717031359175044371
 MonoBehaviour:
@@ -5461,4 +5461,3 @@ MonoBehaviour:
   itemextraInfo: 'Miku was hurt in the creation of this item.
 
 '
-  inspectController: {fileID: 0}

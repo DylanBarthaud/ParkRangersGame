@@ -207,7 +207,7 @@ MonoBehaviour:
   audioName: 
   removeOnPickUp: 1
   throwForceFoward: 15
-  throwForceup: 20
+  throwForceup: 0
   gFXHandler: {fileID: 6808100757019226619}
   objectPrefab: {fileID: 2895811010072939249, guid: 5b0b3f9ec01ea4d45abed33900239158, type: 3}
   baseMaterial: {fileID: -876546973899608171, guid: f678ff840a56d1a4aa1f16a76bc6dcde, type: 3}
@@ -257,7 +257,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemName: Trail Camera
   itemextraInfo: Due to recent events, the park owners have requested more of these.
-  inspectController: {fileID: 0}
 --- !u!1 &3983298035936397215
 GameObject:
   m_ObjectHideFlags: 0

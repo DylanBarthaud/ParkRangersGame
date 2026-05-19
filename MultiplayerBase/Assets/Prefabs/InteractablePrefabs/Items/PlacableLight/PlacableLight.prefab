@@ -294,7 +294,7 @@ MonoBehaviour:
   audioName: 
   removeOnPickUp: 1
   throwForceFoward: 15
-  throwForceup: 20
+  throwForceup: 0
   gFXHandler: {fileID: 6808100757019226619}
   objectPrefab: {fileID: 2895811010072939249, guid: 2ba81db8642680741a3cd336295caa50, type: 3}
   baseMaterial: {fileID: -876546973899608171, guid: f678ff840a56d1a4aa1f16a76bc6dcde, type: 3}
@@ -344,7 +344,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemName: Placeable Light
   itemextraInfo: I guess this is useful
-  inspectController: {fileID: 0}
 --- !u!1 &3983298035936397215
 GameObject:
   m_ObjectHideFlags: 0

@@ -73,6 +73,14 @@ public abstract class Item : NetworkBehaviour, IInteractable
         DropItemClientRpc();
 
         transform.position = newPos;
+
+        Rigidbody rb = GetComponent<Rigidbody>();
+
+        GetComponent<Rigidbody>().useGravity = true;
+
+        rb.linearVelocity = Vector3.zero;
+        rb.angularVelocity = Vector3.zero;
+
         GetComponent<Rigidbody>().AddForce(Vector3.up * throwForceup, ForceMode.Impulse);
         GetComponent<Rigidbody>().AddForce(foward * throwForceFoward, ForceMode.Impulse);
     }
@@ -92,6 +100,7 @@ public abstract class Item : NetworkBehaviour, IInteractable
     [ClientRpc]
     private void SetItemColliderClientRpc(bool enabled)
     {
+        GetComponent<Rigidbody>().useGravity = false;
         GetComponent<Collider>().enabled = enabled;
     }
 

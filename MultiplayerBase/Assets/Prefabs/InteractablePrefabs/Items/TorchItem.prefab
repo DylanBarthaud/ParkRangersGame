@@ -365,8 +365,8 @@ MonoBehaviour:
   audioVolume: 1
   audioName: 
   removeOnPickUp: 1
-  throwForceFoward: 10
-  throwForceup: 10
+  throwForceFoward: 15
+  throwForceup: 0
   gFXHandler: {fileID: 7999298913703856445}
 --- !u!114 &2964046950193911191
 MonoBehaviour:
@@ -382,7 +382,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemName: Flashlight
   itemextraInfo: It's not a lake, It's an ocean.
-  inspectController: {fileID: 0}
 --- !u!1001 &5425257479608238556
 PrefabInstance:
   m_ObjectHideFlags: 0

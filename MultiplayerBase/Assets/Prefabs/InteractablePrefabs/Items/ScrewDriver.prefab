@@ -134,8 +134,8 @@ MonoBehaviour:
   audioVolume: 1
   audioName: 
   removeOnPickUp: 1
-  throwForceFoward: 10
-  throwForceup: 20
+  throwForceFoward: 15
+  throwForceup: 0
   gFXHandler: {fileID: 7999298913703856445}
   interactDistance: 5
   layerMask:
@@ -235,7 +235,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemName: Screwdriver
   itemextraInfo: Fix it Felix
-  inspectController: {fileID: 0}
 --- !u!1001 &3612734923586287878
 PrefabInstance:
   m_ObjectHideFlags: 0
