@@ -7,7 +7,7 @@ public class Interactor : NetworkBehaviour
     [SerializeField] private float interactRange;
     [SerializeField] private LayerMask interactMask;
 
-    public void Interact(int tick = 0, ItemType itemUsed = ItemType.None)
+    public bool Interact(int tick = 0, ItemType itemUsed = ItemType.None)
     {
         Camera cam = Camera.main;
         Ray ray = new Ray(cam.transform.position, cam.transform.forward);
@@ -20,12 +20,15 @@ public class Interactor : NetworkBehaviour
             {
                 if (tick == 0)
                 {
-                    if (!interactable.CanInteract(this, itemUsed)) return;
+                    if (!interactable.CanInteract(this, itemUsed)) return false;
                     interactable.OnInteract(this, itemUsed);
+                    return true; 
                 }
                 else interactable.OnInteractHeld(this, tick, itemUsed);
             }
         }
+
+        return false;
     }
 
     public void CircleInteract(int tick = 0, ItemType itemUsed = ItemType.None)

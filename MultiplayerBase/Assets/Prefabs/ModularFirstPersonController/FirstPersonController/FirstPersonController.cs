@@ -180,6 +180,8 @@ public class FirstPersonController : NetworkBehaviour
         clientSettings = GameObject.Find("ClientSettings");
     }
 
+
+
     public override void OnNetworkDespawn()
     {
         EventManager.instance.onButtonHeld -= DisableMovement;
@@ -548,15 +550,16 @@ public class FirstPersonController : NetworkBehaviour
             HeadBob();
         }
 
-        if (Input.GetKeyDown(KeyCode.E))
+        if (Input.GetKey(KeyCode.E))
         {
             Interactor interactor = gameObject.GetComponent<Interactor>();
 
             if (interactor != null)
             {
-                interactor.Interact(localTick);
+                if (interactor.Interact(localTick)) localTick++; 
             }
         }
+
         else if (localTick > 0)
         {
             Interactor interactor = gameObject.GetComponent<Interactor>();
