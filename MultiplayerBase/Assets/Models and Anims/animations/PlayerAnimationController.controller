@@ -94,10 +94,10 @@ BlendTree:
   m_Name: Blend Tree
   m_Childs:
   - serializedVersion: 2
-    m_Motion: {fileID: 7400000, guid: c3a78f42197150248970446ad8d46c56, type: 2}
+    m_Motion: {fileID: 7400000, guid: a1180e93d8a36254fb5ae460d9d9f85d, type: 2}
     m_Threshold: 0
     m_Position: {x: 0, y: 1}
-    m_TimeScale: 1
+    m_TimeScale: 2.2
     m_CycleOffset: 0
     m_DirectBlendParameter: MoveX
     m_Mirror: 0
@@ -105,7 +105,7 @@ BlendTree:
     m_Motion: {fileID: 7400000, guid: 1e0f483d11b19fd4d8ee2ba2215e85cd, type: 2}
     m_Threshold: 0.25
     m_Position: {x: 1, y: 0}
-    m_TimeScale: 1
+    m_TimeScale: 2.2
     m_CycleOffset: 0
     m_DirectBlendParameter: MoveX
     m_Mirror: 0
@@ -113,7 +113,7 @@ BlendTree:
     m_Motion: {fileID: 7400000, guid: 825bb3f3f6fb30943843a59a0fa3778d, type: 2}
     m_Threshold: 0.5
     m_Position: {x: -1, y: 0}
-    m_TimeScale: 1
+    m_TimeScale: 2.2
     m_CycleOffset: 0
     m_DirectBlendParameter: MoveX
     m_Mirror: 0
@@ -121,7 +121,7 @@ BlendTree:
     m_Motion: {fileID: 7400000, guid: 5630454dd950a3548b282cb5bfca551c, type: 2}
     m_Threshold: 0.75
     m_Position: {x: 0, y: -1}
-    m_TimeScale: 1
+    m_TimeScale: 2.2
     m_CycleOffset: 0
     m_DirectBlendParameter: MoveX
     m_Mirror: 0
@@ -606,7 +606,7 @@ AnimatorState:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: Walking
-  m_Speed: 2.2
+  m_Speed: 1
   m_CycleOffset: 0
   m_Transitions:
   - {fileID: 7361630967242188329}
