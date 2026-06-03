@@ -89,10 +89,10 @@ public class SettingsHandler : MonoBehaviour
         }
 
         // Loads control settings
-        Transform controlsList = subMenus.transform.Find("Controls");
+        Transform controlsList = subMenus.transform.Find("Controls").Find("Viewport").Find("Content");
         for (int i = 0; i < controlsList.childCount; i++)
         {
-            Transform child = controlsList.transform.Find("Viewport").Find("Content").GetChild(i);
+            Transform child = controlsList.GetChild(i);
 
             if (child.gameObject.CompareTag("KeybindSetting"))
             {
@@ -173,8 +173,6 @@ public class SettingsHandler : MonoBehaviour
                 return settings.controls.jump;
             case "action":
                 return settings.controls.action;
-            case "map":
-                return settings.controls.map;
             case "notebook":
                 return settings.controls.notebook;
 
@@ -217,9 +215,6 @@ public class SettingsHandler : MonoBehaviour
                 break;
             case "action":
                 settings.controls.action = newKey;
-                break;
-            case "map":
-                settings.controls.map = newKey;
                 break;
             case "notebook":
                 settings.controls.notebook = newKey;
@@ -372,7 +367,6 @@ public class ClientSettings
         public KeyCode crouch;
         public KeyCode jump;
         public KeyCode action;
-        public KeyCode map;
         public KeyCode notebook;
 
         public Controls(bool settingsLoaded)
@@ -389,7 +383,6 @@ public class ClientSettings
             crouch = KeyCode.LeftControl;
             jump = KeyCode.Space;
             action = KeyCode.E;
-            map = KeyCode.M;
             notebook = KeyCode.N;
         }
     }
