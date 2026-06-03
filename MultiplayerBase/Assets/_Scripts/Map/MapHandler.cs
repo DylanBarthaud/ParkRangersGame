@@ -1,5 +1,16 @@
 using UnityEngine;
 
+public enum Zones
+{ 
+    Null,
+    Tower,
+    Shed,
+    Castle,
+    Ruins,
+    CarPark,
+    Campsites
+}
+
 public class MapHandler
 {
     Grid mapGrid;

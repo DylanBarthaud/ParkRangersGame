@@ -1191,11 +1191,11 @@ MonoBehaviour:
   zoomFOV: 30
   zoomStepTime: 5
   playerCanMove: 1
-  walkSpeed: 5
+  walkSpeed: 4
   maxVelocityChange: 10
   enableSprint: 1
   unlimitedSprint: 0
-  sprintSpeed: 8
+  sprintSpeed: 6
   sprintDuration: 5
   sprintCooldown: 1.25
   sprintFOV: 80
@@ -1327,7 +1327,7 @@ MonoBehaviour:
   playerTorch: {fileID: 8925422123525847256}
   tryAddRavenTick: 10
   tryRemoveRavenTick: 100
-  volumeToAddRavenGate: -50.3
+  volumeToAddRavenGate: -50.1
 --- !u!114 &4120214330100131268
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1346,7 +1346,7 @@ MonoBehaviour:
   spawnInterval: 10
   spawnChance: 5
   spawnRadius: 30
-  copyVoiceChance: 100
+  copyVoiceChance: 20
   collectionInterval: 1
   crowAudioClips:
   - {fileID: 8300000, guid: 0207c7b8ecd10dd4c8e9818edea6b530, type: 3}

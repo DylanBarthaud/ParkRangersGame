@@ -7,6 +7,9 @@ public class Interactor : NetworkBehaviour
     [SerializeField] private float interactRange;
     [SerializeField] private LayerMask interactMask;
 
+    private Zones currentZone = Zones.Null;
+    public Zones CurrentZone => currentZone;
+
     public bool Interact(int tick = 0, ItemType itemUsed = ItemType.None)
     {
         Camera cam = Camera.main;
@@ -16,11 +19,19 @@ public class Interactor : NetworkBehaviour
         if(Physics.Raycast(ray, out hit, interactRange, interactMask))
         {
             IInteractable interactable = hit.transform.GetComponent<IInteractable>();
+            if(interactable.RequiresZoneCheckIn() && !GameManager.instance.PlayerInSameZone(currentZone))
+            {
+                Debug.Log("NEED TO CHECK IN TO ACCESS THIS"); 
+                return false;
+            }
+
             if (interactable != null)
             {
+       
                 if (tick == 0)
                 {
                     if (!interactable.CanInteract(this, itemUsed)) return false;
+                    Debug.Log("CAN_INTERACT");
                     interactable.OnInteract(this, itemUsed);
                     return true; 
                 }
@@ -49,7 +60,7 @@ public class Interactor : NetworkBehaviour
         }
     }
 
-public void Release(int tick = 0)
+    public void Release(int tick = 0)
     {
         if (tick > 0)
         {
@@ -61,4 +72,6 @@ public void Release(int tick = 0)
             }
         }
     }
+
+    public void SetZone(Zones zone) { currentZone = zone; }
 }

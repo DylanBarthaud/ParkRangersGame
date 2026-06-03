@@ -65,6 +65,7 @@ public abstract class Item : NetworkBehaviour, IInteractable
             }
         }
     }
+    public bool RequiresZoneCheckIn() { return false; }
 
     [ServerRpc(RequireOwnership = false)]
     private void DropItemServerRpc(Vector3 newPos, Vector3 foward)

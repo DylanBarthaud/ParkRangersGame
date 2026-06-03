@@ -8,7 +8,7 @@ public class MonsterAnimationVariables : MonoBehaviour
 
     void Update()
     {
-        Debug.Log(_agent.speed); 
+        //Debug.Log(_agent.speed); 
         animator.SetFloat("WalkSpeed", _agent.speed);
     }
 }

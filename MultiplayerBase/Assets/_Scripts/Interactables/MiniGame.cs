@@ -5,10 +5,10 @@ using UnityEngine;
 
 public enum MiniGameTypes { SnareTrap, FuseBox, SpringTrap, Keypad, Memory }
 [Serializable]
-public struct Pair<Item1, Item2>
+public struct Pair<Key, Value>
 {
-    public Item1 item1;
-    public Item2 item2;
+    public Key item1;
+    public Value item2;
 }
 
 public class MiniGame : NetworkBehaviour, IInteractable

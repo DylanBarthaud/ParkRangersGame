@@ -33,6 +33,8 @@ public class GameManager : NetworkBehaviour
     [SerializeField] float cellSize;
     [SerializeField] private GridPosition homeCell;
     public GridPosition HomeCell => homeCell;
+    [SerializeField] private Pair<Zones, GridPosition[]>[] zones;
+    public Dictionary<GridPosition, Zones> gridPosZoneDictonary = new Dictionary<GridPosition, Zones>();
     [Header("Spawns")]
     [SerializeField] GameObject[] spawnableObjects;
     [SerializeField] int numberOfSpawns;
@@ -40,6 +42,7 @@ public class GameManager : NetworkBehaviour
 
     [HideInInspector] public int numberOfPlayers = 0;
     [HideInInspector] public List<BlackboardKey> playerBlackboardKeys;
+    public GridPosition playerGridPos; 
 
     public UIManager uiManager;
     private int buttonsPressed = 0;
@@ -59,6 +62,12 @@ public class GameManager : NetworkBehaviour
         foreach (var kv in miniGames)
         {
             miniGameDictionary.Add(kv.Key, kv.Value);
+        }
+
+        foreach(var zone in zones)
+        {
+            foreach(var gridPos in zone.item2)
+                gridPosZoneDictonary.Add(gridPos, zone.item1); 
         }
     }
 
@@ -84,6 +93,14 @@ public class GameManager : NetworkBehaviour
     private void Update()
     {
         if(clientPlayerIsDead && Input.GetKeyDown(KeyCode.Mouse0)) CycleSpectate(); 
+    }
+
+    public bool PlayerInSameZone(Zones zone)
+    {
+        Zones? playerZone = gridPosZoneDictonary[playerGridPos];
+        if (playerZone == zone) return true;
+        else if (playerZone == null) return true;  
+        return false;
     }
 
     public void SpawnObjectOnNetwork(int objId, Vector3 pos, Quaternion rot, bool destroyWithScene = true)
