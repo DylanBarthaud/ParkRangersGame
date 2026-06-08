@@ -1,15 +1,17 @@
-using UnityEngine;
+using Netcode.Transports.Facepunch;
+using NUnit.Framework;
 using Steamworks;
-using TMPro;
 using Steamworks.Data;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using TMPro;
 using Unity.Netcode;
-using Netcode.Transports.Facepunch;
+using UnityEditor.SearchService;
+using UnityEngine;
 using UnityEngine.SceneManagement;
-using NUnit.Framework;
-using System.Collections;
+using UnityEngine.UI;
 
 public class SteamManager : MonoBehaviour
 {
@@ -20,6 +22,9 @@ public class SteamManager : MonoBehaviour
     [SerializeField] private GameObject mainMenu;
     [SerializeField] private GameObject inLobbyMenu;
     [SerializeField] private GameObject startMenu;
+
+    [SerializeField] private GameObject loadingScreen;
+    [SerializeField] public UnityEngine.UI.Image loadingBarFill;
 
     private static int maxMembersInLobby = 8;
 
@@ -141,8 +146,12 @@ public class SteamManager : MonoBehaviour
     public void StartGameServer()
     {
         if (NetworkManager.Singleton.IsHost)
-        { 
+        {
+            loadingScreen.SetActive(true);
+
             NetworkManager.Singleton.SceneManager.LoadScene("MainGame", LoadSceneMode.Single);
+
+            
         }
     }
 
@@ -151,6 +160,30 @@ public class SteamManager : MonoBehaviour
         SteamMatchmaking.OnLobbyCreated -= LobbyCreated;
         SteamMatchmaking.OnLobbyEntered -= LobbyEntered;
         SteamFriends.OnGameLobbyJoinRequested -= GameLobbyJoinRequested;
+    }
+
+    //https://www.youtube.com/watch?v=wvXDCPLO7T0
+    public void LoadScene(int sceneId)
+    {
+        StartCoroutine(LoadSceneAsync(sceneId));
+
+    }
+
+    IEnumerator LoadSceneAsync(int sceneId)
+    {
+        AsyncOperation operation = SceneManager.LoadSceneAsync(sceneId);
+
+
+        loadingScreen.SetActive(true);
+
+        while(!operation.isDone)
+        {
+            float progressValue = Mathf.Clamp01(operation.progress / 0.9f);
+
+            loadingBarFill.fillAmount = progressValue;
+
+            yield return null;
+        }
     }
 }
 
