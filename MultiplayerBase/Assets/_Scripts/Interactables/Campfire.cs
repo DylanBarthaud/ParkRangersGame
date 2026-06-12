@@ -13,13 +13,13 @@ public class Campfire : NetworkBehaviour, IInteractable
     [SerializeField] Light pointLight; 
     private bool putOut = false;
 
-    public bool CanInteract(Interactor interactor, ItemType itemUsed = ItemType.None)
+    public (bool, string) CanInteract(Interactor interactor, ItemType itemUsed = ItemType.None)
     {
         if (itemUsed == ItemType.WaterBucket && !putOut)
         {
-            return true;
+            return (true, "");
         }
-        return false;
+        return (false, $"Requires item: {ItemType.WaterBucket}");
     }
 
     public void OnInteract(Interactor interactor, ItemType itemUsed = ItemType.None)

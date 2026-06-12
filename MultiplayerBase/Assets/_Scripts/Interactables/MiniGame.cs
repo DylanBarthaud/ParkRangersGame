@@ -34,13 +34,14 @@ public class MiniGame : NetworkBehaviour, IInteractable
         SetCanInteractServerRpc(false);
     }
 
-    public bool CanInteract(Interactor interactor, ItemType itemUsed = ItemType.None)
+    public (bool, string) CanInteract(Interactor interactor, ItemType itemUsed = ItemType.None)
     {
         if (canInteract)
         {
-            if (itemUsed == neededItem) return true;
+            if (itemUsed == neededItem) return (true, "");
+            return (false, $"Requires item: {neededItem}");
         }
-        return false;
+        return (false, "Already being used");
     }
 
     [ServerRpc(RequireOwnership = false)]

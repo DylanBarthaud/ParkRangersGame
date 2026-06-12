@@ -26,7 +26,6 @@ public class CheckInTable : MonoBehaviour, IInteractable
         }
 
         Cursor.lockState = CursorLockMode.Confined;
-        Cursor.visible = true;
 
         checkInManager.SetInteractor(interactor);
         checkInManager.SetTable(this); 

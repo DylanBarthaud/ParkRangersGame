@@ -17,23 +17,52 @@ public class inspectScript : MonoBehaviour
     private void Update()
     {
         RaycastHit hit;
-        Vector3 fwd = transform.TransformDirection(Vector3.forward);
+        Vector3 fwd = Camera.main.transform.TransformDirection(Vector3.forward);
 
-        if (Physics.Raycast(transform.position, fwd, out hit, rayLength, layerMaskInteract.value))
+        if (Physics.Raycast(Camera.main.transform.position, fwd, out hit, rayLength, layerMaskInteract.value))
         {
             if (hit.collider.CompareTag("InteractObject"))
             {
                 if (!doOnce)
                 {
+                    IInteractable interactable = hit.collider.gameObject.GetComponent<IInteractable>();
+                    bool canInteract;
+                    string cantInteractReason;
+
+                    Interactor interactor = gameObject.GetComponent<Interactor>(); 
+                    Inventory Inv = gameObject.GetComponent<Inventory>();
+                    ItemType typeInInv;
+                    if (Inv.Items.Count > 0)
+                    {
+                        Item itemInInv = Inv.Items[Inv.SelectedItemSlot];
+                        typeInInv = itemInInv.ItemType;
+                    }
+                    else typeInInv = ItemType.None;
+
+                    (canInteract, cantInteractReason) = interactable.CanInteract(interactor, typeInInv);
+                    bool skipCanInteractCheck = false;
+                    if (interactable.RequiresZoneCheckIn())
+                    {
+                        GameManager gameManager = GameManager.instance;
+                        Zones objZone = gameManager.gridPosZoneDictonary[gameManager.mapHandler.GetGridLocation(hit.collider.transform.position)];
+                        if (!gameManager.PlayerInSameZone(interactor.CurrentZone))
+                        {
+                            skipCanInteractCheck = true;
+                            inspectController.ShowName($"Requires {objZone} CheckIn", Color.red);
+                        }
+                    }
+                    if (!skipCanInteractCheck && !canInteract) inspectController.ShowName(cantInteractReason, Color.yellow);
+
+
                     raycastedObj = hit.collider.gameObject.GetComponent<ObjectController>();
-                    raycastedObj.ShowObjectName(inspectController);
+                    if(raycastedObj != null) raycastedObj.ShowObjectName(inspectController);
                     CrosshairChange(true);
                 }
 
                 isCrosshairActive = true;
                 doOnce = true;
 
-                if (Input.GetMouseButtonDown(0))
+                if (Input.GetMouseButtonDown(0) && raycastedObj != null)
                 {
                     raycastedObj.ShowExtraInfo(inspectController);
                 }
@@ -43,9 +72,9 @@ public class inspectScript : MonoBehaviour
         {
             if(isCrosshairActive)
             {
-                raycastedObj.HideObjectName(inspectController);
+                inspectController.HideName(); 
                 CrosshairChange(false);
-                doOnce = false;
+                doOnce = false; 
             }
         }
     }
@@ -62,4 +91,3 @@ public class inspectScript : MonoBehaviour
         }
     }
 }
-

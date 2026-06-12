@@ -45,10 +45,10 @@ public abstract class Item : NetworkBehaviour, IInteractable
         if (gFXHandler != null && removeOnPickUp) DropItemServerRpc(newPos, Camera.main.transform.forward);
     }
 
-    public virtual bool CanInteract(Interactor interactor, ItemType itemType = ItemType.None)
+    public virtual (bool, string) CanInteract(Interactor interactor, ItemType itemType = ItemType.None)
     {
-        if (interactor.gameObject.GetComponent<Inventory>() != null && canPickUpItem) return true;
-        return false;
+        if (interactor.gameObject.GetComponent<Inventory>() != null && canPickUpItem) return (true, "");
+        return (false, "No inventory space");
     }
 
     public virtual void OnInteract(Interactor interactor, ItemType itemType = ItemType.None)

@@ -14,7 +14,9 @@ public class Inventory : MonoBehaviour
     [SerializeField] GameObject[] inventorySlots;
     [SerializeField] Sprite baseInvSlotSprite; 
     [SerializeField] private List<Item> items = new List<Item>();
+    public List<Item> Items => items;
     [SerializeField] private int selectedItemSlot;
+    public int SelectedItemSlot => selectedItemSlot;
 
     [HideInInspector] public bool canUseInv = true;
 

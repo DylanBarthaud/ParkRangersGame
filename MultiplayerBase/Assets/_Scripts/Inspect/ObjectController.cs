@@ -14,7 +14,7 @@ public class ObjectController : MonoBehaviour
 
     public void ShowObjectName(InspectController inspectController)
     {
-        inspectController.ShowName(itemName);
+        inspectController.ShowName(itemName, Color.white);
         Debug.Log(itemName);
     }
 

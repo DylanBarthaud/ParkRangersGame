@@ -30,7 +30,11 @@ public class Interactor : NetworkBehaviour
        
                 if (tick == 0)
                 {
-                    if (!interactable.CanInteract(this, itemUsed)) return false;
+                    bool canInteract;
+                    string cantInteractReason;
+
+                    (canInteract, cantInteractReason) = interactable.CanInteract(this, itemUsed);
+                    if (!canInteract) return false;
                     Debug.Log("CAN_INTERACT");
                     interactable.OnInteract(this, itemUsed);
                     return true; 
@@ -52,7 +56,11 @@ public class Interactor : NetworkBehaviour
             {
                 if (tick == 0)
                 {
-                    if (!interactable.CanInteract(this, itemUsed)) continue;
+                    bool canInteract;
+                    string cantInteractReason;
+
+                    (canInteract, cantInteractReason) = interactable.CanInteract(this, itemUsed); 
+                    if (!canInteract) continue;
                     interactable.OnInteract(this, itemUsed);
                 }
                 else interactable.OnInteractHeld(this, tick, itemUsed);

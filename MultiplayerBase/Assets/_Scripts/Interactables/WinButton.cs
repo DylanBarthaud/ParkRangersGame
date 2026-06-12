@@ -14,9 +14,9 @@ public class WinButton : NetworkBehaviour, IInteractable
         }
     }
 
-    public bool CanInteract(Interactor interactor, ItemType itemUsed)
+    public (bool, string) CanInteract(Interactor interactor, ItemType itemUsed)
     {
-        return !isBeingPressed.Value; 
+        return (!isBeingPressed.Value, "Already being used"); 
     }
 
     public void OnInteract(Interactor interactor, ItemType itemUsed = ItemType.None)

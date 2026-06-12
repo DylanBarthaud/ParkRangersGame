@@ -1,10 +1,12 @@
+using TMPro;
 using Unity.Netcode;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
 public class InspectController : MonoBehaviour
 {
     [SerializeField] private GameObject objectNameBG;
-    [SerializeField] private Text objectNameUI;
+    [SerializeField] private TextMeshProUGUI objectNameUI;
 
     [SerializeField] private float onScreentimer;
     [SerializeField] private Text extraInfoUI;
@@ -32,10 +34,11 @@ public class InspectController : MonoBehaviour
         }
     }
 
-    public void ShowName(string objectName)
+    public void ShowName(string objectName, Color textColour)
     {
         objectNameBG.SetActive(true);
         objectNameUI.text = objectName;
+        objectNameUI.color = textColour;
         Debug.Log("ShowNameActivated");
     }
 
