@@ -23,6 +23,7 @@ public class GameManager : NetworkBehaviour
     [Header("Gameplay")]
     [SerializeField] int taskCompleteNeeded = 5;
     [SerializeField] List<SerializableKeysAndValues<MiniGameTypes, GameObject>> miniGames;
+    [SerializeField] GameObject EndGameCollider;
     private Dictionary<MiniGameTypes, GameObject> miniGameDictionary = new Dictionary<MiniGameTypes, GameObject>();
 
     public MapHandler mapHandler;
@@ -135,10 +136,10 @@ public class GameManager : NetworkBehaviour
 
         ChangeButtonsPressedUIClientRpc(buttonsPressed); 
 
-        if (buttonsPressed >= taskCompleteNeeded)
+        if (buttonsPressed >= taskCompleteNeeded) 
         {
-            Debug.Log("YOU WIN!"); 
-            EndGame();
+            EndGameCollider.SetActive(true);
+            Debug.Log("RUN FOR YOUR LIFE!!");
         }
     }
 
@@ -278,7 +279,7 @@ public class GameManager : NetworkBehaviour
     }
     #endregion
 
-    private void EndGame()
+    public void EndGame()
     {
         playerBlackboardKeys.Clear();
         numberOfPlayers = 0;

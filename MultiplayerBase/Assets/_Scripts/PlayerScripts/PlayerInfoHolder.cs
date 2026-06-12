@@ -81,7 +81,7 @@ public class PlayerInfoHolder : NetworkBehaviour, IAiSensible, IHurtable
         if (!IsOwner) return; 
         GridPosition playerGridPos = GameManager.instance.mapHandler.GetGridLocation(transform.position);
         GameManager.instance.playerGridPos = playerGridPos;
-        Debug.Log($"{playerGridPos.x} , {playerGridPos.z}");
+        //Debug.Log($"{playerGridPos.x} , {playerGridPos.z}");
     }
 
     private void OnTick_5(int tick)
