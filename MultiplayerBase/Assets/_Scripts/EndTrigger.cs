@@ -4,12 +4,10 @@ public class EndTrigger : MonoBehaviour
 {
     private int playersIn = 0;
     private int amountOfPlayers = 0;
-    private GameManager _gameManager;
 
     void Awake()
     {
-        _gameManager = gameObject.GetComponent<GameManager>();
-        amountOfPlayers = _gameManager.numberOfPlayers;
+        amountOfPlayers = GameManager.instance.numberOfPlayers;
     }
 
     void OnTriggerEnter()
@@ -28,7 +26,7 @@ public class EndTrigger : MonoBehaviour
     {
         Debug.Log(amountOfPlayers);
 
-        _gameManager = gameObject.GetComponent<GameManager>();
+        GameManager _gameManager = GameManager.instance; 
         _gameManager.numberOfPlayers = amountOfPlayers;
 
         if (playersIn == amountOfPlayers*2 && playersIn >= 1)
