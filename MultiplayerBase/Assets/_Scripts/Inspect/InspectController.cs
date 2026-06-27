@@ -39,14 +39,14 @@ public class InspectController : MonoBehaviour
         objectNameBG.SetActive(true);
         objectNameUI.text = objectName;
         objectNameUI.color = textColour;
-        Debug.Log("ShowNameActivated");
+        //Debug.Log("ShowNameActivated");
     }
 
     public void HideName()
     {
         objectNameBG.SetActive(false);
         objectNameUI.text = "";
-        Debug.Log("HideNameActivated");
+        //Debug.Log("HideNameActivated");
     }
 
     public void ShowAdditionalInfo(string newInfo)

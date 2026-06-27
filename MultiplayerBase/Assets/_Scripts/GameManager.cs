@@ -58,7 +58,7 @@ public class GameManager : NetworkBehaviour
 
         EventManager.instance.onPlayerSpawned += OnPlayerSpawnedServerRpc;
         EventManager.instance.onPlayerKilled += OnPlayerKilledServerRpc;
-        EventManager.instance.onPuzzleComplete += OnPuzzleComplete;
+        EventManager.instance.onZoneComplete += OnZoneComplete;
 
         foreach (var kv in miniGames)
         {
@@ -123,14 +123,13 @@ public class GameManager : NetworkBehaviour
         uiManager.DisableMiniGameUi(miniGamePanel);
     }
 
-    private void OnPuzzleComplete(bool s, IInteractable puzzle)
+    private void OnZoneComplete()
     {
-        if (!s) return;
-        OnPuzzleCompleteServerRpc(); 
+        OnZoneCompleteServerRpc(); 
     }
 
     [ServerRpc(RequireOwnership = false)]
-    private void OnPuzzleCompleteServerRpc()
+    private void OnZoneCompleteServerRpc()
     {
         buttonsPressed++;
 
@@ -139,7 +138,7 @@ public class GameManager : NetworkBehaviour
         if (buttonsPressed >= taskCompleteNeeded) 
         {
             EndGameCollider.SetActive(true);
-            Debug.Log("RUN FOR YOUR LIFE!!");
+            //Debug.Log("RUN FOR YOUR LIFE!!");
         }
     }
 

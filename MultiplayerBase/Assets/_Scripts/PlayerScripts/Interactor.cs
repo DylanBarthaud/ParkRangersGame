@@ -21,7 +21,6 @@ public class Interactor : NetworkBehaviour
             IInteractable interactable = hit.transform.GetComponent<IInteractable>();
             if(interactable.RequiresZoneCheckIn() && !GameManager.instance.PlayerInSameZone(currentZone))
             {
-                Debug.Log("NEED TO CHECK IN TO ACCESS THIS"); 
                 return false;
             }
 
@@ -35,7 +34,6 @@ public class Interactor : NetworkBehaviour
 
                     (canInteract, cantInteractReason) = interactable.CanInteract(this, itemUsed);
                     if (!canInteract) return false;
-                    Debug.Log("CAN_INTERACT");
                     interactable.OnInteract(this, itemUsed);
                     return true; 
                 }

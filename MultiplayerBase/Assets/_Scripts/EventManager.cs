@@ -27,7 +27,9 @@ public class EventManager : MonoBehaviour
     public event Action playerSpawningComplete;
     public event Action<BlackboardKey> onPlayerKilled;
 
-    public event Action<bool, IInteractable> onPuzzleComplete; 
+    public event Action<bool, IInteractable> onPuzzleComplete;
+    public event Action onZoneComplete;
+    public event Action<ulong> onCheckIn;
 
     public event Action<int,Interactor> onButtonHeld;
     public event Action onButtonReleased;
@@ -73,6 +75,15 @@ public class EventManager : MonoBehaviour
     {
         if(onPuzzleComplete != null) onPuzzleComplete(success, puzzle);
     }
+    public void OnZoneComplete()
+    {
+        if(onZoneComplete  != null) onZoneComplete();
+    }
+    public void OnCheckIn(ulong playerID)
+    {
+        if(onCheckIn != null) onCheckIn(playerID);
+    }
+
     public void OnButtonHeld(int tick, Interactor interactor)
     {
         if(onButtonHeld != null) onButtonHeld(tick, interactor);
