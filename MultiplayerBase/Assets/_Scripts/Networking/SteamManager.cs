@@ -1,16 +1,11 @@
 using Netcode.Transports.Facepunch;
-using NUnit.Framework;
 using Steamworks;
 using Steamworks.Data;
-using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Threading.Tasks;
 using TMPro;
 using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using UnityEngine.UI;
 
 public class SteamManager : MonoBehaviour
 {
@@ -22,9 +17,6 @@ public class SteamManager : MonoBehaviour
     [SerializeField] private GameObject inLobbyMenu;
     [SerializeField] private GameObject startMenu;
 
-    [SerializeField] private GameObject loadingScreen;
-    [SerializeField] public UnityEngine.UI.Image loadingBarFill;
-
     private static int maxMembersInLobby = 8;
 
     private void OnEnable()
@@ -34,6 +26,15 @@ public class SteamManager : MonoBehaviour
         SteamMatchmaking.OnLobbyMemberJoined += MemberJoinedLobby;
         SteamFriends.OnGameLobbyJoinRequested += GameLobbyJoinRequested;
     }
+
+    private void OnDisable()
+    {
+        SteamMatchmaking.OnLobbyCreated -= LobbyCreated;
+        SteamMatchmaking.OnLobbyEntered -= LobbyEntered;
+        SteamMatchmaking.OnLobbyMemberJoined -= MemberJoinedLobby;
+        SteamFriends.OnGameLobbyJoinRequested -= GameLobbyJoinRequested;
+    }
+
     private void MemberJoinedLobby(Lobby lobby, Friend friend)
     {
         Debug.Log(friend.ToString() + "joined");
@@ -103,7 +104,6 @@ public class SteamManager : MonoBehaviour
         }
 
     }
-
     public void CopyID()
     {
         TextEditor textEditor = new TextEditor();
@@ -144,45 +144,7 @@ public class SteamManager : MonoBehaviour
 
     public void StartGameServer()
     {
-        if (NetworkManager.Singleton.IsHost)
-        {
-            loadingScreen.SetActive(true);
-
-            NetworkManager.Singleton.SceneManager.LoadScene("MainGame", LoadSceneMode.Single);
-
-            
-        }
-    }
-
-    private void OnDisable()
-    {
-        SteamMatchmaking.OnLobbyCreated -= LobbyCreated;
-        SteamMatchmaking.OnLobbyEntered -= LobbyEntered;
-        SteamFriends.OnGameLobbyJoinRequested -= GameLobbyJoinRequested;
-    }
-
-    //https://www.youtube.com/watch?v=wvXDCPLO7T0
-    public void LoadScene(int sceneId)
-    {
-        StartCoroutine(LoadSceneAsync(sceneId));
-
-    }
-
-    IEnumerator LoadSceneAsync(int sceneId)
-    {
-        AsyncOperation operation = SceneManager.LoadSceneAsync(sceneId);
-
-
-        loadingScreen.SetActive(true);
-
-        while(!operation.isDone)
-        {
-            float progressValue = Mathf.Clamp01(operation.progress / 0.9f);
-
-            loadingBarFill.fillAmount = progressValue;
-
-            yield return null;
-        }
+        if (NetworkManager.Singleton.IsHost) NetworkManager.Singleton.SceneManager.LoadScene("MainGame", LoadSceneMode.Single);
     }
 }
 
