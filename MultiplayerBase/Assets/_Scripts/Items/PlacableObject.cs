@@ -23,8 +23,9 @@ public class PlacableObject : Item
     }
 
     bool itemIsSpawned = false;
-    private void Update()
+    private new void Update()
     {
+        base.Update();
         if (!placing) return;
 
         if (!itemIsSpawned)

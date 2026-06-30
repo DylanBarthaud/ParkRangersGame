@@ -34,7 +34,9 @@ public class inspectScript : MonoBehaviour
                     ItemType typeInInv;
                     if (Inv.Items.Count > 0)
                     {
-                        Item itemInInv = Inv.Items[Inv.SelectedItemSlot];
+                        Item itemInInv;
+                        if (Inv.CarryingHeavy) itemInInv = Inv.HeavyItem;
+                        else itemInInv = Inv.Items[Inv.SelectedItemSlot];
                         typeInInv = itemInInv.ItemType;
                     }
                     else typeInInv = ItemType.None;

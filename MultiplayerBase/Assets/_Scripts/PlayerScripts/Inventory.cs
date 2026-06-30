@@ -7,6 +7,7 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
+using UnityEngine.XR;
 
 public class Inventory : MonoBehaviour
 {
@@ -20,6 +21,13 @@ public class Inventory : MonoBehaviour
 
     [HideInInspector] public bool canUseInv = true;
 
+    [SerializeField] private GameObject carryingHeavyGFX;
+    [SerializeField] private Transform heldItemPos;
+    private bool carryingHeavy = false;
+    public bool CarryingHeavy => carryingHeavy;
+    private Item heavyItem = null;
+    public Item HeavyItem => heavyItem;
+
     private void Awake()
     {
         inventorySlots[0].GetComponent<Image>().color = Color.green;
@@ -31,20 +39,12 @@ public class Inventory : MonoBehaviour
 
     }
 
-    private void OnButtonHeld(int arg1, Interactor interactor)
-    {
-        DisableInv();
-    }
-
-    private void OnPuzzleComplete(bool arg1, IInteractable interactable)
-    {
-        EnableInv();
-    }
+    private void OnButtonHeld(int arg1, Interactor interactor) => DisableInv();
+    private void OnPuzzleComplete(bool arg1, IInteractable interactable) => EnableInv();
 
     public void EnableInv()
     {
         canUseInv = true;
-
     }
 
     public void DisableInv()
@@ -55,59 +55,78 @@ public class Inventory : MonoBehaviour
     private void Update()
     {
         if (!canUseInv) return;
-        if (Input.GetKeyDown(KeyCode.Tab))
-        {
-            inventoryUi.SetActive(!inventoryUi.activeInHierarchy);
-
-            
-            if (Cursor.lockState == CursorLockMode.Locked)
-            {
-                Cursor.lockState = CursorLockMode.None;
-                //Cursor.visible = true;
-            }
-            else
-            {
-                Cursor.lockState = CursorLockMode.Locked;
-                //Cursor.visible = false;
-            }
-
-        }
 
         if (Input.GetKeyDown(KeyCode.Mouse0)
-            && items.Count > 0
-            && items[selectedItemSlot] != null)
+            && items.Count > 0)
         {
-            Item selectedItem = items[selectedItemSlot];
+            Item selectedItem; 
+            if (carryingHeavy) { selectedItem = heavyItem; }
+            else
+            {
+                if (items[selectedItemSlot] == null) return;
+                selectedItem = items[selectedItemSlot];
+            }
+
             selectedItem.UseItem(gameObject);
             if (selectedItem.HasAudio) GetComponent<MultiplayerAudioHandlerWrapper>().PlaySoundServerRpc(selectedItem.AudioName, default, selectedItem.AudioVolume);
-            if (!selectedItem.InfiniteUses && selectedItem.Uses <= 0) RemoveItem(selectedItem);
+            if (!selectedItem.InfiniteUses && selectedItem.Uses <= 0)
+            {
+                EnableCarriedItemGFX(selectedItem, false);
+                RemoveItem(selectedItem);
+            }
         }
 
         if (Input.GetKeyDown(KeyCode.Q) && items.Count > 0)
         {
-            if (items[selectedItemSlot] == null) return;
-            Item item = items[selectedItemSlot];
-            RemoveItem(item);
-            item.DropItem(gameObject.transform.position, this);
+            Item selectedItem;
+            if (carryingHeavy) { selectedItem = heavyItem; }
+            else
+            {
+                if (items[selectedItemSlot] == null) return;
+                selectedItem = items[selectedItemSlot];
+            }
+
+            RemoveItem(selectedItem);
+            selectedItem.DropItem(gameObject.transform.position, this);
         }
+
+        if(carryingHeavy) return;
 
         if (Input.mouseScrollDelta.y > 0 && selectedItemSlot < items.Count - 1)
         {
+            EnableCarriedItemGFX(items[selectedItemSlot], false);
             inventorySlots[selectedItemSlot].GetComponent<Image>().color = Color.gray;
             selectedItemSlot++;
             inventorySlots[selectedItemSlot].GetComponent<Image>().color = Color.green;
+            EnableCarriedItemGFX(items[selectedItemSlot], true);
         }
 
         if (Input.mouseScrollDelta.y < 0 && selectedItemSlot > 0)
         {
+            EnableCarriedItemGFX(items[selectedItemSlot], false);
             inventorySlots[selectedItemSlot].GetComponent<Image>().color = Color.gray;
             selectedItemSlot--;
             inventorySlots[selectedItemSlot].GetComponent<Image>().color = Color.green;
+            EnableCarriedItemGFX(items[selectedItemSlot], true);
         }
     }
 
     public bool AddItemToInventory(Item item)
     {
+        item.GFXHandler.ChangeGFXRenderLayerServerRpc("ItemGFX", 4);
+        if(items.Count <= 0 || item.IsHeavy) EnableCarriedItemGFX(item, true);
+
+        if (item.IsHeavy)
+        {
+            carryingHeavy = true; 
+            heavyItem = item;
+            carryingHeavyGFX.SetActive(true);
+
+            EnableCarriedItemGFX(items[selectedItemSlot], false);
+
+            return true;
+        }
+
         if(items.Count >= inventorySlots.Length) return false;
 
         items.Add(item);
@@ -117,12 +136,27 @@ public class Inventory : MonoBehaviour
 
     public void RemoveItem(Item item)
     {
+        item.isBeingHeld = false;
+        item.GFXHandler.ChangeGFXRenderLayerServerRpc("ItemGFX", 2);
+
+        if (item.IsHeavy)
+        {
+            carryingHeavy = false;
+            heavyItem = null;
+            carryingHeavyGFX.SetActive(false);
+
+            EnableCarriedItemGFX(items[selectedItemSlot], true);
+
+            return;
+        }
+
         inventorySlots[items.Count - 1].transform.GetChild(0).GetComponent<Image>().sprite = baseInvSlotSprite;
-        if (selectedItemSlot > items.Count - 1 && selectedItemSlot > 0)
+        if (selectedItemSlot > 0)
         {
             inventorySlots[selectedItemSlot].GetComponent<Image>().color = Color.gray;
             selectedItemSlot--;
             inventorySlots[selectedItemSlot].GetComponent<Image>().color = Color.green;
+            EnableCarriedItemGFX(items[selectedItemSlot], true);
         }
 
         items.Remove(item);
@@ -134,6 +168,20 @@ public class Inventory : MonoBehaviour
             i++;
         }
 
+    }
+
+    private void EnableCarriedItemGFX(Item item, bool enable)
+    {
+        item.isBeingHeld = enable;
+        if (enable) item.itemHeldLoc = heldItemPos;
+        StartCoroutine(WaitForItemPosToUpdate(item, enable));
+    }
+
+    private System.Collections.IEnumerator WaitForItemPosToUpdate(Item item, bool enable)
+    {
+        yield return new WaitForEndOfFrame(); 
+        if(enable) item.GFXHandler.EnableGFXServerRpc("ItemGFX");
+        else item.GFXHandler.DisableGFXServerRpc("ItemGFX");
     }
 
     public bool hasItem(Item item)

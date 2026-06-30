@@ -10,33 +10,46 @@ public abstract class Item : NetworkBehaviour, IInteractable
 {
     [Header("Base Item Settings")]
     [SerializeField] private ItemType itemType;
-    public ItemType ItemType => itemType;
-
     [SerializeField] private Sprite sprite;
-    public Sprite Sprite => sprite;
     [SerializeField] private bool infiniteUses = true; 
-    public bool InfiniteUses => infiniteUses;
     [SerializeField] protected int uses;
-    public int Uses => uses;
-
-    [SerializeField] private bool hasAudio = false;
-    public bool HasAudio => hasAudio;
-
-    [SerializeField] protected float audioVolume = 1; 
-    public float AudioVolume => audioVolume;
-
-    [SerializeField] private string audioName;
-    public string AudioName => audioName;
-
+    [SerializeField] private bool isHeavy = false;
     [SerializeField] private bool removeOnPickUp = true;
-    [SerializeField] private int throwForceFoward, throwForceup; 
+    [SerializeField] private int throwForceFoward, throwForceup;
+    [Header("Item Audio")]
+    [SerializeField] private bool hasAudio = false;
+    [SerializeField] protected float audioVolume = 1; 
+    [SerializeField] private string audioName;
+    [Header("Item GFX")]
     [SerializeField] private GFXHandler gFXHandler;
+    [SerializeField] private Vector3 heldItemLocOffset = Vector3.zero; 
 
-    private bool canPickUpItem = true; 
+    [HideInInspector] public bool isBeingHeld;
+    [HideInInspector] public Transform itemHeldLoc;
+    private bool canPickUpItem = true;
+
+    public ItemType ItemType => itemType;
+    public Sprite Sprite => sprite;
+    public bool InfiniteUses => infiniteUses;
+    public int Uses => uses;
+    public bool IsHeavy => isHeavy;
+    public bool HasAudio => hasAudio;
+    public float AudioVolume => audioVolume;
+    public string AudioName => audioName;
+    public GFXHandler GFXHandler => gFXHandler;
 
     private void Awake()
     {
         gFXHandler = GetComponent<GFXHandler>();
+    }
+
+    protected void Update()
+    {
+        if (isBeingHeld)
+        {
+            transform.position = itemHeldLoc.TransformPoint(heldItemLocOffset);
+            transform.rotation = itemHeldLoc.rotation;
+        }
     }
 
     public abstract void UseItem(GameObject user);

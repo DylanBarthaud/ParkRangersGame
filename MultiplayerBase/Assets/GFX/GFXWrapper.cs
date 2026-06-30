@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using UnityEditor.TerrainTools;
 using UnityEngine;
 
 public class GFXWrapper : MonoBehaviour
@@ -31,5 +32,12 @@ public class GFXWrapper : MonoBehaviour
         foreach (var gfx in gfx) 
             gfx.GetComponent<MeshRenderer>().
                 material = materials[materialIndex];
+    }
+
+    public void ChangeRenderLayerMask(uint layerMask)
+    {
+        foreach (var gfx in gfx)
+            gfx.GetComponent<MeshRenderer>().
+                renderingLayerMask = layerMask;
     }
 }

@@ -45,4 +45,14 @@ public class GFXHandler : NetworkBehaviour
         if (gfxDictonary.ContainsKey(gfxName)) gfxDictonary[gfxName].ChangeGFXMaterial(materialIndex);
         else Debug.LogError($"GFX Dictionary does not contain {gfxName} as a key");
     }
+
+    [ServerRpc(RequireOwnership = false)]
+    public void ChangeGFXRenderLayerServerRpc(string gfxName, uint layerMask) => ChangeGFXRenderLayerClientRpc(gfxName, layerMask);
+
+    [ClientRpc]
+    public void ChangeGFXRenderLayerClientRpc(string gfxName, uint layerMask)
+    {
+        if (gfxDictonary.ContainsKey(gfxName)) gfxDictonary[gfxName].ChangeRenderLayerMask(layerMask);
+        else Debug.LogError($"GFX Dictionary does not contain {gfxName} as a key");
+    }
 }

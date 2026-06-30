@@ -14654,6 +14654,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 4076698256133313142}
     m_Modifications:
+    - target: {fileID: 762806245318488727, guid: f5c3faecedc228944a12adb6c19f85a6, type: 3}
+      propertyPath: m_RenderingLayerMask
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 1043360955296876844, guid: f5c3faecedc228944a12adb6c19f85a6, type: 3}
+      propertyPath: m_RenderingLayers
+      value: 5
+      objectReference: {fileID: 0}
     - target: {fileID: 1269886746667229312, guid: f5c3faecedc228944a12adb6c19f85a6, type: 3}
       propertyPath: m_Name
       value: Campfire (1)

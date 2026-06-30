@@ -8,7 +8,6 @@ public class TorchItem : Item
     {
         base.OnInteract(interactor, itemType);
         if (playerInfoHolder == null) playerInfoHolder = interactor.GetComponent<PlayerInfoHolder>();
-        playerInfoHolder.ActivateTorchServerRPC(true);
     }
 
     public override void UseItem(GameObject user)
@@ -22,7 +21,7 @@ public class TorchItem : Item
 
         if (!inventory.hasItemOfType<TorchItem>())
         {
-            playerInfoHolder.ActivateTorchServerRPC(false); 
+            playerInfoHolder.ActivateTorchServerRPC(); 
         }
     }
 }
