@@ -46,7 +46,7 @@ public class inspectScript : MonoBehaviour
                     if (interactable.RequiresZoneCheckIn())
                     {
                         GameManager gameManager = GameManager.instance;
-                        Zones objZone = gameManager.gridPosZoneDictonary[gameManager.mapHandler.GetGridLocation(hit.collider.transform.position)];
+                        Zones objZone = gameManager.GridPosZoneDictonary[gameManager.mapHandler.GetGridLocation(hit.collider.transform.position)];
                         if (!gameManager.PlayerInSameZone(interactor.CurrentZone))
                         {
                             skipCanInteractCheck = true;

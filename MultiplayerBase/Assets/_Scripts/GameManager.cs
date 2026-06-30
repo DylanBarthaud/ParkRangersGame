@@ -34,7 +34,9 @@ public class GameManager : NetworkBehaviour
     [SerializeField] private GridPosition homeCell;
     public GridPosition HomeCell => homeCell;
     [SerializeField] private Pair<Zones, GridPosition[]>[] zones;
-    public Dictionary<GridPosition, Zones> gridPosZoneDictonary = new Dictionary<GridPosition, Zones>();
+    public Dictionary<GridPosition, Zones> GridPosZoneDictonary => gridPosZoneDictonary;
+    private Dictionary<GridPosition, Zones> gridPosZoneDictonary = new Dictionary<GridPosition, Zones>();
+
     [Header("Spawns")]
     [SerializeField] GameObject[] spawnableObjects;
     [SerializeField] int numberOfSpawns;

@@ -29,7 +29,7 @@ public class EventManager : MonoBehaviour
 
     public event Action<bool, IInteractable> onPuzzleComplete;
     public event Action onZoneComplete;
-    public event Action<ulong> onCheckIn;
+    public event Action<ulong, Zones> onCheckIn;
 
     public event Action<int,Interactor> onButtonHeld;
     public event Action onButtonReleased;
@@ -79,9 +79,9 @@ public class EventManager : MonoBehaviour
     {
         if(onZoneComplete  != null) onZoneComplete();
     }
-    public void OnCheckIn(ulong playerID)
+    public void OnCheckIn(ulong playerID, Zones zone)
     {
-        if(onCheckIn != null) onCheckIn(playerID);
+        if(onCheckIn != null) onCheckIn(playerID, zone);
     }
 
     public void OnButtonHeld(int tick, Interactor interactor)
