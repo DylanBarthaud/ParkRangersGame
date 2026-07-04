@@ -76,7 +76,7 @@ Transform:
   m_GameObject: {fileID: 691981969572245596}
   serializedVersion: 2
   m_LocalRotation: {x: -0.9999983, y: -0, z: -0, w: 0.0018582491}
-  m_LocalPosition: {x: -0.000000010953, y: 0.0002517082, z: 0.06119163}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 8.67529, y: 8.67529, z: 39.60632}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -5226,7 +5226,7 @@ BoxCollider:
   m_Enabled: 1
   serializedVersion: 3
   m_Size: {x: 0.2, y: 0.2, z: 1.4}
-  m_Center: {x: 0, y: 0, z: 0.15}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &4022448843850802454
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5296,7 +5296,7 @@ MonoBehaviour:
   audioVolume: 1
   audioName: 
   gFXHandler: {fileID: 7999298913703856445}
-  heldItemLocOffset: {x: 0.1, y: 0, z: 0.05}
+  heldItemLocOffset: {x: 0, y: 0, z: 0.05}
   isBeingHeld: 0
   itemHeldLoc: {fileID: 0}
 --- !u!114 &8717031359175044371
