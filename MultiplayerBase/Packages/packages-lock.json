@@ -20,14 +20,6 @@
       "source": "embedded",
       "dependencies": {}
     },
-    "com.paps.unity-toolbar-extender-ui-toolkit": {
-      "version": "file:C:/Users/thoma/Downloads/unity-toolbar-extender-ui-toolkit-2.0.0/unity-toolbar-extender-ui-toolkit-2.0.0/Assets/Package",
-      "depth": 0,
-      "source": "local",
-      "dependencies": {
-        "com.unity.serialization": "3.1.2"
-      }
-    },
     "com.unity.2d.animation": {
       "version": "10.2.2",
       "depth": 1,
@@ -325,16 +317,6 @@
       "depth": 2,
       "source": "registry",
       "dependencies": {},
-      "url": "https://packages.unity.com"
-    },
-    "com.unity.serialization": {
-      "version": "3.1.2",
-      "depth": 1,
-      "source": "registry",
-      "dependencies": {
-        "com.unity.burst": "1.7.2",
-        "com.unity.collections": "2.4.2"
-      },
       "url": "https://packages.unity.com"
     },
     "com.unity.settings-manager": {
