@@ -8,8 +8,7 @@ public class ZoneInfoCard : MonoBehaviour
     [SerializeField] TextMeshProUGUI tasksText;
     [SerializeField] TextMeshProUGUI playersText;
     [SerializeField] Image zoneIcon;
-    [SerializeField] Button checkInButton;
-    [SerializeField] Button completeZoneButton; 
+    [SerializeField] Image background; 
 
     private ZoneInfo currentInfo;
     private Interactor currentInteractor; 
@@ -36,6 +35,7 @@ public class ZoneInfoCard : MonoBehaviour
         if (currentInfo.TasksComplete >= currentInfo.TasksNeeded)
         {
             currentInfo.zoneIsComplete = true;
+            background.color = Color.green;
             EventManager.instance.OnZoneComplete();
         }
     }

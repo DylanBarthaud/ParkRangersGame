@@ -41,7 +41,7 @@ public class MiniGame : NetworkBehaviour, IInteractable
             if (itemUsed == neededItem) return (true, "");
             return (false, $"Requires item: {neededItem}");
         }
-        return (false, "Already being used");
+        return (false, "");
     }
 
     [ServerRpc(RequireOwnership = false)]

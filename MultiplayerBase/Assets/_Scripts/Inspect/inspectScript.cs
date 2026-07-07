@@ -23,42 +23,44 @@ public class inspectScript : MonoBehaviour
         {
             if (hit.collider.CompareTag("InteractObject"))
             {
+                IInteractable interactable = hit.collider.gameObject.GetComponent<IInteractable>();
+                raycastedObj = hit.collider.gameObject.GetComponent<ObjectController>();
+
+                bool canInteract;
+                string cantInteractReason;
+
+                Interactor interactor = gameObject.GetComponent<Interactor>();
+                Inventory Inv = gameObject.GetComponent<Inventory>();
+                ItemType typeInInv;
+                if (Inv.Items.Count > 0)
+                {
+                    Item itemInInv;
+                    if (Inv.CarryingHeavy) itemInInv = Inv.HeavyItem;
+                    else itemInInv = Inv.Items[Inv.SelectedItemSlot];
+                    typeInInv = itemInInv.ItemType;
+                }
+                else typeInInv = ItemType.None;
+
+                (canInteract, cantInteractReason) = interactable.CanInteract(interactor, typeInInv);
+                bool skipCanInteractCheck = false;
+                if (interactable.RequiresZoneCheckIn())
+                {
+                    GameManager gameManager = GameManager.instance;
+                    Zones objZone = gameManager.GridPosZoneDictonary[gameManager.mapHandler.GetGridLocation(hit.collider.transform.position)];
+                    if (!gameManager.PlayerInSameZone(interactor.CurrentZone))
+                    {
+                        skipCanInteractCheck = true;
+                        inspectController.ShowName($"Requires {objZone} CheckIn", Color.red);
+                    }
+                }
+                if (!skipCanInteractCheck && !canInteract) inspectController.ShowName(cantInteractReason, Color.yellow);
+
+                if (raycastedObj != null) raycastedObj.ShowObjectName(inspectController);
+                CrosshairChange(true);
+
                 if (!doOnce)
                 {
-                    IInteractable interactable = hit.collider.gameObject.GetComponent<IInteractable>();
-                    bool canInteract;
-                    string cantInteractReason;
 
-                    Interactor interactor = gameObject.GetComponent<Interactor>(); 
-                    Inventory Inv = gameObject.GetComponent<Inventory>();
-                    ItemType typeInInv;
-                    if (Inv.Items.Count > 0)
-                    {
-                        Item itemInInv;
-                        if (Inv.CarryingHeavy) itemInInv = Inv.HeavyItem;
-                        else itemInInv = Inv.Items[Inv.SelectedItemSlot];
-                        typeInInv = itemInInv.ItemType;
-                    }
-                    else typeInInv = ItemType.None;
-
-                    (canInteract, cantInteractReason) = interactable.CanInteract(interactor, typeInInv);
-                    bool skipCanInteractCheck = false;
-                    if (interactable.RequiresZoneCheckIn())
-                    {
-                        GameManager gameManager = GameManager.instance;
-                        Zones objZone = gameManager.GridPosZoneDictonary[gameManager.mapHandler.GetGridLocation(hit.collider.transform.position)];
-                        if (!gameManager.PlayerInSameZone(interactor.CurrentZone))
-                        {
-                            skipCanInteractCheck = true;
-                            inspectController.ShowName($"Requires {objZone} CheckIn", Color.red);
-                        }
-                    }
-                    if (!skipCanInteractCheck && !canInteract) inspectController.ShowName(cantInteractReason, Color.yellow);
-
-
-                    raycastedObj = hit.collider.gameObject.GetComponent<ObjectController>();
-                    if(raycastedObj != null) raycastedObj.ShowObjectName(inspectController);
-                    CrosshairChange(true);
                 }
 
                 isCrosshairActive = true;
@@ -68,16 +70,16 @@ public class inspectScript : MonoBehaviour
                 {
                     raycastedObj.ShowExtraInfo(inspectController);
                 }
+
+                return;
             }
         }
-        else
+
+        if (isCrosshairActive)
         {
-            if(isCrosshairActive)
-            {
-                inspectController.HideName(); 
-                CrosshairChange(false);
-                doOnce = false; 
-            }
+            inspectController.HideName();
+            CrosshairChange(false);
+            doOnce = false;
         }
     }
     void CrosshairChange(bool on)
