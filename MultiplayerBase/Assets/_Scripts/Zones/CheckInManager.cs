@@ -38,32 +38,4 @@ public class CheckInManager : MonoBehaviour
         newZoneCard.Initilize(zoneInfo, interactor);
         this.interactor = interactor;
     }
-
-    #region old shii
-    /*
-    public void SetInteractor(Interactor interactor) => this.interactor = interactor;
-    public void SetTable(CheckInTable table) => currentTable = table;
-    public void SetZone(Zones zone) => tableZone = zone;
-    public void TableCheckIn() => EventManager.instance.OnCheckIn(interactor.OwnerClientId, tableZone);
-    public void CompleteZone() => currentTable.CompleteZone();
-    public void CheckIn(int zone)
-    {
-        EventManager.instance.OnCheckIn(interactor.OwnerClientId, (Zones)zone); 
-        UpdateTxt();
-    }
-
-    private void UpdateTxt()
-    {
-        zoneTxt.text = $"Zone: {currentTable.Zone}";
-        playersCheckedInTxt.text = $"Checked in: {currentTable.CheckedInPlayers.Count}";
-        tasksLeftTxt.text = $"Tasks Left: {currentTable.TasksInZone - currentTable.TasksComplete} / {currentTable.TasksInZone}";
-    }
-
-    public void OpenHubUI()
-    {
-        hubUI.SetActive(true);
-    }
-    */
-    #endregion
-
 }
