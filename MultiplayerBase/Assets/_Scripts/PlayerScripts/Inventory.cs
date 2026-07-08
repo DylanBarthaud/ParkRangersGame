@@ -112,7 +112,13 @@ public class Inventory : MonoBehaviour
         }
     }
 
-    public bool AddItemToInventory(Item item)
+    public bool CanAddItemToInv()
+    {
+        if (items.Count >= inventorySlots.Length) return false;
+        return true; 
+    }
+
+    public void AddItemToInventory(Item item)
     {
         item.GFXHandler.ChangeGFXRenderLayerServerRpc("ItemGFX", 4);
         if(items.Count <= 0 || item.IsHeavy) EnableCarriedItemGFX(item, true);
@@ -125,14 +131,11 @@ public class Inventory : MonoBehaviour
 
             EnableCarriedItemGFX(items[selectedItemSlot], false);
 
-            return true;
+            return;
         }
-
-        if(items.Count >= inventorySlots.Length) return false;
 
         items.Add(item);
         inventorySlots[items.Count - 1].transform.GetChild(0).GetComponent<Image>().sprite = item.Sprite;
-        return true;
     }
 
     public void RemoveItem(Item item)

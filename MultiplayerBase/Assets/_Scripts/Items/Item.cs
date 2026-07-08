@@ -69,13 +69,15 @@ public abstract class Item : NetworkBehaviour, IInteractable
         Inventory interactorInventory = interactor.gameObject.GetComponent<Inventory>();
         if (interactorInventory != null)
         {
-            if (!interactorInventory.AddItemToInventory(this)) return; 
+            if (!interactorInventory.CanAddItemToInv()) return; 
             if (gFXHandler != null && removeOnPickUp) gFXHandler.DisableGFXServerRpc("ItemGFX"); 
             if (removeOnPickUp)
             {
                 GetComponent<Collider>().enabled = false;
                 SetItemColliderServerRpc(false);
             }
+
+            interactorInventory.AddItemToInventory(this);
         }
     }
     public bool RequiresZoneCheckIn() { return false; }
