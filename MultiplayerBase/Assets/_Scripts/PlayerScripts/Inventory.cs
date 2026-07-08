@@ -181,7 +181,7 @@ public class Inventory : MonoBehaviour
 
     private System.Collections.IEnumerator WaitForItemPosToUpdate(Item item, bool enable)
     {
-        yield return new WaitForEndOfFrame(); 
+        yield return new WaitForSeconds(0.1f); 
         if(enable) item.GFXHandler.EnableGFX("ItemGFX");
         else item.GFXHandler.DisableGFX("ItemGFX");
     }
