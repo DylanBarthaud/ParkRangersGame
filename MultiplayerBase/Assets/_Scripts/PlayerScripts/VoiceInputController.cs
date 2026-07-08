@@ -281,15 +281,8 @@ public class VoiceInputController : NetworkBehaviour
     private void ActivateRadioVoiceClientRpc(bool active)
     {
         if (IsOwner) return;
-        if(active)
-        {
-            source.spatialBlend = 0;
-            optimalRate = (int)SteamUser.OptimalSampleRate / 2;
-        }
-        else
-        {
-            source.spatialBlend = 1;
-            optimalRate = (int)SteamUser.OptimalSampleRate;
-        }
+        if(active) source.spatialBlend = 0;
+        else source.spatialBlend = 1;
+
     }
 }
