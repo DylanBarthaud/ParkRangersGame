@@ -9,7 +9,7 @@ public class Crow_AI : MonoBehaviour
     public void SetNoiseData(AudioClip clip)
     {
         audioSource.clip = clip;
-        audioSource.pitch = Random.Range(0.95f, 1.0f);
+        //audioSource.pitch = Random.Range(0.95f, 1.0f);
         audioSource.volume = Random.Range(0.1f, 0.2f);
         audioSource.panStereo = Random.Range(-1.0f, 1.0f);
         audioSource.Play();
