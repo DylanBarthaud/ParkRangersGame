@@ -43,6 +43,8 @@ public class VoiceInputController : NetworkBehaviour
     private bool isRecording = true;
     private float lastVoiceTime;
 
+    private Coroutine stopRadioDelayCorotine; 
+
     void Start()
     {
         optimalRate = (int)SteamUser.OptimalSampleRate; 
@@ -89,12 +91,26 @@ public class VoiceInputController : NetworkBehaviour
 
         if (Input.GetKeyDown(KeyCode.G))
         {
-            StopCoroutine(stopRadioDelay()); 
+            Debug.Log("keyDOWN");
+
+            if (stopRadioDelayCorotine != null)
+            {
+                StopCoroutine(stopRadioDelayCorotine);
+                stopRadioDelayCorotine = null;
+            }
+
             ActivateRadioVoiceServerRpc(true);
         }
 
-        if (Input.GetKeyUp(KeyCode.G)) StartCoroutine(stopRadioDelay()); 
+        if (Input.GetKeyUp(KeyCode.G))
+        {
+            Debug.Log("keyUP");
 
+            if (stopRadioDelayCorotine != null)
+                StopCoroutine(stopRadioDelayCorotine);
+
+            stopRadioDelayCorotine = StartCoroutine(stopRadioDelay());
+        }
         //SteamUser.VoiceRecord = Input.GetKey(KeyCode.V);
     }
 
@@ -253,7 +269,8 @@ public class VoiceInputController : NetworkBehaviour
 
     private IEnumerator stopRadioDelay()
     {
-        yield return new WaitForSeconds(2); 
+        yield return new WaitForSeconds(2);
+        Debug.Log("STOP RADIO");
         ActivateRadioVoiceServerRpc(false);
     }
 
@@ -264,7 +281,7 @@ public class VoiceInputController : NetworkBehaviour
     private void ActivateRadioVoiceClientRpc(bool active)
     {
         if (IsOwner) return;
-        if(!active)
+        if(active)
         {
             source.spatialBlend = 0;
             optimalRate = (int)SteamUser.OptimalSampleRate / 2;
