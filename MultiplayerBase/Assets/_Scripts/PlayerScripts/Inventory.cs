@@ -12,7 +12,6 @@ using UnityEngine.XR;
 
 public class Inventory : MonoBehaviour
 {
-    [SerializeField] GameObject inventoryUi;
     [SerializeField] GameObject[] inventorySlots;
     [SerializeField] Sprite baseInvSlotSprite; 
     [SerializeField] private List<Item> items = new List<Item>();
@@ -32,8 +31,6 @@ public class Inventory : MonoBehaviour
     private void Awake()
     {
         inventorySlots[0].GetComponent<Image>().color = Color.green;
-
-        if(!gameObject.GetComponent<NetworkObject>().IsOwner) inventoryUi.SetActive(false);
 
         EventManager.instance.onPuzzleComplete += OnPuzzleComplete;
         EventManager.instance.onButtonReleased += EnableInv;

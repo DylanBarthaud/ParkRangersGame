@@ -15,6 +15,7 @@ public class PlayerInfoHolder : NetworkBehaviour, IAiSensible, IHurtable
     [SerializeField] InspectController inspectController;
 
     [SerializeField] GameObject playerCompass;
+    [SerializeField] GameObject playerInv; 
     [SerializeField] private GameObject torchLight; 
 
     [Header("Raven Settings")]
@@ -34,7 +35,8 @@ public class PlayerInfoHolder : NetworkBehaviour, IAiSensible, IHurtable
 
         if(!IsOwner)
         {
-            playerCompass.SetActive(false); 
+            playerCompass.SetActive(false);
+            playerInv.SetActive(false);
         }
 
         playerInfo = new PlayerInfo();
