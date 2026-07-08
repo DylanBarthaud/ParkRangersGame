@@ -158,7 +158,6 @@ public class Inventory : MonoBehaviour
             inventorySlots[selectedItemSlot].GetComponent<Image>().color = Color.gray;
             selectedItemSlot--;
             inventorySlots[selectedItemSlot].GetComponent<Image>().color = Color.green;
-            EnableCarriedItemGFX(items[selectedItemSlot], true);
         }
 
         items.Remove(item);
@@ -170,6 +169,7 @@ public class Inventory : MonoBehaviour
             i++;
         }
 
+        EnableCarriedItemGFX(items[selectedItemSlot], true);
     }
 
     private void EnableCarriedItemGFX(Item item, bool enable)
