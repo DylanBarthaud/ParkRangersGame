@@ -9726,6 +9726,7 @@ GameObject:
   - component: {fileID: 4265394725425369202}
   - component: {fileID: 8775005053612764598}
   - component: {fileID: 8429107840558492342}
+  - component: {fileID: 7425174682511964022}
   m_Layer: 3
   m_Name: Campfire_Puzzle
   m_TagString: Untagged
@@ -9812,7 +9813,22 @@ MonoBehaviour:
   putOutMat: {fileID: 2100000, guid: e34e6b200bea6db49b6424208f37bb7d, type: 2}
   ps: {fileID: 4123171747111786933}
   audioSource: {fileID: 8170413110975581426}
-  pointLight: {fileID: 1342712300915259637}
+  gFXHandler: {fileID: 7425174682511964022}
+--- !u!114 &7425174682511964022
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5860288625417710225}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 107629a53431b374ca49bd24540fac0f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
+  gfxWrapperArray:
+  - {fileID: 8386893052006686551}
 --- !u!1 &8969858220376484761
 GameObject:
   m_ObjectHideFlags: 0
@@ -14666,6 +14682,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Campfire (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 2810078741082144037, guid: f5c3faecedc228944a12adb6c19f85a6, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7590657656257595024, guid: f5c3faecedc228944a12adb6c19f85a6, type: 3}
       propertyPath: m_Volume
       value: 0.5
@@ -14740,16 +14760,41 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 8368216318219975184, guid: f5c3faecedc228944a12adb6c19f85a6, type: 3}
       insertIndex: 1
       addedObject: {fileID: 8488042081440254748}
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 1269886746667229312, guid: f5c3faecedc228944a12adb6c19f85a6, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 8386893052006686551}
   m_SourcePrefab: {fileID: 100100000, guid: f5c3faecedc228944a12adb6c19f85a6, type: 3}
---- !u!108 &1342712300915259637 stripped
-Light:
-  m_CorrespondingSourceObject: {fileID: 762806245318488727, guid: f5c3faecedc228944a12adb6c19f85a6, type: 3}
+--- !u!1 &696869098770016994 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1269886746667229312, guid: f5c3faecedc228944a12adb6c19f85a6, type: 3}
   m_PrefabInstance: {fileID: 1744104186493110882}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &8386893052006686551
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 696869098770016994}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bb90e106c03817b4fa716126b9149f5d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gfx:
+  - {fileID: 3460734233556573620}
+  - {fileID: 5609972907834399057}
+  gfxName: FireGFX
+  materials: []
 --- !u!23 &2723506031791298194 stripped
 MeshRenderer:
   m_CorrespondingSourceObject: {fileID: 4467460648195611888, guid: f5c3faecedc228944a12adb6c19f85a6, type: 3}
+  m_PrefabInstance: {fileID: 1744104186493110882}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &5609972907834399057 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6192147290853561139, guid: f5c3faecedc228944a12adb6c19f85a6, type: 3}
   m_PrefabInstance: {fileID: 1744104186493110882}
   m_PrefabAsset: {fileID: 0}
 --- !u!4 &7788322324500017266 stripped

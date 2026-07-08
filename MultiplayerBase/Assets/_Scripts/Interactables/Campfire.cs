@@ -10,7 +10,7 @@ public class Campfire : NetworkBehaviour, IInteractable
 
     [SerializeField] AudioSource audioSource;
 
-    [SerializeField] Light pointLight; 
+    [SerializeField] GFXHandler gFXHandler; 
     private bool putOut = false;
 
     public (bool, string) CanInteract(Interactor interactor, ItemType itemUsed = ItemType.None)
@@ -32,15 +32,15 @@ public class Campfire : NetworkBehaviour, IInteractable
     private void PutOutCampfireServerRpc()
     {
         PutOutCampfireClientRpc();
+        gFXHandler.DisableGFXServerRpc("FireGFX");
     }
 
     [ClientRpc]
     private void PutOutCampfireClientRpc()
     {
-        logs.material = putOutMat;
+        //logs.material = putOutMat;
         ps.Stop();
         audioSource.Stop();
-        pointLight.enabled = false;
         putOut = true;
     }
 

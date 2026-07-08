@@ -1,3 +1,4 @@
+using System;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -6,12 +7,25 @@ public class ZoneInfoCard : MonoBehaviour
 {
     [SerializeField] TextMeshProUGUI zoneText; 
     [SerializeField] TextMeshProUGUI tasksText;
-    [SerializeField] TextMeshProUGUI playersText;
     [SerializeField] Image zoneIcon;
     [SerializeField] Image background; 
 
     private ZoneInfo currentInfo;
-    private Interactor currentInteractor; 
+    private Interactor currentInteractor;
+
+    private void Awake()
+    {
+        EventManager.instance.onPuzzleComplete += AddPuzzleComplete;
+    }
+
+    private void AddPuzzleComplete(bool success, IInteractable interactable)
+    {
+        if(success)
+        {
+            currentInfo.TasksComplete++; 
+            updateCard();
+        }
+    }
 
     public void Initilize(ZoneInfo zoneInfo, Interactor interactor)
     {
@@ -44,8 +58,6 @@ public class ZoneInfoCard : MonoBehaviour
     {
         zoneText.text = $"Zone: {currentInfo.Zone}";
         tasksText.text = $"Tasks Complete: {currentInfo.TasksComplete}/{currentInfo.TasksNeeded}";
-        playersText.text = $"Players In Zone ({currentInfo.NumberOfPlayers}/{currentInfo.MaxPlayers}):";
-        for (int i = 0; i < currentInfo.playersNames.Count; i++) playersText.text += $"\n-{currentInfo.playersNames[i]}";
         zoneIcon.sprite = currentInfo.image;
     }
 }

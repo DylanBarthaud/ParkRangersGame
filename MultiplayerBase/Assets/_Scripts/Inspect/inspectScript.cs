@@ -14,7 +14,7 @@ public class inspectScript : MonoBehaviour
 
     [SerializeField] private InspectController inspectController;
 
-    private bool isInspecting; 
+    private bool isInspecting = true; 
 
     private void Update()
     {
@@ -57,7 +57,11 @@ public class inspectScript : MonoBehaviour
                         inspectController.ShowName($"Requires {objZone} CheckIn", Color.red);
                     }
                 }
-                if (!skipCanInteractCheck && !canInteract) inspectController.ShowName(cantInteractReason, Color.yellow);
+                if (!skipCanInteractCheck && !canInteract
+                    && cantInteractReason != "")
+                {
+                    inspectController.ShowName(cantInteractReason, Color.yellow);
+                }
 
                 if (raycastedObj != null) raycastedObj.ShowObjectName(inspectController);
                 CrosshairChange(true);
