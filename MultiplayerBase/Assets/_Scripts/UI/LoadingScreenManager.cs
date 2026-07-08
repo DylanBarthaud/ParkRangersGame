@@ -64,7 +64,7 @@ public class LoadingScreenManager : NetworkBehaviour
 
     private IEnumerator LoadTextures()
     {
-        yield return new WaitForSeconds(1);
+        yield return new WaitForEndOfFrame();
         trackSceneProgress = false;
         loadingScreen.SetActive(false);
     }

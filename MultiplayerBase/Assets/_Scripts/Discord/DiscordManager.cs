@@ -7,12 +7,19 @@ using UnityEngine;
 
 public class DiscordManager : MonoBehaviour
 {
+    private static DiscordManager instance;
 
     Discord.Discord discord;
     long launchtime = 0;
 
     public string state = string.Empty;
     public string details = string.Empty;
+
+    private void Awake()
+    {
+        if(instance != null) Destroy(gameObject);
+        else instance = this;
+    }
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()

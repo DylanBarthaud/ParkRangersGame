@@ -9,6 +9,8 @@ using NUnit.Framework;
 
 public class SettingsHandler : MonoBehaviour
 {
+    private static SettingsHandler instance;
+
     [SerializeField] private GameObject settingsMenu;
     private GameObject rebindPrompt;
     private GameObject subMenus;
@@ -25,6 +27,11 @@ public class SettingsHandler : MonoBehaviour
 
     public ClientSettings settings;
 
+    private void Awake()
+    {
+        if(instance != null) Destroy(gameObject);
+        else instance = this;
+    }
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
