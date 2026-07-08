@@ -940,7 +940,7 @@ AudioSource:
   m_GameObject: {fileID: 4459864850019384750}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
+  OutputAudioMixerGroup: {fileID: -4080137122703859044, guid: 3de4998ae66c52d4cbbfc10cd4e285ca, type: 2}
   m_audioClip: {fileID: 0}
   m_Resource: {fileID: 0}
   m_PlayOnAwake: 1
@@ -1055,7 +1055,7 @@ AudioSource:
   m_GameObject: {fileID: 4459864850019384750}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
+  OutputAudioMixerGroup: {fileID: 3276609892123378771, guid: 3de4998ae66c52d4cbbfc10cd4e285ca, type: 2}
   m_audioClip: {fileID: 0}
   m_Resource: {fileID: 0}
   m_PlayOnAwake: 0
@@ -4135,6 +4135,10 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 1969833054530064742, guid: b7685b0da6aa1564a851a7a8e0b2f19c, type: 3}
+      propertyPath: OutputAudioMixerGroup
+      value: 
+      objectReference: {fileID: 2586255595674802489, guid: 3de4998ae66c52d4cbbfc10cd4e285ca, type: 2}
     - target: {fileID: 2091720386049831318, guid: b7685b0da6aa1564a851a7a8e0b2f19c, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -4187,6 +4191,18 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 3666008170964824566, guid: b7685b0da6aa1564a851a7a8e0b2f19c, type: 3}
+      propertyPath: OutputAudioMixerGroup
+      value: 
+      objectReference: {fileID: 2586255595674802489, guid: 3de4998ae66c52d4cbbfc10cd4e285ca, type: 2}
+    - target: {fileID: 3825140486030090901, guid: b7685b0da6aa1564a851a7a8e0b2f19c, type: 3}
+      propertyPath: OutputAudioMixerGroup
+      value: 
+      objectReference: {fileID: 2586255595674802489, guid: 3de4998ae66c52d4cbbfc10cd4e285ca, type: 2}
+    - target: {fileID: 4239772848853302805, guid: b7685b0da6aa1564a851a7a8e0b2f19c, type: 3}
+      propertyPath: OutputAudioMixerGroup
+      value: 
+      objectReference: {fileID: 2586255595674802489, guid: 3de4998ae66c52d4cbbfc10cd4e285ca, type: 2}
     - target: {fileID: 4477734919990510853, guid: b7685b0da6aa1564a851a7a8e0b2f19c, type: 3}
       propertyPath: m_IsActive
       value: 1
@@ -4199,6 +4215,18 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 5491192171407941724, guid: b7685b0da6aa1564a851a7a8e0b2f19c, type: 3}
+      propertyPath: OutputAudioMixerGroup
+      value: 
+      objectReference: {fileID: 2586255595674802489, guid: 3de4998ae66c52d4cbbfc10cd4e285ca, type: 2}
+    - target: {fileID: 5933100833294912409, guid: b7685b0da6aa1564a851a7a8e0b2f19c, type: 3}
+      propertyPath: OutputAudioMixerGroup
+      value: 
+      objectReference: {fileID: 2586255595674802489, guid: 3de4998ae66c52d4cbbfc10cd4e285ca, type: 2}
+    - target: {fileID: 6326575704609756441, guid: b7685b0da6aa1564a851a7a8e0b2f19c, type: 3}
+      propertyPath: OutputAudioMixerGroup
+      value: 
+      objectReference: {fileID: 2586255595674802489, guid: 3de4998ae66c52d4cbbfc10cd4e285ca, type: 2}
     - target: {fileID: 6938188061145539116, guid: b7685b0da6aa1564a851a7a8e0b2f19c, type: 3}
       propertyPath: m_Name
       value: AmbientAudioManager
@@ -4207,6 +4235,10 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 8893565666067983003, guid: b7685b0da6aa1564a851a7a8e0b2f19c, type: 3}
+      propertyPath: OutputAudioMixerGroup
+      value: 
+      objectReference: {fileID: 2586255595674802489, guid: 3de4998ae66c52d4cbbfc10cd4e285ca, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
