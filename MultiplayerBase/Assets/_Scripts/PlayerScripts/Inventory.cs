@@ -32,7 +32,8 @@ public class Inventory : MonoBehaviour
     private void Awake()
     {
         inventorySlots[0].GetComponent<Image>().color = Color.green;
-        inventoryUi.SetActive(false);
+
+        if(!gameObject.GetComponent<NetworkObject>().IsOwner) inventoryUi.SetActive(false);
 
         EventManager.instance.onPuzzleComplete += OnPuzzleComplete;
         EventManager.instance.onButtonReleased += EnableInv;
