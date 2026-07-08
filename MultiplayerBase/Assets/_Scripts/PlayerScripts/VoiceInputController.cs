@@ -69,6 +69,14 @@ public class VoiceInputController : NetworkBehaviour
         voiceIcon.enabled = false;
     }
 
+    public override void OnNetworkDespawn()
+    {
+        SteamUser.VoiceRecord = false;
+        stream?.Dispose();
+        input?.Dispose();
+        output?.Dispose();
+    }
+
     private void Update()
     {
         if (!IsOwner) return;
@@ -89,8 +97,6 @@ public class VoiceInputController : NetworkBehaviour
     void FixedUpdate()
     {
         if (!IsOwner) return;
-
-        //Debug.Log(GetVoiceVolumeSquared());
 
         isRecording = true;
 
@@ -215,7 +221,7 @@ public class VoiceInputController : NetworkBehaviour
             && clipDuration > minSavedSampleDuration
             && clipDuration < maxSavedSampleDuration)
         {
-            //Debug.Log($"Stored clip from {OwnerClientId} samples: {recordedSamples.Count}, RMS: {GetMeanSquare(recordedSamples)}"); 
+            Debug.Log($"Stored clip from {OwnerClientId} samples: {recordedSamples.Count}, RMS: {GetMeanSquare(recordedSamples)}"); 
             storedSample = new List<float>(recordedSamples);
         }
 

@@ -85,12 +85,12 @@ public abstract class Item : NetworkBehaviour, IInteractable
     {
         SetItemColliderClientRpc(true);
         DropItemClientRpc(newPos, foward);
+        if (gFXHandler != null && removeOnPickUp) gFXHandler.EnableGFXServerRpc("ItemGFX");
     }
 
     [ClientRpc]
     private void DropItemClientRpc(Vector3 newPos, Vector3 foward)
     {
-
         transform.position = newPos;
 
         Rigidbody rb = GetComponent<Rigidbody>();
@@ -102,7 +102,6 @@ public abstract class Item : NetworkBehaviour, IInteractable
 
         GetComponent<Rigidbody>().AddForce(Vector3.up * throwForceup, ForceMode.Impulse);
         GetComponent<Rigidbody>().AddForce(foward * throwForceFoward, ForceMode.Impulse);
-        if (gFXHandler != null && removeOnPickUp) gFXHandler.EnableGFXServerRpc("ItemGFX");
     }
 
     [ServerRpc(RequireOwnership = false)] 

@@ -14,8 +14,12 @@ public class inspectScript : MonoBehaviour
 
     [SerializeField] private InspectController inspectController;
 
+    private bool isInspecting; 
+
     private void Update()
     {
+        if (!isInspecting) return;  
+
         RaycastHit hit;
         Vector3 fwd = Camera.main.transform.TransformDirection(Vector3.forward);
 

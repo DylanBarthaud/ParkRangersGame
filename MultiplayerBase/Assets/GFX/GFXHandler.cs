@@ -16,41 +16,41 @@ public class GFXHandler : NetworkBehaviour
         }
     }
 
-    [ServerRpc(RequireOwnership = false)]
+    [ServerRpc(RequireOwnership = false)] 
     public void EnableGFXServerRpc(string gfxName) => EnableGFXClientRpc(gfxName);
+    [ClientRpc] private void EnableGFXClientRpc(string gfxName) => EnableGFX(gfxName); 
 
-    [ClientRpc]
-    private void EnableGFXClientRpc(string gfxName)
+    [ServerRpc(RequireOwnership = false)]
+    public void DisableGFXServerRpc(string gfxName) => DisableGFXClientRpc(gfxName);
+    [ClientRpc] private void DisableGFXClientRpc(string gfxName) => DisableGFX(gfxName);
+
+    [ServerRpc(RequireOwnership = false)]
+    public void ChangeGFXMaterialServerRpc(string gfxName, int materialIndex) => ChangeGFXMaterialClientRpc(gfxName, materialIndex);
+    [ClientRpc] public void ChangeGFXMaterialClientRpc(string gfxName, int materialIndex) => ChangeGFXMaterial(gfxName, materialIndex);
+
+    [ServerRpc(RequireOwnership = false)]
+    public void ChangeGFXRenderLayerServerRpc(string gfxName, uint layerMask) => ChangeGFXRenderLayerClientRpc(gfxName, layerMask);
+    [ClientRpc] public void ChangeGFXRenderLayerClientRpc(string gfxName, uint layerMask) => ChangeGFXRenderLayer(gfxName, layerMask);
+
+    public void EnableGFX(string gfxName)
     {
         if (gfxDictonary.ContainsKey(gfxName)) gfxDictonary[gfxName].EnableGFX();
         else Debug.LogError($"GFX Dictionary does not contain {gfxName} as a key");
     }
 
-    [ServerRpc(RequireOwnership = false)]
-    public void DisableGFXServerRpc(string gfxName) => DisableGFXClientRpc(gfxName);
-
-    [ClientRpc]
-    private void DisableGFXClientRpc(string gfxName)
+    public void DisableGFX(string gfxName)
     {
         if (gfxDictonary.ContainsKey(gfxName)) gfxDictonary[gfxName].DisableGFX();
         else Debug.LogError($"GFX Dictionary does not contain {gfxName} as a key");
     }
 
-    [ServerRpc(RequireOwnership = false)]
-    public void ChangeGFXMaterialServerRpc(string gfxName, int materialIndex) => ChangeGFXMaterialClientRpc(gfxName, materialIndex);
-
-    [ClientRpc]
-    public void ChangeGFXMaterialClientRpc(string gfxName, int materialIndex)
+    public void ChangeGFXMaterial(string gfxName, int materialIndex)
     {
         if (gfxDictonary.ContainsKey(gfxName)) gfxDictonary[gfxName].ChangeGFXMaterial(materialIndex);
         else Debug.LogError($"GFX Dictionary does not contain {gfxName} as a key");
     }
 
-    [ServerRpc(RequireOwnership = false)]
-    public void ChangeGFXRenderLayerServerRpc(string gfxName, uint layerMask) => ChangeGFXRenderLayerClientRpc(gfxName, layerMask);
-
-    [ClientRpc]
-    public void ChangeGFXRenderLayerClientRpc(string gfxName, uint layerMask)
+    public void ChangeGFXRenderLayer(string gfxName, uint layerMask)
     {
         if (gfxDictonary.ContainsKey(gfxName)) gfxDictonary[gfxName].ChangeRenderLayerMask(layerMask);
         else Debug.LogError($"GFX Dictionary does not contain {gfxName} as a key");
