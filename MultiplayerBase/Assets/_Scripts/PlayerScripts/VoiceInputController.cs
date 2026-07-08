@@ -244,7 +244,7 @@ public class VoiceInputController : NetworkBehaviour
             && clipDuration > minSavedSampleDuration
             && clipDuration < maxSavedSampleDuration)
         {
-            Debug.Log($"Stored clip from {OwnerClientId} samples: {recordedSamples.Count}, RMS: {GetMeanSquare(recordedSamples)}"); 
+            //Debug.Log($"Stored clip from {OwnerClientId} samples: {recordedSamples.Count}, RMS: {GetMeanSquare(recordedSamples)}"); 
             storedSample = new List<float>(recordedSamples);
         }
 
@@ -282,16 +282,18 @@ public class VoiceInputController : NetworkBehaviour
     [ClientRpc]
     private void ActivateRadioVoiceClientRpc(bool active)
     {
-        if (IsOwner) return;
+        //if (IsOwner) return;
         if(active)
         {
             source.spatialBlend = 0;
-            source.outputAudioMixerGroup = defaultMixer; 
+            source.outputAudioMixerGroup = radioMixer;
+            Debug.Log(source.outputAudioMixerGroup);
         }
         else
         {
             source.spatialBlend = 1;
-            source.outputAudioMixerGroup = radioMixer;
+            source.outputAudioMixerGroup = defaultMixer;
+            Debug.Log(source.outputAudioMixerGroup);
         }
     }
 }
