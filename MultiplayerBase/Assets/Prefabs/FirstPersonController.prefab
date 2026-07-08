@@ -1071,7 +1071,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f8b19e7ce984e944cbbf360023d29f3a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  inventoryUi: {fileID: 7146833473305767277}
   inventorySlots:
   - {fileID: 4103060847147339857}
   - {fileID: 3906629594913581582}
@@ -1154,6 +1153,7 @@ MonoBehaviour:
   voiceInputController: {fileID: -2821817791472356823}
   inspectController: {fileID: 4270014770461249822}
   playerCompass: {fileID: 3819259985742591833}
+  playerInv: {fileID: 8000159173463752359}
   torchLight: {fileID: 8864717756307636703}
   tryAddRavenTick: 10
   tryRemoveRavenTick: 100
