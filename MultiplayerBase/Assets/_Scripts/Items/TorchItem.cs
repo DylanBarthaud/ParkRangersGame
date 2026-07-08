@@ -12,7 +12,7 @@ public class TorchItem : Item
 
     public override void UseItem(GameObject user)
     {
-        playerInfoHolder.ActivateTorchServerRPC();
+        playerInfoHolder.ActivateTorchServerRPC(!playerInfoHolder.isTorchActive);
     }
 
     public override void DropItem(Vector3 newPos, Inventory inventory )
@@ -21,7 +21,7 @@ public class TorchItem : Item
 
         if (!inventory.hasItemOfType<TorchItem>())
         {
-            playerInfoHolder.ActivateTorchServerRPC(); 
+            playerInfoHolder.ActivateTorchServerRPC(false); 
         }
     }
 }

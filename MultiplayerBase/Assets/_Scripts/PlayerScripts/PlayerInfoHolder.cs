@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Unity.Netcode;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UIElements;
@@ -27,6 +28,8 @@ public class PlayerInfoHolder : NetworkBehaviour, IAiSensible, IHurtable
 
     private BlackboardKey playerInfo_Key;
     private PlayerInfo playerInfo;
+
+    public bool isTorchActive => torchLight.activeInHierarchy; 
 
     public override void OnNetworkSpawn()
     {
@@ -129,10 +132,10 @@ public class PlayerInfoHolder : NetworkBehaviour, IAiSensible, IHurtable
         //Debug.Log($"Remove Raven to player {OwnerClientId} count: {playerInfo.ravenCount}");
     }
 
-    [ServerRpc(RequireOwnership = false)] public void ActivateTorchServerRPC() 
-        => ActivateTorchClientRPC();
-    [ClientRpc] private void ActivateTorchClientRPC() 
-        => torchLight.SetActive(!torchLight.activeInHierarchy);
+    [ServerRpc(RequireOwnership = false)] public void ActivateTorchServerRPC(bool active) 
+        => ActivateTorchClientRPC(active);
+    [ClientRpc] private void ActivateTorchClientRPC(bool active) 
+        => torchLight.SetActive(active);
 
     public void UpdateInfo(bool playerSeen, int importance = -1)
     {
