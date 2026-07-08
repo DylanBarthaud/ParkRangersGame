@@ -169,7 +169,7 @@ public class Inventory : MonoBehaviour
             i++;
         }
 
-        if (items[selectedItemSlot]) EnableCarriedItemGFX(items[selectedItemSlot], true);
+        if (items[selectedItemSlot] != null) EnableCarriedItemGFX(items[selectedItemSlot], true);
     }
 
     private void EnableCarriedItemGFX(Item item, bool enable)
