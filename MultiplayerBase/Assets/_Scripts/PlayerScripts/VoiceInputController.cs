@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.IO;
 using Unity.Netcode;
 using UnityEngine;
+using UnityEngine.Audio;
 using UnityEngine.UI;
 
 [RequireComponent(typeof(AudioListener))]
@@ -15,6 +16,7 @@ public class VoiceInputController : NetworkBehaviour
     [SerializeField] private float gain; 
 
     [SerializeField] private AudioSource source;
+    [SerializeField] private AudioMixerGroup defaultMixer, radioMixer;
 
     [SerializeField] private Image voiceIcon;
     [SerializeField] private float iconDecayTime = 0.5f;
@@ -281,8 +283,15 @@ public class VoiceInputController : NetworkBehaviour
     private void ActivateRadioVoiceClientRpc(bool active)
     {
         if (IsOwner) return;
-        if(active) source.spatialBlend = 0;
-        else source.spatialBlend = 1;
-
+        if(active)
+        {
+            source.spatialBlend = 0;
+            source.outputAudioMixerGroup = defaultMixer; 
+        }
+        else
+        {
+            source.spatialBlend = 1;
+            source.outputAudioMixerGroup = radioMixer;
+        }
     }
 }
