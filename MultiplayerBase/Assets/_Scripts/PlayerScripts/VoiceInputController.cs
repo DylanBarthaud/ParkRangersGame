@@ -87,8 +87,13 @@ public class VoiceInputController : NetworkBehaviour
             canHearSelf = !canHearSelf;
         }
 
-        if (Input.GetKeyDown(KeyCode.G) || Input.GetKeyUp(KeyCode.G)) ActivateRadioVoiceServerRpc();
+        if (Input.GetKeyDown(KeyCode.G))
+        {
+            StopCoroutine(stopRadioDelay()); 
+            ActivateRadioVoiceServerRpc(true);
+        }
 
+        if (Input.GetKeyUp(KeyCode.G)) StartCoroutine(stopRadioDelay()); 
 
         //SteamUser.VoiceRecord = Input.GetKey(KeyCode.V);
     }
@@ -246,14 +251,20 @@ public class VoiceInputController : NetworkBehaviour
         return clip; 
     }
 
+    private IEnumerator stopRadioDelay()
+    {
+        yield return new WaitForSeconds(2); 
+        ActivateRadioVoiceServerRpc(false);
+    }
+
     [ServerRpc(RequireOwnership = false)]
-    private void ActivateRadioVoiceServerRpc() => ActivateRadioVoiceClientRpc();
+    private void ActivateRadioVoiceServerRpc(bool active) => ActivateRadioVoiceClientRpc(active);
 
     [ClientRpc]
-    private void ActivateRadioVoiceClientRpc()
+    private void ActivateRadioVoiceClientRpc(bool active)
     {
         if (IsOwner) return;
-        if(source.spatialBlend > 0)
+        if(!active)
         {
             source.spatialBlend = 0;
             optimalRate = (int)SteamUser.OptimalSampleRate / 2;
