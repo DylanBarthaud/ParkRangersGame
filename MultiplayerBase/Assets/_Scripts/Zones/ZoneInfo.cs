@@ -16,14 +16,14 @@ public class ZoneInfo : ScriptableObject
 
     private void Awake()
     {
-        ResetZoneInfo(); 
+        ResetZoneInfo();
     }
 
     public void ResetZoneInfo()
     {
         NumberOfPlayers = 0;
-        playersNames = new List<string>();
-        playersIDs = new List<ulong>();
+        playersNames.Clear();
+        playersIDs.Clear();
         TasksComplete = 0;
         zoneIsComplete = false;
     }

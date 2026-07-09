@@ -295,6 +295,7 @@ public class GameManager : NetworkBehaviour
     public void HandlePlayerDisconnectServerRPC(ulong clientID)
     {
         playerBlackboardKeys.Remove(clientIdToKey[clientID]);
+        clientIdToKey.Remove(clientID);
         numberOfPlayers--;
         if (numberOfPlayers <= 0)
         {

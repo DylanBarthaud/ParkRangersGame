@@ -12,6 +12,7 @@ public class CheckInTable : MonoBehaviour, IInteractable
     private void Awake()
     {
         EventManager.instance.onPuzzleComplete += OnPuzzleComplete;
+        foreach(ZoneInfo zoneInfo in zoneInfoArr) zoneInfo.ResetZoneInfo();
     }
 
     public void OnInteract(Interactor interactor, ItemType itemUsed = ItemType.None)
