@@ -245,7 +245,7 @@ Transform:
   m_GameObject: {fileID: 8094971135991190387}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -2.213, y: 2.892, z: 2.11}
+  m_LocalPosition: {x: -2.109, y: 2.892, z: 2.11}
   m_LocalScale: {x: 0.0899691, y: 2.5492234, z: 4.018215}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -468,10 +468,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: WaterBucket_Item (10)
       objectReference: {fileID: 0}
-    - target: {fileID: 9094993765205742271, guid: fa1200704abcf544c9ace8e6cd79bd3e, type: 3}
-      propertyPath: 'm_Materials.Array.data[0]'
-      value: 
-      objectReference: {fileID: 2100000, guid: 51774b34da7ee6249b39e51b29b88f8a, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -780,10 +776,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: WaterBucket_Item (11)
       objectReference: {fileID: 0}
-    - target: {fileID: 9094993765205742271, guid: fa1200704abcf544c9ace8e6cd79bd3e, type: 3}
-      propertyPath: 'm_Materials.Array.data[0]'
-      value: 
-      objectReference: {fileID: 2100000, guid: 51774b34da7ee6249b39e51b29b88f8a, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -878,15 +870,15 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 4576935339256006944, guid: 7c3fac505bf59744d969be4e49cac2b9, type: 3}
       propertyPath: m_LocalScale.x
-      value: 0.59341
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4576935339256006944, guid: 7c3fac505bf59744d969be4e49cac2b9, type: 3}
       propertyPath: m_LocalScale.y
-      value: 0.59341
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4576935339256006944, guid: 7c3fac505bf59744d969be4e49cac2b9, type: 3}
       propertyPath: m_LocalScale.z
-      value: 0.59341
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4576935339256006944, guid: 7c3fac505bf59744d969be4e49cac2b9, type: 3}
       propertyPath: m_LocalPosition.x
@@ -1014,6 +1006,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 89.981
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: 67162a7823a88d248b35959c386fffc6, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: d9de3ed1c48c58946940df5416fb3a36, type: 2}
     - target: {fileID: 919132149155446097, guid: 67162a7823a88d248b35959c386fffc6, type: 3}
       propertyPath: m_Name
       value: ShelfUnit (1)
@@ -1088,6 +1084,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 89.981
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: 67162a7823a88d248b35959c386fffc6, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: d9de3ed1c48c58946940df5416fb3a36, type: 2}
     - target: {fileID: 919132149155446097, guid: 67162a7823a88d248b35959c386fffc6, type: 3}
       propertyPath: m_Name
       value: ShelfUnit (3)
@@ -1182,10 +1182,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: WaterBucket_Item (15)
       objectReference: {fileID: 0}
-    - target: {fileID: 9094993765205742271, guid: fa1200704abcf544c9ace8e6cd79bd3e, type: 3}
-      propertyPath: 'm_Materials.Array.data[0]'
-      value: 
-      objectReference: {fileID: 2100000, guid: 51774b34da7ee6249b39e51b29b88f8a, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -1256,6 +1252,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 89.981
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: 67162a7823a88d248b35959c386fffc6, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: d9de3ed1c48c58946940df5416fb3a36, type: 2}
     - target: {fileID: 919132149155446097, guid: 67162a7823a88d248b35959c386fffc6, type: 3}
       propertyPath: m_Name
       value: ShelfUnit
@@ -1280,15 +1280,15 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 4576935339256006944, guid: 7c3fac505bf59744d969be4e49cac2b9, type: 3}
       propertyPath: m_LocalScale.x
-      value: 0.59341
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4576935339256006944, guid: 7c3fac505bf59744d969be4e49cac2b9, type: 3}
       propertyPath: m_LocalScale.y
-      value: 0.59341
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4576935339256006944, guid: 7c3fac505bf59744d969be4e49cac2b9, type: 3}
       propertyPath: m_LocalScale.z
-      value: 0.59341
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4576935339256006944, guid: 7c3fac505bf59744d969be4e49cac2b9, type: 3}
       propertyPath: m_LocalPosition.x
@@ -1510,10 +1510,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: WaterBucket_Item (14)
       objectReference: {fileID: 0}
-    - target: {fileID: 9094993765205742271, guid: fa1200704abcf544c9ace8e6cd79bd3e, type: 3}
-      propertyPath: 'm_Materials.Array.data[0]'
-      value: 
-      objectReference: {fileID: 2100000, guid: 51774b34da7ee6249b39e51b29b88f8a, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -1604,10 +1600,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: WaterBucket_Item (16)
       objectReference: {fileID: 0}
-    - target: {fileID: 9094993765205742271, guid: fa1200704abcf544c9ace8e6cd79bd3e, type: 3}
-      propertyPath: 'm_Materials.Array.data[0]'
-      value: 
-      objectReference: {fileID: 2100000, guid: 51774b34da7ee6249b39e51b29b88f8a, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -1628,15 +1620,15 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 4576935339256006944, guid: 7c3fac505bf59744d969be4e49cac2b9, type: 3}
       propertyPath: m_LocalScale.x
-      value: 0.59341
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4576935339256006944, guid: 7c3fac505bf59744d969be4e49cac2b9, type: 3}
       propertyPath: m_LocalScale.y
-      value: 0.59341
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4576935339256006944, guid: 7c3fac505bf59744d969be4e49cac2b9, type: 3}
       propertyPath: m_LocalScale.z
-      value: 0.59341
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4576935339256006944, guid: 7c3fac505bf59744d969be4e49cac2b9, type: 3}
       propertyPath: m_LocalPosition.x
@@ -1714,15 +1706,15 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 4576935339256006944, guid: 7c3fac505bf59744d969be4e49cac2b9, type: 3}
       propertyPath: m_LocalScale.x
-      value: 0.59341
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4576935339256006944, guid: 7c3fac505bf59744d969be4e49cac2b9, type: 3}
       propertyPath: m_LocalScale.y
-      value: 0.59341
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4576935339256006944, guid: 7c3fac505bf59744d969be4e49cac2b9, type: 3}
       propertyPath: m_LocalScale.z
-      value: 0.59341
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4576935339256006944, guid: 7c3fac505bf59744d969be4e49cac2b9, type: 3}
       propertyPath: m_LocalPosition.x
@@ -1850,6 +1842,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 89.991
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: 5ea8f673041e2164bb974308f4d68aa1, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: b9aa5af5b2b409a4a8d1101b7fa9b2ef, type: 2}
     - target: {fileID: 919132149155446097, guid: 5ea8f673041e2164bb974308f4d68aa1, type: 3}
       propertyPath: m_Name
       value: Shelf1
@@ -1874,15 +1870,15 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 4576935339256006944, guid: 7c3fac505bf59744d969be4e49cac2b9, type: 3}
       propertyPath: m_LocalScale.x
-      value: 0.59341
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4576935339256006944, guid: 7c3fac505bf59744d969be4e49cac2b9, type: 3}
       propertyPath: m_LocalScale.y
-      value: 0.59341
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4576935339256006944, guid: 7c3fac505bf59744d969be4e49cac2b9, type: 3}
       propertyPath: m_LocalScale.z
-      value: 0.59341
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4576935339256006944, guid: 7c3fac505bf59744d969be4e49cac2b9, type: 3}
       propertyPath: m_LocalPosition.x
@@ -1960,15 +1956,15 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 4576935339256006944, guid: 7c3fac505bf59744d969be4e49cac2b9, type: 3}
       propertyPath: m_LocalScale.x
-      value: 0.59341
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4576935339256006944, guid: 7c3fac505bf59744d969be4e49cac2b9, type: 3}
       propertyPath: m_LocalScale.y
-      value: 0.59341
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4576935339256006944, guid: 7c3fac505bf59744d969be4e49cac2b9, type: 3}
       propertyPath: m_LocalScale.z
-      value: 0.59341
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4576935339256006944, guid: 7c3fac505bf59744d969be4e49cac2b9, type: 3}
       propertyPath: m_LocalPosition.x
@@ -2046,15 +2042,15 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 4576935339256006944, guid: 7c3fac505bf59744d969be4e49cac2b9, type: 3}
       propertyPath: m_LocalScale.x
-      value: 0.59341
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4576935339256006944, guid: 7c3fac505bf59744d969be4e49cac2b9, type: 3}
       propertyPath: m_LocalScale.y
-      value: 0.59341
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4576935339256006944, guid: 7c3fac505bf59744d969be4e49cac2b9, type: 3}
       propertyPath: m_LocalScale.z
-      value: 0.59341
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4576935339256006944, guid: 7c3fac505bf59744d969be4e49cac2b9, type: 3}
       propertyPath: m_LocalPosition.x
@@ -2132,15 +2128,15 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 4576935339256006944, guid: 7c3fac505bf59744d969be4e49cac2b9, type: 3}
       propertyPath: m_LocalScale.x
-      value: 0.59341
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4576935339256006944, guid: 7c3fac505bf59744d969be4e49cac2b9, type: 3}
       propertyPath: m_LocalScale.y
-      value: 0.59341
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4576935339256006944, guid: 7c3fac505bf59744d969be4e49cac2b9, type: 3}
       propertyPath: m_LocalScale.z
-      value: 0.59341
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4576935339256006944, guid: 7c3fac505bf59744d969be4e49cac2b9, type: 3}
       propertyPath: m_LocalPosition.x
@@ -2372,6 +2368,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 90
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: 6c43b359f10307749b233ee1cd4d16bc, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: b9aa5af5b2b409a4a8d1101b7fa9b2ef, type: 2}
     - target: {fileID: 919132149155446097, guid: 6c43b359f10307749b233ee1cd4d16bc, type: 3}
       propertyPath: m_Name
       value: Shelf2
@@ -2462,10 +2462,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: WaterBucket_Item (13)
       objectReference: {fileID: 0}
-    - target: {fileID: 9094993765205742271, guid: fa1200704abcf544c9ace8e6cd79bd3e, type: 3}
-      propertyPath: 'm_Materials.Array.data[0]'
-      value: 
-      objectReference: {fileID: 2100000, guid: 51774b34da7ee6249b39e51b29b88f8a, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -2536,6 +2532,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 89.981
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: 67162a7823a88d248b35959c386fffc6, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: d9de3ed1c48c58946940df5416fb3a36, type: 2}
     - target: {fileID: 919132149155446097, guid: 67162a7823a88d248b35959c386fffc6, type: 3}
       propertyPath: m_Name
       value: ShelfUnit (2)
@@ -2774,10 +2774,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: WaterBucket_Item (12)
       objectReference: {fileID: 0}
-    - target: {fileID: 9094993765205742271, guid: fa1200704abcf544c9ace8e6cd79bd3e, type: 3}
-      propertyPath: 'm_Materials.Array.data[0]'
-      value: 
-      objectReference: {fileID: 2100000, guid: 51774b34da7ee6249b39e51b29b88f8a, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -2942,10 +2938,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: WaterBucket_Item (18)
       objectReference: {fileID: 0}
-    - target: {fileID: 9094993765205742271, guid: fa1200704abcf544c9ace8e6cd79bd3e, type: 3}
-      propertyPath: 'm_Materials.Array.data[0]'
-      value: 
-      objectReference: {fileID: 2100000, guid: 51774b34da7ee6249b39e51b29b88f8a, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -3016,6 +3008,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 90
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: 6c43b359f10307749b233ee1cd4d16bc, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: b9aa5af5b2b409a4a8d1101b7fa9b2ef, type: 2}
     - target: {fileID: 919132149155446097, guid: 6c43b359f10307749b233ee1cd4d16bc, type: 3}
       propertyPath: m_Name
       value: Shelf2 (1)
@@ -3040,15 +3036,15 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 4576935339256006944, guid: 7c3fac505bf59744d969be4e49cac2b9, type: 3}
       propertyPath: m_LocalScale.x
-      value: 0.59341
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4576935339256006944, guid: 7c3fac505bf59744d969be4e49cac2b9, type: 3}
       propertyPath: m_LocalScale.y
-      value: 0.59341
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4576935339256006944, guid: 7c3fac505bf59744d969be4e49cac2b9, type: 3}
       propertyPath: m_LocalScale.z
-      value: 0.59341
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4576935339256006944, guid: 7c3fac505bf59744d969be4e49cac2b9, type: 3}
       propertyPath: m_LocalPosition.x
@@ -3126,15 +3122,15 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 4576935339256006944, guid: 7c3fac505bf59744d969be4e49cac2b9, type: 3}
       propertyPath: m_LocalScale.x
-      value: 0.59341
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4576935339256006944, guid: 7c3fac505bf59744d969be4e49cac2b9, type: 3}
       propertyPath: m_LocalScale.y
-      value: 0.59341
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4576935339256006944, guid: 7c3fac505bf59744d969be4e49cac2b9, type: 3}
       propertyPath: m_LocalScale.z
-      value: 0.59341
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4576935339256006944, guid: 7c3fac505bf59744d969be4e49cac2b9, type: 3}
       propertyPath: m_LocalPosition.x
@@ -3282,10 +3278,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: WaterBucket_Item (17)
       objectReference: {fileID: 0}
-    - target: {fileID: 9094993765205742271, guid: fa1200704abcf544c9ace8e6cd79bd3e, type: 3}
-      propertyPath: 'm_Materials.Array.data[0]'
-      value: 
-      objectReference: {fileID: 2100000, guid: 51774b34da7ee6249b39e51b29b88f8a, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
