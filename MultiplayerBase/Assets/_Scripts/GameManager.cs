@@ -45,7 +45,7 @@ public class GameManager : NetworkBehaviour
 
     [HideInInspector] public int numberOfPlayers = 0;
     [HideInInspector] public List<BlackboardKey> playerBlackboardKeys;
-    Dictionary<ulong, BlackboardKey> clientIdToKey; 
+    Dictionary<ulong, BlackboardKey> clientIdToKey = new Dictionary<ulong, BlackboardKey>(); 
     public GridPosition playerGridPos; 
 
     public UIManager uiManager;
@@ -78,6 +78,7 @@ public class GameManager : NetworkBehaviour
     public override void OnNetworkSpawn()
     {
         NetworkManager.Singleton.SceneManager.OnLoadEventCompleted += OnSceneLoaded;
+        NetworkManager.Singleton.OnClientDisconnectCallback += HandlePlayerDisconnectServerRPC; 
         /*
         if (SceneManager.GetActiveScene().name != "MainGame") return;
         Terrain terrain = Terrain.activeTerrain;

@@ -22,15 +22,11 @@ public class LobbySaver : MonoBehaviour
 
     public void QuitToMainMenu()
     {
-        if (GameManager.instance != null)
-            GameManager.instance.HandlePlayerDisconnectServerRPC(NetworkManager.Singleton.LocalClientId);
         LeaveLobby();
     }
 
     private void OnApplicationQuit()
     {
-        if(GameManager.instance != null) 
-            GameManager.instance.HandlePlayerDisconnectServerRPC(NetworkManager.Singleton.LocalClientId);
         LeaveLobby();
     }
 

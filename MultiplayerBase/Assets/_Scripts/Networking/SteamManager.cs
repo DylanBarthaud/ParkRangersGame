@@ -141,6 +141,7 @@ public class SteamManager : MonoBehaviour
             mainMenu.SetActive(false);
             inLobbyMenu.SetActive(true);
 
+            peopleInLobby.text = "";
             lobbyId.text = LobbySaver.instance.currentLobby?.Id.ToString();
             IEnumerable<Friend> friends = LobbySaver.instance.currentLobby?.Members;
             foreach (Friend friend in friends)
