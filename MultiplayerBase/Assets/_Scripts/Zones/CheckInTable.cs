@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using Unity.Netcode;
 using UnityEngine;
 
-public class CheckInTable : MonoBehaviour, IInteractable
+public class CheckInTable : NetworkBehaviour, IInteractable
 {
     [SerializeField] private CheckInManager checkInManager;
     [SerializeField] private ZoneInfo[] zoneInfoArr;
@@ -13,6 +13,11 @@ public class CheckInTable : MonoBehaviour, IInteractable
     {
         EventManager.instance.onPuzzleComplete += OnPuzzleComplete;
         foreach(ZoneInfo zoneInfo in zoneInfoArr) zoneInfo.ResetZoneInfo();
+    }
+
+    public override void OnNetworkDespawn()
+    {
+        EventManager.instance.onPuzzleComplete -= OnPuzzleComplete;
     }
 
     public void OnInteract(Interactor interactor, ItemType itemUsed = ItemType.None)
@@ -45,6 +50,7 @@ public class CheckInTable : MonoBehaviour, IInteractable
     [ClientRpc]
     private void PuzzleCompleteClientRPC()
     {
+        Debug.Log("HERE"); 
         zoneInfoArr[0].TasksComplete++; 
     }
 }
