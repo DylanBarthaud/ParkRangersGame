@@ -60,8 +60,11 @@ public class MiniGame : NetworkBehaviour, IInteractable
     public void SetCanInteractServerRpc(bool canInteract) => SetCanInteractClientRpc(canInteract);
 
     [ClientRpc]
-    private void SetCanInteractClientRpc(bool canInteract) => this.canInteract = canInteract;
-    
+    private void SetCanInteractClientRpc(bool canInteract)
+    {
+        Debug.Log(canInteract);
+        this.canInteract = canInteract;
+    }
 
     [ClientRpc]
     public void ActivateObjsClientRpc()
