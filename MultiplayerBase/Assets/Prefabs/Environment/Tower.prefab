@@ -802,10 +802,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 7900850136071049162}
     m_Modifications:
-    - target: {fileID: -4683669308469848369, guid: d76bc3a1db565cf43ab211dea03f96fa, type: 3}
-      propertyPath: 'm_Materials.Array.data[0]'
-      value: 
-      objectReference: {fileID: 2100000, guid: 70b14d9cebd3d4240b47146722bb0150, type: 2}
     - target: {fileID: -8679921383154817045, guid: 0ea9359a92ba6394e801569819db3f14, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0.355
@@ -862,6 +858,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: TowerFixedUV3
       objectReference: {fileID: 0}
+    - target: {fileID: -4683669308469848369, guid: d76bc3a1db565cf43ab211dea03f96fa, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 70b14d9cebd3d4240b47146722bb0150, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -1281,7 +1281,7 @@ PrefabInstance:
     - target: {fileID: 5074512353664290214, guid: df4b32727d7c14e4b9e00c91d958c5a5, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
-      objectReference: {fileID: 2100000, guid: 51774b34da7ee6249b39e51b29b88f8a, type: 2}
+      objectReference: {fileID: 2100000, guid: d9aa49f3ac657964fa442ca755a581f6, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -1652,11 +1652,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1446479311683933905, guid: 3967e118b91e06642a60bbfa2a43f06a, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 30.445
+      value: 30.391
       objectReference: {fileID: 0}
     - target: {fileID: 1446479311683933905, guid: 3967e118b91e06642a60bbfa2a43f06a, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -0.83
+      value: -0.856
       objectReference: {fileID: 0}
     - target: {fileID: 1446479311683933905, guid: 3967e118b91e06642a60bbfa2a43f06a, type: 3}
       propertyPath: m_LocalRotation.w
@@ -1690,6 +1690,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: SirenLight
       objectReference: {fileID: 0}
+    - target: {fileID: 7625676022660172144, guid: 3967e118b91e06642a60bbfa2a43f06a, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 4005a54e4b4a4b5409c042d98d8d82d9, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
