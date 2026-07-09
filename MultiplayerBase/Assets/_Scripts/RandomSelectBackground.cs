@@ -9,7 +9,7 @@ public class RandomSelectBackground : MonoBehaviour
     public Image TargetImage; 
     public List<Sprite> bgImage = new List<Sprite>();
 
-    void Start()
+    public void RandomizeImage()
     {
         Sprite randomBG = bgImage[UnityEngine.Random.Range(0, bgImage.Count)];
 

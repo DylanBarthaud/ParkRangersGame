@@ -8,6 +8,9 @@ public class LoadingScreenManager : NetworkBehaviour
 {
     [SerializeField] private GameObject loadingScreen;
     [SerializeField] public Image loadingBarFill;
+    public RandomSelectBackground ImageRandomizer;
+    public RandomTipSelector TipRandomizer;
+    
     private AsyncOperation currentAsyncOp;
     private bool trackSceneProgress = false;
     private float visualProgress = 0f;
@@ -15,6 +18,7 @@ public class LoadingScreenManager : NetworkBehaviour
     private void Awake()
     {
         DontDestroyOnLoad(gameObject);
+
     }
 
     public override void OnNetworkSpawn()
@@ -48,6 +52,8 @@ public class LoadingScreenManager : NetworkBehaviour
         {
             case SceneEventType.Load:
                 loadingScreen.SetActive(true);
+                ImageRandomizer.RandomizeImage();
+                TipRandomizer.RandomizeTip();
                 visualProgress = 0f;
                 currentAsyncOp = sceneEvent.AsyncOperation;
                 trackSceneProgress = true;
