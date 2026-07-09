@@ -283,7 +283,7 @@ public class Ai_testScript : NetworkBehaviour
         EventManager.instance.onPlayerKilled -= OnPlayerKilled;
     }
 
-    private void OnPlayerSpawned(BlackboardKey key) => root.Reset();
+    private void OnPlayerSpawned(BlackboardKey key, ulong clientId) => root.Reset();
 
     private void OnPlayerKilled(BlackboardKey key)
     {

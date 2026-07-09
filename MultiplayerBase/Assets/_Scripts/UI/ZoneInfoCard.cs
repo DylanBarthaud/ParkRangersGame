@@ -13,6 +13,8 @@ public class ZoneInfoCard : MonoBehaviour
     private ZoneInfo currentInfo;
     private Interactor currentInteractor;
 
+    private int tasksCompleteWhileInUI = 0; 
+
     private void Awake()
     {
         EventManager.instance.onPuzzleComplete += AddPuzzleComplete;
@@ -22,7 +24,7 @@ public class ZoneInfoCard : MonoBehaviour
     {
         if(success)
         {
-            currentInfo.TasksComplete++; 
+            tasksCompleteWhileInUI++;
             updateCard();
         }
     }
@@ -57,7 +59,7 @@ public class ZoneInfoCard : MonoBehaviour
     private void updateCard()
     {
         zoneText.text = $"Zone: {currentInfo.Zone}";
-        tasksText.text = $"Tasks Complete: {currentInfo.TasksComplete}/{currentInfo.TasksNeeded}";
+        tasksText.text = $"Tasks Complete: {currentInfo.TasksComplete + tasksCompleteWhileInUI}/{currentInfo.TasksNeeded}";
         zoneIcon.sprite = currentInfo.image;
     }
 }

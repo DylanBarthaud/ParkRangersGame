@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using Unity.Netcode;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 
 [System.Serializable]
@@ -44,6 +45,7 @@ public class GameManager : NetworkBehaviour
 
     [HideInInspector] public int numberOfPlayers = 0;
     [HideInInspector] public List<BlackboardKey> playerBlackboardKeys;
+    Dictionary<ulong, BlackboardKey> clientIdToKey; 
     public GridPosition playerGridPos; 
 
     public UIManager uiManager;
@@ -153,9 +155,10 @@ public class GameManager : NetworkBehaviour
 
     #region Player Functions
     [ServerRpc(RequireOwnership = false)]
-    private void OnPlayerSpawnedServerRpc(BlackboardKey key)
+    private void OnPlayerSpawnedServerRpc(BlackboardKey key, ulong clientId)
     {
         numberOfPlayers++;
+        clientIdToKey.Add(clientId, key); 
         AddPlayerKeyClientRpc(key);
     }
 
@@ -285,5 +288,17 @@ public class GameManager : NetworkBehaviour
         numberOfPlayers = 0;
 
         NetworkManager.Singleton.SceneManager.LoadScene("Menu", LoadSceneMode.Single);
+    }
+
+    [ServerRpc(RequireOwnership = false)]
+    public void HandlePlayerDisconnectServerRPC(ulong clientID)
+    {
+        playerBlackboardKeys.Remove(clientIdToKey[clientID]);
+        numberOfPlayers--;
+        if (numberOfPlayers <= 0)
+        {
+            EndGame();
+            return;
+        }
     }
 }

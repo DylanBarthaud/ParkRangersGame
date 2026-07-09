@@ -50,7 +50,7 @@ public class PlayerSpawner : NetworkBehaviour
             BlackboardKey key = blackboard.GetOrRegisterKey(keyName);
 
             blackboard.SetValue(key, info);
-            EventManager.instance.OnPlayerSpawned(key);
+            EventManager.instance.OnPlayerSpawned(key, id);
             i++;
         }
 

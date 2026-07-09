@@ -28,7 +28,6 @@ public class MovementSensor : MonoBehaviour
         wait++;
         if(wait < 2) return;
 
-        Debug.Log("HERE"); 
         Collider[] colliders = Physics.OverlapSphere(transform.position, radius, detectionLayers);
 
         if (colliders.Length <= 0) return;

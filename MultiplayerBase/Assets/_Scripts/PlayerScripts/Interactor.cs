@@ -18,11 +18,8 @@ public class Interactor : NetworkBehaviour
         RaycastHit hit;
         if(Physics.Raycast(ray, out hit, interactRange, interactMask))
         {
-            if (hit.collider.gameObject.layer != 3)
-            {
-                Debug.Log(hit.collider.gameObject.layer);
-                return false;
-            }
+            if (hit.collider.gameObject.layer != 3) return false;
+
 
             IInteractable interactable = hit.transform.GetComponent<IInteractable>();
             if(interactable.RequiresZoneCheckIn() && !GameManager.instance.PlayerInSameZone(currentZone))

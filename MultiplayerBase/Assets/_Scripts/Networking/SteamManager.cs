@@ -1,6 +1,7 @@
 using Netcode.Transports.Facepunch;
 using Steamworks;
 using Steamworks.Data;
+using System;
 using System.Collections.Generic;
 using TMPro;
 using Unity.Netcode;
@@ -19,12 +20,15 @@ public class SteamManager : MonoBehaviour
 
     private static int maxMembersInLobby = 8;
 
+    private Lobby lobby; 
+
     private void OnEnable()
     {
         SteamMatchmaking.OnLobbyCreated += LobbyCreated;
         SteamMatchmaking.OnLobbyEntered += LobbyEntered;
         SteamMatchmaking.OnLobbyMemberJoined += MemberJoinedLobby;
         SteamFriends.OnGameLobbyJoinRequested += GameLobbyJoinRequested;
+        SteamMatchmaking.OnLobbyMemberLeave += LobbyMemberLeave;
     }
 
     private void OnDisable()
@@ -33,6 +37,12 @@ public class SteamManager : MonoBehaviour
         SteamMatchmaking.OnLobbyEntered -= LobbyEntered;
         SteamMatchmaking.OnLobbyMemberJoined -= MemberJoinedLobby;
         SteamFriends.OnGameLobbyJoinRequested -= GameLobbyJoinRequested;
+        SteamMatchmaking.OnLobbyMemberLeave -= LobbyMemberLeave;
+    }
+
+    private void OnApplicationQuit()
+    {
+        LeaveLobby();  
     }
 
     private void MemberJoinedLobby(Lobby lobby, Friend friend)
@@ -44,6 +54,10 @@ public class SteamManager : MonoBehaviour
         {
             peopleInLobby.text += currentFriend.Name + "\n";
         }
+    }
+    private void LobbyMemberLeave(Lobby lobby, Friend friend)
+    {
+        Debug.Log(friend.ToString() + "Left");
     }
 
     private void Start()
@@ -114,10 +128,10 @@ public class SteamManager : MonoBehaviour
 
     public void LeaveLobby()
     {
-        LobbySaver.instance.currentLobby?.Leave();
-        LobbySaver.instance.currentLobby = null;
-        NetworkManager.Singleton.Shutdown();
-        CheckUI();
+        LobbySaver.instance.LeaveLobby();
+
+        peopleInLobby.text = "";
+        CheckUI(); 
     }
     private void CheckUI()
     {

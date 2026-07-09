@@ -23,7 +23,7 @@ public class EventManager : MonoBehaviour
     /// <param name="tick"> number of ticks passed </param>
     public event Action<int> onTick_5;
 
-    public event Action<BlackboardKey> onPlayerSpawned;
+    public event Action<BlackboardKey, ulong> onPlayerSpawned;
     public event Action playerSpawningComplete;
     public event Action<BlackboardKey> onPlayerKilled;
 
@@ -58,9 +58,9 @@ public class EventManager : MonoBehaviour
         if (onTick_5 != null) onTick_5(tick);
     }
 
-    public void OnPlayerSpawned(BlackboardKey playerKey)
+    public void OnPlayerSpawned(BlackboardKey playerKey, ulong clientId)
     {
-        if(onPlayerSpawned != null) onPlayerSpawned(playerKey);
+        if(onPlayerSpawned != null) onPlayerSpawned(playerKey, clientId);
     }
     public void PlayerSpawningComplete()
     {

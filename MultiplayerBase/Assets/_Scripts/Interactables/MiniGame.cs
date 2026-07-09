@@ -51,12 +51,10 @@ public class MiniGame : NetworkBehaviour, IInteractable
         SetCanInteractServerRpc(!success);
         if(success)
         {
-            if (completesQuest.item1) SendQuestCompleteClientRpc(); 
+            //if (completesQuest.item1) SendQuestCompleteClientRpc(); 
             ActivateObjsClientRpc();
         }
     }
-    [ClientRpc]
-    private void SendQuestCompleteClientRpc() => EventManager.instance.OnQuestComplete(completesQuest.item2);
 
     [ServerRpc(RequireOwnership = false)]
     public void SetCanInteractServerRpc(bool canInteract) => SetCanInteractClientRpc(canInteract);
