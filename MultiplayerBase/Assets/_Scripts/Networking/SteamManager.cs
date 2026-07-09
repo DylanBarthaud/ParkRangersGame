@@ -58,6 +58,12 @@ public class SteamManager : MonoBehaviour
     private void LobbyMemberLeave(Lobby lobby, Friend friend)
     {
         Debug.Log(friend.ToString() + "Left");
+        peopleInLobby.text = "";
+        IEnumerable<Friend> friends = lobby.Members;
+        foreach (Friend currentFriend in friends)
+        {
+            peopleInLobby.text += currentFriend.Name + "\n";
+        }
     }
 
     private void Start()
