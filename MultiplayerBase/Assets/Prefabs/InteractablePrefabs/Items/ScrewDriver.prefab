@@ -179,8 +179,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 0.3, y: 0.3, z: 1.4}
-  m_Center: {x: 0, y: 0, z: 0.24}
+  m_Size: {x: 0.3, y: 0.3, z: 0.98}
+  m_Center: {x: 0, y: 0, z: 0.1}
 --- !u!114 &4022448843850802454
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -307,7 +307,8 @@ PrefabInstance:
       propertyPath: m_Name
       value: Screwdriver
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 3451118302482216456, guid: b01b136809eb1cd41ad1e39e855a61f8, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []

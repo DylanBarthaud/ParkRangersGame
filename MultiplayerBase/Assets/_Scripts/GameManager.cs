@@ -77,15 +77,28 @@ public class GameManager : NetworkBehaviour
 
     public override void OnNetworkSpawn()
     {
+        NetworkManager.Singleton.OnClientDisconnectCallback += OnClientDisconnected;
         NetworkManager.Singleton.SceneManager.OnLoadEventCompleted += OnSceneLoaded;
         NetworkManager.Singleton.OnClientDisconnectCallback += HandlePlayerDisconnectServerRPC; 
+
         /*
         if (SceneManager.GetActiveScene().name != "MainGame") return;
         Terrain terrain = Terrain.activeTerrain;
         mapHandler = new MapHandler(width, height, cellSize, terrain, IsHost, maxSteepness, spawnableObjects, numberOfSpawns);
         */
+
         if (!IsHost) return;
         ChangeButtonsPressedUIClientRpc(0);
+    }
+
+    public override void OnNetworkDespawn()
+    {
+        EventManager.instance.onPlayerSpawned -= OnPlayerSpawnedServerRpc;
+        EventManager.instance.onPlayerKilled -= OnPlayerKilledServerRpc;
+        EventManager.instance.onZoneComplete -= OnZoneComplete;
+        NetworkManager.Singleton.OnClientDisconnectCallback -= OnClientDisconnected;
+        NetworkManager.Singleton.SceneManager.OnLoadEventCompleted -= OnSceneLoaded;
+        NetworkManager.Singleton.OnClientDisconnectCallback -= HandlePlayerDisconnectServerRPC;
     }
 
     private void OnSceneLoaded(string sceneName, LoadSceneMode loadSceneMode, List<ulong> clientsCompleted, List<ulong> clientsTimedOut)
@@ -301,6 +314,19 @@ public class GameManager : NetworkBehaviour
         {
             EndGame();
             return;
+        }
+    }
+
+    private void OnClientDisconnected(ulong clientId)
+    {
+        if (!IsServer) return;
+
+        foreach (NetworkObject networkObject in NetworkManager.Singleton.SpawnManager.SpawnedObjectsList)
+        {
+            if (networkObject.OwnerClientId == clientId)
+            {
+                networkObject.Despawn();
+            }
         }
     }
 }
