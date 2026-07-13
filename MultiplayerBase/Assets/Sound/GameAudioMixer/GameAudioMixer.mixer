@@ -174,7 +174,19 @@ AudioMixerController:
   m_SuspendThreshold: -80
   m_EnableSuspend: 1
   m_UpdateMode: 0
-  m_ExposedParameters: []
+  m_ExposedParameters:
+  - guid: ba48aaa6cf9c7464790426334ed066ea
+    name: AmbienceVol
+  - guid: 177882ac5df693649af2eb2b592e969f
+    name: MasterVol
+  - guid: bdafdf2364ed004478ec20957d28cac2
+    name: MusicVol
+  - guid: f368b467f31b2e943ad450cdbc509124
+    name: RadioChatVol
+  - guid: ea8b3cae3bb55d54fa08860e2a490f53
+    name: SoundEffectVol
+  - guid: 5123cda0e876fa94cb9990e5c6848ac8
+    name: VoiceChatVol
   m_AudioMixerGroupViews:
   - guids:
     - 630011c3322208f4d8a4015bd16d500b
@@ -242,7 +254,7 @@ AudioMixerSnapshotController:
     f368b467f31b2e943ad450cdbc509124: -2.8722944
     5d523ae7f52fb1643999c2ceb07161c4: 1
     328f8d1a61e4ab543a2f50afb6907aa4: -6
-    177882ac5df693649af2eb2b592e969f: -0.08374829
+    177882ac5df693649af2eb2b592e969f: 0
     6a69448d702b76e42bb857caf4aa9845: 0.437
     ea8b3cae3bb55d54fa08860e2a490f53: -2.018035
     90f6807f0eedfc64ca4e7e515d6049f5: 0.3
