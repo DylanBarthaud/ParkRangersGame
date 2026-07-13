@@ -1,3 +1,4 @@
+using BlackboardSystem;
 using Steamworks;
 using System;
 using System.Collections;
@@ -45,7 +46,12 @@ public class VoiceInputController : NetworkBehaviour
     private bool isRecording = true;
     private float lastVoiceTime;
 
-    private Coroutine stopRadioDelayCorotine; 
+    private Coroutine stopRadioDelayCorotine;
+
+    private void Awake()
+    {
+        EventManager.instance.onPlayerKilled += DisableVoice; 
+    }
 
     void Start()
     {
@@ -80,6 +86,8 @@ public class VoiceInputController : NetworkBehaviour
         input?.Dispose();
         output?.Dispose();
     }
+
+    private void DisableVoice(BlackboardKey key) => SteamUser.VoiceRecord = false;
 
     private void Update()
     {

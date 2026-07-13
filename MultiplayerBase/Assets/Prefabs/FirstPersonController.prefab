@@ -76,6 +76,55 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!1 &836873281035304918
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 597115058965286658}
+  - component: {fileID: 3378127197655965115}
+  m_Layer: 6
+  m_Name: AliveGFX
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &597115058965286658
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 836873281035304918}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 4459864850019384738}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &3378127197655965115
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 836873281035304918}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bb90e106c03817b4fa716126b9149f5d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gfx:
+  - {fileID: 6334542227549456736}
+  - {fileID: 4459864851508666809}
+  gfxName: AliveGFX
+  materials: []
 --- !u!1 &2026924715384101760
 GameObject:
   m_ObjectHideFlags: 0
@@ -747,6 +796,7 @@ GameObject:
   - component: {fileID: -388853485569961082}
   - component: {fileID: 6493592551718717522}
   - component: {fileID: 723077839716704233}
+  - component: {fileID: 5668679467422162555}
   m_Layer: 6
   m_Name: FirstPersonController
   m_TagString: Player
@@ -770,6 +820,7 @@ Transform:
   - {fileID: 4459864851508666808}
   - {fileID: 6675179298405241818}
   - {fileID: 7331408424126316522}
+  - {fileID: 597115058965286658}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &4459864850019384739
@@ -1334,6 +1385,7 @@ MonoBehaviour:
   playerCompass: {fileID: 3819259985742591833}
   playerInv: {fileID: 8000159173463752359}
   torchLight: {fileID: 8945577947189821926}
+  gFXHandler: {fileID: 5668679467422162555}
   tryAddRavenTick: 10
   tryRemoveRavenTick: 100
   volumeToAddRavenGate: -50.1
@@ -1438,6 +1490,21 @@ MonoBehaviour:
     m_Bits: 4294967295
   crosshair: {fileID: 4459864850190357395}
   inspectController: {fileID: 4270014770461249822}
+--- !u!114 &5668679467422162555
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4459864850019384750}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 107629a53431b374ca49bd24540fac0f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
+  gfxWrapperArray:
+  - {fileID: 3378127197655965115}
 --- !u!1 &4459864850190357393
 GameObject:
   m_ObjectHideFlags: 0
