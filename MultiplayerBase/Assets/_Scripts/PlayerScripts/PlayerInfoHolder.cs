@@ -17,7 +17,9 @@ public class PlayerInfoHolder : NetworkBehaviour, IAiSensible, IHurtable
 
     [SerializeField] GameObject playerCompass;
     [SerializeField] GameObject playerInv; 
-    [SerializeField] private GameObject torchLight; 
+    [SerializeField] private GameObject torchLight;
+
+    [SerializeField] private GFXHandler gFXHandler;
 
     [Header("Raven Settings")]
     [SerializeField] int tryAddRavenTick = 2; 
@@ -261,8 +263,14 @@ public class PlayerInfoHolder : NetworkBehaviour, IAiSensible, IHurtable
             blackboard.Remove(playerInfo_Key);
         }
 
-        if(NetworkObject.IsSpawned && IsHost) NetworkObject.Despawn();
+        gFXHandler.DisableGFXServerRpc("AliveGFX");
+
         EventManager.instance.onTick_5 -= OnTick_5;
     }
     #endregion
+
+    private void OnApplicationQuit()
+    {
+        if(IsOwner) IsKilled();
+    }
 }
