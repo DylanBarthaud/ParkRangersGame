@@ -202,8 +202,6 @@ public class PlayerInfoHolder : NetworkBehaviour, IAiSensible, IHurtable
         return loudestHeardAudioSquared;
     }
 
-
-
     public void OnSeen(Blackboard blackboard, Ai_Senses caller)
     {
         bool playerSeen = true;
@@ -271,6 +269,7 @@ public class PlayerInfoHolder : NetworkBehaviour, IAiSensible, IHurtable
 
     private void OnApplicationQuit()
     {
+        //NetworkObject.ChangeOwnership(0); 
         if(IsOwner) IsKilled();
     }
 }

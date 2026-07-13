@@ -61,5 +61,6 @@ public class ZoneInfoCard : MonoBehaviour
         zoneText.text = $"Zone: {currentInfo.Zone}";
         tasksText.text = $"Tasks Complete: {currentInfo.TasksComplete + tasksCompleteWhileInUI}/{currentInfo.TasksNeeded}";
         zoneIcon.sprite = currentInfo.image;
+        if(currentInfo.zoneIsComplete) background.color = Color.green;
     }
 }
