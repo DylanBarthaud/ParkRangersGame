@@ -9,14 +9,21 @@ public class BrightnessController : MonoBehaviour
 
     public Image BrightnessImage;
     public Slider BrightnessSlider;
+    private GameObject gameObject;
 
     public Color BrightnessColor;
 
-
+    
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        ChangeBrightness();
+        if (BrightnessImage == null)
+        {
+             gameObject = GameObject.FindWithTag("Brightness");
+            BrightnessImage = gameObject.GetComponent<Image>();
+        }
+        
+            ChangeBrightness();
     }
 
     // Update is called once per frame
