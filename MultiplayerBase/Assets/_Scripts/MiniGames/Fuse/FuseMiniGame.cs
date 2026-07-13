@@ -18,6 +18,7 @@ public class FuseMiniGame : MiniGameBase
     [SerializeField, Range(1, 6)] private int maxNumberOfLeversPulled = 4;
 
     [Header("Externals")]
+    [SerializeField] Sprite leverSpriteOn, leverSpriteOff;
     [SerializeField] GameObject[] debugDisplayLights;
     [SerializeField] FuseDisplay fuseDisplay;
 
@@ -57,8 +58,14 @@ public class FuseMiniGame : MiniGameBase
         current ^= leverBinaryValues[index];
 
         Image leverImage = levers[index].GetComponent<Image>();
-        if (leverIndexIsActiveDictionary[index]) leverImage.color = Color.green;
-        else leverImage.color = Color.red;
+        if (leverIndexIsActiveDictionary[index])
+        {
+            leverImage.sprite = leverSpriteOn;
+        }
+        else
+        {
+            leverImage.sprite = leverSpriteOff;
+        }
 
         SetCurrentDisplayLights(); 
 
@@ -112,11 +119,6 @@ public class FuseMiniGame : MiniGameBase
         leverIndexIsActiveDictionary.Clear();
         leverBinaryValues.Clear();
         fuseDisplay.ClearLeverValuesKeyTextServerRpc();
-
-        foreach (var lever in levers)
-            lever.GetComponent<Image>().color = Color.red;
-        foreach (var light in debugDisplayLights)
-            light.GetComponent<Image>().color = Color.red;
     }
 
     public void EnterGuess()
