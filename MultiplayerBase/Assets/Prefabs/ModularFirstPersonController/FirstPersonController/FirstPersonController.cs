@@ -25,7 +25,7 @@ using UnityEditor;
 public class FirstPersonController : NetworkBehaviour
 {
 
-    private Rigidbody rb;
+    public Rigidbody rb;
     private AudioListener audioListener;
 
     private KeyCode notebookKey = KeyCode.N;
