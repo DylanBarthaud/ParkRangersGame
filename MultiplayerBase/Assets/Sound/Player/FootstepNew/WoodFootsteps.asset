@@ -1,13 +1,43 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1233149941 &-3825606768976802125
+AudioContainerElement:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: FootstepWood2_{-3825606768976802125}
+  m_AudioClip: {fileID: 8300000, guid: e9fc9d2fe517fca4084c730ef0cc1941, type: 3}
+  m_Volume: 0
+  m_Enabled: 1
+--- !u!1233149941 &-1982422527942777477
+AudioContainerElement:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: FootstepWood4_{-1982422527942777477}
+  m_AudioClip: {fileID: 8300000, guid: fd0c1f6c971416740886bc47a0810413, type: 3}
+  m_Volume: 0
+  m_Enabled: 1
 --- !u!1233149941 &2445764786095801807
 AudioContainerElement:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Stick-Slap_{2445764786095801807}
-  m_AudioClip: {fileID: 8300000, guid: c2caacd6a4c445640bc475186af34dd1, type: 3}
+  m_Name: FootstepWood1_{2445764786095801807}
+  m_AudioClip: {fileID: 8300000, guid: 3cd64830ba476184aa393fc5d63d409f, type: 3}
+  m_Volume: 0
+  m_Enabled: 1
+--- !u!1233149941 &3674067997821389206
+AudioContainerElement:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: FootstepWood5_{3674067997821389206}
+  m_AudioClip: {fileID: 8300000, guid: 637fcc03a1b69c94f89f4e770e3f725c, type: 3}
   m_Volume: 0
   m_Enabled: 1
 --- !u!1307931743 &6418180475301049370
@@ -27,6 +57,10 @@ AudioRandomContainer:
   m_LoopCountRandomizationRange: {x: 0, y: 0}
   m_Elements:
   - {fileID: 2445764786095801807}
+  - {fileID: -3825606768976802125}
+  - {fileID: 7377321395625573543}
+  - {fileID: -1982422527942777477}
+  - {fileID: 3674067997821389206}
   m_AvoidRepeatingLast: 0
   m_PlaybackMode: 2
   m_TriggerMode: 0
@@ -36,3 +70,13 @@ AudioRandomContainer:
   m_PitchRandomizationEnabled: 1
   m_AutomaticTriggerTimeRandomizationEnabled: 0
   m_LoopCountRandomizationEnabled: 0
+--- !u!1233149941 &7377321395625573543
+AudioContainerElement:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: FootstepWood3_{7377321395625573543}
+  m_AudioClip: {fileID: 8300000, guid: d4c119136fba3f24ba53a03618217126, type: 3}
+  m_Volume: 0
+  m_Enabled: 1
