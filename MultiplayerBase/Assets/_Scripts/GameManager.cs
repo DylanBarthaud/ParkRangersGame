@@ -23,10 +23,17 @@ public class GameManager : NetworkBehaviour
     [Header("Gameplay")]
     [SerializeField] int taskCompleteNeeded = 5;
     [SerializeField] List<SerializableKeysAndValues<MiniGameTypes, GameObject>> miniGames;
-    [SerializeField] GameObject EndGameCollider;
+    
     private Dictionary<MiniGameTypes, GameObject> miniGameDictionary = new Dictionary<MiniGameTypes, GameObject>();
-
+    
     public MapHandler mapHandler;
+    
+    
+    [Header("End Game")]
+    [SerializeField] private GameObject endGameCanvas;
+    [SerializeField] GameObject EndGameCollider;
+
+    
     Terrain terrain;
     [Header("Grid")]
     [SerializeField] int width;
@@ -296,12 +303,19 @@ public class GameManager : NetworkBehaviour
     }
     #endregion
 
-    public void EndGame()
+
+    public void ReturnToMenu()
     {
         playerBlackboardKeys.Clear();
         numberOfPlayers = 0;
 
         NetworkManager.Singleton.SceneManager.LoadScene("Menu", LoadSceneMode.Single);
+    }
+
+    public void EndGame()
+    {
+        endGameCanvas.SetActive(true);
+        
     }
 
     [ServerRpc(RequireOwnership = false)]

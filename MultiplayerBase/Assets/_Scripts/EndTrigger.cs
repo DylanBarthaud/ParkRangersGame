@@ -1,9 +1,11 @@
+using System.Runtime.CompilerServices;
 using UnityEngine;
 
 public class EndTrigger : MonoBehaviour
 {
     private int playersIn = 0;
     private int amountOfPlayers = 0;
+    [SerializeField] private GameObject endScreenCanvas;
 
     void Awake()
     {
