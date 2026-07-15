@@ -20,6 +20,8 @@ public class VoiceInputController : NetworkBehaviour
     [SerializeField] private AudioMixerGroup defaultMixer, radioMixer;
 
     [SerializeField] private Image voiceIcon;
+    [SerializeField] private Sprite voiceIconProx;
+    [SerializeField] private Sprite voiceIconRadio;
     [SerializeField] private float iconDecayTime = 0.5f;
     [SerializeField] private float silenceTimeout = 0.25f;
     [SerializeField] private float volumeSampleWindow = 0.1f;
@@ -103,6 +105,8 @@ public class VoiceInputController : NetworkBehaviour
         {
             Debug.Log("keyDOWN");
 
+            voiceIcon.sprite = voiceIconRadio;
+
             if (stopRadioDelayCorotine != null)
             {
                 StopCoroutine(stopRadioDelayCorotine);
@@ -117,7 +121,9 @@ public class VoiceInputController : NetworkBehaviour
             Debug.Log("keyUP");
 
             if (stopRadioDelayCorotine != null)
-                StopCoroutine(stopRadioDelayCorotine);
+            {
+                StopCoroutine(stopRadioDelayCorotine);   
+            }
 
             stopRadioDelayCorotine = StartCoroutine(stopRadioDelay());
         }
@@ -282,6 +288,7 @@ public class VoiceInputController : NetworkBehaviour
         yield return new WaitForSeconds(2);
         Debug.Log("STOP RADIO");
         ActivateRadioVoiceServerRpc(false);
+        voiceIcon.sprite = voiceIconProx;
     }
 
     [ServerRpc(RequireOwnership = false)]
