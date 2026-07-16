@@ -1595,7 +1595,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
-  playerHealth: 5
+  playerHealth: 100
   audioSources:
   - {fileID: -8493547404905070063}
   voiceInputController: {fileID: -2821817791472356823}
@@ -1606,7 +1606,7 @@ MonoBehaviour:
   gFXHandler: {fileID: 5668679467422162555}
   tryAddRavenTick: 10
   tryRemoveRavenTick: 100
-  volumeToAddRavenGate: -40
+  volumeToAddRavenGate: -30
 --- !u!114 &4120214330100131268
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1625,7 +1625,7 @@ MonoBehaviour:
   spawnInterval: 10
   spawnChance: 5
   spawnRadius: 30
-  copyVoiceChance: 40
+  copyVoiceChance: 55
   collectionInterval: 1
   crowAudioClips:
   - {fileID: 8300000, guid: 0207c7b8ecd10dd4c8e9818edea6b530, type: 3}

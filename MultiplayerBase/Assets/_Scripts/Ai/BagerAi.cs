@@ -1,16 +1,12 @@
 using BehaviourTrees;
 using BlackboardSystem;
-using NUnit.Framework;
-using System;
 using System.Collections.Generic;
 using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.AI;
-using UnityEngine.InputSystem;
-using UnityEngine.UIElements;
 
 [RequireComponent(typeof(NavMeshAgent))]
-public class Ai_testScript : NetworkBehaviour
+public class BagerAi : NetworkBehaviour
 {
     private NavMeshAgent agent;
 
@@ -29,7 +25,13 @@ public class Ai_testScript : NetworkBehaviour
 
     [Header("Hunt Settings")]
     [SerializeField] private float chaseSpeed;
-    [SerializeField] private int minCrowsNeededToHunt = 3; 
+    [SerializeField] private int minCrowsNeededToHunt = 3;
+
+    [Header("Area Search Settings")]
+    [SerializeField] private int crowsNeededForAreaSearch = 5;
+    [SerializeField] private float distanceFromPlayerToUnburrow = 25;
+    [SerializeField] private float distanceFromPlayerToburrow = 35;
+    [SerializeField] private Vector2 searchAreaBoundries; 
 
     [Header("Stalk Settings")]
     [SerializeField] private float stalkSpeed;
@@ -46,7 +48,7 @@ public class Ai_testScript : NetworkBehaviour
     BlackboardKey AiMonsterKey;
     AiInfo aiInfo;
 
-    private bool isBurrowed;
+    private bool isBurrowedBool;
     private bool canHunt = false; 
     private bool aiIsActive = true;
 
@@ -59,6 +61,7 @@ public class Ai_testScript : NetworkBehaviour
         EventManager.instance.onUnBurrow += OnUnBurrow;
         EventManager.instance.onPlayerSpawned += OnPlayerSpawned;
         EventManager.instance.onPlayerKilled += OnPlayerKilled;
+        EventManager.instance.onPlayerHurt += OnPlayerHurt; 
 
         agent = GetComponent<NavMeshAgent>();
         agent.speed = baseSpeed;
@@ -71,10 +74,42 @@ public class Ai_testScript : NetworkBehaviour
         blackboard = blackboardController.GetBlackboard();
         AiMonsterKey = blackboard.GetOrRegisterKey("AiMonsterKey");
         blackboard.SetValue(AiMonsterKey, aiInfo);
+
         #endregion
 
         #region Behaviour Tree
 
+        int GetHighestCrowAmount()
+        {
+            int HighestAmount = 0;
+            foreach (BlackboardKey playerKey in GameManager.instance.playerBlackboardKeys)
+            {
+                if (blackboard.TryGetValue(playerKey, out PlayerInfo playerInfo))
+                {
+                    if (playerInfo.ravenCount > HighestAmount) HighestAmount = playerInfo.ravenCount;
+                }
+
+                else Debug.LogError("Cannot find blackboard value with key:" + playerKey);
+            }
+
+            // Debug.Log(playerHasSufficientCrows ? canHunt : false); 
+            return HighestAmount;
+        }
+        float GetDistToNearestPlayer()
+        {
+            float nearest = 1000;
+
+            foreach (BlackboardKey playerKey in GameManager.instance.playerBlackboardKeys)
+            {
+                if (blackboard.TryGetValue(playerKey, out PlayerInfo playerInfo))
+                {
+                    float distance = Vector3.Distance(transform.position, playerInfo.position);
+                    if(distance < nearest) nearest = distance;     
+                }
+            }
+
+            return nearest; 
+        }
         bool CanHunt()
         {
             bool playerHasSufficientCrows = false;
@@ -140,7 +175,7 @@ public class Ai_testScript : NetworkBehaviour
         }
         bool IsBurrowed()
         {
-            return isBurrowed;
+            return isBurrowedBool;
         }
         bool InSameCellAsPlayer()
         {
@@ -170,6 +205,30 @@ public class Ai_testScript : NetworkBehaviour
             }
             return inSameCellAsPlayer;
         }
+        Vector2 GetSearchArea()
+        {
+            float nearest = 1000;
+            PlayerInfo player = new(); 
+            foreach (BlackboardKey playerKey in GameManager.instance.playerBlackboardKeys)
+            {
+                if (blackboard.TryGetValue(playerKey, out PlayerInfo playerInfo))
+                {
+                    float distance = Vector3.Distance(transform.position, playerInfo.position);
+                    if (distance < nearest)
+                    {
+                        nearest = distance;
+                        player = playerInfo;
+                    }
+                }
+            }
+
+            Vector2 bounries = new Vector2 (searchAreaBoundries.x, searchAreaBoundries.y);
+
+            float x = Random.Range(-bounries.x, bounries.x); 
+            float y = Random.Range(-bounries.y, bounries.y);
+
+            return new Vector2 (player.position.x + x, player.position.z + y);
+        }
 
         root = new Root("Root");
 
@@ -187,7 +246,8 @@ public class Ai_testScript : NetworkBehaviour
         PrioritySelector huntSelector = new PrioritySelector("HuntSelector");
 
         Leaf unBurrow = new Leaf("UnBurrow", new UnBurrowStrategy(agent, baseSpeed, 0, IsBurrowed, gfxHandler, audioHandler));
-        Leaf IsntBurrowed = new Leaf("IsntBurrowed", new Condition(() => (!IsBurrowed())));
+        Leaf isntBurrowed = new Leaf("IsntBurrowed", new Condition(() => (!IsBurrowed())));
+        Leaf isBurrowed = new Leaf("IsntBurrowed", new Condition(() => (IsBurrowed())));
 
         Leaf inSameCellAsPlayer = new Leaf("InSameCellAsPlayer", new Condition(() => (InSameCellAsPlayer())));
         Leaf inDifferentCellAsPlayer = new Leaf("InDifferentCellAsPlayer", new Condition(() => (!InSameCellAsPlayer())));
@@ -243,18 +303,45 @@ public class Ai_testScript : NetworkBehaviour
         Sequence searchCellSequence = new Sequence("SearchCellSequence", 90);
         Leaf searchCell = new Leaf("SearchCell", new SearchCellStrategy(() => GameManager.instance.mapHandler.GetGridLocation(transform.position), agent));
 
+        Sequence searchAreaSeq = new Sequence("SearchAreaSeq", 95);
+        Leaf canSearchArea = new Leaf("CanSearchArea", new Condition(() => { return GetHighestCrowAmount() >= crowsNeededForAreaSearch ? true : false; }));
+        PrioritySelector searchAreaSelector = new PrioritySelector("SearchAreaSelector", 95);
+        Sequence closeToPlayerSeq = new Sequence("CloseToPlayerSeq", 100); 
+        Leaf closeToPlayer = new Leaf("CloseToPlayer", new Condition(() => { return GetDistToNearestPlayer() <= distanceFromPlayerToUnburrow ? true : false; }));
+        Sequence farFromPlayerSeq = new Sequence("FarFromPlayerSeq", 95);
+        Leaf farFromPlayer = new Leaf("FarFromPlayer", new Condition(() => { return GetDistToNearestPlayer() > distanceFromPlayerToburrow ? true : false;  }));
+        Leaf searchArea = new Leaf("SearchArea", new SearchAreaStrategy(GetSearchArea, agent), 90);
+        Leaf closeToPlayerSearchArea = new Leaf("SearchArea", new SearchAreaStrategy(GetSearchArea, agent), 90);
+        Leaf farFromPlayerSearchArea = new Leaf("SearchArea", new SearchAreaStrategy(GetSearchArea, agent), 90);
+
         root.AddChild(canHuntSelector);
           
         canHuntSelector.AddChild(canHuntLeaf);
         canHuntLeaf.AddChild(huntSelector);
+
         huntSelector.AddChild(stalkPlayerSequence);
-        stalkPlayerSequence.AddChild(IsntBurrowed);
+        stalkPlayerSequence.AddChild(isntBurrowed);
         stalkPlayerSequence.AddChild(stalkPlayer);
         stalkPlayerSequence.AddChild(chasePlayer);
 
+        huntSelector.AddChild(searchAreaSeq);
+        searchAreaSeq.AddChild(canSearchArea);
+        searchAreaSeq.AddChild(searchAreaSelector);
+        searchAreaSelector.AddChild(closeToPlayerSeq);
+        closeToPlayerSeq.AddChild(isBurrowed); 
+        closeToPlayerSeq.AddChild(closeToPlayer);
+        closeToPlayerSeq.AddChild(unBurrow);
+        closeToPlayerSeq.AddChild(closeToPlayerSearchArea);
+        searchAreaSelector.AddChild(farFromPlayerSeq);
+        farFromPlayerSeq.AddChild(isntBurrowed); 
+        farFromPlayerSeq.AddChild(farFromPlayer);
+        farFromPlayerSeq.AddChild(burrow);
+        farFromPlayerSeq.AddChild(farFromPlayerSearchArea);
+        searchAreaSelector.AddChild(searchArea);
+
         huntSelector.AddChild(searchCellSequence);
         searchCellSequence.AddChild(inSameCellAsPlayer);
-        searchCellSequence.AddChild(IsntBurrowed);
+        searchCellSequence.AddChild(isntBurrowed);
         searchCellSequence.AddChild(searchCell);
 
         huntSelector.AddChild(burrowAndMoveToGridSequence);
@@ -281,10 +368,15 @@ public class Ai_testScript : NetworkBehaviour
         EventManager.instance.onUnBurrow -= OnUnBurrow;
         EventManager.instance.onPlayerSpawned -= OnPlayerSpawned;
         EventManager.instance.onPlayerKilled -= OnPlayerKilled;
+        EventManager.instance.onPlayerHurt -= OnPlayerHurt;
     }
 
     private void OnPlayerSpawned(BlackboardKey key, ulong clientId) => root.Reset();
-
+    private void OnPlayerHurt()
+    {
+        canHunt = false;
+        root.Reset();
+    }
     private void OnPlayerKilled(BlackboardKey key)
     {
         canHunt = false; 
@@ -300,8 +392,8 @@ public class Ai_testScript : NetworkBehaviour
         gfxHandler.DisableGFXServerRpc("BurrowedGFX");
     }
 
-    private void OnUnBurrow(Vector3 vector) => isBurrowed = false;
-    private void OnBurrow(Vector3 vector) => isBurrowed = true;
+    private void OnUnBurrow(Vector3 vector) => isBurrowedBool = false;
+    private void OnBurrow(Vector3 vector) => isBurrowedBool = true;
 
     private void OnTick_5(int obj)
     {

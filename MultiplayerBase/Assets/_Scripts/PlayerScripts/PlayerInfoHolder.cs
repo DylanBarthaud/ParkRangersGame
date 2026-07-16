@@ -44,17 +44,19 @@ public class PlayerInfoHolder : NetworkBehaviour, IAiSensible, IHurtable
             playerInv.SetActive(false);
         }
 
-        playerInfo = new PlayerInfo();
-        playerInfo.position = transform.position;
-        playerInfo.playerCamera = transform.GetChild(0).GetChild(0).GetComponent<Camera>();
-        playerInfo.audioListener = transform.GetComponent<AudioListener>(); 
-        playerInfo.health = playerHealth;
-        playerInfo.id = OwnerClientId;
-        playerInfo.spectatorIds = new List<ulong>();
-        playerInfo.ravenCount = 0;
-        playerInfo.maxRavens = 10; 
-        playerInfo.voiceInputController = voiceInputController;
-        playerInfo.inspectController = inspectController;
+        playerInfo = new PlayerInfo
+        {
+            position = transform.position,
+            playerCamera = transform.GetChild(0).GetChild(0).GetComponent<Camera>(),
+            audioListener = transform.GetComponent<AudioListener>(),
+            health = playerHealth,
+            id = OwnerClientId,
+            spectatorIds = new List<ulong>(),
+            ravenCount = 0,
+            maxRavens = 10,
+            voiceInputController = voiceInputController,
+            inspectController = inspectController
+        };
         UpdateInfo(false, 0);
 
         EventManager.instance.onTick_5 += OnTick_5;
@@ -120,7 +122,7 @@ public class PlayerInfoHolder : NetworkBehaviour, IAiSensible, IHurtable
     {
         playerInfo.ravenCount++;
         if (playerInfo.ravenCount >= playerInfo.maxRavens) playerInfo.ravenCount = playerInfo.maxRavens;
-        //Debug.Log($"Add Raven to player {OwnerClientId} count: {playerInfo.ravenCount}");
+        Debug.Log($"Add Raven to player {OwnerClientId} count: {playerInfo.ravenCount}");
     }
 
     [ServerRpc(RequireOwnership = false)]
@@ -242,10 +244,13 @@ public class PlayerInfoHolder : NetworkBehaviour, IAiSensible, IHurtable
             blackboard.SetValue(playerInfo_Key, playerInfo);
         });
 
-        if(playerHealth <= 0)
+        if (playerInfo.health <= 50) Debug.Log("HERE");
+
+        if (playerInfo.health <= 0)
         {
-            IsKilled(); 
+            IsKilled();
         }
+        else EventManager.instance.OnPlayerHurt(); 
     }
 
     private bool isDead = false;

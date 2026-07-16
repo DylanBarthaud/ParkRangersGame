@@ -187,6 +187,7 @@ namespace BehaviourTrees
             else if(distanceFromPlayer <= stalkMinDistance)
             {   
                 agent.isStopped = false;
+                audioHandler.PlaySoundServerRpc("BadgerShout");
                 return Node.Status.Success;
             }
             else agent.isStopped = false;
@@ -200,6 +201,49 @@ namespace BehaviourTrees
         {
             timesCalled = 0;
             stalkTime = 0;
+        }
+    }
+
+    public class SearchAreaStrategy : IStrategy
+    {
+        readonly Func<Vector2> getAreaFunc; 
+        readonly NavMeshAgent agent;
+        Vector3 targetPosition; 
+
+        public SearchAreaStrategy(Func<Vector2> getAreaFunc, NavMeshAgent agent)
+        {
+            this.getAreaFunc = getAreaFunc;
+            this.agent = agent;
+            targetPosition = Vector3.zero; 
+        }
+
+        public Node.Status Process()
+        {
+            if(targetPosition == Vector3.zero)
+            {
+                Vector2 target = getAreaFunc();
+                targetPosition = new Vector3(target.x, 0, target.y);
+                Debug.Log("target pos: " + targetPosition); 
+            }
+
+            NavMeshHit hit;
+            if (NavMesh.SamplePosition(targetPosition, out hit, 500, NavMesh.AllAreas))
+            {
+                agent.SetDestination(hit.position);
+                if (agent.path.status == NavMeshPathStatus.PathPartial) return Node.Status.Failure;
+            }
+
+            if (!agent.pathPending && agent.remainingDistance <= agent.stoppingDistance)
+            {
+                return Node.Status.Success;
+            }
+
+            return Node.Status.Running;
+        }
+
+        public void Reset()
+        {
+            targetPosition = Vector3.zero;
         }
     }
 

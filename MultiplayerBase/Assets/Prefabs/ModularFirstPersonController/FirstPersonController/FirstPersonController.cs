@@ -15,7 +15,6 @@ using System;
 
 
 
-
 #if UNITY_EDITOR
 using UnityEditor;
     using System.Net;
@@ -80,6 +79,9 @@ public class FirstPersonController : NetworkBehaviour
     public bool playerCanMove = true;
     public float walkSpeed = 5f;
     public float maxVelocityChange = 10f;
+
+    public bool MovementEnabled => movementEnabled;
+    private bool movementEnabled = true;
 
     // Internal Variables
     private bool isWalking = false;
@@ -198,6 +200,7 @@ public class FirstPersonController : NetworkBehaviour
 
     public void EnableMovement()
     {
+        movementEnabled = true; 
         playerCanMove = true;
         cameraCanMove = true; 
         enableHeadBob = true;
@@ -206,6 +209,7 @@ public class FirstPersonController : NetworkBehaviour
 
     public void DisableMovement(int tick = 0, Interactor interactor = null)
     {
+        movementEnabled = false;
         playerCanMove = false;
         cameraCanMove = false;
         enableHeadBob = false;

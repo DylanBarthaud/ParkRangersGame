@@ -5063,6 +5063,10 @@ MonoBehaviour:
   investigateHintSpeed: 6
   chaseSpeed: 12
   minCrowsNeededToHunt: 3
+  crowsNeededForAreaSearch: 5
+  distanceFromPlayerToUnburrow: 30
+  distanceFromPlayerToburrow: 35
+  searchAreaBoundries: {x: 40, y: 40}
   stalkSpeed: 5
   stalkTime: 5
   minStalkDist: 15
@@ -5105,7 +5109,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ddc93c1cce0fb144ebef128214752bbc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  damageAmount: 0
+  damageAmount: 50
 --- !u!65 &4541498214082990497
 BoxCollider:
   m_ObjectHideFlags: 0
