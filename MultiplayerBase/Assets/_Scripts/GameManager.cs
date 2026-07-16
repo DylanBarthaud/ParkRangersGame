@@ -315,7 +315,8 @@ public class GameManager : NetworkBehaviour
     public void EndGame()
     {
         endGameCanvas.SetActive(true);
-        
+        EndScreenManager endManager = endGameCanvas.GetComponent<EndScreenManager>();
+        endManager.OpenDisplay();
     }
 
     [ServerRpc(RequireOwnership = false)]

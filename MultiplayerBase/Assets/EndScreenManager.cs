@@ -16,23 +16,26 @@ public class EndScreenManager : MonoBehaviour
 
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Awake()
+    public void OpenDisplay()
     {
         playerInfo = playerObj.GetComponent<PlayerInfo>();
 
         OpenWinDisplay();
+        Debug.Log("OpenedEndDisplay");
     }
 
     private void OpenWinDisplay()
     {
         if (playerInfo.health <= 0)
         {
+            Debug.Log("OpenedLossScreen");
             winScreen.enabled = false;
             lossScreen.enabled = true;
             StartCoroutine(MovePlayerToStats(waitTimer));
         }
         else
         {
+            Debug.Log("OpenedWinScreen");
             winScreen.enabled = true;
             lossScreen.enabled = false;
             StartCoroutine(MovePlayerToStats(waitTimer));
@@ -43,7 +46,7 @@ public class EndScreenManager : MonoBehaviour
     private IEnumerator MovePlayerToStats(float time)
     {
         yield return new WaitForSeconds(time);
-
+        Debug.Log("Attempted To Move Player");
         playerObj.transform.position = endLoc.transform.position;
     }
 }
