@@ -18,7 +18,7 @@ public class EndScreenManager : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     public void OpenDisplay()
     {
-        playerInfo = playerObj.GetComponent<PlayerInfo>();
+        playerInfo = playerObj.GetComponentInChildren<PlayerInfo>();
 
         OpenWinDisplay();
         Debug.Log("OpenedEndDisplay");
