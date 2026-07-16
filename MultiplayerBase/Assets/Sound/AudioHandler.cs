@@ -83,4 +83,10 @@ public class AudioHandler : MonoBehaviour
 
         return (null, null);
     }
+
+    public void ChangeAudioSourceVolume(int sourceId, float volume)
+    {
+        AudioSource audioSource = audioSourceArray[sourceId];
+        audioSource.volume = volume;
+    }
 }

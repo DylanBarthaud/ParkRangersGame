@@ -3,6 +3,7 @@ using UnityEngine;
 
 public class MultiplayerAudioHandlerWrapper : NetworkBehaviour
 {
+    public AudioHandler AudioHandler => audioHandler;
     [SerializeField] AudioHandler audioHandler;
 
     public override void OnNetworkSpawn()

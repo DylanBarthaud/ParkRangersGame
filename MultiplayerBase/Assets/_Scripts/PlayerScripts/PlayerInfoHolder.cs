@@ -1,19 +1,26 @@
 using BlackboardSystem;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Unity.Netcode;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.UI;
 using UnityEngine.UIElements;
+using Image = UnityEngine.UI.Image;
 
 public class PlayerInfoHolder : NetworkBehaviour, IAiSensible, IHurtable
 {
+    [Header("Player HealthSettings")]
     [SerializeField] int playerHealth;
+    [SerializeField] GameObject injuredFilter;
+    [SerializeField] Color startColor, endColor;
     [SerializeField] AudioSource[] audioSources;
     [SerializeField] VoiceInputController voiceInputController;
     [SerializeField] InspectController inspectController;
+    [SerializeField] MultiplayerAudioHandlerWrapper multiplayerAudioHandler;
 
     [SerializeField] GameObject playerCompass;
     [SerializeField] GameObject playerInv; 
@@ -63,7 +70,8 @@ public class PlayerInfoHolder : NetworkBehaviour, IAiSensible, IHurtable
         EventManager.instance.onTick += OnTick; 
 
         localRavenTick = 0;
-        localLoseRavenTick = 0; 
+        localLoseRavenTick = 0;
+        injuredFilter.SetActive(false);
     }
 
     public override void OnNetworkDespawn()
@@ -244,12 +252,16 @@ public class PlayerInfoHolder : NetworkBehaviour, IAiSensible, IHurtable
             blackboard.SetValue(playerInfo_Key, playerInfo);
         });
 
-        if (playerInfo.health <= 50) Debug.Log("HERE");
-
-        if (playerInfo.health <= 0)
+        if (playerInfo.health <= 50 && playerInfo.health > 0)
         {
-            IsKilled();
+            injuredFilter.SetActive(true);
+            multiplayerAudioHandler.PlaySoundServerRpc("Scream");
+            multiplayerAudioHandler.AudioHandler.PlaySound("Heartbeat");
+            StartCoroutine(FadeOutDamagedOverlay()); 
         }
+
+        if (playerInfo.health <= 0) IsKilled();
+
         else EventManager.instance.OnPlayerHurt(); 
     }
 
@@ -271,6 +283,23 @@ public class PlayerInfoHolder : NetworkBehaviour, IAiSensible, IHurtable
         EventManager.instance.onTick_5 -= OnTick_5;
     }
     #endregion
+
+    private IEnumerator FadeOutDamagedOverlay()
+    {
+        float t = 0;
+
+        while(t < 1)
+        {
+            float lerped = Mathf.Lerp(2, 0.3f, t);
+            injuredFilter.GetComponent<Image>().color = Color.Lerp(startColor, endColor, t);
+            multiplayerAudioHandler.AudioHandler.ChangeAudioSourceVolume(2, lerped); 
+
+            yield return null;
+            t += Time.deltaTime; 
+        }
+
+        injuredFilter.SetActive(false);
+    }
 
     private void OnApplicationQuit()
     {

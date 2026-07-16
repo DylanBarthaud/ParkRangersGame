@@ -5063,7 +5063,7 @@ MonoBehaviour:
   investigateHintSpeed: 6
   chaseSpeed: 12
   minCrowsNeededToHunt: 3
-  crowsNeededForAreaSearch: 5
+  crowsNeededForAreaSearch: 0
   distanceFromPlayerToUnburrow: 30
   distanceFromPlayerToburrow: 35
   searchAreaBoundries: {x: 40, y: 40}
@@ -5110,6 +5110,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   damageAmount: 50
+  multiplayerAudioHandler: {fileID: 1797313044507634291}
 --- !u!65 &4541498214082990497
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -5376,6 +5377,8 @@ MonoBehaviour:
   - {fileID: 11400000, guid: a1d7444dc742a71458ea7ed2338d2e6f, type: 2}
   - {fileID: 11400000, guid: f52e07ab3f05eb94a9fa14f8945a8241, type: 2}
   - {fileID: 11400000, guid: 1dd0c6854726947448dd2a14a71ab762, type: 2}
+  - {fileID: 11400000, guid: 2f296dc9359d7f54993b92825adfacd9, type: 2}
+  - {fileID: 11400000, guid: 806c7006ee8dbe747ba1758a87176246, type: 2}
 --- !u!114 &3144581661527680361
 MonoBehaviour:
   m_ObjectHideFlags: 0
