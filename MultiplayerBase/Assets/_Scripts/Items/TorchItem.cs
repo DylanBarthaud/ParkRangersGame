@@ -12,16 +12,22 @@ public class TorchItem : Item
 
     public override void UseItem(GameObject user)
     {
+        if(currentPower <= 0) return;
+
         playerInfoHolder.ActivateTorchServerRPC(!playerInfoHolder.isTorchActive);
+        usingPower = playerInfoHolder.isTorchActive;
     }
 
     public override void DropItem(Vector3 newPos, Inventory inventory )
     {
         base.DropItem(newPos, inventory);
+        playerInfoHolder.ActivateTorchServerRPC(false);
+    }
 
-        if (!inventory.hasItemOfType<TorchItem>())
-        {
-            playerInfoHolder.ActivateTorchServerRPC(false); 
-        }
+    public override bool RunOutOfPower()
+    {
+        if(!base.RunOutOfPower()) return false;
+        playerInfoHolder.ActivateTorchServerRPC(false);
+        return true;
     }
 }

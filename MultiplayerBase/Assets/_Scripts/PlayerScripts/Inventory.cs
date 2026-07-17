@@ -200,4 +200,11 @@ public class Inventory : MonoBehaviour
        foreach(var item in items) if (item.GetType() == typeof(T)) return true;
        return false;
     }
+
+    public bool AddBattery(BatterySO battery)
+    {
+        if(items.Count <= 0) return false;
+        if(carryingHeavy || !items[selectedItemSlot].UsesBatteries) return false;
+        return items[selectedItemSlot].AddBattery(battery);
+    }
 }
