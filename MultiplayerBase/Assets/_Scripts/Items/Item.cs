@@ -1,5 +1,6 @@
-using System;
+using System.Collections.Generic;
 using Unity.Netcode;
+using UnityEditor;
 using UnityEngine;
 
 public enum ItemType { None, WaterBucket, ScrewDriver, Fuse, Fuel } 
@@ -11,10 +12,13 @@ public abstract class Item : NetworkBehaviour, IInteractable
     [Header("Base Item Settings")]
     [SerializeField] private ItemType itemType;
     [SerializeField] private Sprite sprite;
+
     [SerializeField] private bool infiniteUses = true; 
     [SerializeField] protected int uses;
+
     [SerializeField] private bool isHeavy = false;
-    [SerializeField] private bool removeOnPickUp = true;
+
+    [SerializeField] protected bool removeOnPickUp = true;
     [SerializeField] private int throwForceFoward, throwForceup;
     [Header("Item Audio")]
     [SerializeField] private bool hasAudio = false;
@@ -22,7 +26,15 @@ public abstract class Item : NetworkBehaviour, IInteractable
     [SerializeField] private string audioName;
     [Header("Item GFX")]
     [SerializeField] private GFXHandler gFXHandler;
-    [SerializeField] private Vector3 heldItemLocOffset = Vector3.zero; 
+    [SerializeField] private Vector3 heldItemLocOffset = Vector3.zero;
+
+    [HideInInspector] public bool UsesBatteries = false;
+    [HideInInspector] public int MaxBatteries;
+    [HideInInspector] public BatteryType BatteryTypesTaken;
+    [SerializeField] private BatterySO[] batteries;
+    [SerializeField] private List<int> batteryIds = new(); 
+    [SerializeField] protected int currentPower;
+    protected bool usingPower; 
 
     [HideInInspector] public bool isBeingHeld;
     [HideInInspector] public Transform itemHeldLoc;
@@ -37,10 +49,20 @@ public abstract class Item : NetworkBehaviour, IInteractable
     public float AudioVolume => audioVolume;
     public string AudioName => audioName;
     public GFXHandler GFXHandler => gFXHandler;
+    public int CurrentPower => currentPower;
 
     private void Awake()
     {
         gFXHandler = GetComponent<GFXHandler>();
+
+        if(UsesBatteries && batteryIds.Count > 0)
+        {
+            Debug.Log("HERE"); 
+            currentPower = batteries[batteryIds[0]].Power;
+        }
+
+        if (UsesBatteries)
+            EventManager.instance.onTick_5 += UsePower; 
     }
 
     protected void Update()
@@ -78,6 +100,25 @@ public abstract class Item : NetworkBehaviour, IInteractable
             }
         }
     }
+
+    public virtual void UsePower(int tick) 
+    {
+        if (!usingPower || currentPower == 0) return;
+        currentPower--;
+        if (currentPower == 0) RunOutOfPower();
+    }
+
+    public virtual bool RunOutOfPower() 
+    {
+        batteryIds.RemoveAt(0);
+        if (batteryIds.Count > 0)
+        {
+            currentPower = batteries[batteryIds[0]].Power; 
+            return false;
+        }
+        return true;
+    }
+
     public bool RequiresZoneCheckIn() { return false; }
 
     [ServerRpc(RequireOwnership = false)]
@@ -105,7 +146,7 @@ public abstract class Item : NetworkBehaviour, IInteractable
     }
 
     [ServerRpc(RequireOwnership = false)] 
-    private void SetItemColliderServerRpc(bool enabled)
+    protected void SetItemColliderServerRpc(bool enabled)
     {
         SetItemColliderClientRpc(enabled);
     }
@@ -123,5 +164,50 @@ public abstract class Item : NetworkBehaviour, IInteractable
     private void SetCanPickUpItemClientRPC(bool canPickUp)
     {
         canPickUpItem = canPickUp;
+    }
+
+    public bool AddBattery(BatterySO batterySO)
+    {
+        if ((BatteryTypesTaken & batterySO.BatteryType) == 0
+            || batteryIds.Count >= MaxBatteries) return false;
+        AddBatteryServerRPC(batterySO.Id);
+        return true;
+    }
+    public void RemoveBattery(int index) => RemoveBatteryServerRPC(index);
+
+    [ServerRpc(RequireOwnership =false)]
+    private void AddBatteryServerRPC(int batteryId) => AddBatteryClientRPC(batteryId);
+    [ClientRpc]
+    private void AddBatteryClientRPC(int batteryId)
+    {
+        batteryIds.Add(batteryId);
+        if(batteryIds.Count == 1) 
+            currentPower = batteries[batteryIds[0]].Power;
+    }
+
+    [ServerRpc(RequireOwnership = false)]
+    private void RemoveBatteryServerRPC(int batteryId) => RemoveBatteryClientRPC(batteryId);
+    [ClientRpc]
+    private void RemoveBatteryClientRPC(int batteryId) => batteryIds.Add(batteryId);
+}
+
+[CustomEditor(typeof(Item), true)]
+public class Item_Editor : Editor
+{
+    public override void OnInspectorGUI()
+    {
+        base.OnInspectorGUI();
+
+        var item = (Item)target;
+
+        EditorGUILayout.Space();
+        EditorGUILayout.LabelField("Battery Settings", EditorStyles.boldLabel);
+
+        item.UsesBatteries = EditorGUILayout.Toggle("Uses Batteries", item.UsesBatteries);
+
+        if (!item.UsesBatteries) return; 
+
+        item.MaxBatteries = EditorGUILayout.IntField("Max Batteries", item.MaxBatteries);
+        item.BatteryTypesTaken = (BatteryType)EditorGUILayout.EnumFlagsField("Battery Types Taken", item.BatteryTypesTaken);
     }
 }

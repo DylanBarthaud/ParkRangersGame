@@ -21,6 +21,7 @@ public class PlayerInfoHolder : NetworkBehaviour, IAiSensible, IHurtable
     [SerializeField] VoiceInputController voiceInputController;
     [SerializeField] InspectController inspectController;
     [SerializeField] MultiplayerAudioHandlerWrapper multiplayerAudioHandler;
+    [SerializeField] FirstPersonController firstPersonController;
 
     [SerializeField] GameObject playerCompass;
     [SerializeField] GameObject playerInv; 
@@ -88,7 +89,8 @@ public class PlayerInfoHolder : NetworkBehaviour, IAiSensible, IHurtable
     private void OnTick(int obj)
     {
         //Debug.Log(GetAudioDataSquared()); 
-        if (GetAudioDataSquared() >= volumeToAddRavenGate)
+        if (GetAudioDataSquared() >= volumeToAddRavenGate 
+            || firstPersonController.IsSprinting)
         {
             localRavenTick++;
             localLoseRavenTick = 0;
