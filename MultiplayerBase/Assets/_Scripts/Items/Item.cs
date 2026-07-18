@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using Unity.Netcode;
 using UnityEditor;
@@ -28,13 +29,13 @@ public abstract class Item : NetworkBehaviour, IInteractable
     [SerializeField] private GFXHandler gFXHandler;
     [SerializeField] private Vector3 heldItemLocOffset = Vector3.zero;
 
+    [SerializeField] private BatteryList batteryList;
+    [SerializeField] private string[] StartingBatteries; 
     [HideInInspector] public bool UsesBatteries = false;
     [HideInInspector] public int MaxBatteries;
     [HideInInspector] public BatteryType BatteryTypesTaken;
-    [SerializeField] private BatterySO[] batteries;
-    [SerializeField] private List<int> batteryIds = new(); 
-    [SerializeField] protected int currentPower;
-    protected bool usingPower; 
+    private List<BatteryStruct> batteries = new();
+    protected bool usingPower;
 
     [HideInInspector] public bool isBeingHeld;
     [HideInInspector] public Transform itemHeldLoc;
@@ -49,20 +50,28 @@ public abstract class Item : NetworkBehaviour, IInteractable
     public float AudioVolume => audioVolume;
     public string AudioName => audioName;
     public GFXHandler GFXHandler => gFXHandler;
-    public int CurrentPower => currentPower;
+    public List<BatteryStruct> Batteries => batteries;
+    public int CurrentPower
+    {
+        get
+        {
+            if(batteries.Count <= 0) return 0;
+            return batteries[index].Power;
+        }
+    }
+    public int Index => index;
 
     private void Awake()
     {
         gFXHandler = GetComponent<GFXHandler>();
 
-        if(UsesBatteries && batteryIds.Count > 0)
-        {
-            Debug.Log("HERE"); 
-            currentPower = batteries[batteryIds[0]].Power;
-        }
-
         if (UsesBatteries)
             EventManager.instance.onTick_5 += UsePower; 
+    }
+
+    public override void OnNetworkSpawn()
+    {
+        foreach (var batteryName in StartingBatteries) AddBatteryServerRPC(batteryName);
     }
 
     protected void Update()
@@ -101,19 +110,22 @@ public abstract class Item : NetworkBehaviour, IInteractable
         }
     }
 
+    int index = 0;
     public virtual void UsePower(int tick) 
     {
-        if (!usingPower || currentPower == 0) return;
-        currentPower--;
-        if (currentPower == 0) RunOutOfPower();
+        if(batteries.Count <=  0) return;
+        if (!usingPower || batteries[index].Power == 0) return;
+        BatteryStruct battery = batteries[index];
+        battery.Power--;
+        batteries[index] = battery;
+        if (batteries[index].Power == 0) RunOutOfPower();
     }
 
     public virtual bool RunOutOfPower() 
     {
-        batteryIds.RemoveAt(0);
-        if (batteryIds.Count > 0)
+        if (batteries.Count > index +1)
         {
-            currentPower = batteries[batteryIds[0]].Power; 
+            index++; 
             return false;
         }
         return true;
@@ -166,29 +178,32 @@ public abstract class Item : NetworkBehaviour, IInteractable
         canPickUpItem = canPickUp;
     }
 
-    public bool AddBattery(BatterySO batterySO)
+    public bool AddBattery(string batteryName)
     {
-        if ((BatteryTypesTaken & batterySO.BatteryType) == 0
-            || batteryIds.Count >= MaxBatteries) return false;
-        AddBatteryServerRPC(batterySO.Id);
+        BatteryStruct batteryStruct = batteryList.GetBattery(batteryName); 
+        if ((BatteryTypesTaken & batteryStruct.BatteryType) == 0
+            || batteries.Count >= MaxBatteries) return false;
+        AddBatteryServerRPC(batteryStruct.Name);
         return true;
     }
     public void RemoveBattery(int index) => RemoveBatteryServerRPC(index);
 
     [ServerRpc(RequireOwnership =false)]
-    private void AddBatteryServerRPC(int batteryId) => AddBatteryClientRPC(batteryId);
+    private void AddBatteryServerRPC(string batteryName) => AddBatteryClientRPC(batteryName);
     [ClientRpc]
-    private void AddBatteryClientRPC(int batteryId)
+    private void AddBatteryClientRPC(string batteryName)
     {
-        batteryIds.Add(batteryId);
-        if(batteryIds.Count == 1) 
-            currentPower = batteries[batteryIds[0]].Power;
+        BatteryStruct newBattery = batteryList.GetBattery(batteryName);
+        newBattery.Power = newBattery.StartingPower; 
+        //Debug.Log($"{newBattery.StartingPower} {newBattery.Power}");
+        batteries.Add(newBattery);
+        if (batteries.Count > 0 && CurrentPower == 0) index++; 
     }
 
     [ServerRpc(RequireOwnership = false)]
-    private void RemoveBatteryServerRPC(int batteryId) => RemoveBatteryClientRPC(batteryId);
+    private void RemoveBatteryServerRPC(int index) => RemoveBatteryClientRPC(index);
     [ClientRpc]
-    private void RemoveBatteryClientRPC(int batteryId) => batteryIds.Add(batteryId);
+    private void RemoveBatteryClientRPC(int index) => batteries.RemoveAt(index);
 }
 
 [CustomEditor(typeof(Item), true)]
@@ -200,6 +215,8 @@ public class Item_Editor : Editor
 
         var item = (Item)target;
 
+        EditorGUI.BeginChangeCheck();
+
         EditorGUILayout.Space();
         EditorGUILayout.LabelField("Battery Settings", EditorStyles.boldLabel);
 
@@ -209,5 +226,11 @@ public class Item_Editor : Editor
 
         item.MaxBatteries = EditorGUILayout.IntField("Max Batteries", item.MaxBatteries);
         item.BatteryTypesTaken = (BatteryType)EditorGUILayout.EnumFlagsField("Battery Types Taken", item.BatteryTypesTaken);
+
+        if (EditorGUI.EndChangeCheck())
+        {
+            Undo.RecordObject(item, "Modify Item");
+            EditorUtility.SetDirty(item);
+        }
     }
 }

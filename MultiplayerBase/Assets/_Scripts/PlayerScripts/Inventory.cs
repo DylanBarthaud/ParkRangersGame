@@ -21,12 +21,18 @@ public class Inventory : MonoBehaviour
 
     [HideInInspector] public bool canUseInv = true;
 
+    [Header("UI Settings")]
     [SerializeField] private GameObject carryingHeavyGFX;
     [SerializeField] private Transform heldItemPos;
+    [SerializeField] private Transform batteryContainer;
+    [SerializeField] private GameObject batteryPrefab;
+    private BatteryUi currentBatteryUi;
+    private int batteryIndex = 0; 
+
     private bool carryingHeavy = false;
     public bool CarryingHeavy => carryingHeavy;
     private Item heavyItem = null;
-    public Item HeavyItem => heavyItem;
+    public Item HeavyItem => heavyItem; 
 
     private void Awake()
     {
@@ -34,8 +40,30 @@ public class Inventory : MonoBehaviour
 
         EventManager.instance.onPuzzleComplete += OnPuzzleComplete;
         EventManager.instance.onButtonReleased += EnableInv;
-        EventManager.instance.onButtonHeld += OnButtonHeld; 
+        EventManager.instance.onButtonHeld += OnButtonHeld;
+        EventManager.instance.onTick_5 += OnTick;
+    }
+    private void OnTick(int obj)
+    {
+        if (items.Count <= 0) return; 
 
+        if(batteryIndex != items[selectedItemSlot].Index)
+        {
+            batteryIndex++;
+            for (int i = 0; i < batteryContainer.childCount; i++)
+                Destroy(batteryContainer.GetChild(i).gameObject);
+            EnableBatteryUi(items[selectedItemSlot], batteryIndex); 
+        }
+
+        if (items[selectedItemSlot].Batteries.Count > 0)
+        {
+            currentBatteryUi.UpdateSlider(items[selectedItemSlot].CurrentPower); 
+        }
+
+        else if((items[selectedItemSlot].UsesBatteries && currentBatteryUi != null))
+        {
+            currentBatteryUi.UpdateSlider(0); 
+        }
     }
 
     private void OnButtonHeld(int arg1, Interactor interactor) => DisableInv();
@@ -93,20 +121,16 @@ public class Inventory : MonoBehaviour
 
         if (Input.mouseScrollDelta.y > 0 && selectedItemSlot < items.Count - 1)
         {
-            EnableCarriedItemGFX(items[selectedItemSlot], false);
-            inventorySlots[selectedItemSlot].GetComponent<Image>().color = Color.gray;
+            DisableSlot(inventorySlots[selectedItemSlot], items[selectedItemSlot]);
             selectedItemSlot++;
-            inventorySlots[selectedItemSlot].GetComponent<Image>().color = Color.green;
-            EnableCarriedItemGFX(items[selectedItemSlot], true);
+            EnableSlot(inventorySlots[selectedItemSlot], items[selectedItemSlot]);
         }
 
         if (Input.mouseScrollDelta.y < 0 && selectedItemSlot > 0)
         {
-            EnableCarriedItemGFX(items[selectedItemSlot], false);
-            inventorySlots[selectedItemSlot].GetComponent<Image>().color = Color.gray;
+            DisableSlot(inventorySlots[selectedItemSlot], items[selectedItemSlot]);
             selectedItemSlot--;
-            inventorySlots[selectedItemSlot].GetComponent<Image>().color = Color.green;
-            EnableCarriedItemGFX(items[selectedItemSlot], true);
+            EnableSlot(inventorySlots[selectedItemSlot], items[selectedItemSlot]);
         }
     }
 
@@ -133,6 +157,8 @@ public class Inventory : MonoBehaviour
 
             return true;
         }
+
+        if (item.UsesBatteries && items.Count <= 0) EnableBatteryUi(item, batteryIndex);
 
         items.Add(item);
         inventorySlots[items.Count - 1].transform.GetChild(0).GetComponent<Image>().sprite = item.Sprite;
@@ -163,16 +189,50 @@ public class Inventory : MonoBehaviour
             inventorySlots[selectedItemSlot].GetComponent<Image>().color = Color.green;
         }
 
+        if (item.UsesBatteries)
+        {
+            for (int i = 0; i < batteryContainer.childCount; i++)
+                Destroy(batteryContainer.GetChild(i).gameObject);
+        }
         items.Remove(item);
 
-        int i = 0;
+        int index = 0;
         foreach (var currentItem in items)
         {
-            inventorySlots[i].transform.GetChild(0).GetComponent<Image>().sprite = currentItem.Sprite;
-            i++;
+            inventorySlots[index].transform.GetChild(0).GetComponent<Image>().sprite = currentItem.Sprite;
+            index++;
         }
 
         if (items.Count > 0) EnableCarriedItemGFX(items[selectedItemSlot], true);
+    }
+
+    private void EnableSlot(GameObject slot, Item itemInSlot)
+    {
+        slot.GetComponent<Image>().color = Color.green;
+        EnableCarriedItemGFX(itemInSlot, true);
+
+        if (itemInSlot.UsesBatteries) EnableBatteryUi(itemInSlot, batteryIndex);
+    }
+
+    private void DisableSlot(GameObject slot, Item itemInSlot)
+    {
+        slot.GetComponent<Image>().color = Color.gray;
+        EnableCarriedItemGFX(itemInSlot, false);
+
+        for(int i = 0; i  < batteryContainer.childCount; i++) Destroy(batteryContainer.GetChild(i).gameObject);
+    }
+
+    private void EnableBatteryUi(Item item, int index)
+    {
+        int i = 0;
+        foreach (var batteryStruct in item.Batteries)
+        {
+            BatteryUi newBatteryUI = Instantiate(batteryPrefab, batteryContainer).GetComponent<BatteryUi>();
+            newBatteryUI.Initilize(batteryStruct);
+
+            if (i == index) currentBatteryUi = newBatteryUI;
+            i++;
+        }
     }
 
     private void EnableCarriedItemGFX(Item item, bool enable)
@@ -201,10 +261,17 @@ public class Inventory : MonoBehaviour
        return false;
     }
 
-    public bool AddBattery(BatterySO battery)
+    public bool AddBattery(string batteryName)
     {
         if(items.Count <= 0) return false;
         if(carryingHeavy || !items[selectedItemSlot].UsesBatteries) return false;
-        return items[selectedItemSlot].AddBattery(battery);
+        if (items[selectedItemSlot].AddBattery(batteryName))
+        {
+            for (int i = 0; i < batteryContainer.childCount; i++) 
+                Destroy(batteryContainer.GetChild(i).gameObject);
+            EnableBatteryUi(items[selectedItemSlot], batteryIndex);
+            return true;
+        }
+        return false;
     }
 }

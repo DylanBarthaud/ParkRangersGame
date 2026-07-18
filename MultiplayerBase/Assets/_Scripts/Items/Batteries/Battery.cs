@@ -3,12 +3,12 @@ using UnityEngine;
 public class Battery : Item, IInteractable
 {
     [Header("Battery Settings")]
-    [SerializeField] private BatterySO batterySO; 
+    [SerializeField] private string batteryName; 
 
     public override void OnInteract(Interactor interactor, ItemType itemUsed = ItemType.None)
     {
         Inventory interactorInventory = interactor.gameObject.GetComponent<Inventory>();
-        if (interactorInventory.AddBattery(batterySO))
+        if (interactorInventory.AddBattery(batteryName))
         {
             if (GFXHandler != null && removeOnPickUp) GFXHandler.DisableGFXServerRpc("ItemGFX");
             if (removeOnPickUp)

@@ -12,8 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bd043de4d11c8bd489876140a9efcb33, type: 3}
   m_Name: Default_Battery
   m_EditorClassIdentifier: 
-  id: 0
-  name: Battery
-  icon: {fileID: 21300000, guid: a0d3c0618feed0a4da627eb798897835, type: 3}
-  batteryType: 1
-  power: 150
+  batteries:
+  - name: Normal Battery
+    icon: {fileID: 21300000, guid: 338f0e6eb8f2be24798c73e7d29a009e, type: 3}
+    batteryType: 1
+    maxPower: 10
+    startingPower: 10
+    Power: 0

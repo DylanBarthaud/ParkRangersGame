@@ -12,7 +12,7 @@ public class TorchItem : Item
 
     public override void UseItem(GameObject user)
     {
-        if(currentPower <= 0) return;
+        if(CurrentPower <= 0) return;
 
         playerInfoHolder.ActivateTorchServerRPC(!playerInfoHolder.isTorchActive);
         usingPower = playerInfoHolder.isTorchActive;
