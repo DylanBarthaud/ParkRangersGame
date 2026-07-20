@@ -1,8 +1,8 @@
 using System;
 using System.Collections.Generic;
 using Unity.Netcode;
-using UnityEditor;
 using UnityEngine;
+using UnityEditor;
 
 public enum ItemType { None, WaterBucket, ScrewDriver, Fuse, Fuel } 
 
@@ -226,6 +226,8 @@ public abstract class Item : NetworkBehaviour, IInteractable
     #endregion
 }
 
+#if UNITY_EDITOR
+
 [CustomEditor(typeof(Item), true)]
 public class Item_Editor : Editor
 {
@@ -254,3 +256,4 @@ public class Item_Editor : Editor
         }
     }
 }
+#endif
