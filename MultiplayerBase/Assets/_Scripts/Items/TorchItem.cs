@@ -28,6 +28,7 @@ public class TorchItem : Item
     {
         if(!base.RunOutOfPower()) return false;
         playerInfoHolder.ActivateTorchServerRPC(false);
+        usingPower = false;
         return true;
     }
 
@@ -35,6 +36,9 @@ public class TorchItem : Item
     {
         base.RemoveBattery(index, dropBatteryPos, inventory);
         if(Batteries.Count <= 0)
+        {
             playerInfoHolder.ActivateTorchServerRPC(false);
+            usingPower = false;
+        }
     }
 }
