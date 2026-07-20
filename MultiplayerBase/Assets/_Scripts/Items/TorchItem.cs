@@ -30,4 +30,11 @@ public class TorchItem : Item
         playerInfoHolder.ActivateTorchServerRPC(false);
         return true;
     }
+
+    public override void RemoveBattery(int index, Vector3 dropBatteryPos, Inventory inventory)
+    {
+        base.RemoveBattery(index, dropBatteryPos, inventory);
+        if(Batteries.Count <= 0)
+            playerInfoHolder.ActivateTorchServerRPC(false);
+    }
 }

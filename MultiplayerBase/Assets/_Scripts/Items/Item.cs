@@ -29,7 +29,8 @@ public abstract class Item : NetworkBehaviour, IInteractable
     [SerializeField] private GFXHandler gFXHandler;
     [SerializeField] private Vector3 heldItemLocOffset = Vector3.zero;
 
-    [SerializeField] private BatteryList batteryList;
+    [Header("Battery Settings")]
+    [SerializeField] protected BatteryList batteryList;
     [SerializeField] private string[] StartingBatteries; 
     [HideInInspector] public bool UsesBatteries = false;
     [HideInInspector] public int MaxBatteries;
@@ -71,7 +72,13 @@ public abstract class Item : NetworkBehaviour, IInteractable
 
     public override void OnNetworkSpawn()
     {
-        foreach (var batteryName in StartingBatteries) AddBatteryServerRPC(batteryName);
+        if(!IsHost) return;
+
+        foreach (var batteryName in StartingBatteries)
+        {
+            Battery battery = ObjectPools.Instance.SpawnBattery(ObjectPools.Instance.BatteryPool.BatteryPrefab);
+            AddBatteryClientRPC(batteryName, battery.batteryPower, battery.Id);
+        }
     }
 
     protected void Update()
@@ -110,7 +117,7 @@ public abstract class Item : NetworkBehaviour, IInteractable
         }
     }
 
-    int index = 0;
+    [SerializeField] int index = 0;
     public virtual void UsePower(int tick) 
     {
         if(batteries.Count <=  0) return;
@@ -145,6 +152,7 @@ public abstract class Item : NetworkBehaviour, IInteractable
     private void DropItemClientRpc(Vector3 newPos, Vector3 foward)
     {
         transform.position = newPos;
+        usingPower = false;
 
         Rigidbody rb = GetComponent<Rigidbody>();
 
@@ -178,24 +186,31 @@ public abstract class Item : NetworkBehaviour, IInteractable
         canPickUpItem = canPickUp;
     }
 
-    public bool AddBattery(string batteryName)
+    #region Battery Logic
+    public bool AddBattery(string batteryName, int currentPower, int id)
     {
         BatteryStruct batteryStruct = batteryList.GetBattery(batteryName); 
         if ((BatteryTypesTaken & batteryStruct.BatteryType) == 0
             || batteries.Count >= MaxBatteries) return false;
-        AddBatteryServerRPC(batteryStruct.Name);
+        AddBatteryServerRPC(batteryStruct.Name, currentPower, id);
         return true;
     }
-    public void RemoveBattery(int index) => RemoveBatteryServerRPC(index);
+    public virtual void RemoveBattery(int index, Vector3 dropBatteryPos, Inventory inventory)
+    {
+        ObjectPools.Instance.BatteryPool.GetBattery(batteries[index].Id).batteryPower = batteries[index].Power; 
+        ObjectPools.Instance.BatteryPool.GetBattery(batteries[index].Id).DropItem(dropBatteryPos, inventory); 
+        RemoveBatteryServerRPC(index);
+    }
 
     [ServerRpc(RequireOwnership =false)]
-    private void AddBatteryServerRPC(string batteryName) => AddBatteryClientRPC(batteryName);
+    private void AddBatteryServerRPC(string batteryName, int currentPower, int id) => AddBatteryClientRPC(batteryName, currentPower, id);
     [ClientRpc]
-    private void AddBatteryClientRPC(string batteryName)
+    private void AddBatteryClientRPC(string batteryName, int currentPower, int id)
     {
         BatteryStruct newBattery = batteryList.GetBattery(batteryName);
-        newBattery.Power = newBattery.StartingPower; 
-        //Debug.Log($"{newBattery.StartingPower} {newBattery.Power}");
+        newBattery.startingPower = currentPower;
+        newBattery.Id = id;
+        newBattery.Power = newBattery.StartingPower;
         batteries.Add(newBattery);
         if (batteries.Count > 0 && CurrentPower == 0) index++; 
     }
@@ -203,7 +218,12 @@ public abstract class Item : NetworkBehaviour, IInteractable
     [ServerRpc(RequireOwnership = false)]
     private void RemoveBatteryServerRPC(int index) => RemoveBatteryClientRPC(index);
     [ClientRpc]
-    private void RemoveBatteryClientRPC(int index) => batteries.RemoveAt(index);
+    private void RemoveBatteryClientRPC(int index)
+    {
+        if(this.index >= batteries.Count -1 && batteries.Count > 1) this.index--;
+        batteries.RemoveAt(index);
+    }
+    #endregion
 }
 
 [CustomEditor(typeof(Item), true)]
@@ -217,8 +237,8 @@ public class Item_Editor : Editor
 
         EditorGUI.BeginChangeCheck();
 
-        EditorGUILayout.Space();
-        EditorGUILayout.LabelField("Battery Settings", EditorStyles.boldLabel);
+        //EditorGUILayout.Space();
+        //EditorGUILayout.LabelField("Battery Settings", EditorStyles.boldLabel);
 
         item.UsesBatteries = EditorGUILayout.Toggle("Uses Batteries", item.UsesBatteries);
 

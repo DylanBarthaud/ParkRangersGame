@@ -21,9 +21,10 @@ public struct BatteryStruct
     [Header("Settings")]
     [SerializeField] private BatteryType batteryType;
     [SerializeField] private int maxPower;
-    [SerializeField] private int startingPower; 
+    [SerializeField] public int startingPower; 
 
     [HideInInspector] public int Power;
+    [HideInInspector] public int Id; 
 
     public string Name => name;
     public Sprite Icon => icon;

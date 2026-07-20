@@ -45,11 +45,11 @@ public class Inventory : MonoBehaviour
     }
     private void OnTick(int obj)
     {
-        if (items.Count <= 0) return; 
+        if (items.Count <= 0 || !items[selectedItemSlot].UsesBatteries) return; 
 
         if(batteryIndex != items[selectedItemSlot].Index)
         {
-            batteryIndex++;
+            batteryIndex = items[selectedItemSlot].Index;
             for (int i = 0; i < batteryContainer.childCount; i++)
                 Destroy(batteryContainer.GetChild(i).gameObject);
             EnableBatteryUi(items[selectedItemSlot], batteryIndex); 
@@ -117,6 +117,25 @@ public class Inventory : MonoBehaviour
             selectedItem.DropItem(gameObject.transform.position, this);
         }
 
+        if(Input.GetKeyDown(KeyCode.R) && items.Count > 0)
+        {
+            Item selectedItem;
+            if (carryingHeavy) { selectedItem = heavyItem; }
+            else
+            {
+                if (items[selectedItemSlot] == null) return;
+                selectedItem = items[selectedItemSlot];
+            }
+
+            if (selectedItem.UsesBatteries && selectedItem.Batteries.Count > 0)
+            {
+                selectedItem.RemoveBattery(0, gameObject.transform.position, this);
+                for (int i = 0; i < batteryContainer.childCount; i++)
+                    Destroy(batteryContainer.GetChild(i).gameObject);
+                EnableBatteryUi(selectedItem, 0); 
+            }
+        }
+
         if(carryingHeavy) return;
 
         if (Input.mouseScrollDelta.y > 0 && selectedItemSlot < items.Count - 1)
@@ -177,9 +196,13 @@ public class Inventory : MonoBehaviour
             carryingHeavyGFX.SetActive(false);
 
             EnableCarriedItemGFX(items[selectedItemSlot], true);
+            if (items[selectedItemSlot].UsesBatteries) EnableBatteryUi(items[selectedItemSlot], batteryIndex);
 
             return;
         }
+
+        for (int i = 0; i < batteryContainer.childCount; i++)
+            Destroy(batteryContainer.GetChild(i).gameObject);
 
         inventorySlots[items.Count - 1].transform.GetChild(0).GetComponent<Image>().sprite = baseInvSlotSprite;
         if (selectedItemSlot > 0)
@@ -187,13 +210,9 @@ public class Inventory : MonoBehaviour
             inventorySlots[selectedItemSlot].GetComponent<Image>().color = Color.gray;
             selectedItemSlot--;
             inventorySlots[selectedItemSlot].GetComponent<Image>().color = Color.green;
+            if (items[selectedItemSlot].UsesBatteries) EnableBatteryUi(items[selectedItemSlot], batteryIndex);
         }
 
-        if (item.UsesBatteries)
-        {
-            for (int i = 0; i < batteryContainer.childCount; i++)
-                Destroy(batteryContainer.GetChild(i).gameObject);
-        }
         items.Remove(item);
 
         int index = 0;
@@ -261,11 +280,11 @@ public class Inventory : MonoBehaviour
        return false;
     }
 
-    public bool AddBattery(string batteryName)
+    public bool AddBattery(string batteryName, int currentPower, int id)
     {
         if(items.Count <= 0) return false;
         if(carryingHeavy || !items[selectedItemSlot].UsesBatteries) return false;
-        if (items[selectedItemSlot].AddBattery(batteryName))
+        if (items[selectedItemSlot].AddBattery(batteryName, currentPower, id))
         {
             for (int i = 0; i < batteryContainer.childCount; i++) 
                 Destroy(batteryContainer.GetChild(i).gameObject);
