@@ -1457,7 +1457,7 @@ MonoBehaviour:
   maxLookAngle: 90
   lockCursor: 1
   crosshair: 1
-  crosshairImage: {fileID: 21300000, guid: be4ce60e2c9768c44b9b10b9c5258045, type: 3}
+  crosshairImage: {fileID: 21300000, guid: 46b3a8e436c3518498446041645ea187, type: 3}
   crosshairColor: {r: 1, g: 1, b: 1, a: 1}
   enableZoom: 1
   holdToZoom: 1
@@ -1583,8 +1583,8 @@ MonoBehaviour:
   defaultMixer: {fileID: -4080137122703859044, guid: 3de4998ae66c52d4cbbfc10cd4e285ca, type: 2}
   radioMixer: {fileID: 3276609892123378771, guid: 3de4998ae66c52d4cbbfc10cd4e285ca, type: 2}
   voiceIcon: {fileID: 6489259224666698550}
-  voiceIconProx: {fileID: 21300000, guid: 61ca2d3383c73d74e806c33fc2ac32ae, type: 3}
-  voiceIconRadio: {fileID: 21300000, guid: 66205ab1ad3155440ae4b36302a4958c, type: 3}
+  voiceIconProx: {fileID: 21300000, guid: b8ee61912a847b244b1d0afd9888849d, type: 3}
+  voiceIconRadio: {fileID: 21300000, guid: 5736259a0cb40fd4c964c690cdba8e76, type: 3}
   iconDecayTime: 0.1
   silenceTimeout: 0.25
   volumeSampleWindow: 0.1
@@ -1719,6 +1719,8 @@ MonoBehaviour:
   layerMaskInteract:
     serializedVersion: 2
     m_Bits: 4294967295
+  crosshairInteract: {fileID: 21300000, guid: 99a93ebdc640dd1419cebb7b9e399fe2, type: 3}
+  crosshairDefault: {fileID: 21300000, guid: 46b3a8e436c3518498446041645ea187, type: 3}
   crosshair: {fileID: 4459864850190357395}
   inspectController: {fileID: 4270014770461249822}
 --- !u!114 &5668679467422162555
@@ -1997,7 +1999,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 50, y: 50}
+  m_SizeDelta: {x: 75, y: 75}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &4459864850190357394
 CanvasRenderer:
@@ -2027,7 +2029,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: 21300000, guid: 46b3a8e436c3518498446041645ea187, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -2628,7 +2630,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 35289a4a47e10884c94343c67326344b, type: 3}
+  m_Sprite: {fileID: 21300000, guid: f8e1509e204e2af4086db2bf108d7f34, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -2719,7 +2721,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 35289a4a47e10884c94343c67326344b, type: 3}
+  m_Sprite: {fileID: 21300000, guid: f8e1509e204e2af4086db2bf108d7f34, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -2937,7 +2939,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 35289a4a47e10884c94343c67326344b, type: 3}
+  m_Sprite: {fileID: 21300000, guid: f8e1509e204e2af4086db2bf108d7f34, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -2989,14 +2991,14 @@ RectTransform:
   m_GameObject: {fileID: 6968173688503182459}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.6995, y: 0.6995, z: 0.6995}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 4459864851551516607}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0}
   m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: -15.025024, y: 2.5999756}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 1, y: 0}
 --- !u!222 &2794883478031568876
@@ -3027,7 +3029,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 61ca2d3383c73d74e806c33fc2ac32ae, type: 3}
+  m_Sprite: {fileID: 21300000, guid: b8ee61912a847b244b1d0afd9888849d, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1

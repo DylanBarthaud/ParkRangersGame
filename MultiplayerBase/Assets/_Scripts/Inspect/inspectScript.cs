@@ -7,6 +7,8 @@ public class inspectScript : MonoBehaviour
     [SerializeField] private int rayLength = 5;
     [SerializeField] private LayerMask layerMaskInteract;
     private ObjectController raycastedObj;
+    [SerializeField] private Sprite crosshairInteract;
+    [SerializeField] private Sprite crosshairDefault;
 
     [SerializeField] private Image crosshair;
     private bool isCrosshairActive;
@@ -94,11 +96,13 @@ public class inspectScript : MonoBehaviour
     {
         if (on && !doOnce)
         {
-            crosshair.color = Color.red;
+            //crosshair.color = Color.red;
+            crosshair.sprite = crosshairInteract;
         }
         else
         {
-            crosshair.color = Color.white;
+            //crosshair.color = Color.white;
+            crosshair.sprite = crosshairDefault;
             isCrosshairActive = false;
         }
     }

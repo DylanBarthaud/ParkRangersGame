@@ -5285,7 +5285,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
   itemType: 0
-  sprite: {fileID: 21300000, guid: 950832395ec754ba48ab1cffa214cec0, type: 3}
+  sprite: {fileID: 21300000, guid: 277592cb013b5464db68b5ac1a8040d1, type: 3}
   infiniteUses: 0
   uses: 1
   isHeavy: 0
@@ -5297,8 +5297,14 @@ MonoBehaviour:
   audioName: 
   gFXHandler: {fileID: 7999298913703856445}
   heldItemLocOffset: {x: 0, y: 0, z: 0.05}
+  batteryList: {fileID: 0}
+  StartingBatteries: []
+  UsesBatteries: 0
+  MaxBatteries: 0
+  BatteryTypesTaken: 0
   isBeingHeld: 0
   itemHeldLoc: {fileID: 0}
+  index: 0
 --- !u!114 &8717031359175044371
 MonoBehaviour:
   m_ObjectHideFlags: 0

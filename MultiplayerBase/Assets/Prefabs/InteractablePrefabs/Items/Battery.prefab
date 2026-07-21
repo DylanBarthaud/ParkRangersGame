@@ -205,8 +205,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2292959759109d646827d93d98189970, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  itemName: Torch
-  itemextraInfo: It's not a lake, It's an ocean.
+  itemName: Battery
+  itemextraInfo: Bolt is a great film about a dog
 --- !u!114 &192531141506324779
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -221,7 +221,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
   itemType: 0
-  sprite: {fileID: 21300000, guid: 8da5046cd4a291644954af2bfb22022c, type: 3}
+  sprite: {fileID: 21300000, guid: 570befafe7e709e48ad5b993c2a2c4ca, type: 3}
   infiniteUses: 1
   uses: 0
   isHeavy: 0
@@ -242,7 +242,6 @@ MonoBehaviour:
   itemHeldLoc: {fileID: 0}
   index: 0
   batteryName: Normal Battery
-  batteryList: {fileID: 0}
   batteryPower: 0
 --- !u!1001 &1373970713059211451
 PrefabInstance:

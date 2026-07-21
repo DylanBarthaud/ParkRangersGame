@@ -114,7 +114,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
   itemType: 0
-  sprite: {fileID: -2413806693520163455, guid: 9dc9f16c62c72d042a2257c20772e59c, type: 3}
+  sprite: {fileID: 21300000, guid: ab5d6c7a9e6301c4aab6583abcd6ba1e, type: 3}
   infiniteUses: 0
   uses: 1
   isHeavy: 0
@@ -126,8 +126,14 @@ MonoBehaviour:
   audioName: 
   gFXHandler: {fileID: 6808100757019226619}
   heldItemLocOffset: {x: 0, y: 0, z: 0}
+  batteryList: {fileID: 0}
+  StartingBatteries: []
+  UsesBatteries: 0
+  MaxBatteries: 0
+  BatteryTypesTaken: 0
   isBeingHeld: 0
   itemHeldLoc: {fileID: 0}
+  index: 0
   objectPrefab: {fileID: 2895811010072939249, guid: a7dbbe40e67263749aadb80a34032136, type: 3}
   baseMaterial: {fileID: -876546973899608171, guid: f678ff840a56d1a4aa1f16a76bc6dcde, type: 3}
   previewMaterial: {fileID: 2100000, guid: 6f02e9bb876b1c840bc550bc14be13a1, type: 2}
