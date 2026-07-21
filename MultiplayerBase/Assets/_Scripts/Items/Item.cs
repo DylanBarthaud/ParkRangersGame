@@ -111,7 +111,7 @@ public abstract class Item : NetworkBehaviour, IInteractable
             if (gFXHandler != null && removeOnPickUp) gFXHandler.DisableGFXServerRpc("ItemGFX"); 
             if (removeOnPickUp)
             {
-                GetComponent<Collider>().enabled = false;
+                //GetComponent<Collider>().enabled = false;
                 SetItemColliderServerRpc(false);
             }
         }
@@ -174,6 +174,7 @@ public abstract class Item : NetworkBehaviour, IInteractable
     [ClientRpc]
     private void SetItemColliderClientRpc(bool enabled)
     {
+        Debug.Log("Set collieder false"); 
         GetComponent<Rigidbody>().useGravity = false;
         GetComponent<Collider>().enabled = enabled;
     }

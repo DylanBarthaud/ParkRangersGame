@@ -73,7 +73,7 @@ public class DiscordManager : MonoBehaviour
 
         activityManager.UpdateActivity(activity, (res) =>
         {
-            Debug.Log("Activity updated!");
+            //Debug.Log("Activity updated!");
         });
 
     }

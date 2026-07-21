@@ -98,7 +98,7 @@ public class Inventory : MonoBehaviour
             if (selectedItem.HasAudio) GetComponent<MultiplayerAudioHandlerWrapper>().PlaySoundServerRpc(selectedItem.AudioName, default, selectedItem.AudioVolume);
             if (!selectedItem.InfiniteUses && selectedItem.Uses <= 0)
             {
-                EnableCarriedItemGFX(selectedItem, false);
+                EnableCarriedItemGFXServerRPC(false);
                 RemoveItem(selectedItem);
             }
         }
@@ -162,24 +162,29 @@ public class Inventory : MonoBehaviour
     public bool AddItemToInventory(Item item)
     {
         if(items.Count >= inventorySlots.Length && !item.IsHeavy) return false;
-        item.GFXHandler.ChangeGFXRenderLayerServerRpc("ItemGFX", 4);
-        if (items.Count <= 0 || item.IsHeavy) EnableCarriedItemGFX(item, true);
 
         if (item.IsHeavy)
         {
             if(heavyItem !=  null) return false;
+
+            if(items.Count > 0) EnableCarriedItemGFXServerRPC(false);
+
             carryingHeavy = true; 
             heavyItem = item;
             carryingHeavyGFX.SetActive(true);
 
-            EnableCarriedItemGFX(items[selectedItemSlot], false);
+            EnableCarriedItemGFXServerRPC(true);
+
+            item.GFXHandler.ChangeGFXRenderLayerServerRpc("ItemGFX", 4);
 
             return true;
         }
 
+        item.GFXHandler.ChangeGFXRenderLayerServerRpc("ItemGFX", 4);
         if (item.UsesBatteries && items.Count <= 0) EnableBatteryUi(item, batteryIndex);
 
         items.Add(item);
+        EnableCarriedItemGFXServerRPC(true);
         inventorySlots[items.Count - 1].transform.GetChild(0).GetComponent<Image>().sprite = item.Sprite;
         return true;
     }
@@ -198,7 +203,7 @@ public class Inventory : MonoBehaviour
             heavyItem = null;
             carryingHeavyGFX.SetActive(false);
 
-            EnableCarriedItemGFX(items[selectedItemSlot], true);
+            EnableCarriedItemGFXServerRPC(true);
             if (items[selectedItemSlot].UsesBatteries) EnableBatteryUi(items[selectedItemSlot], batteryIndex);
 
             return;
@@ -222,13 +227,13 @@ public class Inventory : MonoBehaviour
             index++;
         }
 
-        if (items.Count > 0) EnableCarriedItemGFX(items[selectedItemSlot], true);
+        if (items.Count > 0) EnableCarriedItemGFXServerRPC(true);
     }
 
     private void EnableSlot(GameObject slot, Item itemInSlot)
     {
         slot.GetComponent<Image>().color = Color.green;
-        EnableCarriedItemGFX(itemInSlot, true);
+        EnableCarriedItemGFXServerRPC(true);
 
         if (itemInSlot.UsesBatteries) EnableBatteryUi(itemInSlot, batteryIndex);
     }
@@ -236,7 +241,7 @@ public class Inventory : MonoBehaviour
     private void DisableSlot(GameObject slot, Item itemInSlot)
     {
         slot.GetComponent<Image>().color = Color.gray;
-        EnableCarriedItemGFX(itemInSlot, false);
+        EnableCarriedItemGFXServerRPC(false);
 
         for(int i = 0; i  < batteryContainer.childCount; i++) Destroy(batteryContainer.GetChild(i).gameObject);
     }
@@ -254,11 +259,16 @@ public class Inventory : MonoBehaviour
         }
     }
 
-    private void EnableCarriedItemGFX(Item item, bool enable)
+    [ServerRpc]
+    private void EnableCarriedItemGFXServerRPC(bool enable) => EnableCarriedItemGFXClientRPC(enable);
+    private void EnableCarriedItemGFXClientRPC(bool enable)
     {
+        Item item = carryingHeavy ? heavyItem : items[selectedItemSlot]; 
         item.isBeingHeld = enable;
         if (enable) item.itemHeldLoc = heldItemPos;
-        StartCoroutine(WaitForItemPosToUpdate(item, enable));
+        if (enable) item.GFXHandler.EnableGFX("ItemGFX");
+        else item.GFXHandler.DisableGFX("ItemGFX");
+        //StartCoroutine(WaitForItemPosToUpdate(item, enable));
     }
 
     private System.Collections.IEnumerator WaitForItemPosToUpdate(Item item, bool enable)
