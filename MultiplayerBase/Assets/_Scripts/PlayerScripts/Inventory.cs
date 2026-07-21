@@ -189,6 +189,9 @@ public class Inventory : MonoBehaviour
         item.isBeingHeld = false;
         item.GFXHandler.ChangeGFXRenderLayerServerRpc("ItemGFX", 2);
 
+        for (int i = 0; i < batteryContainer.childCount; i++)
+            Destroy(batteryContainer.GetChild(i).gameObject);
+
         if (item.IsHeavy)
         {
             carryingHeavy = false;
@@ -200,9 +203,6 @@ public class Inventory : MonoBehaviour
 
             return;
         }
-
-        for (int i = 0; i < batteryContainer.childCount; i++)
-            Destroy(batteryContainer.GetChild(i).gameObject);
 
         inventorySlots[items.Count - 1].transform.GetChild(0).GetComponent<Image>().sprite = baseInvSlotSprite;
         if (selectedItemSlot > 0)
@@ -283,7 +283,7 @@ public class Inventory : MonoBehaviour
     public bool AddBattery(string batteryName, int currentPower, int id)
     {
         if(items.Count <= 0) return false;
-        if(carryingHeavy || !items[selectedItemSlot].UsesBatteries) return false;
+        if(!items[selectedItemSlot].UsesBatteries) return false;
         if (items[selectedItemSlot].AddBattery(batteryName, currentPower, id))
         {
             for (int i = 0; i < batteryContainer.childCount; i++) 

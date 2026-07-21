@@ -51,7 +51,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &407653652955652770
 Transform:
   m_ObjectHideFlags: 0
@@ -200,6 +200,7 @@ GameObject:
   - component: {fileID: 1193430333572171507}
   - component: {fileID: 7326930787183297058}
   - component: {fileID: 3586280018046309498}
+  - component: {fileID: -427904046100085307}
   m_Layer: 3
   m_Name: FuseBox_Puzzle
   m_TagString: InteractObject
@@ -285,10 +286,26 @@ MonoBehaviour:
   ShowTopMostFoldoutHeaderGroup: 1
   game: 1
   neededItem: 3
+  canInteract: 0
   setObjests: []
   completesQuest:
     item1: 0
     item2: 
+--- !u!114 &-427904046100085307
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8747715435067450222}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 099315bc635fcf34992901c01852b50b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  miniGameToSet: {fileID: 3586280018046309498}
+  objsToSet:
+  - {fileID: 5144003173386018155}
 --- !u!1001 &3874834530475453901
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -297,10 +314,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 5375237074078349148}
     m_Modifications:
-    - target: {fileID: -1461304994638716399, guid: 025b37b848d33fe42acbd5fdd646c59d, type: 3}
-      propertyPath: 'm_Materials.Array.data[0]'
-      value: 
-      objectReference: {fileID: 2100000, guid: e0a6261eb923a0f4f87d6679f0cb72f9, type: 2}
     - target: {fileID: -8679921383154817045, guid: e7db3e1717a07d542bfca0de9bebb226, type: 3}
       propertyPath: m_LocalScale.x
       value: 0.62877
@@ -385,6 +398,10 @@ PrefabInstance:
       propertyPath: m_LocalPosition.z
       value: 0.077
       objectReference: {fileID: 0}
+    - target: {fileID: -1461304994638716399, guid: 025b37b848d33fe42acbd5fdd646c59d, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: e0a6261eb923a0f4f87d6679f0cb72f9, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

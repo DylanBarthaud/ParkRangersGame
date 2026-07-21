@@ -158,9 +158,15 @@ MonoBehaviour:
   audioVolume: 0.5
   audioName: WaterSplash
   gFXHandler: {fileID: 3285712831813567906}
-  heldItemLocOffset: {x: 0, y: -0.1, z: 0.1}
+  heldItemLocOffset: {x: -0.5, y: -0.2, z: 0.1}
+  batteryList: {fileID: 0}
+  StartingBatteries: []
+  UsesBatteries: 0
+  MaxBatteries: 0
+  BatteryTypesTaken: 0
   isBeingHeld: 0
   itemHeldLoc: {fileID: 0}
+  index: 0
   waterEffect: {fileID: 5984308712488318517, guid: 91ca352f0769d824b84ea9f96a5a6d9c, type: 3}
 --- !u!114 &3285712831813567906
 MonoBehaviour:

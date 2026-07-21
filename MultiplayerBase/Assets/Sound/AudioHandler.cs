@@ -38,25 +38,25 @@ public class AudioHandler : MonoBehaviour
     public void PlaySound(string clipName, bool loop = false, float volume = 1, float minDist = 5, float maxDist = 100, float pitch = 1)
     {
         AudioSource audioSource;
-        AudioClip audioClip;
+        AudioResource audioResource;
 
-        (audioSource, audioClip) = GetSourceAndClip(clipName);
+        (audioSource, audioResource) = GetSourceAndClip(clipName);
         audioSource.loop = loop;
         audioSource.volume = volume;
         audioSource.minDistance = minDist;
         audioSource.maxDistance = maxDist;
         audioSource.pitch = pitch;
-        audioSource.clip = audioClip;
+        audioSource.resource = audioResource;
         audioSource.Play();
     }
 
     public void StopPlayingClipSound(string clipName)
     {
         AudioSource audioSource;
-        AudioClip audioClip;
+        AudioResource audioResource;
 
-        (audioSource, audioClip) = GetSourceAndClip(clipName);
-        if (audioSource.clip == audioClip) audioSource.Stop();
+        (audioSource, audioResource) = GetSourceAndClip(clipName);
+        if (audioSource.resource == audioResource) audioSource.Stop();
     }
 
     public void StopSoundFromAudioSource(int sourceId)
@@ -65,7 +65,7 @@ public class AudioHandler : MonoBehaviour
         if (audioSource.isPlaying) audioSource.Stop();
     }
 
-    private (AudioSource, AudioClip) GetSourceAndClip(string clipName)
+    private (AudioSource, AudioResource) GetSourceAndClip(string clipName)
     {
         if (audioClipDictonary.ContainsKey(clipName))
         {
@@ -73,9 +73,9 @@ public class AudioHandler : MonoBehaviour
             if (audioSourceDictonary.ContainsKey(wrappedClip))
             {
                 AudioSource audioSource = audioSourceDictonary[wrappedClip];
-                AudioClip audioClip = wrappedClip.clip;
+                AudioResource audioResource = wrappedClip.resource;
                 
-                return (audioSource, audioClip);
+                return (audioSource, audioResource);
             }
             else Debug.LogError($"AudioSourceDictonary does not contain {wrappedClip} as a key");
         }

@@ -16,7 +16,7 @@ public class MiniGame : NetworkBehaviour, IInteractable
     [SerializeField] private MiniGameTypes game;
     [SerializeField] private ItemType neededItem = ItemType.None;
 
-    private bool canInteract = true;
+    [SerializeField] private bool canInteract = true;
 
     [SerializeField] Pair<GameObject, bool>[] setObjests;
     [SerializeField] Pair<bool, string> completesQuest; 
@@ -73,9 +73,15 @@ public class MiniGame : NetworkBehaviour, IInteractable
         
         foreach (var objWrapped in setObjests)
         {
-            GameObject obj = objWrapped.item1; 
+            ISetByTask obj = objWrapped.item1.GetComponent<ISetByTask>(); 
+            if(obj == null)
+            {
+                Debug.LogError($"{objWrapped.item1.name} Object Must contain class with 'ISetByTask' Interface"); 
+                continue;
+            }
+
             bool setActive = objWrapped.item2;
-            obj.SetActive(setActive);
+            obj.Set(setActive);
         }
     }
 }

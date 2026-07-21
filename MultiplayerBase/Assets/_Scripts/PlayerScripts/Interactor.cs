@@ -13,7 +13,7 @@ public class Interactor : NetworkBehaviour
     public bool Interact(int tick = 0, ItemType itemUsed = ItemType.None)
     {
         Inventory interactorInventory = GetComponent<Inventory>();
-        if(interactorInventory.CarryingHeavy) return false;
+        //if(interactorInventory.CarryingHeavy) return false;
 
         Camera cam = Camera.main;
         Ray ray = new Ray(cam.transform.position, cam.transform.forward);
