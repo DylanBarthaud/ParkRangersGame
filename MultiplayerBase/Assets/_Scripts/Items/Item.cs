@@ -223,6 +223,11 @@ public abstract class Item : NetworkBehaviour, IInteractable
         if(this.index >= batteries.Count -1 && batteries.Count > 1) this.index--;
         batteries.RemoveAt(index);
     }
+
+    [ServerRpc(RequireOwnership = false)]
+    protected void SetUsingPowerServerRPC(bool isUsing) => SetUsingPowerClientRPC(isUsing);
+    [ClientRpc]
+    private void SetUsingPowerClientRPC(bool isUsing) => usingPower = isUsing;
     #endregion
 }
 

@@ -15,7 +15,7 @@ public class TorchItem : Item
         if(CurrentPower <= 0) return;
 
         playerInfoHolder.ActivateTorchServerRPC(!playerInfoHolder.isTorchActive);
-        usingPower = playerInfoHolder.isTorchActive;
+        SetUsingPowerServerRPC(playerInfoHolder.isTorchActive);
     }
 
     public override void DropItem(Vector3 newPos, Inventory inventory )
@@ -28,7 +28,7 @@ public class TorchItem : Item
     {
         if(!base.RunOutOfPower()) return false;
         playerInfoHolder.ActivateTorchServerRPC(false);
-        usingPower = false;
+        SetUsingPowerServerRPC(false);
         return true;
     }
 
@@ -38,7 +38,7 @@ public class TorchItem : Item
         if(Batteries.Count <= 0)
         {
             playerInfoHolder.ActivateTorchServerRPC(false);
-            usingPower = false;
+            SetUsingPowerServerRPC(false);
         }
     }
 }
