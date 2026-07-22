@@ -84,7 +84,7 @@ public class Inventory : MonoBehaviour
         if (!canUseInv) return;
 
         if (Input.GetKeyDown(KeyCode.Mouse0)
-            && items.Count > 0)
+            && (items.Count > 0 || carryingHeavy))
         {
             Item selectedItem; 
             if (carryingHeavy) { selectedItem = heavyItem; }
@@ -103,7 +103,8 @@ public class Inventory : MonoBehaviour
             }
         }
 
-        if (Input.GetKeyDown(KeyCode.Q) && items.Count > 0)
+        if (Input.GetKeyDown(KeyCode.Q) 
+            && (items.Count > 0 || carryingHeavy))
         {
             Item selectedItem;
             if (carryingHeavy) { selectedItem = heavyItem; }
@@ -117,7 +118,8 @@ public class Inventory : MonoBehaviour
             selectedItem.DropItem(gameObject.transform.position, this);
         }
 
-        if(Input.GetKeyDown(KeyCode.R) && items.Count > 0)
+        if(Input.GetKeyDown(KeyCode.R)
+            && (items.Count > 0 || carryingHeavy))
         {
             Item selectedItem;
             if (carryingHeavy) { selectedItem = heavyItem; }
@@ -169,7 +171,6 @@ public class Inventory : MonoBehaviour
 
             if(items.Count > 0) EnableCarriedItemGFXServerRPC(false);
 
-            Debug.Log("PICKED UP HEAVY");
             carryingHeavy = true; 
             heavyItem = item;
             carryingHeavyGFX.SetActive(true);
@@ -209,6 +210,8 @@ public class Inventory : MonoBehaviour
             heavyItem = null;
             carryingHeavyGFX.SetActive(false);
 
+            if (items.Count <= 0) return; 
+            
             EnableCarriedItemGFXServerRPC(true);
             if (items[selectedItemSlot].UsesBatteries) EnableBatteryUi(items[selectedItemSlot], batteryIndex);
 

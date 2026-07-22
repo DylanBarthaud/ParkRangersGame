@@ -7,13 +7,24 @@ public class Interactor : NetworkBehaviour
     [SerializeField] private float interactRange;
     [SerializeField] private LayerMask interactMask;
 
+    Inventory interactorInventory;
+
     private Zones currentZone = Zones.Null;
     public Zones CurrentZone => currentZone;
 
+    private void Awake()
+    {
+        interactorInventory = GetComponent<Inventory>();
+    }
+
     public bool Interact(int tick = 0, ItemType itemUsed = ItemType.None)
     {
-        Inventory interactorInventory = GetComponent<Inventory>();
-        //if(interactorInventory.CarryingHeavy) return false;
+        if(interactorInventory != null && (interactorInventory.Items.Count > 0 || interactorInventory.CarryingHeavy))
+        {
+            if (interactorInventory.Items.Count > 0) itemUsed = interactorInventory.Items[interactorInventory.SelectedItemSlot].ItemType;
+            else if (interactorInventory.CarryingHeavy) itemUsed = interactorInventory.HeavyItem.ItemType; 
+        }
+
 
         Camera cam = Camera.main;
         Ray ray = new Ray(cam.transform.position, cam.transform.forward);
@@ -25,10 +36,7 @@ public class Interactor : NetworkBehaviour
 
 
             IInteractable interactable = hit.transform.GetComponent<IInteractable>();
-            if(interactable.RequiresZoneCheckIn() && !GameManager.instance.PlayerInSameZone(currentZone))
-            {
-                return false;
-            }
+            if(interactable.RequiresZoneCheckIn() && !GameManager.instance.PlayerInSameZone(currentZone)) return false;
 
             if (interactable != null)
             {
