@@ -8,7 +8,7 @@ public class BatteryUi : MonoBehaviour
 
     public void Initilize(BatteryStruct battery)
     {
-        Debug.Log(battery.Power);
+        //Debug.Log(battery.Power);
 
         image.sprite = battery.Icon;
         slider.maxValue = battery.MaxPower;

@@ -169,6 +169,7 @@ public class Inventory : MonoBehaviour
 
             if(items.Count > 0) EnableCarriedItemGFXServerRPC(false);
 
+            Debug.Log("HERE RBRO");
             carryingHeavy = true; 
             heavyItem = item;
             carryingHeavyGFX.SetActive(true);
@@ -181,10 +182,14 @@ public class Inventory : MonoBehaviour
         }
 
         item.GFXHandler.ChangeGFXRenderLayerServerRpc("ItemGFX", 4);
-        if (item.UsesBatteries && items.Count <= 0) EnableBatteryUi(item, batteryIndex);
 
         items.Add(item);
-        EnableCarriedItemGFXServerRPC(true);
+        if (items.Count == 1)
+        {
+            if (item.UsesBatteries) EnableBatteryUi(item, batteryIndex);
+            EnableCarriedItemGFXServerRPC(true);
+        }
+
         inventorySlots[items.Count - 1].transform.GetChild(0).GetComponent<Image>().sprite = item.Sprite;
         return true;
     }
