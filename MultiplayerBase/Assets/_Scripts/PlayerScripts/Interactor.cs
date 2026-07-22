@@ -21,8 +21,8 @@ public class Interactor : NetworkBehaviour
     {
         if(interactorInventory != null && (interactorInventory.Items.Count > 0 || interactorInventory.CarryingHeavy))
         {
-            if (interactorInventory.Items.Count > 0) itemUsed = interactorInventory.Items[interactorInventory.SelectedItemSlot].ItemType;
-            else if (interactorInventory.CarryingHeavy) itemUsed = interactorInventory.HeavyItem.ItemType; 
+            if (interactorInventory.CarryingHeavy) itemUsed = interactorInventory.HeavyItem.ItemType;
+            else if (interactorInventory.Items.Count > 0) itemUsed = interactorInventory.Items[interactorInventory.SelectedItemSlot].ItemType;
         }
 
 

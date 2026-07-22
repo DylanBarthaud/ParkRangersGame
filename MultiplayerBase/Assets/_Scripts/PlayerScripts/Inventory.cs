@@ -10,7 +10,7 @@ using UnityEngine.InputSystem;
 using UnityEngine.UI;
 using UnityEngine.XR;
 
-public class Inventory : MonoBehaviour
+public class Inventory : NetworkBehaviour
 {
     [SerializeField] GameObject[] inventorySlots;
     [SerializeField] Sprite baseInvSlotSprite; 
@@ -163,12 +163,11 @@ public class Inventory : MonoBehaviour
 
     public bool AddItemToInventory(Item item)
     {
-        if(items.Count >= inventorySlots.Length && !item.IsHeavy) return false;
+        if (items.Count >= inventorySlots.Length && !item.IsHeavy) return false;
+        if (heavyItem != null) return false;
 
         if (item.IsHeavy)
         {
-            if(heavyItem !=  null) return false;
-
             if(items.Count > 0) EnableCarriedItemGFXServerRPC(false);
 
             carryingHeavy = true; 
@@ -300,7 +299,7 @@ public class Inventory : MonoBehaviour
 
     public bool AddBattery(string batteryName, int currentPower, int id)
     {
-        if(items.Count <= 0) return false;
+        if(items.Count <= 0 || carryingHeavy) return false;
         if(!items[selectedItemSlot].UsesBatteries) return false;
         if (items[selectedItemSlot].AddBattery(batteryName, currentPower, id))
         {

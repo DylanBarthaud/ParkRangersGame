@@ -18,6 +18,7 @@ public class Battery : Item, IInteractable
     public override void OnInteract(Interactor interactor, ItemType itemUsed = ItemType.None)
     {
         Inventory interactorInventory = interactor.gameObject.GetComponent<Inventory>();
+
         if (interactorInventory.AddBattery(batteryName, batteryPower, id))
         {
             if (GFXHandler != null && removeOnPickUp) GFXHandler.DisableGFXServerRpc("ItemGFX");
