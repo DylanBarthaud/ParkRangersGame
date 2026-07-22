@@ -169,7 +169,7 @@ public class Inventory : MonoBehaviour
 
             if(items.Count > 0) EnableCarriedItemGFXServerRPC(false);
 
-            Debug.Log("HERE RBRO");
+            Debug.Log("PICKED UP HEAVY");
             carryingHeavy = true; 
             heavyItem = item;
             carryingHeavyGFX.SetActive(true);
@@ -189,8 +189,9 @@ public class Inventory : MonoBehaviour
             if (item.UsesBatteries) EnableBatteryUi(item, batteryIndex);
             EnableCarriedItemGFXServerRPC(true);
         }
+        else item.GFXHandler.DisableGFXServerRpc("ItemGFX");
 
-        inventorySlots[items.Count - 1].transform.GetChild(0).GetComponent<Image>().sprite = item.Sprite;
+            inventorySlots[items.Count - 1].transform.GetChild(0).GetComponent<Image>().sprite = item.Sprite;
         return true;
     }
 
@@ -264,21 +265,20 @@ public class Inventory : MonoBehaviour
         }
     }
 
-    [ServerRpc]
+    [ServerRpc(RequireOwnership = false)]
     private void EnableCarriedItemGFXServerRPC(bool enable) => EnableCarriedItemGFXClientRPC(enable);
+    [ClientRpc]
     private void EnableCarriedItemGFXClientRPC(bool enable)
     {
         Item item = carryingHeavy ? heavyItem : items[selectedItemSlot]; 
         item.isBeingHeld = enable;
         if (enable) item.itemHeldLoc = heldItemPos;
-        if (enable) item.GFXHandler.EnableGFX("ItemGFX");
-        else item.GFXHandler.DisableGFX("ItemGFX");
-        //StartCoroutine(WaitForItemPosToUpdate(item, enable));
+        StartCoroutine(WaitForItemPosToUpdate(item, enable));
     }
 
     private System.Collections.IEnumerator WaitForItemPosToUpdate(Item item, bool enable)
     {
-        yield return new WaitForSeconds(0.1f); 
+        yield return new WaitForEndOfFrame();
         if(enable) item.GFXHandler.EnableGFX("ItemGFX");
         else item.GFXHandler.DisableGFX("ItemGFX");
     }
