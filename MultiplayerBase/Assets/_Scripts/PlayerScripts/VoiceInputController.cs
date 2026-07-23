@@ -48,6 +48,8 @@ public class VoiceInputController : NetworkBehaviour
     private bool isRecording = true;
     private float lastVoiceTime;
 
+    private bool radioIsActive = false;
+    [SerializeField] public bool CanUseRadio = false; 
     private Coroutine stopRadioDelayCorotine;
 
     private void Awake()
@@ -101,10 +103,11 @@ public class VoiceInputController : NetworkBehaviour
             canHearSelf = !canHearSelf;
         }
 
-        if (Input.GetKeyDown(KeyCode.G))
+        if (Input.GetKeyDown(KeyCode.G) && CanUseRadio)
         {
             Debug.Log("keyDOWN");
 
+            radioIsActive = true; 
             voiceIcon.sprite = voiceIconRadio;
 
             if (stopRadioDelayCorotine != null)
@@ -116,10 +119,11 @@ public class VoiceInputController : NetworkBehaviour
             ActivateRadioVoiceServerRpc(true);
         }
 
-        if (Input.GetKeyUp(KeyCode.G))
+        if (Input.GetKeyUp(KeyCode.G) && radioIsActive)
         {
             Debug.Log("keyUP");
 
+            radioIsActive = false; 
             if (stopRadioDelayCorotine != null)
             {
                 StopCoroutine(stopRadioDelayCorotine);   
@@ -297,8 +301,9 @@ public class VoiceInputController : NetworkBehaviour
     [ClientRpc]
     private void ActivateRadioVoiceClientRpc(bool active)
     {
+
         //if (IsOwner) return;
-        if(active)
+        if(active && CanUseRadio)
         {
             source.spatialBlend = 0;
             source.outputAudioMixerGroup = radioMixer;
