@@ -31,6 +31,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 3463856211435583347}
+  - {fileID: 8878353577365495097}
   m_Father: {fileID: 4576935339256006944}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &7680333448727078238
@@ -237,8 +238,8 @@ GameObject:
   - component: {fileID: 9084292814626554655}
   - component: {fileID: 4022448843850802454}
   - component: {fileID: 2914408668598901024}
-  - component: {fileID: 4363825768090220194}
   - component: {fileID: 7039801514515483608}
+  - component: {fileID: -8296734916149416408}
   m_Layer: 3
   m_Name: RadioItem
   m_TagString: InteractObject
@@ -367,7 +368,7 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 1
---- !u!114 &4363825768090220194
+--- !u!114 &7039801514515483608
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -376,7 +377,21 @@ MonoBehaviour:
   m_GameObject: {fileID: 5792503391861212605}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8401ebcf7156e2444a5ab8a7c5cd0f2e, type: 3}
+  m_Script: {fileID: 11500000, guid: 2292959759109d646827d93d98189970, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  itemName: Radio
+  itemextraInfo: Ground Control to Major Tom
+--- !u!114 &-8296734916149416408
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5792503391861212605}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 49b907d28d4c32d4fbfa8d9773a1bc8d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
@@ -393,22 +408,124 @@ MonoBehaviour:
   audioName: 
   gFXHandler: {fileID: 7999298913703856445}
   heldItemLocOffset: {x: 0, y: 0, z: 0}
+  batteryList: {fileID: 11400000, guid: a8c52cd695aa19a4ba98557116c51218, type: 2}
+  StartingBatteries:
+  - Normal Battery
+  UsesBatteries: 1
+  MaxBatteries: 2
+  BatteryTypesTaken: -1
   isBeingHeld: 0
   itemHeldLoc: {fileID: 0}
---- !u!114 &7039801514515483608
-MonoBehaviour:
+  index: 0
+  onLight: {fileID: 7783753413292990599}
+--- !u!1 &7783753413292990599
+GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5792503391861212605}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8878353577365495097}
+  - component: {fileID: 5107453580251944379}
+  - component: {fileID: 5707856128569521570}
+  - component: {fileID: 22169754460935673}
+  m_Layer: 0
+  m_Name: Sphere
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!4 &8878353577365495097
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7783753413292990599}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.097, y: 0.241, z: -0.095}
+  m_LocalScale: {x: 0.05, y: 0.05, z: 0.05}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 5925307592638964831}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!33 &5107453580251944379
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7783753413292990599}
+  m_Mesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!23 &5707856128569521570
+MeshRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7783753413292990599}
   m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2292959759109d646827d93d98189970, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  itemName: Radio
-  itemextraInfo: Ground Control to Major Tom
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 2
+  m_RayTraceProcedural: 0
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 2100000, guid: 30889197255f4d84ca6c39ca2f995c05, type: 2}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_AdditionalVertexStreams: {fileID: 0}
+--- !u!135 &22169754460935673
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7783753413292990599}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Radius: 0.5
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1001 &4006144980024856728
 PrefabInstance:
   m_ObjectHideFlags: 0
