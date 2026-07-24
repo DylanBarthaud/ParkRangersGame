@@ -197,7 +197,6 @@ public abstract class Item : NetworkBehaviour, IInteractable
     }
     public virtual void RemoveBattery(int index, Vector3 dropBatteryPos, Inventory inventory)
     {
-        ObjectPools.Instance.BatteryPool.GetBattery(batteries[index].Id).batteryPower = batteries[index].Power; 
         ObjectPools.Instance.BatteryPool.GetBattery(batteries[index].Id).DropItem(dropBatteryPos, inventory); 
         RemoveBatteryServerRPC(index);
     }
@@ -220,7 +219,8 @@ public abstract class Item : NetworkBehaviour, IInteractable
     [ClientRpc]
     private void RemoveBatteryClientRPC(int index)
     {
-        if(this.index >= batteries.Count -1 && batteries.Count > 1) this.index--;
+        ObjectPools.Instance.BatteryPool.GetBattery(batteries[index].Id).batteryPower = batteries[index].Power;
+        if (this.index >= batteries.Count -1 && batteries.Count > 1) this.index--;
         batteries.RemoveAt(index);
     }
 
