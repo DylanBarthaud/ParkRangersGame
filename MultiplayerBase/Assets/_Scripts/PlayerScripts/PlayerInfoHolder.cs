@@ -40,6 +40,7 @@ public class PlayerInfoHolder : NetworkBehaviour, IAiSensible, IHurtable
     private PlayerInfo playerInfo;
 
     public bool isTorchActive => torchLight.activeInHierarchy; 
+    public BlackboardKey PlayerInfoKey => playerInfo_Key;
 
     public override void OnNetworkSpawn()
     {
@@ -63,8 +64,10 @@ public class PlayerInfoHolder : NetworkBehaviour, IAiSensible, IHurtable
             ravenCount = 0,
             maxRavens = 10,
             voiceInputController = voiceInputController,
-            inspectController = inspectController
+            inspectController = inspectController,
+            heldItemPos = GetComponent<Inventory>().HeldItemPos
         };
+
         UpdateInfo(false, 0);
 
         EventManager.instance.onTick_5 += OnTick_5;

@@ -1,3 +1,4 @@
+using BlackboardSystem;
 using JetBrains.Annotations;
 using System;
 using System.Collections.Generic;
@@ -10,7 +11,7 @@ using UnityEngine.InputSystem;
 using UnityEngine.UI;
 using UnityEngine.XR;
 
-public class Inventory : NetworkBehaviour
+public class Inventory : MonoBehaviour
 {
     [SerializeField] GameObject[] inventorySlots;
     [SerializeField] Sprite baseInvSlotSprite; 
@@ -32,7 +33,8 @@ public class Inventory : NetworkBehaviour
     private bool carryingHeavy = false;
     public bool CarryingHeavy => carryingHeavy;
     private Item heavyItem = null;
-    public Item HeavyItem => heavyItem; 
+    public Item HeavyItem => heavyItem;
+    public Transform HeldItemPos => heldItemPos; 
 
     private void Awake()
     {
@@ -98,7 +100,7 @@ public class Inventory : NetworkBehaviour
             if (selectedItem.HasAudio) GetComponent<MultiplayerAudioHandlerWrapper>().PlaySoundServerRpc(selectedItem.AudioName, default, selectedItem.AudioVolume);
             if (!selectedItem.InfiniteUses && selectedItem.Uses <= 0)
             {
-                EnableCarriedItemGFXServerRPC(false);
+                EnableCarriedItemGFX(false);
                 RemoveItem(selectedItem);
             }
         }
@@ -168,13 +170,13 @@ public class Inventory : NetworkBehaviour
 
         if (item.IsHeavy)
         {
-            if(items.Count > 0) EnableCarriedItemGFXServerRPC(false);
+            if(items.Count > 0) EnableCarriedItemGFX(false);
 
             carryingHeavy = true; 
             heavyItem = item;
             carryingHeavyGFX.SetActive(true);
 
-            EnableCarriedItemGFXServerRPC(true);
+            EnableCarriedItemGFX(true);
 
             item.GFXHandler.ChangeGFXRenderLayerServerRpc("ItemGFX", 4);
 
@@ -187,7 +189,7 @@ public class Inventory : NetworkBehaviour
         if (items.Count == 1)
         {
             if (item.UsesBatteries) EnableBatteryUi(item, batteryIndex);
-            EnableCarriedItemGFXServerRPC(true);
+            EnableCarriedItemGFX(true);
         }
         else item.GFXHandler.DisableGFXServerRpc("ItemGFX");
 
@@ -211,7 +213,7 @@ public class Inventory : NetworkBehaviour
 
             if (items.Count <= 0) return; 
             
-            EnableCarriedItemGFXServerRPC(true);
+            EnableCarriedItemGFX(true);
             if (items[selectedItemSlot].UsesBatteries) EnableBatteryUi(items[selectedItemSlot], batteryIndex);
 
             return;
@@ -235,13 +237,13 @@ public class Inventory : NetworkBehaviour
             index++;
         }
 
-        if (items.Count > 0) EnableCarriedItemGFXServerRPC(true);
+        if (items.Count > 0) EnableCarriedItemGFX(true);
     }
 
     private void EnableSlot(GameObject slot, Item itemInSlot)
     {
         slot.GetComponent<Image>().color = Color.green;
-        EnableCarriedItemGFXServerRPC(true);
+        EnableCarriedItemGFX(true);
 
         if (itemInSlot.UsesBatteries) EnableBatteryUi(itemInSlot, batteryIndex);
     }
@@ -249,7 +251,7 @@ public class Inventory : NetworkBehaviour
     private void DisableSlot(GameObject slot, Item itemInSlot)
     {
         slot.GetComponent<Image>().color = Color.gray;
-        EnableCarriedItemGFXServerRPC(false);
+        EnableCarriedItemGFX(false);
 
         for(int i = 0; i  < batteryContainer.childCount; i++) Destroy(batteryContainer.GetChild(i).gameObject);
     }
@@ -267,22 +269,11 @@ public class Inventory : NetworkBehaviour
         }
     }
 
-    [ServerRpc(RequireOwnership = false)]
-    private void EnableCarriedItemGFXServerRPC(bool enable) => EnableCarriedItemGFXClientRPC(enable);
-    [ClientRpc]
-    private void EnableCarriedItemGFXClientRPC(bool enable)
+    private void EnableCarriedItemGFX(bool enable)
     {
-        Item item = carryingHeavy ? heavyItem : items[selectedItemSlot]; 
-        item.isBeingHeld = enable;
-        if (enable) item.itemHeldLoc = heldItemPos;
-        StartCoroutine(WaitForItemPosToUpdate(item, enable));
-    }
-
-    private System.Collections.IEnumerator WaitForItemPosToUpdate(Item item, bool enable)
-    {
-        yield return new WaitForEndOfFrame();
-        if(enable) item.GFXHandler.EnableGFX("ItemGFX");
-        else item.GFXHandler.DisableGFX("ItemGFX");
+        Item item = carryingHeavy ? heavyItem : Items[selectedItemSlot]; 
+        BlackboardKey key = GetComponent<PlayerInfoHolder>().PlayerInfoKey;
+        item.EnableCarriedItemGFXServerRPC(enable, key);
     }
 
     public bool hasItem(Item item)

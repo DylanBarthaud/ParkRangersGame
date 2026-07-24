@@ -1,8 +1,10 @@
+using BlackboardSystem;
 using System;
 using System.Collections.Generic;
 using Unity.Netcode;
-using UnityEngine;
 using UnityEditor;
+using UnityEditor.Experimental.GraphView;
+using UnityEngine;
 
 public enum ItemType { None, WaterBucket, ScrewDriver, Fuse, Fuel } 
 
@@ -184,6 +186,27 @@ public abstract class Item : NetworkBehaviour, IInteractable
     private void SetCanPickUpItemClientRPC(bool canPickUp)
     {
         canPickUpItem = canPickUp;
+    }
+
+    [ServerRpc(RequireOwnership = false)]
+    public void EnableCarriedItemGFXServerRPC(bool enable, BlackboardKey holderKey) => EnableCarriedItemGFXClientRPC(enable, holderKey);
+    [ClientRpc]
+    private void EnableCarriedItemGFXClientRPC(bool enable, BlackboardKey holderKey)
+    {
+        if (BlackboardController.instance.GetBlackboard().TryGetValue(holderKey, out PlayerInfo playerInfo))
+        {
+            itemHeldLoc = playerInfo.heldItemPos;
+        }
+
+        isBeingHeld = enable;
+        StartCoroutine(WaitForItemPosToUpdate(enable));
+    }
+
+    private System.Collections.IEnumerator WaitForItemPosToUpdate(bool enable)
+    {
+        yield return new WaitForEndOfFrame();
+        if (enable) GFXHandler.EnableGFX("ItemGFX");
+        else GFXHandler.DisableGFX("ItemGFX");
     }
 
     #region Battery Logic
