@@ -193,10 +193,11 @@ public abstract class Item : NetworkBehaviour, IInteractable
     [ClientRpc]
     private void EnableCarriedItemGFXClientRPC(bool enable, BlackboardKey holderKey)
     {
-        if (BlackboardController.instance.GetBlackboard().TryGetValue(holderKey, out PlayerInfo playerInfo))
+        if(enable)
         {
-            itemHeldLoc = playerInfo.heldItemPos;
+            if (BlackboardController.instance.GetBlackboard().TryGetValue(holderKey, out PlayerInfo playerInfo)) itemHeldLoc = playerInfo.heldItemPos;
         }
+        else itemHeldLoc = null;
 
         isBeingHeld = enable;
         StartCoroutine(WaitForItemPosToUpdate(enable));
