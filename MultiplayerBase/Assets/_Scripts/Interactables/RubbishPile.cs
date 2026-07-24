@@ -19,14 +19,11 @@ public class RubbishPile : NetworkBehaviour, IInteractable
         }
     }
 
-    public (bool, string) CanInteract(Interactor interactor, ItemType itemUsed)
-    {
-        return (!isBeingPressed.Value, "Already being used"); 
-    }
+    public (bool, string) CanInteract(Interactor interactor, ItemType itemUsed) => (!isBeingPressed.Value, "Already being used");
 
     public void OnInteract(Interactor interactor, ItemType itemUsed = ItemType.None)
     {
-        Debug.Log("Interact pressed");
+        //Debug.Log("Interact pressed");
 
         interactor.GetComponent<FirstPersonController>().DisableMovement();
         progressBar.maxValue = secondsToComplete; 
@@ -36,7 +33,7 @@ public class RubbishPile : NetworkBehaviour, IInteractable
 
     public void OnInteractHeld(Interactor interactor, int tick, ItemType itemUsed)
     {
-        Debug.Log("Interact held");
+        //Debug.Log("Interact held");
         progressBar.value = tick; 
 
         if (tick == secondsToComplete)
@@ -54,8 +51,5 @@ public class RubbishPile : NetworkBehaviour, IInteractable
     }
 
     [ServerRpc(RequireOwnership = false)]
-    private void DeleteButtonServerRpc()
-    {
-        gameObject.GetComponent<NetworkObject>().Despawn();
-    }
+    private void DeleteButtonServerRpc() => gameObject.GetComponent<NetworkObject>().Despawn();
 }
