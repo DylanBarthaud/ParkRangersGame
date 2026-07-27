@@ -26,15 +26,6 @@ public class MemoryMiniGame : MiniGameBase
         ResetGame();
     }
 
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.Q))
-        {
-            LockMouse();
-            EndGame(false);
-        }
-    }
-
     private void ResetGame()
     {
         foreach (int i in pattern)
@@ -109,7 +100,7 @@ public class MemoryMiniGame : MiniGameBase
 
     private void EndGame(bool success)
     {
-        miniGameObj.GetComponent<MiniGame>().OnCompleteServerRpc(success);
+        miniGameObj.GetComponent<MiniGame>().OnComplete(success);
         EventManager.instance.OnPuzzleComplete(success);
         GameManager.instance.DisableMiniGame(MiniGameTypes.Keypad);
     }

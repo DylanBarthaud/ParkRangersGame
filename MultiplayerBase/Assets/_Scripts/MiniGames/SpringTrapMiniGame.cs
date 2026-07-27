@@ -21,14 +21,11 @@ public class SpringTrapMiniGame : MiniGameBase
 
     void Update()
     {
+        base.CheckQuit();
+
         if (Input.GetKeyUp(KeyCode.Mouse0))
         {
             letGoOfMouse = true;
-        }
-
-        if (Input.GetKeyUp(KeyCode.Q))
-        {
-            EndGame(false);
         }
 
         if (Input.GetKey(KeyCode.Mouse0) && !attempted && letGoOfMouse)
@@ -73,7 +70,7 @@ public class SpringTrapMiniGame : MiniGameBase
     private void EndGame(bool success)
     {
         letGoOfMouse = false; 
-        miniGameObj.GetComponent<MiniGame>().OnCompleteServerRpc(success);
+        miniGameObj.GetComponent<MiniGame>().OnComplete(success);
         EventManager.instance.OnPuzzleComplete(success);
         GameManager.instance.DisableMiniGame(MiniGameTypes.SpringTrap);
     }

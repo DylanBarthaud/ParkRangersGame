@@ -28,6 +28,8 @@ public class SnareMiniGame : MiniGameBase
 
     private void Update()
     {
+        base.CheckQuit();
+
         if (Input.GetKeyDown(KeyCode.Mouse0))
         {
             if (slider.value > setChecks.value - 4 &&
@@ -52,14 +54,9 @@ public class SnareMiniGame : MiniGameBase
                 }
             }
 
-            winsAndLosesText.text = $"Wins: {wins}/{winsNeeded} Loses: {loses}/{losesNeeded}";
+            winsAndLosesText.text = ($"Wins: {wins}/{winsNeeded} Loses: {loses}/{losesNeeded}");
 
             ResetGame();
-        }
-        
-        if(Input.GetKeyDown(KeyCode.Q))
-        {
-            EndGame(false);
         }
     }
 
@@ -81,7 +78,7 @@ public class SnareMiniGame : MiniGameBase
     private void EndGame(bool success)
     {
         EventManager.instance.OnPuzzleComplete(success);
-        miniGameObj.GetComponent<MiniGame>().OnCompleteServerRpc(success);
+        miniGameObj.GetComponent<MiniGame>().OnComplete(success);
         GameManager.instance.DisableMiniGame(MiniGameTypes.SnareTrap);
     }
 }

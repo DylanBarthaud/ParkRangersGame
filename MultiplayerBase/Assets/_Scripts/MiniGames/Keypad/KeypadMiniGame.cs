@@ -63,7 +63,7 @@ public class KeypadMiniGame : MiniGameBase
         yield return new WaitForSeconds(0.2f);
 
         Cursor.lockState = CursorLockMode.Locked;
-        miniGameObj.GetComponent<MiniGame>().OnCompleteServerRpc(success);
+        miniGameObj.GetComponent<MiniGame>().OnComplete(success);
         EventManager.instance.OnPuzzleComplete(success);
         GameManager.instance.DisableMiniGame(MiniGameTypes.Keypad);
     }

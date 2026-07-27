@@ -135,16 +135,15 @@ public class GameManager : NetworkBehaviour
     }
 
     #region MiniGameFunctions
-    public void EnableMiniGame(MiniGameTypes gameType, GameObject caller)
+    public void EnableMiniGame(MiniGameTypes gameType, GameObject caller, Interactor interactor)
     {
         GameObject miniGamePanel = miniGameDictionary[gameType];
-        uiManager.EnableMiniGameUi(miniGamePanel, caller);
+        uiManager.EnableMiniGameUi(miniGamePanel, caller, interactor);
     }
 
-    public void DisableMiniGame(MiniGameTypes gameType)
+    public void DisableMiniGame(MiniGameTypes gameType = MiniGameTypes.None)
     {
-        GameObject miniGamePanel = miniGameDictionary[gameType];
-        uiManager.DisableMiniGameUi(miniGamePanel);
+        foreach (var obj in miniGameDictionary.Values) uiManager.DisableMiniGameUi(obj);
     }
 
     private void OnZoneComplete()

@@ -3,7 +3,7 @@ using System;
 using Unity.Netcode;
 using UnityEngine;
 
-public enum MiniGameTypes { SnareTrap, FuseBox, SpringTrap, Keypad, Memory, Generator }
+public enum MiniGameTypes { None, SnareTrap, FuseBox, SpringTrap, Keypad, Memory, Generator }
 [Serializable]
 public struct Pair<Key, Value>
 {
@@ -15,6 +15,7 @@ public class MiniGame : NetworkBehaviour, IInteractable
 {
     [SerializeField] private MiniGameTypes game;
     [SerializeField] private ItemType neededItem = ItemType.None;
+    [SerializeField] private bool usesNeededItem = false;
 
     [SerializeField] private bool canInteract = true;
 
@@ -28,7 +29,7 @@ public class MiniGame : NetworkBehaviour, IInteractable
         {
             playerController.DisableMovement();
             interactor.GetComponent<Inventory>().DisableInv();
-            GameManager.instance.EnableMiniGame(game, gameObject);
+            GameManager.instance.EnableMiniGame(game, gameObject, interactor);
         }
 
         SetCanInteractServerRpc(false);
@@ -44,12 +45,17 @@ public class MiniGame : NetworkBehaviour, IInteractable
         return (false, "");
     }
 
+    public void OnComplete(bool success)
+    {
+        OnCompleteServerRpc(success); 
+    }
+
     [ServerRpc(RequireOwnership = false)]
     public void OnCompleteServerRpc(bool success)
     {
         //Debug.Log(success); 
         SetCanInteractServerRpc(!success);
-        if(success)
+        if (success)
         {
             //if (completesQuest.item1) SendQuestCompleteClientRpc(); 
             ActivateObjsClientRpc();

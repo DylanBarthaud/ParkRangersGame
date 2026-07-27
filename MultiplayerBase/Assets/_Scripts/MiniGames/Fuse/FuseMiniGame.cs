@@ -127,7 +127,7 @@ public class FuseMiniGame : MiniGameBase
         if (current == target) success = true;
 
         Cursor.lockState = CursorLockMode.Locked;
-        miniGameObj.GetComponent<MiniGame>().OnCompleteServerRpc(success);
+        miniGameObj.GetComponent<MiniGame>().OnComplete(success);
         EventManager.instance.OnPuzzleComplete(success);
         GameManager.instance.DisableMiniGame(MiniGameTypes.FuseBox);
     }

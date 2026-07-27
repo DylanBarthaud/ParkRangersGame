@@ -39,10 +39,11 @@ public class UIManager : MonoBehaviour
         SpectatePanel.SetActive(true);
     }
 
-    public void EnableMiniGameUi(GameObject MiniGamePanel, GameObject caller)
+    public void EnableMiniGameUi(GameObject MiniGamePanel, GameObject caller, Interactor interactor)
     {
         MiniGamePanel.SetActive(true);
         MiniGamePanel.GetComponent<MiniGameBase>().SetMiniGameObj(caller);
+        MiniGamePanel.GetComponent<MiniGameBase>().SetInteractor(interactor);
     }
 
     public void DisableMiniGameUi(GameObject MiniGamePanel)

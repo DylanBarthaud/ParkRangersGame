@@ -134,7 +134,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bf178e43f073fb142aee2cf3d26cf03e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  requiredHoldTime: 20
+  maxHoldTime: 5
   onLongClick:
     m_PersistentCalls:
       m_Calls:
@@ -150,6 +150,19 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 100185934797116822}
+        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+        m_MethodName: SetActive
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  Slider: {fileID: 9036007947765552029}
 --- !u!1 &418755456283007725
 GameObject:
   m_ObjectHideFlags: 0
@@ -410,8 +423,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5a7e221e913a78d4b921341f8921e2be, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  slider: {fileID: 9036007947765552029}
-  maxFuelAmount: 100
+  neededFuelAmount: 5
 --- !u!1 &4508732863243186179
 GameObject:
   m_ObjectHideFlags: 0

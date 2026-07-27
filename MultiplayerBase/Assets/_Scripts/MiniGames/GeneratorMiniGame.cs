@@ -1,35 +1,32 @@
 using System.Collections;
+using Unity.Netcode;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class GeneratorMiniGame : MiniGameBase
 {
-    [SerializeField] Slider slider; 
-    [SerializeField] int maxFuelAmount;
-    int currentFuelAmount;
+    [SerializeField] int neededFuelAmount;
 
     private void OnEnable()
     {
-        slider.maxValue = maxFuelAmount;
         Cursor.lockState = CursorLockMode.None;
     }
 
-    public void FillGen()
-    {
-        currentFuelAmount++;
-        if(currentFuelAmount >= maxFuelAmount)
-        {
-            EndGame(true); 
-        }
-        else slider.value = currentFuelAmount;
-    }
+    public void FillGen() => StartCoroutine(EndGame(true)); 
 
     private IEnumerator EndGame(bool success)
     {
+        if (success)
+        {
+            Inventory inv = interactor.GetComponent<Inventory>();
+            Item fuel = inv.HeavyItem; 
+            inv.RemoveItem(fuel);
+            fuel.DespawnItemServerRPC(); 
+        }
+
         yield return new WaitForSeconds(0.2f);
 
         Cursor.lockState = CursorLockMode.Locked;
-        miniGameObj.GetComponent<MiniGame>().OnCompleteServerRpc(success);
+        miniGameObj.GetComponent<MiniGame>().OnComplete(success);
         EventManager.instance.OnPuzzleComplete(success);
         GameManager.instance.DisableMiniGame(MiniGameTypes.Generator);
     }

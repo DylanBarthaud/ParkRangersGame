@@ -210,6 +210,12 @@ public abstract class Item : NetworkBehaviour, IInteractable
         else GFXHandler.DisableGFX("ItemGFX");
     }
 
+    [ServerRpc]
+    public void DespawnItemServerRPC()
+    {
+        GetComponent<NetworkObject>().Despawn(); 
+    }
+
     #region Battery Logic
     public bool AddBattery(string batteryName, int currentPower, int id)
     {
