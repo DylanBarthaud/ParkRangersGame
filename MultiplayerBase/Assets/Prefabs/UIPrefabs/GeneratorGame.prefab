@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 1930050907723887609}
   - component: {fileID: 2757637285655573724}
   - component: {fileID: 8291850835987199303}
-  - component: {fileID: 3964693720718737478}
+  - component: {fileID: 2918383877314058512}
   m_Layer: 5
   m_Name: Button
   m_TagString: Untagged
@@ -122,7 +122,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
---- !u!114 &3964693720718737478
+--- !u!114 &2918383877314058512
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -131,14 +131,25 @@ MonoBehaviour:
   m_GameObject: {fileID: 100185934797116822}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d0b148fe25e99eb48b9724523833bab1, type: 3}
+  m_Script: {fileID: 11500000, guid: bf178e43f073fb142aee2cf3d26cf03e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Delegates:
-  - eventID: 2
-    callback:
-      m_PersistentCalls:
-        m_Calls: []
+  requiredHoldTime: 20
+  onLongClick:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1250279596412081727}
+        m_TargetAssemblyTypeName: GeneratorMiniGame, Assembly-CSharp
+        m_MethodName: FillGen
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &418755456283007725
 GameObject:
   m_ObjectHideFlags: 0
@@ -359,6 +370,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1880277138734193044}
+  - component: {fileID: 1250279596412081727}
   m_Layer: 5
   m_Name: GeneratorGame
   m_TagString: Untagged
@@ -386,6 +398,20 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1250279596412081727
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3838255438668077555}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5a7e221e913a78d4b921341f8921e2be, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  slider: {fileID: 9036007947765552029}
+  maxFuelAmount: 100
 --- !u!1 &4508732863243186179
 GameObject:
   m_ObjectHideFlags: 0
