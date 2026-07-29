@@ -44,6 +44,38 @@ namespace BehaviourTrees
         }
     }
 
+    public class MoveToLocStrategy : IStrategy
+    {
+        readonly NavMeshAgent agent;
+        readonly Func<Vector3> getPos;
+
+        public MoveToLocStrategy(NavMeshAgent agent, Func<Vector3> getPos)
+        {
+            this.agent = agent;
+            this.getPos = getPos;
+        }
+
+        public Node.Status Process()
+        {
+            Vector3 pos = getPos(); 
+
+            Debug.Log($"POS: {pos}"); 
+            agent.SetDestination(pos);
+            agent.isStopped = false;
+
+            NavMeshHit hit;
+            if (NavMesh.SamplePosition(pos, out hit, 500, NavMesh.AllAreas))
+            {
+                agent.SetDestination(hit.position);
+                if (agent.path.status == NavMeshPathStatus.PathPartial) return Node.Status.Failure;
+            }
+
+            if (!agent.pathPending && agent.remainingDistance <= agent.stoppingDistance) return Node.Status.Success;
+
+            return Node.Status.Running;
+        }
+    }
+
     public class PatrolStrategy : IStrategy
     {
         readonly Transform entity;

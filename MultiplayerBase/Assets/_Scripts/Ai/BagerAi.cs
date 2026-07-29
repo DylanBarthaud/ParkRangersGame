@@ -52,6 +52,9 @@ public class BagerAi : NetworkBehaviour
     private bool canHunt = false; 
     private bool aiIsActive = true;
 
+    private Vector3 distractionPos = Vector3.zero; 
+    private Vector3 DistractionPos() => distractionPos;
+
     private void Awake()
     {
         #region Set Up
@@ -61,7 +64,8 @@ public class BagerAi : NetworkBehaviour
         EventManager.instance.onUnBurrow += OnUnBurrow;
         EventManager.instance.onPlayerSpawned += OnPlayerSpawned;
         EventManager.instance.onPlayerKilled += OnPlayerKilled;
-        EventManager.instance.onPlayerHurt += OnPlayerHurt; 
+        EventManager.instance.onPlayerHurt += OnPlayerHurt;
+        EventManager.instance.onDistractionUpdate += UpdateDistraction;
 
         agent = GetComponent<NavMeshAgent>();
         agent.speed = baseSpeed;
@@ -207,17 +211,16 @@ public class BagerAi : NetworkBehaviour
         }
         Vector2 GetSearchArea()
         {
-            float nearest = 1000;
+            float most = 0;
             PlayerInfo player = new(); 
             foreach (BlackboardKey playerKey in GameManager.instance.playerBlackboardKeys)
             {
                 if (blackboard.TryGetValue(playerKey, out PlayerInfo playerInfo))
                 {
-                    float distance = Vector3.Distance(transform.position, playerInfo.position);
-                    if (distance < nearest)
+                    if (most < playerInfo.ravenCount)
                     {
-                        nearest = distance;
                         player = playerInfo;
+                        most = playerInfo.ravenCount;
                     }
                 }
             }
@@ -229,6 +232,10 @@ public class BagerAi : NetworkBehaviour
 
             return new Vector2 (player.position.x + x, player.position.z + y);
         }
+        bool IsDistracted()
+        {
+            return distractionPos != Vector3.zero ? true : false;
+        }
 
         root = new Root("Root");
 
@@ -239,9 +246,15 @@ public class BagerAi : NetworkBehaviour
 
         IfGate inHomeCellLeaf = new IfGate("InHomeCell", new Condition(() => InHomeCell()));
         Leaf setCanHuntTrue = new Leaf("setCanHunt", new ActionStrategy(() => { canHunt = true; }));
+        Leaf setCanHuntFalse = new Leaf("setCanHuntFalse", new ActionStrategy(() => { canHunt = false; }));
+        Leaf resetTree = new Leaf("ResetTree", new ActionStrategy(() =>  root.Reset()));
 
         Sequence goToHomeCellSequence = new Sequence("GoToHomeCellSequence");
         Leaf moveToHomeCell = new Leaf("MoveToHomeCell", new SearchCellStrategy(GetHomeCellPos, agent));
+
+        Sequence distractedSeq = new Sequence("distractedSeq", 110); 
+        Leaf isDistracted = new Leaf("IsDistracted", new Condition(() => IsDistracted()));
+        Leaf moveToDistraction = new Leaf("MoveToDistraction", new MoveToLocStrategy(agent, DistractionPos)); 
 
         PrioritySelector huntSelector = new PrioritySelector("HuntSelector");
 
@@ -253,7 +266,6 @@ public class BagerAi : NetworkBehaviour
         Leaf inDifferentCellAsPlayer = new Leaf("InDifferentCellAsPlayer", new Condition(() => (!InSameCellAsPlayer())));
 
         Sequence stalkPlayerSequence = new Sequence("StalkPlayerSequence", 100);
-
         PlayerInfo PlayerInfo() 
         {
             List<PlayerInfo> seenPlayers = new List<PlayerInfo>(); 
@@ -296,7 +308,6 @@ public class BagerAi : NetworkBehaviour
         Leaf chasePlayer = new Leaf("ChasePlayer", new ChasePlayerStrategy(PlayerInfo, agent, chaseSpeed), 100);
 
         Sequence burrowAndMoveToGridSequence = new Sequence("burrowAndMoveToGridSequence", 50);
-
         Leaf burrow = new Leaf("burrow", new BurrowStrategy(agent, burrowSpeed, 0, IsBurrowed, gfxHandler, audioHandler)); 
         Leaf moveToCell = new Leaf("MoveToPos", new SearchCellStrategy(InvestigateHint, agent));
 
@@ -318,6 +329,10 @@ public class BagerAi : NetworkBehaviour
           
         canHuntSelector.AddChild(canHuntLeaf);
         canHuntLeaf.AddChild(huntSelector);
+
+        huntSelector.AddChild(distractedSeq); 
+        distractedSeq.AddChild(isDistracted);
+        distractedSeq.AddChild(moveToDistraction);
 
         huntSelector.AddChild(stalkPlayerSequence);
         stalkPlayerSequence.AddChild(isntBurrowed);
@@ -369,21 +384,7 @@ public class BagerAi : NetworkBehaviour
         EventManager.instance.onPlayerSpawned -= OnPlayerSpawned;
         EventManager.instance.onPlayerKilled -= OnPlayerKilled;
         EventManager.instance.onPlayerHurt -= OnPlayerHurt;
-    }
-
-    private void OnPlayerSpawned(BlackboardKey key, ulong clientId) => root.Reset();
-    private void OnPlayerHurt()
-    {
-        canHunt = false;
-        root.Reset();
-    }
-    private void OnPlayerKilled(BlackboardKey key)
-    {
-        canHunt = false; 
-
-        //Play animation
-
-        root.Reset();
+        EventManager.instance.onDistractionUpdate += UpdateDistraction;
     }
 
     private void Start()
@@ -403,6 +404,32 @@ public class BagerAi : NetworkBehaviour
         };
 
         blackboard.SetValue(AiMonsterKey, aiInfo);
+    }
+
+    private void OnPlayerSpawned(BlackboardKey key, ulong clientId) => root.Reset();
+    private void OnPlayerHurt()
+    {
+        canHunt = false;
+        root.Reset();
+    }
+    private void OnPlayerKilled(BlackboardKey key)
+    {
+        canHunt = false;
+
+        //Play animation
+
+        root.Reset();
+    }
+
+    private void UpdateDistraction(Vector3 vector)
+    {
+        Vector3 lasDistractionPos = distractionPos; 
+        distractionPos = vector;
+        if (distractionPos != lasDistractionPos)
+        {
+            Debug.Log("RESET ROOT");
+            root.Reset();
+        }
     }
 
     private void Update()

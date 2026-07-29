@@ -42,6 +42,8 @@ public class EventManager : MonoBehaviour
 
     public event Action<TrailCamera> onTrailCameraPlaced;
 
+    public event Action<Vector3> onDistractionUpdate; 
+
     /// <summary>
     /// Tick that happens every 0.2s
     /// </summary>
@@ -116,5 +118,10 @@ public class EventManager : MonoBehaviour
     public void OnTrailCameraPlaced(TrailCamera trailCamera)
     {
         if(onTrailCameraPlaced != null) onTrailCameraPlaced(trailCamera);
+    }
+
+    public void OnDistractionUpdate(Vector3 pos)
+    {
+        if (onDistractionUpdate != null) onDistractionUpdate(pos); 
     }
 }

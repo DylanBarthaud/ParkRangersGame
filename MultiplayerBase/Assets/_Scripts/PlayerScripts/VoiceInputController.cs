@@ -70,10 +70,7 @@ public class VoiceInputController : NetworkBehaviour
 
         source.clip = AudioClip.Create("VoiceData", optimalRate, 1, optimalRate, true, OnAudioRead, null);
         source.loop = true;
-        if (!IsOwner || canHearSelf)
-        {
-            source.Play();
-        }
+        if (!IsOwner || canHearSelf) source.Play();
 
         SteamUser.VoiceRecord = true;
     }
