@@ -1,7 +1,9 @@
 using BlackboardSystem;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using Unity.Netcode;
+using UnityEditor.SearchService;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
@@ -32,7 +34,6 @@ public class GameManager : NetworkBehaviour
     [Header("End Game")]
     [SerializeField] private GameObject endGameCanvas;
     [SerializeField] GameObject EndGameCollider;
-
     
     Terrain terrain;
     [Header("Grid")]
@@ -197,7 +198,7 @@ public class GameManager : NetworkBehaviour
 
         if(numberOfPlayers <= 0)
         {
-            EndGame();
+            EndGame(false);
             return; 
         }
 
@@ -311,12 +312,13 @@ public class GameManager : NetworkBehaviour
         NetworkManager.Singleton.SceneManager.LoadScene("Menu", LoadSceneMode.Single);
     }
 
-    public void EndGame()
+    public void EndGame(bool win)
     {
-        endGameCanvas.SetActive(true);
-        EndScreenManager endManager = endGameCanvas.GetComponent<EndScreenManager>();
-        endManager.OpenDisplay();
+        if (!NetworkManager.Singleton.IsHost) return;
+        string scene = win ? "WinScene" : "LossScene"; 
+        NetworkManager.Singleton.SceneManager.LoadScene(scene, LoadSceneMode.Single);
     }
+
 
     [ServerRpc(RequireOwnership = false)]
     public void HandlePlayerDisconnectServerRPC(ulong clientID)
@@ -326,7 +328,7 @@ public class GameManager : NetworkBehaviour
         numberOfPlayers--;
         if (numberOfPlayers <= 0)
         {
-            EndGame();
+            EndGame(false);
             return;
         }
     }
@@ -337,10 +339,7 @@ public class GameManager : NetworkBehaviour
 
         foreach (NetworkObject networkObject in NetworkManager.Singleton.SpawnManager.SpawnedObjectsList)
         {
-            if (networkObject.OwnerClientId == clientId)
-            {
-                networkObject.Despawn();
-            }
+            if (networkObject.OwnerClientId == clientId) networkObject.Despawn();
         }
     }
 }

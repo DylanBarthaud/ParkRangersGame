@@ -29,7 +29,7 @@ public class EndTrigger : MonoBehaviour
 
         if (playersIn == amountOfPlayers*2 && playersIn >= 1)
         {
-            _gameManager.EndGame();
+            _gameManager.EndGame(true);
         }
     }
 }
