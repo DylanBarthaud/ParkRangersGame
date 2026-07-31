@@ -75,7 +75,8 @@ public class PlayerInfoHolder : NetworkBehaviour, IAiSensible, IHurtable
 
         localRavenTick = 0;
         localLoseRavenTick = 0;
-        injuredFilter.SetActive(false);
+        injuredFilter.SetActive(true);
+        injuredFilter.GetComponent<Image>().color = endColor;
     }
 
     public override void OnNetworkDespawn()
@@ -257,9 +258,13 @@ public class PlayerInfoHolder : NetworkBehaviour, IAiSensible, IHurtable
             blackboard.SetValue(playerInfo_Key, playerInfo);
         });
 
-        if (playerInfo.health <= 50 && playerInfo.health > 0)
+        float t = 1f - (playerInfo.health / 100f);
+        injuredFilter.GetComponent<Image>().color = Color.Lerp(endColor, startColor, t);
+
+        if (playerInfo.health <= 50 
+            && playerInfo.health > 0 
+            && caller == "Monster_Ai")
         {
-            injuredFilter.SetActive(true);
             multiplayerAudioHandler.PlaySoundServerRpc("Scream");
             multiplayerAudioHandler.AudioHandler.PlaySound("Heartbeat");
             StartCoroutine(FadeOutDamagedOverlay()); 
@@ -296,14 +301,11 @@ public class PlayerInfoHolder : NetworkBehaviour, IAiSensible, IHurtable
         while(t < 1)
         {
             float lerped = Mathf.Lerp(2, 0.3f, t);
-            injuredFilter.GetComponent<Image>().color = Color.Lerp(startColor, endColor, t);
             multiplayerAudioHandler.AudioHandler.ChangeAudioSourceVolume(2, lerped); 
 
             yield return null;
             t += Time.deltaTime; 
         }
-
-        injuredFilter.SetActive(false);
     }
 
     private void OnApplicationQuit()

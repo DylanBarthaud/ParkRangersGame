@@ -2,6 +2,8 @@ using Steamworks.Data;
 using TMPro;
 using UnityEngine;
 using Unity.Netcode;
+using System;
+using UnityEngine.SceneManagement;
 
 
 public class LobbySaver : MonoBehaviour
@@ -18,11 +20,14 @@ public class LobbySaver : MonoBehaviour
         }
 
         else Destroy(gameObject);
+
+        NetworkManager.Singleton.OnClientStopped += QuitToMainMenu;
     }
 
-    public void QuitToMainMenu()
+    public void QuitToMainMenu(bool isHost)
     {
         LeaveLobby();
+        SceneManager.LoadScene("Menu"); 
     }
 
     private void OnApplicationQuit()

@@ -9727,6 +9727,7 @@ GameObject:
   - component: {fileID: 8775005053612764598}
   - component: {fileID: 8429107840558492342}
   - component: {fileID: 7425174682511964022}
+  - component: {fileID: 6143043363888991624}
   m_Layer: 3
   m_Name: Campfire_Puzzle
   m_TagString: Untagged
@@ -9769,7 +9770,7 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 0.95, y: 2, z: 0.95}
+  m_Size: {x: 1, y: 2, z: 1}
   m_Center: {x: 0, y: 1, z: 0}
 --- !u!114 &8775005053612764598
 MonoBehaviour:
@@ -9829,6 +9830,21 @@ MonoBehaviour:
   ShowTopMostFoldoutHeaderGroup: 1
   gfxWrapperArray:
   - {fileID: 8386893052006686551}
+--- !u!114 &6143043363888991624
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5860288625417710225}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7d04ffc0a8b271d43a8f07067d1b8ace, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  objName: Fire
+  dmg: 5
+  repeats: 1
 --- !u!1 &8969858220376484761
 GameObject:
   m_ObjectHideFlags: 0
