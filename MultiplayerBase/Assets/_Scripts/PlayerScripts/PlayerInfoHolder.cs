@@ -63,7 +63,7 @@ public class PlayerInfoHolder : NetworkBehaviour, IAiSensible, IHurtable
 
         UpdateInfo(false, 0);
 
-        RegisterPlayerKeyServerRPC(); 
+        if(IsHost) RegisterPlayerKeyServerRPC(); 
 
         EventManager.instance.onTick_5 += OnTick_5;
         EventManager.instance.onTick += OnTick; 
