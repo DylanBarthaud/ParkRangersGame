@@ -1,15 +1,7 @@
 using BlackboardSystem;
-using JetBrains.Annotations;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.CompilerServices;
-using Unity.Netcode;
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.InputSystem;
 using UnityEngine.UI;
-using UnityEngine.XR;
 
 public class Inventory : MonoBehaviour
 {

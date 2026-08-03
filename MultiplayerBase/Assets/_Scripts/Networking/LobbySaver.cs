@@ -30,10 +30,7 @@ public class LobbySaver : MonoBehaviour
         SceneManager.LoadScene("Menu"); 
     }
 
-    private void OnApplicationQuit()
-    {
-        LeaveLobby();
-    }
+    private void OnApplicationQuit() => LeaveLobby();
 
     public void LeaveLobby()
     {
