@@ -63,7 +63,12 @@ public class PlayerInfoHolder : NetworkBehaviour, IAiSensible, IHurtable
 
         UpdateInfo(false, 0);
 
-        if(IsHost) RegisterPlayerKeyServerRPC(); 
+        Blackboard blackboard = BlackboardController.instance.GetBlackboard();
+
+        string clientIDString = OwnerClientId.ToString();
+
+        playerInfo_Key = blackboard.GetOrRegisterKey("Player" + clientIDString + "InfoKey");
+        blackboard.SetValue(playerInfo_Key, playerInfo);
 
         EventManager.instance.onTick_5 += OnTick_5;
         EventManager.instance.onTick += OnTick; 
@@ -121,19 +126,6 @@ public class PlayerInfoHolder : NetworkBehaviour, IAiSensible, IHurtable
             RemoveCrowServerRPC();
             localLoseRavenTick = 0;
         }
-    }
-
-    [ServerRpc]
-    private void RegisterPlayerKeyServerRPC() => RegisterPlayerKeyClientRPC();
-    [ClientRpc]
-    private void RegisterPlayerKeyClientRPC()
-    {
-        Blackboard blackboard = BlackboardController.instance.GetBlackboard();
-
-        string clientIDString = OwnerClientId.ToString();
-
-        playerInfo_Key = blackboard.GetOrRegisterKey("Player" + clientIDString + "InfoKey");
-        blackboard.SetValue(playerInfo_Key, playerInfo);
     }
 
     [ServerRpc(RequireOwnership = false)]
