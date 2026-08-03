@@ -145,7 +145,6 @@ public abstract class Item : NetworkBehaviour, IInteractable
     private void DropItemServerRpc(Vector3 newPos, Vector3 foward)
     {
         Debug.Log("DROP SERVERRPC");
-        isBeingHeld = false;
         SetItemColliderClientRpc(true);
         DropItemClientRpc(newPos, foward);
         if (gFXHandler != null && removeOnPickUp) gFXHandler.EnableGFXServerRpc("ItemGFX");
@@ -154,7 +153,8 @@ public abstract class Item : NetworkBehaviour, IInteractable
     [ClientRpc]
     private void DropItemClientRpc(Vector3 newPos, Vector3 foward)
     {
-        Debug.Log("DROP"); 
+        Debug.Log("DROP");
+        isBeingHeld = false;
         transform.position = newPos;
         usingPower = false;
 
