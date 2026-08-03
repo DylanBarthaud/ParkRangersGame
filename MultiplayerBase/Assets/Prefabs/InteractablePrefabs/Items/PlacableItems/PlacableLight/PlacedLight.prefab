@@ -159,6 +159,7 @@ GameObject:
   - component: {fileID: 9176414421501376804}
   - component: {fileID: 7737711175764656036}
   - component: {fileID: 5572978024798407990}
+  - component: {fileID: 3063779289685413990}
   m_Layer: 0
   m_Name: Spot Light
   m_TagString: Untagged
@@ -284,6 +285,19 @@ MonoBehaviour:
   anisotropy: -0.193
   scattering: 0.07
   radius: 0.2
+--- !u!114 &3063779289685413990
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7224040046557630722}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 659030251effde74b91eb72b99fa8a05, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tragetModel: {fileID: 0}
 --- !u!1001 &2298468882676647566
 PrefabInstance:
   m_ObjectHideFlags: 0
