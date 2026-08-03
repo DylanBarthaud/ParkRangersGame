@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 3643374119816089386}
   - component: {fileID: 2330411706028655018}
   - component: {fileID: 8367953737668332821}
+  - component: {fileID: -4318638668772109882}
   m_Layer: 0
   m_Name: PlacedLight
   m_TagString: Untagged
@@ -96,6 +97,18 @@ MonoBehaviour:
   ShowTopMostFoldoutHeaderGroup: 1
   gfxWrapperArray:
   - {fileID: 8861587434187204529}
+--- !u!114 &-4318638668772109882
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2895811010072939249}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 86cf9f25fc8831d4292aa58db52f090d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &3983298035936397215
 GameObject:
   m_ObjectHideFlags: 0

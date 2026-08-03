@@ -99,6 +99,7 @@ GameObject:
   - component: {fileID: 2330411706028655018}
   - component: {fileID: 8367953737668332821}
   - component: {fileID: -4683835395650169121}
+  - component: {fileID: 2926324971267006422}
   m_Layer: 0
   m_Name: PlacedTrailCam
   m_TagString: Untagged
@@ -199,6 +200,18 @@ MonoBehaviour:
   ShowTopMostFoldoutHeaderGroup: 1
   _camera: {fileID: 1748666992988086465}
   renderTexture: {fileID: 8400000, guid: 965655aec7eb50d44a4b164811acec47, type: 2}
+--- !u!114 &2926324971267006422
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2895811010072939249}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 86cf9f25fc8831d4292aa58db52f090d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &3147236775910178490
 GameObject:
   m_ObjectHideFlags: 0

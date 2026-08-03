@@ -101,6 +101,7 @@ GameObject:
   - component: {fileID: 8367953737668332821}
   - component: {fileID: -3104697344000592725}
   - component: {fileID: -4453951989133440975}
+  - component: {fileID: 2840520085588255589}
   m_Layer: 0
   m_Name: PlacedMovementSensor
   m_TagString: Untagged
@@ -373,6 +374,18 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &2840520085588255589
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2895811010072939249}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 86cf9f25fc8831d4292aa58db52f090d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &3983298035936397215
 GameObject:
   m_ObjectHideFlags: 0

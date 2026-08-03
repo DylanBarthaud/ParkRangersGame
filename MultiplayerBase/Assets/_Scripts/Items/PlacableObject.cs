@@ -58,23 +58,12 @@ public class PlacableObject : Item
             RaycastHit hit;
             if (Physics.Raycast(ray, out hit, maxPlaceDistance, layerMask))
             {
-                SpawnObjectOnServerRpc(hit.point); 
+                previewObj.GetComponent<PlaceOnNetwork>().SpawnObjectOnServerRpc(hit.point); 
                 previewObj.GetComponent<GFXHandler>().ChangeGFXMaterialServerRpc("CameraGFX", 0); 
             }
         }
 
         if (itemIsSpawned && Input.GetKey(KeyCode.E) && previewObj != null) previewObj.transform.Rotate(new Vector3(0, 5, 0)); 
         if (itemIsSpawned && Input.GetKey(KeyCode.Q) && previewObj != null) previewObj.transform.Rotate(new Vector3(0, -5, 0));
-
     }
-
-    [ServerRpc(RequireOwnership = false)]
-    private void SpawnObjectOnServerRpc(Vector3 position)
-    {
-        previewObj.GetComponent<NetworkObject>().Spawn();
-        SpawnObjectOnClientRpc(position); 
-    }
-
-    [ClientRpc]
-    private void SpawnObjectOnClientRpc(Vector3 position) => previewObj.transform.position = position;
 }
