@@ -42,14 +42,11 @@ public class PlayerSpawner : NetworkBehaviour
             GameObject player = Instantiate(playerPrefab, new Vector3(1475 + i * 5, 85, 1300), Quaternion.identity);
             player.GetComponent<NetworkObject>().SpawnAsPlayerObject(id, DESTROY_WITH_SCENE_BOOL);
 
-            PlayerInfo info = player.GetComponent<PlayerInfoHolder>().GetPlayerInfo();
-
             string idAsString = id.ToString();
             string keyName = "Player" + idAsString + "InfoKey";
 
             BlackboardKey key = blackboard.GetOrRegisterKey(keyName);
 
-            blackboard.SetValue(key, info);
             EventManager.instance.OnPlayerSpawned(key, id);
             i++;
         }

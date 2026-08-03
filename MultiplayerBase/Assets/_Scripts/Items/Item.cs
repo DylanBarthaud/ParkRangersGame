@@ -144,6 +144,8 @@ public abstract class Item : NetworkBehaviour, IInteractable
     [ServerRpc(RequireOwnership = false)]
     private void DropItemServerRpc(Vector3 newPos, Vector3 foward)
     {
+        Debug.Log("DROP SERVERRPC");
+        isBeingHeld = false;
         SetItemColliderClientRpc(true);
         DropItemClientRpc(newPos, foward);
         if (gFXHandler != null && removeOnPickUp) gFXHandler.EnableGFXServerRpc("ItemGFX");
@@ -152,6 +154,7 @@ public abstract class Item : NetworkBehaviour, IInteractable
     [ClientRpc]
     private void DropItemClientRpc(Vector3 newPos, Vector3 foward)
     {
+        Debug.Log("DROP"); 
         transform.position = newPos;
         usingPower = false;
 
@@ -166,16 +169,13 @@ public abstract class Item : NetworkBehaviour, IInteractable
         GetComponent<Rigidbody>().AddForce(foward * throwForceFoward, ForceMode.Impulse);
     }
 
-    [ServerRpc(RequireOwnership = false)] 
-    protected void SetItemColliderServerRpc(bool enabled)
-    {
-        SetItemColliderClientRpc(enabled);
-    }
+    [ServerRpc(RequireOwnership = false)]
+    protected void SetItemColliderServerRpc(bool enabled) => SetItemColliderClientRpc(enabled);
 
     [ClientRpc]
     private void SetItemColliderClientRpc(bool enabled)
     {
-        Debug.Log("Set collieder false"); 
+        Debug.Log("Set collieder"); 
         GetComponent<Rigidbody>().useGravity = false;
         GetComponent<Collider>().enabled = enabled;
     }
@@ -183,10 +183,7 @@ public abstract class Item : NetworkBehaviour, IInteractable
     [ServerRpc(RequireOwnership = false)]
     protected void SetCanPickUpItemServerRPC(bool canPickUp) => SetCanPickUpItemClientRPC(canPickUp);
     [ClientRpc]
-    private void SetCanPickUpItemClientRPC(bool canPickUp)
-    {
-        canPickUpItem = canPickUp;
-    }
+    private void SetCanPickUpItemClientRPC(bool canPickUp) => canPickUpItem = canPickUp;
 
     [ServerRpc(RequireOwnership = false)]
     public void EnableCarriedItemGFXServerRPC(bool enable, BlackboardKey holderKey) => EnableCarriedItemGFXClientRPC(enable, holderKey);
@@ -210,11 +207,8 @@ public abstract class Item : NetworkBehaviour, IInteractable
         else GFXHandler.DisableGFX("ItemGFX");
     }
 
-    [ServerRpc]
-    public void DespawnItemServerRPC()
-    {
-        GetComponent<NetworkObject>().Despawn(); 
-    }
+    [ServerRpc(RequireOwnership = false)]
+    public void DespawnItemServerRPC() => GetComponent<NetworkObject>().Despawn();
 
     #region Battery Logic
     public bool AddBattery(string batteryName, int currentPower, int id)

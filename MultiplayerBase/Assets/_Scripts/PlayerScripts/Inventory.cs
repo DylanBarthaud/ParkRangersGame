@@ -191,7 +191,6 @@ public class Inventory : MonoBehaviour
 
     public void RemoveItem(Item item)
     {
-        item.isBeingHeld = false;
         item.GFXHandler.ChangeGFXRenderLayerServerRpc("ItemGFX", 2);
 
         for (int i = 0; i < batteryContainer.childCount; i++)

@@ -2,13 +2,9 @@ using BlackboardSystem;
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using Unity.Netcode;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.UI;
-using UnityEngine.UIElements;
 using Image = UnityEngine.UI.Image;
 
 public class PlayerInfoHolder : NetworkBehaviour, IAiSensible, IHurtable
@@ -44,10 +40,7 @@ public class PlayerInfoHolder : NetworkBehaviour, IAiSensible, IHurtable
 
     public override void OnNetworkSpawn()
     {
-        string clientIDString = OwnerClientId.ToString();
-        playerInfo_Key = new BlackboardKey("Player" + clientIDString + "InfoKey");
-
-        if(!IsOwner)
+        if (!IsOwner)
         {
             playerCompass.SetActive(false);
             playerInv.SetActive(false);
@@ -69,6 +62,8 @@ public class PlayerInfoHolder : NetworkBehaviour, IAiSensible, IHurtable
         };
 
         UpdateInfo(false, 0);
+
+        RegisterPlayerKeyServerRPC(); 
 
         EventManager.instance.onTick_5 += OnTick_5;
         EventManager.instance.onTick += OnTick; 
@@ -126,6 +121,19 @@ public class PlayerInfoHolder : NetworkBehaviour, IAiSensible, IHurtable
             RemoveCrowServerRPC();
             localLoseRavenTick = 0;
         }
+    }
+
+    [ServerRpc]
+    private void RegisterPlayerKeyServerRPC() => RegisterPlayerKeyClientRPC();
+    [ClientRpc]
+    private void RegisterPlayerKeyClientRPC()
+    {
+        Blackboard blackboard = BlackboardController.instance.GetBlackboard();
+
+        string clientIDString = OwnerClientId.ToString();
+
+        playerInfo_Key = blackboard.GetOrRegisterKey("Player" + clientIDString + "InfoKey");
+        blackboard.SetValue(playerInfo_Key, playerInfo);
     }
 
     [ServerRpc(RequireOwnership = false)]
