@@ -57,7 +57,7 @@ public class FootstepsPlayerScript : MonoBehaviour
                 {
                     eventTrigger = false;
                     PlayFootstepSound();
-                    Debug.Log("played footstep sound");
+                    //Debug.Log("played footstep sound");
 
                 }
                 else if (playerRef.joint.localPosition.magnitude < 0.76f)
@@ -74,7 +74,7 @@ public class FootstepsPlayerScript : MonoBehaviour
             else if (playerRef.joint.localPosition.magnitude < 0.76f)
             {
                 eventTrigger = true;
-                Debug.Log("ResetSound");
+                //Debug.Log("ResetSound");
             }
             else
             {

@@ -12,7 +12,6 @@ GameObject:
   - component: {fileID: 6110168908339651320}
   - component: {fileID: 1305444411614190103}
   - component: {fileID: 1584042176706443986}
-  - component: {fileID: 8018075846436948637}
   m_Layer: 0
   m_Name: CenterPoint (1)
   m_TagString: Untagged
@@ -121,19 +120,6 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &8018075846436948637
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2881884831404622396}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6d502a1ba74482b438b2fa95a239b171, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  speed: 0.05
 --- !u!1 &8393697960155139392
 GameObject:
   m_ObjectHideFlags: 0
@@ -394,6 +380,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2290520447095214484}
   - component: {fileID: 4963149459832260720}
+  - component: {fileID: 5657115405388025284}
   m_Layer: 0
   m_Name: CirclingRavens
   m_TagString: Untagged
@@ -432,6 +419,23 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 0.5
+  lights: {fileID: 2881884831404622396}
+  SpinOnStart: 1
+--- !u!114 &5657115405388025284
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8995609749260116719}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6d502a1ba74482b438b2fa95a239b171, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  speed: -0.2
+  lights: {fileID: 8450986073674484893}
+  SpinOnStart: 1
 --- !u!1001 &161759176646709935
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -20,7 +20,7 @@ public class inspectScript : MonoBehaviour
 
     private void Update()
     {
-        if (!isInspecting) return;  
+        if (!isInspecting) return;
 
         RaycastHit hit;
         Vector3 fwd = Camera.main.transform.TransformDirection(Vector3.forward);
@@ -66,12 +66,7 @@ public class inspectScript : MonoBehaviour
                 }
 
                 if (raycastedObj != null) raycastedObj.ShowObjectName(inspectController);
-                CrosshairChange(true);
-
-                if (!doOnce)
-                {
-
-                }
+                if (!doOnce) CrosshairChange(true);
 
                 isCrosshairActive = true;
                 doOnce = true;
@@ -94,15 +89,19 @@ public class inspectScript : MonoBehaviour
     }
     void CrosshairChange(bool on)
     {
-        if (on && !doOnce)
+        if (on)
         {
-            //crosshair.color = Color.red;
-            crosshair.sprite = crosshairInteract;
+            Debug.Log("ENABLE CROSSHAIR");
+
+            crosshair.color = Color.red;
+            //crosshair.sprite = crosshairInteract;
         }
         else
         {
-            //crosshair.color = Color.white;
-            crosshair.sprite = crosshairDefault;
+            Debug.Log("DISABLE CROSSHAIR");
+
+            crosshair.color = Color.white;
+            //crosshair.sprite = crosshairDefault;
             isCrosshairActive = false;
         }
     }

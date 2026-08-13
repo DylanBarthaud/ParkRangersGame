@@ -29,7 +29,8 @@ public class GameManager : NetworkBehaviour
     private Dictionary<MiniGameTypes, GameObject> miniGameDictionary = new Dictionary<MiniGameTypes, GameObject>();
     
     public MapHandler mapHandler;
-    
+
+    [SerializeField] private TowerController towerController; 
     
     [Header("End Game")]
     [SerializeField] private GameObject endGameCanvas;
@@ -162,7 +163,9 @@ public class GameManager : NetworkBehaviour
         if (buttonsPressed >= taskCompleteNeeded) 
         {
             EndGameCollider.SetActive(true);
-            //Debug.Log("RUN FOR YOUR LIFE!!");
+
+            towerController.EnableFloodLights();
+            towerController.EnableSiren();
         }
     }
 
