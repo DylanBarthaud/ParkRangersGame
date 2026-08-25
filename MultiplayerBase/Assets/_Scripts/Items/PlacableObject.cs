@@ -1,3 +1,4 @@
+using System;
 using Unity.Netcode;
 using UnityEngine;
 
@@ -52,18 +53,32 @@ public class PlacableObject : Item
 
         if (itemIsSpawned && Input.GetMouseButtonUp(0) && previewObj != null)
         {
-            placing = false; 
+            placing = false;
+
+            Vector3 pos = previewObj.transform.position;
+            Quaternion rot = previewObj.transform.rotation;
+
+            Destroy(previewObj); 
+            previewObj = null;
 
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             RaycastHit hit;
             if (Physics.Raycast(ray, out hit, maxPlaceDistance, layerMask))
             {
-                previewObj.GetComponent<PlaceOnNetwork>().SpawnObjectOnServerRpc(hit.point); 
-                previewObj.GetComponent<GFXHandler>().ChangeGFXMaterialServerRpc("CameraGFX", 0); 
+                SpawnObjServerRPC(pos, rot);
             }
         }
 
         if (itemIsSpawned && Input.GetKey(KeyCode.E) && previewObj != null) previewObj.transform.Rotate(new Vector3(0, 5, 0)); 
         if (itemIsSpawned && Input.GetKey(KeyCode.Q) && previewObj != null) previewObj.transform.Rotate(new Vector3(0, -5, 0));
+    }
+
+    [ServerRpc(RequireOwnership = false)]
+    private void SpawnObjServerRPC(Vector3 pos, Quaternion rot)
+    {
+        GameObject placedObj = Instantiate(objectPrefab, pos, rot);
+        placedObj.GetComponent<NetworkObject>().Spawn();
+
+        placedObj.GetComponent<GFXHandler>().ChangeGFXMaterialServerRpc("CameraGFX", 0);
     }
 }

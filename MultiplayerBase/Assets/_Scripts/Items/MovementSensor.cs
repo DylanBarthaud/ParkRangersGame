@@ -1,9 +1,10 @@
 using System;
 using System.Collections;
+using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.Audio;
 
-public class MovementSensor : MonoBehaviour
+public class MovementSensor : NetworkBehaviour
 {
     [Header("Detection")]
     [SerializeField] float radius; 
@@ -17,10 +18,8 @@ public class MovementSensor : MonoBehaviour
     [SerializeField] AudioClip audioClip;
 
 
-    private void Awake()
-    {
-        EventManager.instance.onTick_5 += CheckForMovement;
-    }
+    public override void OnNetworkSpawn() => EventManager.instance.onTick_5 += CheckForMovement;
+    public override void OnNetworkDespawn() => EventManager.instance.onTick_5 -= CheckForMovement;
 
     int wait = 0;
     private void CheckForMovement(int tick)
