@@ -5,7 +5,7 @@ public class Flare : Item
 {
     [Header("Flare Settings")]
     private GFXHandler gfx;
-    private float duration = 5; 
+    [SerializeField] private float duration = 5; 
 
     private void Awake()
     {
