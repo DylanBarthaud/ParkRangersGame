@@ -119,6 +119,8 @@ public class FuseMiniGame : MiniGameBase
         leverIndexIsActiveDictionary.Clear();
         leverBinaryValues.Clear();
         fuseDisplay.ClearLeverValuesKeyTextServerRpc();
+
+        foreach (var lever in levers) lever.GetComponent<Image>().sprite = leverSpriteOff;
     }
 
     public void EnterGuess()
