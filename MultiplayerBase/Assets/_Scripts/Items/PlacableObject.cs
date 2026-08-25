@@ -77,7 +77,7 @@ public class PlacableObject : Item
     private void SpawnObjServerRPC(Vector3 pos, Quaternion rot)
     {
         GameObject placedObj = Instantiate(objectPrefab, pos, rot);
-        placedObj.GetComponent<NetworkObject>().Spawn();
+        placedObj.GetComponent<NetworkObject>().Spawn(true);
 
         placedObj.GetComponent<GFXHandler>().ChangeGFXMaterialServerRpc("CameraGFX", 0);
     }
