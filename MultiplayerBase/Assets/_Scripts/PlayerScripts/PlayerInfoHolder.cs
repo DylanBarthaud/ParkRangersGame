@@ -44,6 +44,7 @@ public class PlayerInfoHolder : NetworkBehaviour, IAiSensible, IHurtable
         {
             playerCompass.SetActive(false);
             playerInv.SetActive(false);
+            injuredFilter.SetActive(false);
         }
 
         playerInfo = new PlayerInfo
@@ -265,7 +266,7 @@ public class PlayerInfoHolder : NetworkBehaviour, IAiSensible, IHurtable
             && playerInfo.health > 0 
             && caller == "Monster_Ai")
         {
-            multiplayerAudioHandler.PlaySoundServerRpc("Scream");
+            multiplayerAudioHandler.AudioHandler.PlaySound("Scream");
             multiplayerAudioHandler.AudioHandler.PlaySound("Heartbeat");
             StartCoroutine(FadeOutDamagedOverlay()); 
         }

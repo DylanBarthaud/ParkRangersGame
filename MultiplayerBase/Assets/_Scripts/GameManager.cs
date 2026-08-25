@@ -162,10 +162,15 @@ public class GameManager : NetworkBehaviour
         if (buttonsPressed >= taskCompleteNeeded) 
         {
             EndGameCollider.SetActive(true);
-
-            towerController.EnableFloodLights();
-            towerController.EnableSiren();
+            activateTowerLightsClientRPC();
         }
+    }
+
+    [ClientRpc]
+    private void activateTowerLightsClientRPC()
+    {
+        towerController.EnableFloodLights();
+        towerController.EnableSiren();
     }
 
     #endregion

@@ -40,6 +40,7 @@ public class CheckInTable : NetworkBehaviour, IInteractable
 
     private void OnPuzzleComplete(bool sucess, IInteractable interactable)
     {
+        Debug.Log("HERE");
         if (!sucess || !isZoneController) return;
         if (GameManager.instance.PlayerInSameZone(zoneInfoArr[0].Zone)) PuzzleCompleteServerRPC();
     }
