@@ -250,6 +250,7 @@ public class PlayerInfoHolder : NetworkBehaviour, IAiSensible, IHurtable
     #region IHurtable Implimentation
     public void IsHurt(string caller, int amount)
     {
+
         playerInfo.health -= amount;
         if (caller == "Monster_Ai") playerInfo.ravenCount = 0;
 
@@ -259,16 +260,19 @@ public class PlayerInfoHolder : NetworkBehaviour, IAiSensible, IHurtable
             blackboard.SetValue(playerInfo_Key, playerInfo);
         });
 
-        float t = 1f - (playerInfo.health / 100f);
-        injuredFilter.GetComponent<Image>().color = Color.Lerp(endColor, startColor, t);
-
-        if (playerInfo.health <= 50 
-            && playerInfo.health > 0 
-            && caller == "Monster_Ai")
+        if (IsOwner)
         {
-            multiplayerAudioHandler.AudioHandler.PlaySound("Scream");
-            multiplayerAudioHandler.AudioHandler.PlaySound("Heartbeat");
-            StartCoroutine(FadeOutDamagedOverlay()); 
+            float t = 1f - (playerInfo.health / 100f);
+            injuredFilter.GetComponent<Image>().color = Color.Lerp(endColor, startColor, t);
+
+            if (playerInfo.health <= 50
+                && playerInfo.health > 0
+                && caller == "Monster_Ai")
+            {
+                multiplayerAudioHandler.AudioHandler.PlaySound("Scream");
+                multiplayerAudioHandler.AudioHandler.PlaySound("Heartbeat");
+                StartCoroutine(FadeOutDamagedOverlay());
+            }
         }
 
         if (playerInfo.health <= 0) IsKilled();

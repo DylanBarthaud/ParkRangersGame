@@ -300,7 +300,7 @@ public class VoiceInputController : NetworkBehaviour
     {
 
         //if (IsOwner) return;
-        if(active && CanUseRadio)
+        if(active)
         {
             source.spatialBlend = 0;
             source.outputAudioMixerGroup = radioMixer;
