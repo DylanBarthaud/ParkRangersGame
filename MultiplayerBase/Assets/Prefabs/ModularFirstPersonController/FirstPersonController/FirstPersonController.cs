@@ -661,11 +661,13 @@ public class FirstPersonController : NetworkBehaviour
         if (Physics.Raycast(origin, direction, out RaycastHit hit, distance))
         {
             Debug.DrawRay(origin, direction * distance, Color.red);
-            EnableIsGroundedServerRpc(true); 
+            EnableIsGroundedServerRpc(true);
+            isGrounded = true;
         }
         else
         {
             EnableIsGroundedServerRpc(false);
+            isGrounded = false;
         }
     }
 
@@ -681,6 +683,7 @@ public class FirstPersonController : NetworkBehaviour
         if (isGrounded)
         {
             rb.AddForce(0f, jumpPower, 0f, ForceMode.Impulse);
+            isGrounded = false;
             EnableIsGroundedServerRpc(false);
         }
 
@@ -771,7 +774,7 @@ public class FirstPersonController : NetworkBehaviour
     [ClientRpc]
     private void EnableIsGroundedClientRpc(bool enabled)
     {
-        //if (IsOwner) return;
+        if (IsOwner) return;
         isGrounded = enabled;
     }
 }
