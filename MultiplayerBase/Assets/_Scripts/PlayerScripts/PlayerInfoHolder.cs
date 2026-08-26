@@ -318,4 +318,9 @@ public class PlayerInfoHolder : NetworkBehaviour, IAiSensible, IHurtable
         //NetworkObject.ChangeOwnership(0); 
         if(IsOwner) IsKilled();
     }
+
+    public void QuitToMenu()
+    {
+        LobbySaver.instance.QuitToMainMenu(IsHost);
+    }
 }
