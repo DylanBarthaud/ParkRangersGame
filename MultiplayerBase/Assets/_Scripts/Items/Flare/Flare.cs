@@ -31,4 +31,10 @@ public class Flare : Item
         yield return new WaitForSeconds(duration);
         DespawnItemServerRPC(); 
     }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.CompareTag("Monster")) 
+            DespawnItemServerRPC();
+    }
 }

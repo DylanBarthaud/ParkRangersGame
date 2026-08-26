@@ -4,11 +4,14 @@ using UnityEngine;
 
 public class GeneratorMiniGame : MiniGameBase
 {
+    [SerializeField] private GameObject buttonObj;
+
     [SerializeField] int neededFuelAmount;
 
     private void OnEnable()
     {
         Cursor.lockState = CursorLockMode.None;
+        buttonObj.SetActive(true);
     }
 
     public void FillGen() => StartCoroutine(EndGame(true)); 

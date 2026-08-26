@@ -30,7 +30,7 @@ public class lightFlashing : MonoBehaviour
         {
             if (randomFlashes)
             {
-                randomFlashInterval = Random.Range(5, flashInterval);
+                randomFlashInterval = Random.Range(1, flashInterval);
                 yield return new WaitForSeconds(randomFlashInterval);
             }
             else
@@ -63,6 +63,8 @@ public class lightFlashing : MonoBehaviour
 
     IEnumerator FlashLight()
     {
+        int flashes = Random.Range(1, flashQuantity);
+
         while (true)
         {
             
@@ -72,7 +74,7 @@ public class lightFlashing : MonoBehaviour
 
 
 
-            if (microFlashCount <= (flashQuantity * 2) - 1)
+            if (microFlashCount <= (flashes * 2) - 1)
             {
                 microFlashCount = microFlashCount + 1;
 

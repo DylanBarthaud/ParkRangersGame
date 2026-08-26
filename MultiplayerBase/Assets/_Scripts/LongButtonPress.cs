@@ -15,6 +15,8 @@ public class LongButtonPress : MonoBehaviour, IPointerDownHandler, IPointerUpHan
     [SerializeField] private Slider Slider;
 
     private void Awake() => Slider.maxValue = maxHoldTime;
+    private void OnEnable() => Slider.value = 0;
+
     public void OnPointerDown(PointerEventData eventData) => pointerDown = true;
 
     public void OnPointerUp(PointerEventData eventData)
@@ -22,17 +24,21 @@ public class LongButtonPress : MonoBehaviour, IPointerDownHandler, IPointerUpHan
         pointerDown = false;
         Slider.value = 0;
         pointerDownTimer = 0; 
-        Debug.Log("PointerUp");
     }
 
     private void Update()
     {
         if (pointerDown)
         {
-            pointerDownTimer += Time.deltaTime; 
-            if(pointerDownTimer >= maxHoldTime) onLongClick.Invoke();
-            
+            pointerDownTimer += Time.deltaTime;
             Slider.value = pointerDownTimer;
+
+            if (pointerDownTimer >= maxHoldTime)
+            {
+                onLongClick.Invoke();
+                pointerDownTimer = 0;
+                pointerDown = false;
+            }
         }
     }
 }

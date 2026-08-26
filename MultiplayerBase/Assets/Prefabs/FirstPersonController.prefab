@@ -1541,7 +1541,7 @@ MonoBehaviour:
   zoomFOV: 45
   zoomStepTime: 5
   playerCanMove: 1
-  walkSpeed: 4
+  walkSpeed: 4.5
   maxVelocityChange: 10
   enableSprint: 1
   unlimitedSprint: 0
@@ -1715,7 +1715,7 @@ MonoBehaviour:
   spawnInterval: 10
   spawnChance: 5
   spawnRadius: 30
-  copyVoiceChance: 55
+  copyVoiceChance: 5
   collectionInterval: 1
   crowAudioClips:
   - {fileID: 8300000, guid: 0207c7b8ecd10dd4c8e9818edea6b530, type: 3}
@@ -5018,7 +5018,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
   meshToHide: {fileID: 6334542227549456736}
-  hideForSelf: 0
+  hideForSelf: 1
   hideForOthers: 0
 --- !u!4 &6675179298405241818 stripped
 Transform:
