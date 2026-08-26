@@ -9,25 +9,17 @@ public class RubbishPile : NetworkBehaviour, IInteractable
     [SerializeField] private Slider progressBar;
     [Header("Settings")]
     [SerializeField] private int secondsToComplete = 30;
-    private NetworkVariable<bool> isBeingPressed = new NetworkVariable<bool>();
+    private bool canInteract = true; 
 
-    public override void OnNetworkSpawn()
-    {
-        if (IsHost)
-        {
-            isBeingPressed.Value = false; 
-        }
-    }
-
-    public (bool, string) CanInteract(Interactor interactor, ItemType itemUsed) => (!isBeingPressed.Value, "Already being used");
+    public (bool, string) CanInteract(Interactor interactor, ItemType itemUsed) => (canInteract, "Already being used");
 
     public void OnInteract(Interactor interactor, ItemType itemUsed = ItemType.None)
     {
         //Debug.Log("Interact pressed");
 
         interactor.GetComponent<FirstPersonController>().DisableMovement();
-        progressBar.maxValue = secondsToComplete; 
-        isBeingPressed.Value = true;
+        progressBar.maxValue = secondsToComplete;
+        SetCanInteractServerRpc(false); 
         ui.SetActive(true);
     }
 
@@ -45,11 +37,21 @@ public class RubbishPile : NetworkBehaviour, IInteractable
     public void OnInteractReleased(Interactor interactor, int tick, ItemType itemUsed)
     {
         EventManager.instance.OnButtonReleased();
-        isBeingPressed.Value = false;
+        SetCanInteractServerRpc(true);
         progressBar.value = 0;
         ui.SetActive(false); 
     }
 
     [ServerRpc(RequireOwnership = false)]
     private void DeleteButtonServerRpc() => gameObject.GetComponent<NetworkObject>().Despawn();
+
+    [ServerRpc(RequireOwnership = false)]
+    public void SetCanInteractServerRpc(bool canInteract) => SetCanInteractClientRpc(canInteract);
+
+    [ClientRpc]
+    private void SetCanInteractClientRpc(bool canInteract)
+    {
+        Debug.Log(canInteract);
+        this.canInteract = canInteract;
+    }
 }
