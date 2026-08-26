@@ -88,7 +88,7 @@ public class PlayerInfoHolder : NetworkBehaviour, IAiSensible, IHurtable
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.L) && !isDead && IsOwner) IsKilled(); 
+        //if (Input.GetKeyDown(KeyCode.L) && !isDead && IsOwner) IsKilled(); 
     }
 
     private void OnTick(int obj)

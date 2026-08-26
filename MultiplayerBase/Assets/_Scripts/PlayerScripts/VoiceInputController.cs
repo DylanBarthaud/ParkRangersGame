@@ -94,12 +94,6 @@ public class VoiceInputController : NetworkBehaviour
     {
         if (!IsOwner) return;
 
-        if (Input.GetKeyDown(KeyCode.P))
-        {
-            Debug.Log($"can hear self: {!canHearSelf}");
-            canHearSelf = !canHearSelf;
-        }
-
         if (Input.GetKeyDown(KeyCode.G) && CanUseRadio)
         {
             Debug.Log("keyDOWN");
