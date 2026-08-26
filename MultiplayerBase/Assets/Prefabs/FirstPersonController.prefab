@@ -1090,6 +1090,7 @@ GameObject:
   - component: {fileID: 8157431252114129648}
   - component: {fileID: -7627490735747275470}
   - component: {fileID: 8364337181515119415}
+  - component: {fileID: 7204705285581414664}
   m_Layer: 6
   m_Name: FirstPersonController
   m_TagString: Player
@@ -2041,6 +2042,20 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &7204705285581414664
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4459864850019384750}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f49dc1e80731bd5418f8babe0c69ae0c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  menuPanel: {fileID: 6066016729308493651}
+  characterController: {fileID: -637524533923752487}
 --- !u!1 &4459864850190357393
 GameObject:
   m_ObjectHideFlags: 0
@@ -2832,7 +2847,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5608943950584340698}
-  - component: {fileID: 7638353699619073183}
   m_Layer: 5
   m_Name: Menu
   m_TagString: Untagged
@@ -2860,20 +2874,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &7638353699619073183
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6066016729308493651}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f49dc1e80731bd5418f8babe0c69ae0c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  menuPanel: {fileID: 3441029423154078670}
-  characterController: {fileID: -637524533923752487}
 --- !u!1 &6566223698815289110
 GameObject:
   m_ObjectHideFlags: 0
@@ -4178,9 +4178,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 3191164932565899051}
-        m_TargetAssemblyTypeName: UIQuitButton, Assembly-CSharp
-        m_MethodName: QuitGame
+      - m_Target: {fileID: 4199134725729588632}
+        m_TargetAssemblyTypeName: PlayerInfoHolder, Assembly-CSharp
+        m_MethodName: QuitToMenu
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

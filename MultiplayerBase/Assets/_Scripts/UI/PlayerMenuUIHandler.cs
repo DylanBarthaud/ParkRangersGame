@@ -15,7 +15,7 @@ public class PlayerMenuUIHandler : MonoBehaviour
      
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Tab))
+        if (Input.GetKeyDown(KeyCode.Escape))
         {
             bool activateMenu = !menuPanel.activeInHierarchy;
             menuPanel.SetActive(activateMenu);
