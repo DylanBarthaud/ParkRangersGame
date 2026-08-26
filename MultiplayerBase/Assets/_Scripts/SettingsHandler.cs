@@ -95,6 +95,7 @@ public class SettingsHandler : MonoBehaviour
             }
         }
 
+        /*
         // Loads control settings
         Transform controlsList = subMenus.transform.Find("Controls").Find("Viewport").Find("Content");
         for (int i = 0; i < controlsList.childCount; i++)
@@ -117,6 +118,7 @@ public class SettingsHandler : MonoBehaviour
             }
             
         }
+        */
 
         // Loads video settings
         Transform videoList = subMenus.transform.Find("Video");
