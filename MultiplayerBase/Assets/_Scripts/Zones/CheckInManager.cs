@@ -22,6 +22,7 @@ public class CheckInManager : MonoBehaviour
         if (playerController != null)
         {
             playerController.EnableMovement();
+            playerController.canInteract = true;
             interactor.GetComponent<Inventory>().EnableInv();
         }
 

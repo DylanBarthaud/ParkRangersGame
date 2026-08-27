@@ -26,6 +26,7 @@ public class CheckInTable : NetworkBehaviour, IInteractable
         if (playerController != null)
         {
             playerController.DisableMovement();
+            playerController.canInteract = false;
             interactor.GetComponent<Inventory>().DisableInv();
         }
 

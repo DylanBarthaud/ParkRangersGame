@@ -154,6 +154,8 @@ public class FirstPersonController : NetworkBehaviour
 
     #endregion
 
+    public bool canInteract = true; 
+
     private void Awake()
     {
         crouchSpeed = walkSpeed / 2; 
@@ -214,6 +216,7 @@ public class FirstPersonController : NetworkBehaviour
         cameraCanMove = false;
         enableHeadBob = false;
         enableJump = false;
+        
     }
 
     private void OnPlayerKilled(BlackboardKey key)
@@ -554,20 +557,23 @@ public class FirstPersonController : NetworkBehaviour
             HeadBob();
         }
 
-        if (Input.GetKey(KeyCode.E))
+        if (canInteract)
         {
-            Interactor interactor = gameObject.GetComponent<Interactor>();
-
-            if (interactor != null)
+            if (Input.GetKey(KeyCode.E))
             {
-                if (interactor.Interact(localTick)) localTick++; 
-            }
-        }
+                Interactor interactor = gameObject.GetComponent<Interactor>();
 
-        else if (localTick > 0)
-        {
-            Interactor interactor = gameObject.GetComponent<Interactor>();
-            interactor.Release(localTick);
+                if (interactor != null)
+                {
+                    if (interactor.Interact(localTick)) localTick++;
+                }
+            }
+
+            else if (localTick > 0)
+            {
+                Interactor interactor = gameObject.GetComponent<Interactor>();
+                interactor.Release(localTick);
+            }
         }
     }
 
