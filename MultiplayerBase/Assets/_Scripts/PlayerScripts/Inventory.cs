@@ -147,6 +147,27 @@ public class Inventory : MonoBehaviour
             selectedItemSlot--;
             EnableSlot(inventorySlots[selectedItemSlot], items[selectedItemSlot]);
         }
+
+        if (Input.GetKeyDown(KeyCode.Alpha1))
+        {
+            DisableSlot(inventorySlots[selectedItemSlot], items[selectedItemSlot]);
+            selectedItemSlot = 0;
+            EnableSlot(inventorySlots[selectedItemSlot], items[selectedItemSlot]);
+        }
+
+        if (Input.GetKeyDown(KeyCode.Alpha2))
+        {
+            DisableSlot(inventorySlots[selectedItemSlot], items[selectedItemSlot]);
+            selectedItemSlot = 1;
+            EnableSlot(inventorySlots[selectedItemSlot], items[selectedItemSlot]);
+        }
+
+        if (Input.GetKeyDown(KeyCode.Alpha3))
+        {
+            DisableSlot(inventorySlots[selectedItemSlot], items[selectedItemSlot]);
+            selectedItemSlot = 2;
+            EnableSlot(inventorySlots[selectedItemSlot], items[selectedItemSlot]);
+        }
     }
 
     public bool CanAddItemToInv()

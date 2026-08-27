@@ -126,7 +126,8 @@ namespace BehaviourTrees
     {
         readonly Func<PlayerInfo> playerInfoFunc;
         readonly NavMeshAgent agent;
-        readonly float chaseSpeed; 
+        readonly float chaseSpeed;
+        private int timesCalled = 0;
 
         public ChasePlayerStrategy(Func<PlayerInfo> playerInfo, NavMeshAgent agent, float chaseSpeed)
         {
@@ -137,6 +138,9 @@ namespace BehaviourTrees
 
         public Node.Status Process()
         {
+            timesCalled++;
+            if (timesCalled > 150) return Node.Status.Failure;
+
             PlayerInfo playerInfo = playerInfoFunc();
 
             if (playerInfo.lastTimePlayerSeen == -1)

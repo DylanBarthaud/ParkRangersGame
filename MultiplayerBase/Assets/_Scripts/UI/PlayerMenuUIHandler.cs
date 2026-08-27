@@ -15,28 +15,22 @@ public class PlayerMenuUIHandler : MonoBehaviour
      
     private void Update()
     {
+        if (Cursor.lockState != CursorLockMode.Locked && !menuPanel.activeInHierarchy) return;
         if (Input.GetKeyDown(KeyCode.Escape))
         {
             bool activateMenu = !menuPanel.activeInHierarchy;
             menuPanel.SetActive(activateMenu);
             if(activateMenu)
             {
-                prevLockMode = Cursor.lockState;
-                prevMovEnabled = characterController.MovementEnabled;
-
                 Cursor.lockState = CursorLockMode.Confined;
-
                 characterController.DisableMovement();
                 characterController.GetComponent<Inventory>().DisableInv(); 
             }
             else
             {
-                Cursor.lockState = prevLockMode;
-                if(prevMovEnabled)
-                {
-                    characterController.EnableMovement();
-                    characterController.GetComponent<Inventory>().EnableInv();
-                }
+                Cursor.lockState = CursorLockMode.Locked;
+                characterController.EnableMovement();
+                characterController.GetComponent<Inventory>().EnableInv();
             }
         }
     }
