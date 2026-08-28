@@ -8203,6 +8203,7 @@ MonoBehaviour:
   joint: {fileID: 4459864851508666808}
   bobSpeed: 10
   bobAmount: {x: 0, y: 0.075, z: 0}
+  canInteract: 1
 --- !u!114 &-1635927792753444105
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8331,9 +8332,9 @@ MonoBehaviour:
   playerInv: {fileID: 8000159173463752359}
   torchLight: {fileID: 8945577947189821926}
   gFXHandler: {fileID: 5668679467422162555}
-  tryAddRavenTick: 50
-  tryRemoveRavenTick: 120
-  volumeToAddRavenGate: -20
+  tryAddRavenTick: 100
+  tryRemoveRavenTick: 500
+  volumeToAddRavenGate: -25
 --- !u!114 &4120214330100131268
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8352,7 +8353,7 @@ MonoBehaviour:
   spawnInterval: 10
   spawnChance: 5
   spawnRadius: 30
-  copyVoiceChance: 5
+  copyVoiceChance: 15
   collectionInterval: 1
   crowAudioClips:
   - {fileID: 8300000, guid: 0207c7b8ecd10dd4c8e9818edea6b530, type: 3}
@@ -8690,6 +8691,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f49dc1e80731bd5418f8babe0c69ae0c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
   menuPanel: {fileID: 6066016729308493651}
   characterController: {fileID: -637524533923752487}
 --- !u!1 &4459864850190357393
@@ -10171,7 +10173,7 @@ MonoBehaviour:
       m_Calls: []
   m_text: 'W - Foward A- Left S - Backward D - Right
 
-    
+
 
     ESC - menu
 
@@ -10182,22 +10184,21 @@ MonoBehaviour:
 
     Shift - sprint
 
-    Ctrl -
-    crouch
+    Ctrl - crouch
 
-    Space Bar - jump
+    Space
+    Bar - jump
 
     E - interact
 
-    Q - drop / throw selected
-    item
+    Q - drop / throw selected item
 
-    R - remove battery from selected item
+    R - remove
+    battery from selected item
 
     G - radio
 
-    Mouse
-    Wheel - scroll through inventory '
+    Mouse Wheel - scroll through inventory '
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}

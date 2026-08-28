@@ -22,6 +22,7 @@ public class Radio : Item
     public override void DropItem(Vector3 newPos, Inventory inventory)
     {
         base.DropItem(newPos, inventory);
+        onLight.SetActive(false);
         voiceController.CanUseRadio = false;
     }
 
