@@ -48,6 +48,7 @@ public class ZoneInfoCard : MonoBehaviour
 
     public void CompleteZone()
     {
+        if (currentInfo.zoneIsComplete) return;
         if (currentInfo.TasksComplete >= currentInfo.TasksNeeded)
         {
             currentInfo.zoneIsComplete = true;

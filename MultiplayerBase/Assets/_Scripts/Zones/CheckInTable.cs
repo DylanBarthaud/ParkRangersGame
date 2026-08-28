@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using Unity.Netcode;
 using UnityEngine;
@@ -8,6 +9,8 @@ public class CheckInTable : NetworkBehaviour, IInteractable
     [SerializeField] private ZoneInfo[] zoneInfoArr;
 
     [SerializeField] private bool isZoneController = false;
+
+    private bool canInteract = true; 
 
     private void Awake()
     {
@@ -22,6 +25,8 @@ public class CheckInTable : NetworkBehaviour, IInteractable
 
     public void OnInteract(Interactor interactor, ItemType itemUsed = ItemType.None)
     {
+        SetCanInteractServerRPC(false);
+
         FirstPersonController playerController = interactor.GetComponent<FirstPersonController>();
         if (playerController != null)
         {
@@ -31,11 +36,13 @@ public class CheckInTable : NetworkBehaviour, IInteractable
         }
 
         Cursor.lockState = CursorLockMode.Confined; 
-        checkInManager.OpenMenu();
+        checkInManager.OpenMenu(this);
 
         foreach (ZoneInfo zoneInfo in zoneInfoArr) 
             checkInManager.AddZoneCard(zoneInfo, interactor);
     }
+
+    public (bool, string) CanInteract(Interactor interactor, ItemType itemUsed = ItemType.None) => (canInteract, "");
 
     public bool RequiresZoneCheckIn() { return false; }
 
@@ -53,5 +60,14 @@ public class CheckInTable : NetworkBehaviour, IInteractable
     {
         Debug.Log("Puzzle complete"); 
         zoneInfoArr[0].TasksComplete++; 
+    }
+
+    [ServerRpc(RequireOwnership = false)]
+    public void SetCanInteractServerRPC(bool canInteract) => SetCanInteractClientRPC(canInteract);
+
+    [ClientRpc]
+    private void SetCanInteractClientRPC(bool canInteract)
+    {
+        this.canInteract = canInteract;
     }
 }

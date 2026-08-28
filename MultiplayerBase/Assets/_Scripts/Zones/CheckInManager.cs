@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using static UnityEngine.Rendering.DebugUI;
 
 public class CheckInManager : MonoBehaviour
 {
@@ -11,13 +12,18 @@ public class CheckInManager : MonoBehaviour
 
     private List<GameObject> currentZoneCards = new List<GameObject>();
 
-    public void OpenMenu()
+    private CheckInTable table; 
+
+    public void OpenMenu(CheckInTable table)
     {
         uiPanel.SetActive(true);
+        this.table = table;
     }
 
     public void CloseMenu()
     {
+        table.SetCanInteractServerRPC(true);
+
         FirstPersonController playerController = interactor.GetComponent<FirstPersonController>();
         if (playerController != null)
         {

@@ -30,6 +30,7 @@ public class RubbishPile : NetworkBehaviour, IInteractable
 
         if (tick == secondsToComplete)
         {
+            Debug.Log("Rubbish pile complete puzzle"); 
             EventManager.instance.OnPuzzleComplete();
             DeleteButtonServerRpc();
         }

@@ -159,6 +159,11 @@ namespace BehaviourTrees
             agent.speed = chaseSpeed;  
             return Node.Status.Running;
         }
+
+        public void Reset()
+        {
+            timesCalled = 0;
+        }
     }
 
     public class StalkPlayerStrategy : IStrategy
