@@ -93,6 +93,8 @@ public class PlayerInfoHolder : NetworkBehaviour, IAiSensible, IHurtable
 
     private void OnTick(int obj)
     {
+        if (!IsOwner) return;
+
         //Debug.Log(GetAudioDataSquared()); 
         if (GetAudioDataSquared() >= volumeToAddRavenGate 
             || firstPersonController.IsSprinting)
@@ -102,7 +104,6 @@ public class PlayerInfoHolder : NetworkBehaviour, IAiSensible, IHurtable
         }
         else localLoseRavenTick++;
 
-        if (!IsOwner) return; 
         GridPosition playerGridPos = GameManager.instance.mapHandler.GetGridLocation(transform.position);
         GameManager.instance.playerGridPos = playerGridPos;
         //Debug.Log($"{playerGridPos.x} , {playerGridPos.z}");
@@ -113,6 +114,7 @@ public class PlayerInfoHolder : NetworkBehaviour, IAiSensible, IHurtable
         playerInfo.position = transform.position; 
         BlackboardController.instance.GetBlackboard().SetValue(playerInfo_Key, playerInfo);
 
+        if (!IsOwner) return;
         if (playerInfo.ravenCount < playerInfo.maxRavens &&
             localRavenTick >= tryAddRavenTick &&
             GameManager.instance.mapHandler.GetGridLocation(transform.position) != GameManager.instance.HomeCell)

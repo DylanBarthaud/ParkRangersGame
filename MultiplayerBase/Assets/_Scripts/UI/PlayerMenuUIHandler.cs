@@ -1,6 +1,7 @@
+using Unity.Netcode;
 using UnityEngine;
 
-public class PlayerMenuUIHandler : MonoBehaviour
+public class PlayerMenuUIHandler : NetworkBehaviour
 {
     [SerializeField] private GameObject menuPanel;
     [SerializeField] private FirstPersonController characterController;
@@ -15,6 +16,8 @@ public class PlayerMenuUIHandler : MonoBehaviour
      
     private void Update()
     {
+        if (!IsOwner) return; 
+
         if (Cursor.lockState != CursorLockMode.Locked && !menuPanel.activeInHierarchy) return;
         if (Input.GetKeyDown(KeyCode.Escape))
         {

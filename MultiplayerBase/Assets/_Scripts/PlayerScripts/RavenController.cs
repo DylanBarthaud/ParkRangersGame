@@ -35,6 +35,7 @@ public class RavenController : NetworkBehaviour
     int collectionTick = 0; 
     private void OnTick(int tick)
     {
+        if (!IsOwner) return; 
         localTick++;
         collectionTick++;
 

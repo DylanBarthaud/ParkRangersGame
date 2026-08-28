@@ -9,10 +9,11 @@ public class DamageDealer : MonoBehaviour
 
     private void OnTriggerEnter(Collider collision)
     {
-        if (canDamadge)
+        IHurtable hurtableObj = collision.gameObject.GetComponent<IHurtable>();
+
+        if (canDamadge && hurtableObj != null)
         {
             canDamadge = false;
-            IHurtable hurtableObj = collision.gameObject.GetComponent<IHurtable>();
             hurtableObj.IsHurt("Monster_Ai", damageAmount);
             multiplayerAudioHandler.PlaySoundServerRpc("BadgerBite"); 
             StartCoroutine(AttackCD()); 

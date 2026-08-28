@@ -338,6 +338,7 @@ public class BagerAi : NetworkBehaviour
         stalkPlayerSequence.AddChild(isntBurrowed);
         stalkPlayerSequence.AddChild(stalkPlayer);
         stalkPlayerSequence.AddChild(chasePlayer);
+        stalkPlayerSequence.AddChild(setCanHuntFalse); 
 
         huntSelector.AddChild(searchAreaSeq);
         searchAreaSeq.AddChild(canSearchArea);

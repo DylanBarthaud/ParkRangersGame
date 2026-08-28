@@ -139,7 +139,7 @@ namespace BehaviourTrees
         public Node.Status Process()
         {
             timesCalled++;
-            if (timesCalled > 150) return Node.Status.Failure;
+            if (timesCalled > 150) return Node.Status.Success;
 
             PlayerInfo playerInfo = playerInfoFunc();
 
